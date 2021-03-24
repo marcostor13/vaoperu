@@ -1,0 +1,86 @@
+header{
+    width: 100%;
+    .hamburger{
+        display: flex;
+        flex-direction: column;
+        label{
+            background-color: white;
+            min-height: 3px;
+            min-width: 26px;            
+        }
+    }
+}
+
+$left: -260px;
+
+.menu-admin-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba($color: #000000, $alpha: .2);
+    min-width: 100vw;
+    min-height: 100vh;
+    z-index: 1;   
+    .close{
+        position: absolute;  
+        top: 0;
+        left: $left;
+        z-index: 2;  
+        min-width: 240px;    
+    }
+
+    .menu-admin{
+        background-color: white;        
+        position: absolute;
+        top: 0;
+        left: $left;     
+    }
+}
+
+
+.slide-left{
+    animation: slide-left .3s normal forwards ease-in-out;
+    animation-iteration-count: 1;
+}
+
+.slide-right{
+    animation: slide-right .3s normal forwards ease-in-out;
+    animation-iteration-count: 1;
+}
+
+
+
+
+@-webkit-keyframes slide-left {
+  0%   { left: 0}
+  100% { left: $left}
+}
+@-moz-keyframes slide-left {
+  0%   { left: 0}
+  100% { left: $left}
+}
+@-o-keyframes slide-left {
+  0%   { left: 0}
+  100% { left: $left}
+}
+@keyframes slide-left {
+  0%   { left: 0}
+  100% { left: $left}
+}
+
+@-webkit-keyframes slide-right {
+  0%   { left: $left}
+  100% { left: 0}
+}
+@-moz-keyframes slide-right {
+  0%   { left: $left}
+  100% { left: 0}
+}
+@-o-keyframes slide-right {
+  0%   { left: $left}
+  100% { left: 0}
+}
+@keyframes slide-right {
+  0%   { left: $left}
+  100% { left: 0}
+}

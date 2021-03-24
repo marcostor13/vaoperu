@@ -1,0 +1,91 @@
+<header class="container-md container-fluid pt-4 pb-4">
+    <div class="row col-12 justify-content-between align-items-center m-0 p-0">
+        <div (click)="openMenu()" class="d-block d-md-none menu d-flex flex-column cursor">
+            <label [ngClass]="{'crossLeft': isCrossMenu, 'unCrossLeft': !isCrossMenu}"></label>
+            <label [ngClass]="{'crossRight': isCrossMenu, 'unCrossRight': !isCrossMenu}"></label>
+        </div>
+        <div class="input-search d-none d-md-block">
+            <fa-icon class="icon-search" [icon]="faSearch"></fa-icon>
+            <input class="search f-10" type="search" placeholder="¿Qué estás buscando?">
+        </div>
+        <h4 class="text-color1 m-0">LOGO</h4>
+        <div class="row d-none d-md-flex">
+            <ul class="list-unstyled row m-0">
+                <li class="cursor f-10">Comprar</li>
+
+                <ng-container *ngIf="!user" >
+                    <li (click)="openLogin()" class="ml-3 cursor f-10 row mr-3">Ingresar</li>              
+                </ng-container>
+
+                <ng-container *ngIf="user">
+                    <li class="ml-3 cursor f-10">Ordenes</li>
+                    <li class="ml-3 cursor f-10 row mr-3 font-500">Mi cuenta</li>
+                </ng-container>
+
+            </ul>
+            <div class="cart ml-4 cursor">
+                <div class="badge">1</div>
+                <img src="assets/img/icons/cart2.png" alt="Cart">
+            </div>
+            
+            <fa-icon *ngIf="user" (click)="logout()" class="f-18 ml-4 row cursor" [icon]="faSignOutAlt"></fa-icon>
+            
+        </div>
+        <div class="d-flex d-md-none"> 
+            <div class="cart cursor">
+                <div class="badge">1</div>
+                <img src="assets/img/icons/cart2.png" alt="Cart">
+            </div>
+            <fa-icon (click)="showInputSearch()" class="ml-3 icon-search cursor" [icon]="faSearch"></fa-icon>            
+        </div>
+    </div>      
+    <div *ngIf="isShowInputSearch" [ngClass]="{'showDown': isShowInputSearch, 'showUp': !isShowInputSearch}" class="col-12 p-0 mt-2 input-search-toggle">
+        <div class="col-12 p-0 input-search mt-3">
+            <fa-icon class="icon-search" [icon]="faSearch"></fa-icon>
+            <input  class="search w-100 f-10" type="search" placeholder="¿Qué estás buscando?">
+        </div>
+    </div>
+    <div class="row justify-content-center align-items-center mt-3  d-none d-md-flex">
+        <p-megaMenu styleClass="border-0 bg-white rounded-0" [model]="items2"></p-megaMenu>
+    </div>
+
+    
+</header>
+<div class="d-flex d-md-none flex-column 100vw pb-5" *ngIf="isCrossMenu">
+    <p-panelMenu [model]="items" [style]="{'min-width':'100vw'}"></p-panelMenu>
+    <div class="pl-4">
+        <ul class="list-unstyled row flex-column m-0 mt-5">
+            <li class="cursor">Comprar</li>
+
+            <ng-container *ngIf="!user">
+                <li (click)="openLogin()" class="mt-2 cursor">Ingresar</li>
+            </ng-container>
+            
+            <ng-container *ngIf="user">
+                <li class="mt-2 cursor">Ordenes</li>
+                <li class="mt-2 cursor font-500">Mi cuenta</li>
+            </ng-container>   
+        </ul>
+
+        <div *ngIf="user" class="row m-0 cursor mt-4 align-items-center">
+            <span>Salir</span>
+            <fa-icon (click)="logout()" class="f-18  m-0 ml-3" [icon]="faSignOutAlt"></fa-icon>
+        </div>
+
+    </div>
+</div>
+
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal" 
+    [modal]="true" 
+    [styleClass]="'modalLogin'" 
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false">
+    <app-authlogin (send)="output($event)"></app-authlogin>
+</p-dialog>
+
+
+

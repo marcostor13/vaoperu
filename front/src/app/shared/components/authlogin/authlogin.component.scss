@@ -1,0 +1,29 @@
+@import '../../../../styles/variables';
+
+input{
+    border: 0;
+    border-bottom: solid 2px;
+    border-bottom-color: $color1;
+    font-weight: 300;
+    padding-bottom: 4px !important;
+    padding-top: 4px !important;
+    padding-left: 24px;
+    padding-right: 24px;
+    min-height: 34px !important;
+    max-height: 34px !important;
+}
+
+.input-password{
+    position: relative;
+    .icon-eye{
+        position: absolute;
+        top: 4px;
+        right: 10px;
+    }
+}
+
+.invalid{
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+}

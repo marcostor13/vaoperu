@@ -1,0 +1,54 @@
+<!-- LOGIN -->
+
+<div *ngIf="typeLogin==='login'" class="col-12 row m-0 justify-content-center">
+    <div class="row m-0 p-0 flex-column col-12 col-md-6">
+        <h4 class="font-100 text-center">INGRESO</h4>
+        <input type="email" [(ngModel)]="form.email" class="invalid mt-5 input-login" [ngClass]="{'invalid': invalid.password}" placeholder="Email">
+        <div class="mt-3 input-password">
+            <input [type]="passwordView ? 'text': 'password'" [(ngModel)]="form.password" class="input-login w-100" [ngClass]="{'invalid': invalid.password}" placeholder="Contraseña">
+            <fa-icon (click)="passwordView = true" *ngIf="!passwordView" class="icon-eye cursor" [icon]="faEyeSlash"></fa-icon>
+            <fa-icon (click)="passwordView = false" *ngIf="passwordView" class="icon-eye cursor" [icon]="faEye"></fa-icon>
+        </div>
+        <button (click)="login()" class="btn1 mt-4">Ingresar</button>
+        <div class="mt-3 text-center {{response.class}}">{{response.message}}</div>
+        <a href="#" (click)="typeLogin='recovery'" class="link-unstyled text-color1 mt-3 text-center">¿Te olvidaste la contraseña?</a>
+        <a href="#" (click)="typeLogin='register'" class="link-unstyled text-color1 mt-3 text-center">¿No tienes cuenta?</a>
+    </div>
+</div>
+
+
+<!-- REGISTER -->
+
+<div *ngIf="typeLogin==='register'" class="col-12 row m-0 row justify-content-center">
+    <div class="row m-0 p-0 flex-column col-12 col-md-6">
+        <h4 class="font-100 text-center">REGISTRO</h4>
+        <ng-container *ngIf="registerStep===1">
+            <input type="text" [(ngModel)]="form.name" class="mt-5 input-login" [ngClass]="{'invalid': invalid.name}" placeholder="Nombre">
+            <input type="email" [(ngModel)]="form.email" class="input-login  mt-3" [ngClass]="{'invalid': invalid.email}" placeholder="Email">
+            <input type="password" [(ngModel)]="form.password" class="input-login mt-3" [ngClass]="{'invalid': invalid.password}" placeholder="Contraseña">
+            <button (click)="registerStart()" class="btn1 mt-4">Registrarse</button>
+        </ng-container>
+
+        <ng-container *ngIf="registerStep === 2">
+            <input type="text" [(ngModel)]="code"  class="input-login mt-3 text-center" [ngClass]="{'invalid': invalid.code}" placeholder="Ingrese el código">
+            <button (click)="registerFinish()" class="btn1 mt-3">Finalizar</button>
+        </ng-container>
+
+        <div class="mt-3 text-center {{response.class}}">{{response.message}}</div>       
+        <a *ngIf="registerStep!==3" href="#" (click)="resetLogin(); typeLogin='login'" class="link-unstyled text-color1 mt-3 text-center">¿Ya tienes cuenta?</a>
+    </div>
+    
+</div>
+
+
+<!-- RECOVERY -->
+
+<div *ngIf="typeLogin==='recovery'" class="col-12 row m-0 row justify-content-center">
+    <div class="row m-0 p-0 flex-column col-12 col-md-6">
+        <h4 class="font-100 text-center">REESTABLECER CONTRASEÑA</h4>
+        <input type="email" [(ngModel)]="emailRecovery" class="mt-5 input-login" [ngClass]="{'invalid': invalid.emailRecovery}" placeholder="Email">
+        <button (click)="recovery()" class="btn1 mt-4">Reestablecer</button>
+        <div class="mt-3 text-center {{response.class}}">{{response.message}}</div>
+        <a href="#" (click)="typeLogin='login'" class="link-unstyled text-color1 mt-3 text-center">Volver al ingreso</a>
+    </div>
+</div>

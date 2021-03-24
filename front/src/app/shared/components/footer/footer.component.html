@@ -1,0 +1,52 @@
+<footer class="container pt-5 pb-5">
+    
+
+
+    <div class="row justify-content-between align-items-center">
+        <h1>LOGO</h1>
+        <div class="row justify-content-center align-items-center p-5">
+            <fa-icon size="3x" [icon]="faInstagram"></fa-icon>
+            <fa-icon size="2x" class="ml-4" [icon]="faFacebookF"></fa-icon>
+        </div>
+    </div>
+
+    <div class="mt-5 row m-0">
+        <div class="col-3 row flex-column justify-content-center">
+            <div>
+                <h5 class="font-400">Categorías</h5>
+                <hr class="line m-0">
+            </div>
+            <ul class="list-unstyled mt-4">
+                <li class="mt-2" *ngFor="let item of categories"><a href="#" class="link-unstyled font-300 f-10">{{item.name}}</a></li>
+            </ul>
+        </div>
+        <div class="col-3 row flex-column justify-content-center">
+            <div>
+                <h5 class="font-400">Categorías</h5>
+                <hr class="line m-0">
+            </div>
+            <ul class="list-unstyled mt-4">
+                <li class="mt-2" *ngFor="let item of categories"><a href="#" class="link-unstyled font-300 f-10">{{item.name}}</a></li>
+            </ul>
+        </div>
+        <div class="col-3 row flex-column justify-content-center">
+            <div>
+                <h5 class="font-400">Categorías</h5>
+                <hr class="line m-0">
+            </div>
+            <ul class="list-unstyled mt-4">
+                <li class="mt-2" *ngFor="let item of categories"><a href="#" class="link-unstyled font-300 f-10">{{item.name}}</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <div class="row m-0 justify-content-end">
+        <span>
+            <a href="#" class="link-unstyled font-300 f-9">Política de privacidad | </a>
+            <a href="#" class="link-unstyled font-300 f-9">Términos y condiciones | </a>
+            <span class="link-unstyled font-300 f-9">© 2021 Marcos Torres.</span>    
+        </span>
+    </div>
+</footer>

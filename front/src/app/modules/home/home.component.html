@@ -1,0 +1,38 @@
+<app-header></app-header>
+
+<div class="slide-primary">
+    <p-carousel [value]="itemsCarousel" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="6000" [circular]="true">
+        <ng-template let-item pTemplate="item">
+            <div [ngStyle]="{ 'background-image': 'url('+item.image+')', 'max-width': '100vw'}" class="image">
+                <div class="content-slide row align-items-center m-0">
+                    <div class="p-5 p-md-0 pl-2 pl-md-5 ml-0 ml-md-5">
+                        <h1 class="text-capitalize text-white font-700 font-t">{{item.title}}</h1>
+                        <p class="text-white parraf f-12 mt-3">{{item.text}}</p>
+                        <button class="bg-white pl-4 pr-4 pt-3 pb-3 f-10 mt-3  font-500" (click)="redirect(item.buttonLink)">{{item.buttonText}}</button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+
+<app-products [products]='itemsProducts' [title]="'Destacados'" [link]="'#'"></app-products>
+
+
+
+<div class="row col-12 pl-5 pr-5 pt-0 m-0 categories">
+    
+    <div *ngFor="let item of categories" class="col-12 col-md-4 p-2">
+        <div class="card-category row justify-content-end align-items-end m-0 cursor" [ngStyle]="{ 'background-image': 'url('+item.image+')'}">
+            <h1 class="mr-5 mb-5 text-white font-100">{{item.name}}</h1>
+        </div>
+    </div>
+
+
+</div>
+
+<app-products [products]='itemsProducts' [title]="'Productos'" [link]="'#'"></app-products>
+<app-products [products]='itemsProducts' [title]="'Productos'" [link]="'#'"></app-products>
+<div [ngStyle]="{ 'background-image': 'url(assets/img/slide/image1.jpg)'}" class="image-footer"></div>
+
+<app-footer></app-footer>

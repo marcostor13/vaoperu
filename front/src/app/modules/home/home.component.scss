@@ -1,0 +1,53 @@
+.image{
+    min-width: 100%;
+    min-height: 700px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+    .content-slide{        
+        min-width: auto;
+        min-height: 700px;
+        background-color: rgba($color: #000000, $alpha: .3);
+        .parraf{
+            max-width: 300px;
+        }
+        button{
+            border: solid 1px #000000;
+            color: #000000
+        }
+    }
+
+
+}
+
+@media (max-width: 1024px) {
+    .image{               
+        .content-slide{                  
+            min-height: 600px;    
+        }
+    }
+}
+
+
+.categories{
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+
+    .card-category{
+        width: auto;
+        min-height: 380px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+}
+
+.image-footer{
+    min-width: 100vw;
+    min-height: 400px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
