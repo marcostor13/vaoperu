@@ -6,7 +6,7 @@ const title = 'Categoría'
 const Collection = Category
 
 export const save = async (req: Request, res: Response): Promise<Response> => {
-    const newObj: ICategory = new Category(req.body)
+    const newObj: ICategory = new Collection(req.body)
     await newObj.save()
     return res.status(200).json({
         message: `${title} Cread@`,
@@ -45,7 +45,7 @@ export const getByID = (req: Request, res: Response) => {
 }
 
 export const update = (req: Request, res: Response) => {
-    Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response:any) => {
+    Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response: any) => {
         if (err) {
             res.status(501).json({
                 message: `Error al actualizar ${title}`,
@@ -60,7 +60,7 @@ export const update = (req: Request, res: Response) => {
 }
 
 export const del = (req: Request, res: Response) => {
-    Collection.remove({ _id: req.params.id }, (err:any) => {
+    Collection.remove({ _id: req.params.id }, (err: any) => {
         if (err) {
             res.status(501).json({
                 message: `Error al eliminar ${title}`,

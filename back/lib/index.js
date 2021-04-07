@@ -15,12 +15,8 @@ const morgan = require("morgan");
 const auth_routes_1 = require("./routes/auth.routes");
 const email_routes_1 = require("./routes/email.routes");
 const category_routes_1 = require("./routes/category.routes");
-const brand_routes_1 = require("./routes/brand.routes");
-const attribute_routes_1 = require("./routes/attribute.routes");
-const product_routes_1 = require("./routes/product.routes");
-const transaction_routes_1 = require("./routes/transaction.routes");
-const tax_routes_1 = require("./routes/tax.routes");
 const emailpassword_routes_1 = require("./routes/emailpassword.routes");
+const profile_provider_routes_1 = require("./routes/profile-provider.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
@@ -36,16 +32,12 @@ app.use(cors({
 app.use(morgan('dev'));
 app.use(auth_routes_1.default);
 app.use(emailpassword_routes_1.default);
+app.use(email_routes_1.default);
+app.use(category_routes_1.default);
+app.use(profile_provider_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
 //Routes
-app.use(passport.authenticate('jwt', { session: false }), email_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), category_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), brand_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), attribute_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), product_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), transaction_routes_1.default);
-app.use(passport.authenticate('jwt', { session: false }), tax_routes_1.default);
 //LOCAL
 function main() {
     return __awaiter(this, void 0, void 0, function* () {

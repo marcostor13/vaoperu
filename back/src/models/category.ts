@@ -3,8 +3,9 @@ import { model, Schema, Document } from 'mongoose'
 
 export interface ICategory extends Document {
     name: string,
-    parentid: string,     
-    createAt: Date 
+    parentid: string,
+    image: string
+    createAt: Date
 }
 
 const userSchema = new Schema({
@@ -12,9 +13,12 @@ const userSchema = new Schema({
         type: String,
         unique: true,
         required: true
-    },    
+    },
     parentid: {
-        type: String,        
+        type: String,
+    },
+    image: {
+        type: String
     },
     createAt: {
         type: Date,

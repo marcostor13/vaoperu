@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   isLogin(){
-    const user = localStorage.getItem('bintuser')
+    const user = localStorage.getItem('vaouser')
     if(user && user !== ''){
       return true
     }else{
@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   isLoginUser() {
-    const user = localStorage.getItem('bintuser')
+    const user = localStorage.getItem('vaouser')
     if (user && user !== '') {
       return JSON.parse(user)
     } else {
@@ -48,11 +48,11 @@ export class AuthService {
   }
 
   getRole() {
-    return localStorage.getItem('bintuser') ? JSON.parse(localStorage.getItem('bintuser'))?.role : null    
+    return localStorage.getItem('vaouser') ? JSON.parse(localStorage.getItem('vaouser'))?.role : null    
   }
 
   getUserID() {
-    return localStorage.getItem('bintuser') ? JSON.parse(localStorage.getItem('bintuser'))?._id : null
+    return localStorage.getItem('vaouser') ? JSON.parse(localStorage.getItem('vaouser'))?._id : null
   }
 
 
@@ -81,7 +81,7 @@ export class AuthService {
   }
 
   logout(){
-    localStorage.removeItem('bintuser');
+    localStorage.removeItem('vaouser');
     window.location.reload()
   }
 

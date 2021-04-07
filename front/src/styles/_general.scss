@@ -243,26 +243,22 @@ body, .home, footer{
     min-width: 100px;
     border: 1px solid $color1;
     padding: 9px 30px 9px 30px;
-    border-radius: 0;
 }  
 
 .btn1:hover{
-    background-color: $color1 !important;
     opacity: 0.7;
 }
 
 .btn2{
-    background-color: rgba($color: #000000, $alpha: 0);
-    color: $color1;
+    background-color: $color2;
+    color: #121212;
     font-size: 11pt;   
-    border: 1px solid $color1;
+    border: 1px solid $color2;
     min-width: 100px;
     padding: 9px 30px 9px 30px;
-    border-radius: 0;
 }
 .btn2:hover{    
-    background-color: rgba($color: $color1, $alpha: 1);
-    color: white;
+    opacity: 0.7;
 }
 
 .btn3{
@@ -409,6 +405,8 @@ body, .home, footer{
 }
 
 
+
+
 //LOAD
 
 .load{
@@ -439,7 +437,7 @@ body, .home, footer{
 }
 
 ::placeholder{
-    color: $color9;
+    color: $color6;
 }
 
 .select, .p-multiselect{
@@ -569,7 +567,7 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
     
     .p-highlight{
         button{
-            background-color: #121212 !important;        
+            background-color: $color2 !important;        
         }
     }
     
@@ -584,6 +582,9 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
     }
     
     @media (max-width: 1024px) {
+        .p-carousel-content{
+            border-radius: 14px;
+        }
         .p-carousel-next{
             display: none !important;        
         }  

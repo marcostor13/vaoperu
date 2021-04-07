@@ -145,7 +145,7 @@ export class AuthloginComponent implements OnInit {
             type: 'user',
             data: user
           })         
-          localStorage.setItem('bintuser', JSON.stringify(user))     
+          localStorage.setItem('vaouser', JSON.stringify(user))     
           this.response = {
             class: 'text-color1',
             message: `Bienvenido ${user.name}`
@@ -153,7 +153,9 @@ export class AuthloginComponent implements OnInit {
 
           if(user.role === 'admin'){
             this.router.navigate(['/admin/dashboard'])
-          }else{
+          } else if (user.role === 'provider') {
+            this.router.navigate(['/provider/dashboard'])
+          } else{
             setTimeout(()=>{
               this.resetLogin()
               this.send.emit({
@@ -233,7 +235,7 @@ export class AuthloginComponent implements OnInit {
               data: user
             })
             this.generalService.isLoad('0')           
-            localStorage.setItem('bintuser', JSON.stringify(user))
+            localStorage.setItem('vaouser', JSON.stringify(user))
             this.registerStep = 3
             this.response = {
               class: 'text-color1',
@@ -261,8 +263,6 @@ export class AuthloginComponent implements OnInit {
     )
   }
 
-  recovery(){
-
-  }
+  
 
 }

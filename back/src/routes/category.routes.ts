@@ -1,16 +1,15 @@
 import { Router } from "express"
 import { save, get, getByID, update, del } from './../controllers/category.controller';
-
+import * as passport from 'passport'
 const model = 'category'
-const model2 = 'categories'
 
 const router = Router()
 
-router.post(`/save-${model}`, save)
-router.get(`/get-${model2}` ,get)
-router.get(`/get-${model}-by-id/:id`, getByID)
-router.patch(`/update-${model}/:id`, update)
-router.delete(`/delete-${model}/:id`, del)
+router.post(`/save-${model}`, passport.authenticate('jwt', { session: false }), save)
+router.get(`/get-${model}`, get)
+router.get(`/get-${model}-by-id/:id`, passport.authenticate('jwt', { session: false }), getByID)
+router.patch(`/update-${model}/:id`, passport.authenticate('jwt', { session: false }), update)
+router.delete(`/delete-${model}/:id`, passport.authenticate('jwt', { session: false }), del)
 
 
 export default router

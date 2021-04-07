@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.del = exports.update = exports.getByID = exports.get = exports.save = void 0;
-const tax_1 = require("../models/tax");
-const title = 'Transacción';
-const Collection = tax_1.default;
+const category_1 = require("../models/category");
+const title = 'Categoría';
+const Collection = category_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newObj = new tax_1.default(req.body);
+    const newObj = new Collection(req.body);
     yield newObj.save();
     return res.status(200).json({
         message: `${title} Cread@`,

@@ -46,6 +46,7 @@ export class MenuComponent implements OnInit {
 
   validateSession() {
     this.user = this.authService.isLoginUser()
+    this.general.c('USER', this.user)
   }
 
 }

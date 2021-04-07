@@ -17,8 +17,8 @@ export class RoleUserGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const role = this.authService.getRole()
-    if (!role || role === 'user') {
-      this.router.navigate(['/auth/login'])
+    if (!role || role !== 'user') {
+      this.router.navigate(['/'])
       return false
     }
     return true

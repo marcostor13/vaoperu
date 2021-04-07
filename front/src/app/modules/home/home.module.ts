@@ -7,6 +7,8 @@ import { HeaderModule } from './../../shared/components/header/header.module';
 import { CarouselModule } from 'primeng/carousel';
 import { FooterModule } from './../../shared/components/footer/footer.module';
 import { ProductsComponent } from './components/products/products.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+
 
 @NgModule({
   declarations: [HomeComponent, ProductsComponent],
@@ -15,7 +17,8 @@ import { ProductsComponent } from './components/products/products.component';
     HomeRoutingModule,
     HeaderModule,
     CarouselModule,
-    FooterModule
+    FooterModule,
+    PanelMenuModule
   ]
 })
 export class HomeModule { }

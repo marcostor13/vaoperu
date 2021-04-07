@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
+import { RoleAdminGuard } from './modules/auth/guards/role-admin.guard';
+import { RoleProviderGuard } from './modules/auth/guards/role-provider.guard';
 
 const routes: Routes = [  
   {
@@ -13,7 +15,13 @@ const routes: Routes = [
   }, 
   {    
     path: 'admin',
-    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [RoleAdminGuard]
+  },
+  {
+    path: 'provider',
+    loadChildren: () => import('./modules/provider/provider.module').then(m => m.ProviderModule),
+    canActivate: [RoleProviderGuard]
   },
   
   {
@@ -24,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],  
+  imports: [RouterModule.forRoot(routes)],      
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

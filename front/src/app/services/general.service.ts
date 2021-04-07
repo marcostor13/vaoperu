@@ -224,7 +224,7 @@ export class GeneralService {
   }
 
   getUserData():Iuser {
-    return localStorage.getItem('bintuser') ? JSON.parse(localStorage.getItem('bintuser')) : null
+    return localStorage.getItem('vaouser') ? JSON.parse(localStorage.getItem('vaouser')) : null
   }
 
   //excel

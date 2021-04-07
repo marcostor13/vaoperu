@@ -1,0 +1,20 @@
+<header class="bg-color1 p-4 pl-5 pr-5 row m-0 justify-content-between align-items-center">
+    <div class="row align-items-center">
+        <div (click)="slideMenu()" class="d-flex d-md-none hamburger cursor">
+            <label></label>
+            <label></label>
+            <label></label>
+        </div>
+        <h1>
+            <img width="55" class="ml-5" src="assets/img/logo.png" alt="VaoPErú">
+        </h1>
+    </div>
+    <fa-icon *ngIf="user" (click)="logout()" class="f-18 ml-4 cursor row text-white" [icon]="faSignOutAlt"></fa-icon>
+</header>
+
+<div *ngIf="menu" class="d-flex d-md-none menu-provider-container">
+    <div [ngClass]="{'slide-left': !menu, 'slide-right': menu}" class="close row justify-content-end pr-4 pt-4">
+        <fa-icon (click)="slideMenu()" class="f-18 ml-4 cursor row" [icon]="faTimes"></fa-icon>
+    </div>
+    <app-menu-provider [ngClass]="{'slide-left': !menu, 'slide-right': menu}" class="menu-provider"></app-menu-provider>
+</div>

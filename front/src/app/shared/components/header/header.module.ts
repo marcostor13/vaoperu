@@ -9,7 +9,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { AuthloginModule } from './../authlogin/authlogin.module';
 import { DialogModule } from 'primeng/dialog';
-
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { DialogModule } from 'primeng/dialog';
     MegaMenuModule,
     AuthloginModule,
     DialogModule,    
+    SidebarModule,
   ],
   exports: [
     HeaderComponent

@@ -10,6 +10,9 @@ const userSchema = new mongoose_1.Schema({
     parentid: {
         type: String,
     },
+    image: {
+        type: String
+    },
     createAt: {
         type: Date,
         default: new Date()

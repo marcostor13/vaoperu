@@ -4,12 +4,8 @@ import * as morgan from 'morgan'
 import authRoutes from './routes/auth.routes'
 import emailRoutes from './routes/email.routes'
 import categoryRoutes from './routes/category.routes'
-import brandRoutes from './routes/brand.routes'
-import attributeRoutes from './routes/attribute.routes'
-import productRoutes from './routes/product.routes'
-import transactionRoutes from './routes/transaction.routes'
-import taxRoutes from './routes/tax.routes'
 import emailPasswordRoutes from './routes/emailpassword.routes'
+import profileProviderRoutes from './routes/profile-provider.routes'
 
 
 
@@ -36,19 +32,16 @@ app.use(cors({
 app.use(morgan('dev'))
 app.use(authRoutes)
 app.use(emailPasswordRoutes)
+app.use(emailRoutes)
+app.use(categoryRoutes)
+app.use(profileProviderRoutes)
+
 app.use(passport.initialize())
 passport.use(passportMiddleware)
 //Routes
 
 
 
-app.use(passport.authenticate('jwt', { session: false }),emailRoutes)
-app.use(passport.authenticate('jwt', { session: false }), categoryRoutes)
-app.use(passport.authenticate('jwt', { session: false }), brandRoutes)
-app.use(passport.authenticate('jwt', { session: false }), attributeRoutes)
-app.use(passport.authenticate('jwt', { session: false }), productRoutes)
-app.use(passport.authenticate('jwt', { session: false }), transactionRoutes)
-app.use(passport.authenticate('jwt', { session: false }), taxRoutes)
 
 
 
