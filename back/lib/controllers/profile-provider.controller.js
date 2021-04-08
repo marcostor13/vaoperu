@@ -22,7 +22,7 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    Collection.findById({}, (err, response) => {
+    Collection.find({}, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

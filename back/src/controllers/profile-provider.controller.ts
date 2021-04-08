@@ -15,7 +15,7 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
 }
 
 export const get = async (req: Request, res: Response) => {
-    Collection.findById({}, (err: any, response: any) => {
+    Collection.find({}, (err: any, response: any) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

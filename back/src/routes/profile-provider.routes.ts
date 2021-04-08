@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { save, get, getByID, update, del } from '../controllers/profile-provider.controller';
 import * as passport from 'passport'
+
 const model = 'profile-provider'
 
 const router = Router()
