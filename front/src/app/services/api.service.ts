@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? 'https://vaoapi.marcostorres.site/' : 'http://localhost:3002/'
+  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? 'https://vaoapi.marcostorres.site/' : 'http://localhost:3004/'
 
   constructor(private http: HttpClient) {}
 
