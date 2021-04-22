@@ -5,10 +5,130 @@
         <div class="p-5">
             <h4>Perfil</h4>
             <hr class="line mt-3">
-            <div class="mt-3">
+            <div class="mt-5 row m-0">
+                <div class="col-md-6 col-12 p-0">
+                    <div *ngIf="currentImage">
+                        <div class="image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
+                            <div (click)="removeImage(currentImage)" class="delete">
+                                <i class="pi pi-trash text-white f-20"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3 btn-upload">
+                            <p-fileUpload 
+                                styleClass="btn2 tran w-100" 
+                                mode="basic" 
+                                accept="image/*" 
+                                fileLimit="1" 
+                                maxFileSize="10000000"
+                                (onSelect)="onUpload($event)" 
+                                [chooseLabel]="'Subir Imagen'" 
+                                uploadLabel="Subir" 
+                                cancelLabel="Cancelar"
+                                [files]="images" 
+                                [auto]="false" 
+                                [disabled]="currentImage"
+                                invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
+                            </p-fileUpload>
+                            <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
+                        </div>                
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-12 p-0 pl-0 pl-md-5">
+                    <div class="row align-items-center m-0 mt-3 mt-md-0">
+                        <p-inputSwitch [(ngModel)]="profileProvider.delivery"></p-inputSwitch>
+                        <label class="ml-4 f-13 font-600">Delivery</label>
+                    </div>
+                    <div class="row align-items-center m-0 mt-3 mt-md-0">
+                        <p-inputSwitch [(ngModel)]="profileProvider.onMarket"></p-inputSwitch>
+                        <label class="ml-4 f-13 font-600">Recojo en tienda</label>
+                    </div>
+                    <hr class="line"> 
+                    <div class="row align-items-center m-0 mt-3 mt-md-0">
+                        <p-inputSwitch [(ngModel)]="profileProvider.enabledProducts"></p-inputSwitch>
+                        <label class="ml-4 f-13 font-600">Productos</label>
+                    </div>
+                    <div class="row align-items-center m-0 mt-3 mt-md-0">
+                        <p-inputSwitch [(ngModel)]="profileProvider.enabledProductsFeatured"></p-inputSwitch>
+                        <label class="ml-4 f-13 font-600">Productos Destacados</label>
+                    </div>
+                    <div class="row align-items-center m-0 mt-3 mt-md-0">
+                        <p-inputSwitch [(ngModel)]="profileProvider.enabledOffers"></p-inputSwitch>
+                        <label class="ml-4 f-13 font-600">Offertas</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-5 col-md-6 col-12 p-0">
+                <div>
+                    <label class="col-12 p-0 mt-2">Nombre Comercial</label>
+                    <input type="text" [(ngModel)]="profileProvider.comercialName">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Razón social</label>
+                    <input type="text" [(ngModel)]="profileProvider.legalName">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">RUC</label>
+                    <input type="text" [(ngModel)]="profileProvider.ruc">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Descripción</label>
+                    <input type="text" [(ngModel)]="profileProvider.description">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Whatsapp (Ejem: 987654321)</label>
+                    <input type="number" [(ngModel)]="profileProvider.whatsapp">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Teléfono</label>
+                    <input type="number" [(ngModel)]="profileProvider.phone">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Facebook</label>
+                    <input type="text" [(ngModel)]="profileProvider.facebook">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Instagram</label>
+                    <input type="text" [(ngModel)]="profileProvider.instagram">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Twitter</label>
+                    <input type="text" [(ngModel)]="profileProvider.twitter">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Tiktok</label>
+                    <input type="text" [(ngModel)]="profileProvider.tiktok">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Correo</label>
+                    <input type="email" [(ngModel)]="profileProvider.email">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Sitio Web</label>
+                    <input type="text" [(ngModel)]="profileProvider.siteWeb">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Dirección GPS</label>
+                    <input type="text" [(ngModel)]="profileProvider.addressMaps">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Dirección display (Se visualizará para los usuarios)</label>
+                    <input type="text" [(ngModel)]="profileProvider.addressText">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Distritos</label>
+                    <select [(ngModel)]="profileProvider.districtId">
+                        <option value="">Seleccione un distrito</option>                        
+                        <option *ngFor="let district of districts" value="{{district._id}}">{{district.name}}</option>  
+                    </select>
+                </div>
                 
+                <button (click)="setUbication()" class="btn1 mt-4">Guardar</button>      
             </div>
         </div>
     </div>
 </div>
 
+<div #map id="map"></div>

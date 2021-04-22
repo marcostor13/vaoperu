@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getByUserID = exports.getByID = exports.get = exports.save = void 0;
 const profile_provider_1 = require("../models/profile-provider");
 const title = 'Perfil de proveedor';
 const Collection = profile_provider_1.default;
@@ -17,7 +17,7 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newObj = new Collection(req.body);
     yield newObj.save();
     return res.status(200).json({
-        message: `${title} Cread@`,
+        message: `${title} Creado`,
         data: newObj
     });
 });
@@ -49,6 +49,20 @@ exports.getByID = (req, res) => {
         });
     });
 };
+exports.getByUserID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    Collection.find({ userid: req.params.userid }, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response[0]
+        });
+    });
+});
 exports.update = (req, res) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {
@@ -58,7 +72,7 @@ exports.update = (req, res) => {
             });
         }
         res.status(200).json({
-            message: `${title} actualizad@`,
+            message: `${title} actualizado`,
             data: response
         });
     });
@@ -72,7 +86,7 @@ exports.del = (req, res) => {
             });
         }
         res.status(200).json({
-            message: `${title} eliminad@`,
+            message: `${title} eliminado`,
             data: null
         });
     });

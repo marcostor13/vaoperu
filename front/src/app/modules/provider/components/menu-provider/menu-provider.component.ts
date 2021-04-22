@@ -31,7 +31,24 @@ export class MenuProviderComponent implements OnInit {
       {
         label: 'Perfil',
         routerLink: '/provider/profile',        
-      },      
+      },  
+      {
+        label: 'Productos',
+        routerLink: '/provider/products',        
+      }, 
+      {
+        label: 'Ofertas',
+        routerLink: '/provider/offers',
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Salir',
+        icon: 'pi arrow-left',
+        styleClass: 'bg-color1 text-color1',
+        command: ()=>this.logout()
+      },
       
     ];
 
@@ -41,7 +58,10 @@ export class MenuProviderComponent implements OnInit {
 
   validateSession() {
     this.user = this.authService.isLoginUser()
-    this.general.c('USER', this.user)
+  }
+
+  logout() {
+    this.authService.logout()
   }
 
 }

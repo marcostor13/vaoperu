@@ -1,4 +1,6 @@
 <router-outlet></router-outlet>
-<div class="load" *ngIf="isLoading === '1'">
+<p-toast></p-toast>
+<div class="load" *ngIf="isLoading">
     <p-progressSpinner ></p-progressSpinner>
 </div>
+

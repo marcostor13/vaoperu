@@ -5,7 +5,7 @@
     "outDir": "./dist/front",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": [],
+    "types": ["googlemaps"],
     "baseUrl": "./",
     "paths": {
       "@reducers/*": ["src/app/store/reducers/*"],

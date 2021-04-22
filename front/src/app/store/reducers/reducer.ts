@@ -16,7 +16,7 @@ const reducer = createReducer(
     ),
     on(
         states.setLoading,
-        (state: globalState.IStoreState, action: { isLoading: string }): globalState.IStoreState => {            
+        (state: globalState.IStoreState, action: { isLoading: boolean }): globalState.IStoreState => {            
             return {
                 ...state,
                 isLoading: action.isLoading

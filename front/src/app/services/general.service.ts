@@ -9,6 +9,7 @@ import { ApiService } from './api.service';
 import { Iuser } from './../../../../back/src/models/user';
 import * as XLSX from 'xlsx';
 import { cloneDeep } from 'lodash-es';
+import { CImages } from 'src/app/models/images';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class GeneralService {
   data$: Observable<any>
 
   constructor(
-    private store: Store<{ data: any }>, 
+    private store: Store<{ data: any }>,
     private router: Router,
     private storage: AngularFireStorage,
     private api: ApiService
-    
-    ) { }
+
+  ) { }
 
   httpBuildQuery(params) {
     if (typeof params === 'undefined' || typeof params !== 'object') {
@@ -49,22 +50,22 @@ export class GeneralService {
     return query;
   }
 
-  searchElementByNameKey(array, key, value){
+  searchElementByNameKey(array, key, value) {
     for (let i = 0; i < array.length; i++) {
       const element = array[i];
-      if (element[key] == value){
+      if (element[key] == value) {
         return element
-      }      
+      }
     }
   }
 
 
   searchIndexByNameKey(array, key, value) {
-    var res:any = false;
+    var res: any = false;
     for (let i = 0; i < array.length; i++) {
       const element = array[i];
       if (element[key] == value) {
-        res =  i
+        res = i
       }
     }
 
@@ -74,19 +75,19 @@ export class GeneralService {
   getRandomArbitrary(min, max) {
     return Math.round(Math.random() * (max - min) + min)
   }
-  
+
   //Inserta un objeto a partir de una posisión, 
-  insertObjectInPositionArray(obj, array, indexPosPrev){
+  insertObjectInPositionArray(obj, array, indexPosPrev) {
 
     let res = []
-    
+
     for (let i = 0; i < indexPosPrev; i++) {
-      res.push(array[i])      
+      res.push(array[i])
     }
 
     res.push(obj)
 
-    if (indexPosPrev < array.length){
+    if (indexPosPrev < array.length) {
       for (let i = indexPosPrev; i < array.length; i++) {
         res.push(array[i])
       }
@@ -95,32 +96,32 @@ export class GeneralService {
 
     return res
 
-  } 
+  }
 
 
   //FORMAT:   separator_1   ===> get 1
 
-  getIndexToId(e){
+  getIndexToId(e) {
     e = e.split('_');
-    return e[e.length-1]
+    return e[e.length - 1]
   }
 
 
   //ELIMINAR UN ELEMENTO DEL ARRAY POR ID
 
-  deleteElementOfArray(value, array){
-    
+  deleteElementOfArray(value, array) {
+
     for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      if (element.id == value){
+      if (element.id == value) {
         array.splice(index, 1)
       }
-      
+
     }
     return array
   }
 
-  deleteElementOfArrayintoArray(parentId, id, array){
+  deleteElementOfArrayintoArray(parentId, id, array) {
     for (let index = 0; index < array.length; index++) {
       if (array[index].id == parentId) {
         for (let x = 0; x < array[index].elements.length; x++) {
@@ -134,10 +135,10 @@ export class GeneralService {
     return array
   }
 
-  getParametersURL(url){
+  getParametersURL(url) {
 
     let params = url.split('?')[1].split('&');
-    var res = [] 
+    var res = []
 
     for (let index = 0; index < params.length; index++) {
       let ele = params[index].split('=');
@@ -152,7 +153,7 @@ export class GeneralService {
 
 
 
-  redirect(path, data: any){
+  redirect(path, data: any) {
     this.store.dispatch(action.setdata({ data: data }))
     this.router.navigate([path])
   }
@@ -162,8 +163,12 @@ export class GeneralService {
     console.log('%c' + title + '%c=>', "background-color: purple; color:white;font-family:system-ui;font-size:10pt;font-weight:bold;padding: 4px", "background-color: white; color:purple;font-size:10pt;font-weight:bold;padding: 4px", message);
   }
 
-  isLoad(is:string) {
+  isLoad(is: boolean) {
     this.store.dispatch(action.setLoading({ isLoading: is }))
+  }
+
+  styles(): string {
+    return 'red'
   }
 
   uploadImage(file: File, path: string) {
@@ -172,22 +177,45 @@ export class GeneralService {
     const task = this.storage.upload(filePath, file)
 
     return new Observable((obs) => {
-      task.percentageChanges().subscribe(res=>{
-        if(res !== 100){
+      task.percentageChanges().subscribe(res => {
+        if (res !== 100) {
           obs.next(res)
-        }else{
+        } else {
           obs.next(100)
-          setTimeout(() => {
-            obs.next(fileRef.getDownloadURL())
-            obs.complete()
-          },1000)          
-          
+          setTimeout(async () => {
+            fileRef.getDownloadURL().subscribe(url=>{
+              obs.next(url)
+              obs.complete()
+            })
+          }, 1000)
+
         }
-      })      
+      })
     })
   }
 
-  sendMail(data: IEmailData){
+  getBlobOrImage(image: CImages) {
+    return image.url ? image.url : image.blob
+  }
+
+  async deleteImage(downloadUrl: string) {
+    return await this.storage.storage.refFromURL(downloadUrl).delete();
+  }
+
+  async deleteImages(downloadUrls: Array<string>) {
+    let res = false
+    let c = 0
+    downloadUrls.map(async (url:string)=>{
+      await this.storage.storage.refFromURL(url).delete();
+      c++
+      if(c===downloadUrls.length){
+        res = true
+      }
+    })
+    return res    
+  }
+
+  sendMail(data: IEmailData) {
     return this.api.api({
       type: 'post',
       data: data,
@@ -223,8 +251,8 @@ export class GeneralService {
     }
   }
 
-  getUserData():Iuser {
-    return localStorage.getItem('vaouser') ? JSON.parse(localStorage.getItem('vaouser')) : null
+  getUserData(): Iuser {
+    return localStorage.getItem('bintuser') ? JSON.parse(localStorage.getItem('bintuser')) : null
   }
 
   //excel
@@ -233,24 +261,24 @@ export class GeneralService {
     let workbook = XLSX.read(data, {
       type: 'binary'
     })
-    let res:any
+    let res: any
     workbook.SheetNames.forEach(((sheetName) => {
       const XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName])
-      const json_object = JSON.stringify(XL_row_object)      
+      const json_object = JSON.stringify(XL_row_object)
       res = JSON.parse(json_object);
     }).bind(this), this)
     return res
   }
 
 
-  exportToFile(elements: Array<any>, fileName:string) {    
+  exportToFile(elements: Array<any>, fileName: string) {
     const ws = XLSX.utils.json_to_sheet(elements)
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "data");
     XLSX.writeFile(wb, fileName + '.xlsx');
   }
 
-  
+
 
   objectArrayToArray(data: any, field: string) {
     const dat = cloneDeep(data)
@@ -260,11 +288,27 @@ export class GeneralService {
     })
     return res
   }
-  
 
-  
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    return reader.readAsDataURL(image);
+  }
 
-  
+
+  getItemByID(array: Array<any>, id: string) {
+    let res: any
+    array.map((a: any) => {
+      if (a._id === id) {
+        res = a
+      }
+    })
+    return res
+  }
+
+
+
+
+
 
 
 }

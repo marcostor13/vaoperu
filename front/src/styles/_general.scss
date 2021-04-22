@@ -16,7 +16,7 @@ body, .home, footer{
 }
 
 .tran{
-    transition: all .2s ease-in;
+    transition: all .2s ease-in !important;
 }
 
 .cursor{
@@ -154,11 +154,11 @@ body, .home, footer{
     background-color: $color8;
 }
 .text-color9{
-    color: $color9;
+    color: $color6;
 }
 
 .bg-color9{
-    background-color: $color9;
+    background-color: $color6;
 }
 
 
@@ -247,6 +247,8 @@ body, .home, footer{
 
 .btn1:hover{
     opacity: 0.7;
+    background-color: $color1 !important;
+    border-color:  $color1 !important;
 }
 
 .btn2{
@@ -258,11 +260,14 @@ body, .home, footer{
     padding: 9px 30px 9px 30px;
 }
 .btn2:hover{    
-    opacity: 0.7;
+    opacity: 0.9;
+    background-color: $color2 !important;
+    border-color:  $color2 !important;
+    color: #121212 !important;
 }
 
 .btn3{
-    background-color: $color5;
+    background-color: $color8;
     color: white;
     font-size: 11pt;   
     border: none;
@@ -270,7 +275,7 @@ body, .home, footer{
     border-radius: 0;
 }
 .btn3:hover{
-    background-color: $color5 !important;
+    background-color: $color8 !important;
     opacity: 0.7;
 }
 
@@ -446,13 +451,14 @@ body, .home, footer{
     font-family: $fontP;        
 }
 
-input[type='text'], input[type='number'], input[type='file'], select, .inputs, textarea{
+input, select, .inputs, textarea{
     border: 2px solid $color1;
     border-radius: 0;
     padding: 7px;
     padding-left: 14px;
     padding-right: 14px;
-    font-family: $fontP;        
+    font-family: $fontP;   
+    width: 100%;     
 }
 
 
@@ -471,21 +477,30 @@ input[type='text'], input[type='number'], input[type='file'], select, .inputs, t
 
 .loading{
     min-height: 10px;
-    background-color: $color2;
+    background-color: $color1;
     width: 0;
 }
 
 :disabled{
-    background-color: $color9;
-    border-color: $color9;
+    background-color: $color6;
+    border-color: $color6;
 }
 
 .invalid{
-    border: solid 2px $color5 !important;
+    border: solid 2px $color8 !important;
 }
 
 .p-button{
     border-radius: 0;
+}
+
+.p-confirm-popup-reject{
+    color: $color1 !important;
+}
+
+.p-confirm-popup-accept{
+    background-color: $color8 !important;
+    border-color: $color8 !important;
 }
 
 .p-calendar, .p-inputtext, .p-datepicker-group-container{
@@ -504,7 +519,7 @@ input[type='text'], input[type='number'], input[type='file'], select, .inputs, t
 }
 
 .line{
-    border: solid 1px $color9;
+    border: solid 1px $color6;
 }
 
 
@@ -615,4 +630,122 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
         min-width: 90vw;
         max-width: 90vw;
     }
+}
+
+//IMAGE MINUATURE
+
+$size:100px;
+.image-miniature{ 
+    &:hover > .delete{
+        opacity: 1;
+    }    
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-width: $size;
+    max-width: $size;
+    min-height: $size;
+    max-height: $size;
+    position: relative;
+    .delete{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        opacity: 0;
+        background-color: rgba($color: #000000, $alpha: .5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+}
+
+.p-megamenu-submenu-header{
+    display: none !important;
+}
+
+.p-menuitem-text{
+    font-weight: 400;
+}
+
+//BUTTONS P-list
+
+.p-orderlist-controls{
+    .p-ripple{
+        background-color: $color1;
+        border: none;
+    }
+}
+
+.p-button.p-highlight{
+    background-color: $color1 !important;
+}
+
+.p-ripple:hover{
+    background-color: $color2 !important;
+}
+
+.p-grid{
+    display: flex;
+    flex-wrap: wrap;
+}
+.p-button-icon-only{
+    min-height: 38px !important;
+}
+
+
+//CHECKED
+
+.p-inputswitch-checked .p-inputswitch-slider{
+    background-color: $color1 !important;
+}
+
+.p-confirm-popup-accept{
+    background-color: $color1 !important;
+    border: none;
+    span{
+        color: white !important
+    }
+}
+
+.product-list{
+    .p-carousel-indicators{
+        display: none !important;
+    }
+}
+
+.carousel{
+    max-width: 300px !important;
+}
+
+.products-list{
+    flex: 1 !important;
+}
+
+@media screen and (max-width: 479px) {
+    .carousel{
+        max-width: 210px !important;
+    } 
+}
+
+.product-list{
+    .p-carousel-dots-container{
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .product-list{
+        .p-carousel-container{
+            display: flex;
+            button{
+                opacity: 0;
+            }
+        }
+    }
+    
 }

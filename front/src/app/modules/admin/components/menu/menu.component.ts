@@ -27,16 +27,27 @@ export class MenuComponent implements OnInit {
       {
         label: 'Panel',    
         routerLink: '/admin/dashboard',                  
-      },
+      },      
       {
-        label: 'Tienda',
+        label: 'Tiendas',
         items: [{
           label: 'Categorias',
           routerLink: '/admin/categories'
-        },        
-        { separator: true },        
-        ]
-      },      
+        }]
+      },    
+      {
+        label: 'General',
+        items: [{
+          label: 'Distritos',
+          routerLink: '/admin/districts'
+        }]
+      },
+      {
+        label: 'Salir',
+        icon: 'pi arrow-left',
+        styleClass: 'bg-color1 text-color1',
+        command: () => this.logout()
+      },
       
     ];
 
@@ -47,6 +58,10 @@ export class MenuComponent implements OnInit {
   validateSession() {
     this.user = this.authService.isLoginUser()
     this.general.c('USER', this.user)
+  }
+
+  logout() {
+    this.authService.logout()
   }
 
 }

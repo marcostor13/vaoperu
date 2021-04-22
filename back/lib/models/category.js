@@ -7,16 +7,14 @@ const userSchema = new mongoose_1.Schema({
         unique: true,
         required: true
     },
-    parentid: {
-        type: String,
-    },
     image: {
-        type: String
+        type: String,
+        required: true
     },
     createAt: {
         type: Date,
         default: new Date()
     }
 });
-exports.default = mongoose_1.model('Categories', userSchema);
+exports.default = mongoose_1.model('Category', userSchema);
 //# sourceMappingURL=category.js.map

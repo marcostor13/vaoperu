@@ -37,5 +37,9 @@ export class HeaderComponent implements OnInit {
     this.menu = this.menu? false: true 
   }
 
+  logout() {
+    this.authService.logout()
+  }
+
  
 }

@@ -59,10 +59,28 @@ const userSchema = new mongoose_1.Schema({
         type: String,
     },
     lat: {
-        type: String,
+        type: Number,
     },
     lng: {
+        type: Number,
+    },
+    siteWeb: {
         type: String,
+    },
+    delivery: {
+        type: Boolean,
+    },
+    onMarket: {
+        type: Boolean,
+    },
+    enabledProducts: {
+        type: Boolean,
+    },
+    enabledProductsFeatured: {
+        type: Boolean,
+    },
+    enabledOffers: {
+        type: Boolean,
     },
     createAt: {
         type: Date,

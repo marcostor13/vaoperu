@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './../../../../../services/api.service';
 import { IDataApi } from '../../../../../models/dataapi';
+import { GeneralService } from '@services/general.service';
+import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,12 @@ export class ProfileProviderService {
 
   constructor(
     private api: ApiService,
+    private general: GeneralService,
+    private authService: AuthService
   ) { }
 
   save(element: any) {
+    this.general.c('SAVE ELEMEENT', element.userid)
     const data: IDataApi = {
       service: element._id ? `update-${this.model}/${element._id}` : `save-${this.model}`,
       type: element._id ? 'patch' : 'post',
@@ -24,7 +29,7 @@ export class ProfileProviderService {
 
   get() {
     const data: IDataApi = {
-      service: `get-${this.model}`,
+      service: `get-${this.model}-by-userid/${this.authService.getUserID()}`,
       type: 'get',
       data: null
     }

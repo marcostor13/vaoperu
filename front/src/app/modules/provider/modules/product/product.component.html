@@ -1,0 +1,78 @@
+<div class="d-flex m-0 ">
+    <app-menu-provider class="d-none d-md-flex"></app-menu-provider>
+    <div class="flex-1">
+        <app-header-provider></app-header-provider>
+        <div class="p-4 p-md-5">
+            <div class="row m-0 justify-content-between align-items-center">
+                <h4>Productos</h4>
+                <button class="btn2" (click)="addEdit()">
+                    <i class="pi pi-plus mr-2"></i>
+                    Agregar
+                </button>
+            </div>
+            <div class="section-products col-4 p-0">
+                <app-product-list *ngIf="items?.length>0" [products]="items" (productsEvent)=productListEvent($event)></app-product-list>            
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal" 
+    [modal]="true" 
+    [styleClass]="'modalLogin'" 
+    [baseZIndex]="10000"
+    [autoZIndex]="false"
+    [draggable]="false"
+    [resizable]="false">
+    
+
+    <div class="col-12 row m-0 justify-content-center">
+        <div class="row m-0 p-0 flex-column col-12 col-md-6">     
+            <div class="row align-items-center m-0">
+                <p-inputSwitch [disabled]="currentItem._id" [(ngModel)]="currentItem.profileProviderId"></p-inputSwitch>
+                <label class="ml-4">Destacado</label>
+            </div>
+            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Producto'"> 
+            <div class="mt-3" [ngClass]="{'invalid': invalid.images}">
+                <p-fileUpload 
+                    styleClass="col-12 btn2"
+                    mode="basic" 
+                    accept="image/*" 
+                    fileLimit="5" 
+                    [multiple]="true"
+                    maxFileSize="10000000"
+                    (onSelect)="onUpload($event); invalid.images=false" 
+                    [chooseLabel]="'Subir Imágenes'" 
+                    uploadLabel="Subir" 
+                    cancelLabel="Cancelar"
+                    [files]="images" 
+                    [auto]="false" 
+                    invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
+                </p-fileUpload>
+                <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
+            </div>
+            <div *ngIf="currentImages" class="row m-0 justify-content-center align-items-center mt-2">
+                <div *ngFor="let currentImage of currentImages" class="image-miniature m-2" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
+                    <div (click)="removeImage(currentImage)" class="delete">
+                        <i class="pi pi-trash text-white f-20"></i>
+                    </div>
+                </div>
+            </div>
+            <textarea (keyup.enter)="add()" cols="30" rows="5" [(ngModel)]="currentItem.description" [ngClass]="{'invalid': invalid.description}" [placeholder]="'Descripción'"></textarea>
+            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.price" (keyup)="invalid.price=false" [ngClass]="{'invalid': invalid.price}" [placeholder]="'Precio'">
+            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.promotionalPrice" [placeholder]="'Precio promocional'">
+
+            <div>
+
+            </div>
+
+            <button (click)="presave()" class="btn1 mt-4">Guardar</button>            
+            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>    
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-confirmPopup [autoZIndex]="false" [baseZIndex]="1000001"></p-confirmPopup>
