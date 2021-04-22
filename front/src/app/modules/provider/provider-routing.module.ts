@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/profile-provider/profile-provider.module').then(m => m.ProfileProviderModule),
     canActivate: [RoleProviderGuard]
   },
+  {
+    path: 'products',
+    loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
+    canActivate: [RoleProviderGuard]
+  },
 
   {
     path: '',
@@ -23,7 +28,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],  
   exports: [RouterModule]
 })
 export class ProviderRoutingModule { }

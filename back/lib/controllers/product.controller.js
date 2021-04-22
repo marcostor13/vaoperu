@@ -14,18 +14,34 @@ const product_1 = require("../models/product");
 const title = 'Producto';
 const Collection = product_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newObj = new product_1.default(req.body);
-    yield newObj.save();
-    return res.status(200).json({
-        message: `${title} Cread@`,
-        data: newObj
-    });
+    const { name, profileProviderId } = req.body;
+    if (!name || !profileProviderId) {
+        return res.status(501).json({
+            message: `Debe completar todos los campos requeridos`,
+            data: null
+        });
+    }
+    else {
+        const newObj = new Collection(req.body);
+        return newObj.save().then(_ => {
+            return res.status(200).json({
+                message: `${title} Creado`,
+                data: newObj
+            });
+        }).catch(error => {
+            console.log('ERROR', error);
+            return res.status(501).json({
+                message: (error.code === 11000) ? `El ${title} ya existe, por favor elija otra` : `Error al crear ${title}`,
+                data: error
+            });
+        });
+    }
 });
 exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    Collection.findById({}, (err, response) => {
+    Collection.find({}, (err, response) => {
         if (err) {
             res.status(501).json({
-                message: `Error al obtener ${title}`,
+                message: `Error al obtener ${title}s`,
                 data: null
             });
         }
@@ -58,7 +74,7 @@ exports.update = (req, res) => {
             });
         }
         res.status(200).json({
-            message: `${title} actualizad@`,
+            message: `${title} actualizada`,
             data: response
         });
     });
@@ -72,7 +88,7 @@ exports.del = (req, res) => {
             });
         }
         res.status(200).json({
-            message: `${title} eliminad@`,
+            message: `${title} eliminado`,
             data: null
         });
     });

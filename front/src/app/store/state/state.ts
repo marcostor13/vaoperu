@@ -3,10 +3,10 @@
 
 export interface IStoreState {
     data: any
-    isLoading: string    
+    isLoading: boolean    
 }
 
 export const initialState: IStoreState = {
     data: {}, 
-    isLoading: '0',    
+    isLoading: false,    
 };

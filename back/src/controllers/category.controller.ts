@@ -6,16 +6,34 @@ const title = 'Categoría'
 const Collection = Category
 
 export const save = async (req: Request, res: Response): Promise<Response> => {
-    const newObj: ICategory = new Collection(req.body)
-    await newObj.save()
-    return res.status(200).json({
-        message: `${title} Cread@`,
-        data: newObj
-    })
+    
+    const { name, image  } = req.body
+
+    if(!name || !image){
+        return res.status(501).json({
+            message: `Debe completar todos los campos requeridos`,
+            data: null
+        })
+    }else{
+        const newObj: ICategory = new Collection(req.body)
+        return newObj.save().then(_ => {
+            return res.status(200).json({
+                message: `${title} Creada`,
+                data: newObj
+            })
+        }).catch(error => {
+            console.log('ERROR', error)
+            return res.status(501).json({
+                message: (error.code === 11000) ? `El ${title} ya existe, por favor elija otra` : `Error al crear ${title}`,
+                data: error
+            })
+        })
+    }
+
 }
 
 export const get = async (req: Request, res: Response) => {
-    Collection.findById({}, (err: any, response: any) => {
+    Collection.find({}, (err: any, response: any) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,
@@ -53,8 +71,25 @@ export const update = (req: Request, res: Response) => {
             })
         }
         res.status(200).json({
-            message: `${title} actualizad@`,
+            message: `${title} actualizada`,
             data: response
+        })
+    })
+}
+
+export const updateAll = (req: Request, res: Response) => {
+    Collection.remove({}, () => {
+        Collection.create(req.body, (err: any, response: any) => {
+            if (err) {
+                res.status(501).json({
+                    message: `Error al actualizar ${title}`,
+                    data: null
+                })
+            }
+            res.status(200).json({
+                message: `${title}s actualizadas`,
+                data: response
+            })
         })
     })
 }
@@ -68,7 +103,7 @@ export const del = (req: Request, res: Response) => {
             })
         }
         res.status(200).json({
-            message: `${title} eliminad@`,
+            message: `${title} eliminada`,
             data: null
         })
     })

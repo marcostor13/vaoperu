@@ -10,7 +10,12 @@ const routes: Routes = [
   },
   {
     path: 'categories',
-    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+    loadChildren: () => import('./modules/category/category.module').then(m => m.CategoryModule),
+    canActivate: [RoleAdminGuard]
+  },
+  {
+    path: 'districts',
+    loadChildren: () => import('./modules/district/district.module').then(m => m.DistrictModule),
     canActivate: [RoleAdminGuard]
   },
 

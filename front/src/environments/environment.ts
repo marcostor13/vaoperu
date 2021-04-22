@@ -5,16 +5,15 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyDMoPUTER0_BtdiPFiwxQQup_VRlfddfb4",
-    authDomain: "biqon-d2511.firebaseapp.com",
-    databaseURL: "https://biqon-d2511.firebaseio.com",
-    projectId: "biqon-d2511",
-    storageBucket: "biqon-d2511.appspot.com",
-    messagingSenderId: "308213871064",
-    appId: "1:308213871064:web:522366f6f1299e5a7142ad"
+    apiKey: "AIzaSyD_OrSTvGRGMjCCGpMJnTOBLMQXcLetaTk",
+    authDomain: "vaoperu-b7253.firebaseapp.com",
+    projectId: "vaoperu-b7253",
+    storageBucket: "vaoperu-b7253.appspot.com",
+    messagingSenderId: "149262314816",
+    appId: "1:149262314816:web:b978b70a85b7c1ce4adea5"
   },
-  from: 'marcostor13@gmail.com', 
-  fromname: 'Binteraction Chile'
+  from: 'tustaff2020@gmail.com', 
+  fromname: 'Vao perú'
 };
 
 /*

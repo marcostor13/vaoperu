@@ -17,12 +17,14 @@ const email_routes_1 = require("./routes/email.routes");
 const category_routes_1 = require("./routes/category.routes");
 const emailpassword_routes_1 = require("./routes/emailpassword.routes");
 const profile_provider_routes_1 = require("./routes/profile-provider.routes");
+const district_routes_1 = require("./routes/district.routes");
+const product_routes_1 = require("./routes/product.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
 const app = express();
 //Setting
-app.set('port', 3004);
+app.set('port', 3002);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
@@ -30,14 +32,16 @@ app.use(cors({
 }));
 //middlewares
 app.use(morgan('dev'));
+//Routes
 app.use(auth_routes_1.default);
 app.use(emailpassword_routes_1.default);
 app.use(email_routes_1.default);
 app.use(category_routes_1.default);
+app.use(district_routes_1.default);
 app.use(profile_provider_routes_1.default);
+app.use(product_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
-//Routes
 //LOCAL
 function main() {
     return __awaiter(this, void 0, void 0, function* () {

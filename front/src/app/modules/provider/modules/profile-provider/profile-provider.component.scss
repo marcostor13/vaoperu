@@ -1,0 +1,93 @@
+$size:300px;
+.image-miniature{     
+    min-width: $size;
+    max-width: $size;
+    min-height: $size;
+    max-height: $size;
+    .delete{
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+    }
+}
+
+.btn-upload{
+    max-width: $size !important;
+}
+
+@media (max-width: 953px){
+    $size:200px;
+    .image-miniature{     
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        .delete{
+            min-width: $size;
+            max-width: $size;
+            min-height: $size;
+            max-height: $size;
+        }
+    }
+    .btn-upload{
+        max-width: $size !important;
+    }
+}
+
+@media (max-width: 768px){
+    $size:400px;
+    .image-miniature{     
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        .delete{
+            min-width: $size;
+            max-width: $size;
+            min-height: $size;
+            max-height: $size;
+        }
+    }
+    .btn-upload{
+        max-width: $size !important;
+    }
+}
+
+@media (max-width: 508px){
+    $size:300px;
+    .image-miniature{     
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        .delete{
+            min-width: $size;
+            max-width: $size;
+            min-height: $size;
+            max-height: $size;
+        }
+    }
+    .btn-upload{
+        max-width: $size !important;
+    }
+}
+
+@media (max-width: 408px){
+    $size:200px;
+    .image-miniature{     
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        .delete{
+            min-width: $size;
+            max-width: $size;
+            min-height: $size;
+            max-height: $size;
+        }
+    }
+    .btn-upload{
+        max-width: $size !important;
+    }
+}

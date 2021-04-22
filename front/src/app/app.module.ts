@@ -19,10 +19,13 @@ import { Reducer } from '@reducers/reducer';
 import { storageMetaReducer } from 'src/app/store/reducers/metareducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MessageModule } from 'primeng/message';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [  
     BrowserModule,
@@ -38,12 +41,13 @@ import { MessageModule } from 'primeng/message';
     ProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    MessageModule
-
+    MessageModule,
+    ToastModule,
   ],
   providers: [
     AuthTokenHttpInterceptorProvider,
-    HttpErrorHttpInterceptorProvider
+    HttpErrorHttpInterceptorProvider,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

@@ -6,12 +6,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? 'https://vaoapi.marcostorres.site/' : 'http://localhost:3004/'
+  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? 'https://vaoapi.marcostorres.site/' : 'http://localhost:3002/'
 
   constructor(private http: HttpClient) {}
 
-  api(data:any) {
-   
+  api(data:any) {    
     if(data.type == 'get'){
       return this.http.get(`${this.baseUrl + data.service}`)      
     }else if(data.type == 'post'){

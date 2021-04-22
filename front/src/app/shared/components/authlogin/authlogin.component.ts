@@ -137,10 +137,10 @@ export class AuthloginComponent implements OnInit {
   login() {
     
     if(this.validationLogin()){
-      this.generalService.isLoad('1')  
+      this.generalService.isLoad(true)  
       this.subs.add(
         this.authService.login(this.form).subscribe((user: CUser) => {
-          this.generalService.isLoad('0')
+          this.generalService.isLoad(false)
           this.send.emit({
             type: 'user',
             data: user
@@ -167,7 +167,7 @@ export class AuthloginComponent implements OnInit {
           }
 
         }, error => {
-          this.generalService.isLoad('0')
+          this.generalService.isLoad(false)
           this.generalService.c('Login Error', error)
           this.response = {
             class: 'text-danger',
@@ -183,20 +183,20 @@ export class AuthloginComponent implements OnInit {
   registerStart(){
 
     if(this.validationRegister()){
-      this.generalService.isLoad('1')
+      this.generalService.isLoad(true)
       this.subs.add(
         this.authService.issetEmail(this.form.email).subscribe((response: IResponseApi) => {
           if (response.data === 1) {
             this.subs.add(
               this.authService.sendEmailCode(this.form.email).subscribe(_ => {
-                this.generalService.isLoad('0')
+                this.generalService.isLoad(false)
                 this.registerStep = 2
                 this.response = {
                   class: 'text-color1',
                   message: `Hemos enviado un código a ${this.form.email}`
                 }
               }, error => {
-                this.generalService.isLoad('0')
+                this.generalService.isLoad(false)
                 this.generalService.c('Login Error', error)
                 this.response = {
                   class: 'text-danger',
@@ -206,7 +206,7 @@ export class AuthloginComponent implements OnInit {
             )
 
           }else{
-            this.generalService.isLoad('0')
+            this.generalService.isLoad(false)
             this.response = {
               class: 'text-danger',
               message: response.message
@@ -221,7 +221,7 @@ export class AuthloginComponent implements OnInit {
   }
 
   registerFinish(){
-    this.generalService.isLoad('1')
+    this.generalService.isLoad(true)
     this.subs.add(
       this.authService.codeComprobation(this.form.email, this.code).subscribe(_=>{    
         this.generalService.c('Register Finish', this.form)    
@@ -234,7 +234,7 @@ export class AuthloginComponent implements OnInit {
               type: 'user',
               data: user
             })
-            this.generalService.isLoad('0')           
+            this.generalService.isLoad(false)           
             localStorage.setItem('vaouser', JSON.stringify(user))
             this.registerStep = 3
             this.response = {
@@ -242,7 +242,7 @@ export class AuthloginComponent implements OnInit {
               message: `Gracias por registrarse Bienvenido ${user.name}`
             }
           }, error => {
-            this.generalService.isLoad('0')
+            this.generalService.isLoad(false)
             this.generalService.c('Login Error', error)
             this.response = {
               class: 'text-danger',
@@ -252,7 +252,7 @@ export class AuthloginComponent implements OnInit {
         )
 
       }, error => {
-          this.generalService.isLoad('0')
+          this.generalService.isLoad(false)
           this.generalService.c('Login Error', error)
           this.response = {
             class: 'text-danger',

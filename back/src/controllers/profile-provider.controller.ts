@@ -9,7 +9,7 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
     const newObj: IProfileProvider = new Collection(req.body)
     await newObj.save()
     return res.status(200).json({
-        message: `${title} Cread@`,
+        message: `${title} Creado`,
         data: newObj
     })
 }
@@ -44,6 +44,24 @@ export const getByID = (req: Request, res: Response) => {
     })
 }
 
+export const getByUserID = async (req: Request, res: Response) => {
+    Collection.find({userid: req.params.userid}, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response[0]
+        })
+    })
+}
+
+
+
+
 export const update = (req: Request, res: Response) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response: any) => {
         if (err) {
@@ -53,7 +71,7 @@ export const update = (req: Request, res: Response) => {
             })
         }
         res.status(200).json({
-            message: `${title} actualizad@`,
+            message: `${title} actualizado`,
             data: response
         })
     })
@@ -68,7 +86,7 @@ export const del = (req: Request, res: Response) => {
             })
         }
         res.status(200).json({
-            message: `${title} eliminad@`,
+            message: `${title} eliminado`,
             data: null
         })
     })

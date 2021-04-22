@@ -1,0 +1,86 @@
+<div class="row m-0">
+    <app-menu-admin class="d-none d-md-flex"></app-menu-admin>
+    <div class="flex-1">
+        <app-header-admin></app-header-admin>
+        <div class="p-5">
+            <div class="row m-0 justify-content-between align-items-center">
+                <h4>Categorías</h4>
+                <button class="btn2" (click)="addEdit()">
+                    <i class="pi pi-plus mr-2"></i>
+                    Agregar
+                </button>
+            </div>
+            
+            <div class="mt-5">
+                <p-orderList 
+                header="Lista de categorías"
+                filterPlaceholder="Buscar por nombre"
+                filterBy="name"
+                [value]="items" 
+                [listStyle]="{'max-height':'30rem'}"
+                [dragdrop]="true" 
+                (onReorder)="updateAll()">
+                    <ng-template let-item pTemplate="item" class="mt-3">
+                        <div draggable="true" class="item-list row justify-content-between align-items-center m-0 pl-2 pr-2">
+                            <div>
+                                <span class="font-700">Nombre :</span><span class="ml-3">{{item.name}}</span>
+                            </div>
+                            <div>
+                                <button (click)="addEdit(item)" class="btn2 p-0 pl-3 pr-3">Editar</button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-orderList>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal" 
+    [modal]="true" 
+    [styleClass]="'modalLogin'" 
+    [baseZIndex]="10000"
+    [autoZIndex]="false"
+    [draggable]="false"
+    [resizable]="false">
+    
+
+    <div class="col-12 row m-0 justify-content-center">
+        <div class="row m-0 p-0 flex-column col-12 col-md-6">      
+            <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Categoría'"> 
+            <div class="mt-2" [ngClass]="{'invalid': invalid.image}">
+                <p-fileUpload 
+                    styleClass="col-12 btn2"
+                    mode="basic" 
+                    accept="image/png" 
+                    fileLimit="1" 
+                    maxFileSize="10000000"
+                    (onSelect)="onUpload($event); invalid.image=false" 
+                    [chooseLabel]="'Subir Ícono'" 
+                    uploadLabel="Subir" 
+                    cancelLabel="Cancelar"
+                    [files]="images" 
+                    [auto]="false" 
+                    [disabled]="currentImage"
+                    invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
+                </p-fileUpload>
+                <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
+            </div>
+            <div *ngIf="currentImage" class="row m-0 justify-content-center align-items-center mt-2">
+                <div class="image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
+                    <div (click)="removeImage(currentImage)" class="delete">
+                        <i class="pi pi-trash text-white f-20"></i>
+                    </div>
+                </div>
+            </div>
+
+            <button (click)="presave()" class="btn1 mt-4">Guardar</button>            
+            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>    
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-confirmPopup [autoZIndex]="false" [baseZIndex]="1000001"></p-confirmPopup>

@@ -1,0 +1,50 @@
+@import '../../../../styles/variables';
+
+$size: 210px;
+.product{
+    min-height: $size;
+    
+    .image-product{
+        border-radius: 10px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: $size;
+        min-width: $size;
+        max-width: $size;
+    }
+}
+
+.input-search{
+    position: relative;
+    max-width: 180px;
+    i{
+        position: absolute;
+        top: 12px;
+        left: 10px;
+    }
+    input{
+        padding-left: 40px;
+    }
+}
+
+.price-sub{
+    color: $color5 !important;
+    font-size: 11pt;
+    text-decoration: line-through;
+}
+
+
+@media (max-width: 480px){
+    $size: 120px;
+    .product{ 
+        min-height: $size;      
+        .image-product{
+            border-radius: 10px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: $size;
+            min-width: $size;
+            max-width: $size;
+        }
+    }
+}

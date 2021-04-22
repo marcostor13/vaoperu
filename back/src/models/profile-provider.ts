@@ -2,7 +2,6 @@ import { model, Schema, Document } from 'mongoose'
 
 
 export interface IProfileProvider extends Document {
-    name: string,
     userid: string,
     legalName: string
     comercialName: string
@@ -21,8 +20,14 @@ export interface IProfileProvider extends Document {
     email:string, 
     districtId: string,
     distrinctName: string,
-    lat: string, 
-    lng: string,
+    lat: number, 
+    lng: number,
+    siteWeb: string,
+    delivery: boolean,
+    onMarket: boolean,
+    enabledProducts: boolean,
+    enabledProductsFeatured: boolean,
+    enabledOffers: boolean,
     createAt: Date
 }
 
@@ -85,10 +90,28 @@ const userSchema = new Schema({
         type: String,
     },
     lat: {
-        type: String,
+        type: Number,
     },
     lng: {
+        type: Number,
+    },
+    siteWeb: {
         type: String,
+    },
+    delivery: {
+        type: Boolean,
+    },
+    onMarket: {
+        type: Boolean,
+    },
+    enabledProducts: {
+        type: Boolean,
+    },
+    enabledProductsFeatured: {
+        type: Boolean,
+    },
+    enabledOffers: {
+        type: Boolean,
     },
     createAt: {
         type: Date,
