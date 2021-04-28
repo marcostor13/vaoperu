@@ -1,33 +1,38 @@
 <div class="mt-5 product-list">
 
-    <p-dataView [value]="products" [paginator]="true" [rows]="9" filterBy="name" layout="list">
+    <p-dataView [value]="items" [paginator]="true" [rows]="9" filterBy="name" layout="grid">
         <ng-template pTemplate="header">
             <div class="row justify-content-between m-0">           
                 <div class="input-search">
                     <i class="pi pi-search"></i>
-                    <input type="search" pInputText placeholder="Buscar" (input)="dv.filter($event.target.value)">
+                    <input type="search" pInputText placeholder="Buscar" (input)="search($event.target.value)">
                 </div>
                 <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
             </div>
         </ng-template>
         
         <ng-template let-product pTemplate="listItem">
-            <div class="product col-12 p-0 pt-2 pb-2 row align-items-center">
-                <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="'carousel'">
-                    <ng-template let-image pTemplate="item">
-                        <div class="image-product" [ngStyle]="{'background-image': 'url('+image+')'}"></div>  
-                    </ng-template>
-                </p-carousel>
-                <div class="mt-2 pt-2 d-flex flex-column justify-content-between ml-3">
-                    <h5>{{product.name}}</h5>
-                    <div class="row align-items-center m-0">
-                        <h5 *ngIf="product.promotionalPrice" class="text-color8">{{getPrice(product.promotionalPrice)}}</h5>
-                        <h5 [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color8">{{getPrice(product.price)}}</h5>
+            <div class="product col-12 p-3 row flex-column flex-md-row m-0">
+                <div class="row m-0 align-items-center flex-wrap sub-product">
+                    <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="product.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
+                        <ng-template let-image pTemplate="item">
+                            <div (click)="openModal(product)" class="shadow  image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>  
+                        </ng-template>
+                    </p-carousel>
+                    <div class="mt-2 pt-2 d-flex flex-column ml-3">
+                        <h5 (click)="openModal(product)" class="cursor title">{{product.name}}</h5>
+                        <div class="row align-items-center m-0">
+                            <h5 (click)="openModal(product)" *ngIf="product.promotionalPrice" class="cursor primary-price text-color8">{{getPrice(product.promotionalPrice)}}</h5>
+                            <h5 (click)="openModal(product)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="cursor text-color8">{{getPrice(product.price)}}</h5>
+                        </div>
+                        <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
                     </div>
-                    <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
                 </div>
-                <div class="flex-1 ml-5 pt-2 pb-2">
-                    <p>{{product.description}}</p>
+                <div class="d-none d-md-flex m-0 flex-1 align-items-center mt-3">       
+                    <div class="description-content">
+                        <pre class="p-0 m-0 pl-0 pr-0 pl-md-5 description font-p font-400 f-10">{{product.description}}</pre>
+                    </div>
+                    
                 </div>
             </div>
         </ng-template>
@@ -36,14 +41,14 @@
             <div class="product col-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row justify-content-center pt-2 pb-2">
                 <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="'carousel'">
                     <ng-template let-image pTemplate="item">
-                        <div class="image-product" [ngStyle]="{'background-image': 'url('+image+')'}"></div>                        
+                        <div (click)="openModal(product)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>                        
                     </ng-template>
                 </p-carousel>
                 <div class="mt-2 pt-2 col-12 d-flex flex-column justify-content-between align-items-center">
-                    <h5>{{product.name}}</h5>
+                    <h5 (click)="openModal(product)" class="title cursor">{{product.name}}</h5>
                     <div class="row align-items-center">
-                        <h5 *ngIf="product.promotionalPrice" class="text-color8">{{getPrice(product.promotionalPrice)}}</h5>
-                        <h5 [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color8">{{getPrice(product.price)}}</h5>
+                        <h5 (click)="openModal(product)" *ngIf="product.promotionalPrice" class="primary-price text-color8 cursor">{{getPrice(product.promotionalPrice)}}</h5>
+                        <h5 (click)="openModal(product)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color8 cursor">{{getPrice(product.price)}}</h5>
                     </div>
                     <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
                 </div>               
@@ -52,3 +57,46 @@
     </p-dataView>
     
 </div>
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal" 
+    [modal]="true"
+    [baseZIndex]="10000"
+    [autoZIndex]="false"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{'min-width': '60vw'}"    
+    >
+    
+
+    <div *ngIf="currentItem" class="product-list2 p-0 p-md-5">
+        <div class="product col-12 p-3 row flex-column flex-md-row m-0">
+            <div class="row col-12 p-0 m-0 align-items-center flex-wrap sub-product">
+                <div class="col-md-12 col-lg-6 col-xl-8 p-0">
+                    <p-carousel [responsiveOptions]="responsiveOptions" [value]="currentItem?.images" [numVisible]="3" [numScroll]="1" [styleClass]="currentItem.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
+                        <ng-template let-image pTemplate="item">
+                            <div class="p-2">
+                                <div class="image-product shadow " [ngStyle]="{'background-image': 'url('+image+')'}"></div>  
+                            </div>
+                        </ng-template>
+                    </p-carousel>
+                </div>
+                <div class="row m-0 col-md-12 col-lg-6 col-xl-4 p-0 align-items-center flex-column">
+                    <h5 class="title">{{currentItem.name}}</h5>
+                    <div class="row align-items-center m-0">
+                        <h5 *ngIf="currentItem.promotionalPrice" class="primary-price text-color8">{{getPrice(currentItem.promotionalPrice)}}</h5>
+                        <h5 [ngClass]="{'price-sub ml-2': currentItem.promotionalPrice}" class="text-color8">{{getPrice(currentItem.price)}}</h5>
+                    </div>                
+                </div>
+            </div>
+            <div class="row col-12 p-0 mt-3">       
+                <div class="description-content">
+                    <pre class="p-0 m-0 pl-0 pr-0 pl-md-5 description font-p font-400 f-10">{{currentItem.description}}</pre>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+</p-dialog>

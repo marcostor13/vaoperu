@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
     canActivate: [RoleProviderGuard]
   },
+  {
+    path: 'offers',
+    loadChildren: () => import('./modules/offer/offer.module').then(m => m.OfferModule),
+    canActivate: [RoleProviderGuard]
+  },
 
   {
     path: '',

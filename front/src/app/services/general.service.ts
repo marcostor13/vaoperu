@@ -172,26 +172,30 @@ export class GeneralService {
   }
 
   uploadImage(file: File, path: string) {
-    const filePath = `${path}${new Date().getTime()}_${file.name}`
-    const fileRef = this.storage.ref(filePath)
-    const task = this.storage.upload(filePath, file)
 
-    return new Observable((obs) => {
-      task.percentageChanges().subscribe(res => {
-        if (res !== 100) {
-          obs.next(res)
-        } else {
-          obs.next(100)
-          setTimeout(async () => {
-            fileRef.getDownloadURL().subscribe(url=>{
-              obs.next(url)
-              obs.complete()
-            })
-          }, 1000)
-
-        }
+    if(file?.name){
+      const filePath = `${path}${new Date().getTime()}_${file.name}`
+      const fileRef = this.storage.ref(filePath)
+      const task = this.storage.upload(filePath, file)
+  
+      return new Observable((obs) => {
+        task.percentageChanges().subscribe(res => {
+          if (res !== 100) {
+            obs.next(res)
+          } else {
+            obs.next(100)
+            setTimeout(async () => {
+              fileRef.getDownloadURL().subscribe(url=>{
+                obs.next(url)
+                obs.complete()
+              })
+            }, 1000)
+  
+          }
+        })
       })
-    })
+    }
+
   }
 
   getBlobOrImage(image: CImages) {
@@ -203,16 +207,13 @@ export class GeneralService {
   }
 
   async deleteImages(downloadUrls: Array<string>) {
-    let res = false
-    let c = 0
-    downloadUrls.map(async (url:string)=>{
-      await this.storage.storage.refFromURL(url).delete();
-      c++
-      if(c===downloadUrls.length){
-        res = true
+    return Promise.all(downloadUrls.map(async (url:string)=>{
+      try{
+        return await this.storage.storage.refFromURL(url).delete()  
+      } catch (e){
+        return e
       }
-    })
-    return res    
+    }))  
   }
 
   sendMail(data: IEmailData) {

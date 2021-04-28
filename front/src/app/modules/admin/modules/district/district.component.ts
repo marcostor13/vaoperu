@@ -36,9 +36,9 @@ export class DistrictComponent implements OnInit {
       this.districtService.get().subscribe((response: IResponseApi) => {
         this.general.c('Get', response)
         this.items = response.data
-        this.general.isLoad(false)
+        
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -88,13 +88,13 @@ export class DistrictComponent implements OnInit {
     if (!this.validate()){
       this.subs.add(
         this.districtService.save(this.currentItem).subscribe((response: IResponseApi) => {
-          this.general.isLoad(false)
+          
           this.general.c('Add', response)
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
           this.currentItem = new CDistrict
           this.get()
         }, error => {
-          this.general.isLoad(false)
+          
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
         })
       )
@@ -105,13 +105,13 @@ export class DistrictComponent implements OnInit {
     this.general.c('reorder', this.items)
     this.subs.add(
       this.districtService.updateAll(this.items).subscribe((response: IResponseApi) => {
-        this.general.isLoad(false)
+        
         this.general.c('updateAll', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CDistrict
         this.get()
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
       })
     )
@@ -120,13 +120,13 @@ export class DistrictComponent implements OnInit {
   delete(item: CDistrict) {
     this.subs.add(
       this.districtService.delete(item._id).subscribe((response: IResponseApi) => {
-        this.general.isLoad(false)
+        
         this.general.c('Delete', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CDistrict
         this.get()
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
       })
     )

@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { CProduct } from 'src/app/modules/provider/modules/product/models/product';
 
 @Component({
   selector: 'app-product-list',
@@ -11,7 +10,7 @@ import { CProduct } from 'src/app/modules/provider/modules/product/models/produc
 })
 export class ProductListComponent implements OnInit {
 
-  @Input() products: any
+  @Input() items: Array<any>
   @Output() productsEvent: EventEmitter<any> =  new EventEmitter();
 
   responsiveOptions: Array<any>
@@ -19,6 +18,11 @@ export class ProductListComponent implements OnInit {
   sortOrder: number
   sortField: string
   role: string
+  itemsTmp: any[]
+  effect:string = 'scrollx'
+  isMobile:boolean = false
+  displayModal: boolean = false
+  currentItem: any
 
   constructor(
     private general: GeneralService,
@@ -26,14 +30,14 @@ export class ProductListComponent implements OnInit {
   ) {
     this.responsiveOptions = [
       {
-        breakpoint: '1024px',
-        numVisible: 3,
-        numScroll: 3
+        breakpoint: '1412px',
+        numVisible: 2,
+        numScroll: 1
       },
       {
-        breakpoint: '768px',
-        numVisible: 2,
-        numScroll: 2
+        breakpoint: '1200px',
+        numVisible: 1,
+        numScroll: 1
       },
       {
         breakpoint: '560px',
@@ -41,22 +45,51 @@ export class ProductListComponent implements OnInit {
         numScroll: 1
       }
     ];
-   }
+    
+  }
+  
+  
+  ngOnInit(): void {
+    this.initializeItems()    
+    this.role = this.authService.getRole()
+  }
 
+  initializeItems(){
+    if (this.items) {
+      this.itemsTmp = [...this.items]
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(event.target.innerWidth<768){
+      this.isMobile = true
+    }else{
+      this.isMobile = false
+    }
+  }
+  
   onSortChange(event) {
     this.general.c('SORT BY', event)
   }
-  
-  ngOnInit(): void {
-    this.role = this.authService.getRole()
-    this.general.c('ROLE', this.role)
-  }
 
-  edit(product: CProduct){
+  edit(item: any){
     this.productsEvent.emit({
       function: 'edit',
-      data: product
+      data: item
     })
+  }
+
+  search(srt:string){
+    this.general.c('srt', srt)
+    if(srt === ''){
+      this.items = [...this.itemsTmp]
+    }else{
+      this.items = [...this.itemsTmp.filter((item:any)=>
+          item.name.indexOf(srt) > -1 ||
+          item.description.indexOf(srt) > -1
+        )]
+    }
   }
 
   getPrice(price: any){
@@ -66,6 +99,12 @@ export class ProductListComponent implements OnInit {
       return price
     }
   }
+
+  openModal(item: any){
+    this.currentItem = item
+    this.displayModal = true
+  }
+  
 
 
 }

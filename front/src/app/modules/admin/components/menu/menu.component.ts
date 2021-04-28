@@ -29,11 +29,17 @@ export class MenuComponent implements OnInit {
         routerLink: '/admin/dashboard',                  
       },      
       {
-        label: 'Tiendas',
-        items: [{
-          label: 'Categorias',
-          routerLink: '/admin/categories'
-        }]
+        label: 'Comercial',
+        items: [
+          {
+            label: 'Categorias',
+            routerLink: '/admin/categories'
+          },
+          {
+            label: 'Subcategorías',
+            routerLink: '/admin/subcategories'
+          }
+        ]
       },    
       {
         label: 'General',
@@ -57,7 +63,6 @@ export class MenuComponent implements OnInit {
 
   validateSession() {
     this.user = this.authService.isLoginUser()
-    this.general.c('USER', this.user)
   }
 
   logout() {
