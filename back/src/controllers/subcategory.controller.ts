@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Subcategory, { ISubcategory } from "../models/subcategory";
 
 
-const title = 'Distrito'
+const title = 'Subcategoría'
 const Collection = Subcategory
 
 export const save = async (req: Request, res: Response): Promise<Response> => {

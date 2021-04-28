@@ -27,7 +27,6 @@ export class AppComponent {
         this.store.select((state) => state.Reducer.isLoading)
         .pipe(delay(0))
         .subscribe((isLoading: boolean) => {        
-          this.general.c('Subscription', isLoading)
           this.isLoading = isLoading;
         })
       ) 

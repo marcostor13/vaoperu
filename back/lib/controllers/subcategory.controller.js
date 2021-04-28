@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
 const subcategory_1 = require("../models/subcategory");
-const title = 'Distrito';
+const title = 'Subcategoría';
 const Collection = subcategory_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newObj = new Collection(req.body);

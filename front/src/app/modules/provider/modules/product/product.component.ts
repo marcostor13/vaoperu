@@ -24,10 +24,10 @@ export class ProductComponent implements OnInit {
   profileProvider: CProfileProvider
 
   //IMAGES
-  currentImages: CImages[]
+  currentImages: CImages[] = []
   images: File[] = []
   uploadPercent: number
-  deleteImages: CImages[]
+  deleteImages: CImages[] = []
 
   constructor(
     private productService: ProductService,
@@ -46,9 +46,10 @@ export class ProductComponent implements OnInit {
       this.productService.get().subscribe((response: IResponseApi) => {
         this.general.c('Get', response)
         this.items = response.data
-        this.general.isLoad(false)
-      }, error => {
-        this.general.isLoad(false)
+        if (response.data?.length === 0) {
+          this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
+        }
+      }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -78,15 +79,14 @@ export class ProductComponent implements OnInit {
   }
 
   addEdit(item: CProduct = null) {
-    this.currentImages = []
-    this.general.c('ITem', item)
+    this.currentImages = []   
     if (item) {
       this.currentItem = item
       if (item.images) {
         item.images.map((image:string)=>{
           this.currentImages = [...this.currentImages, { file: null, blob: null, url: image }]
         })
-      }
+      }      
     } else {
       this.reset()
     }
@@ -110,46 +110,35 @@ export class ProductComponent implements OnInit {
   }
 
   add() {
-
     this.subs.add(
       this.profileProviderService.get().subscribe((response:IResponseApi)=>{
         this.profileProvider = response.data
         this.currentItem.profileProviderId = this.profileProvider._id
-        this.general.c('Pre add', this.profileProvider._id )
         this.subs.add(
           this.productService.save(this.currentItem).subscribe((response: IResponseApi) => {
-            this.general.isLoad(false)
-            this.general.c('Add', response)
             this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
-            if(!this.currentItem._id){
-              this.currentItem = new CProduct
+            if(!this.currentItem?._id){
+              this.reset()
             }
             this.get()
-          }, error => {
-            this.general.isLoad(false)
+          }, error => {            
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           })
-        )
-        
-      }, error=>{
-        this.general.isLoad(false)
+        )        
+      }, error=>{        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
-
   }
 
   delete(item:CProduct){
     this.currentImages = []
     this.subs.add(
       this.productService.delete(item._id).subscribe((response: IResponseApi) => {
-        this.general.isLoad(false)
-        this.general.c('Delete', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CProduct
         this.get()
-      }, error => {
-        this.general.isLoad(false)
+      }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -157,24 +146,21 @@ export class ProductComponent implements OnInit {
 
   async preDelete(item: CProduct) {
     if (item.images) {
-      const deleteImages = await this.general.deleteImages(item.images)
-      if (deleteImages){
-        this.preDelete(item)
-      }else{
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error a elimninar las imágenes' });
-      }   
+      await this.general.deleteImages(item.images)
+      this.delete(item)        
+    }else{
+      this.delete(item)
     }
   }
 
   //IMAGE
 
   removeImage(image: CImages) {
-    this.general.c('RemoveImage', image)
     if (image.url) {
       this.deleteImages = [...this.deleteImages, image]    
-      this.currentItem.images = this.currentItem.images.filter((ima: string) => ima === image.url)
+      this.currentItem.images = [...this.currentItem.images.filter((ima: string) => ima !== image.url)]
     }
-    this.currentImages = this.currentImages.filter((ima: CImages) => ima.url === image.url)
+    this.currentImages = [...this.currentImages.filter((ima: CImages) => ima.url !== image.url)]
   }
 
 
@@ -184,43 +170,41 @@ export class ProductComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.currentImages = [...this.currentImages, { file: file, blob: reader.result, url: null }]       
-        this.general.c('currentImages', this.currentImages)
       };
     })
     this.images = []
   }
  
   async presave() {
-    if (!this.validate()) {
+    if (!this.validate()) {    
       this.general.isLoad(true)
-
       if (this.deleteImages?.length > 0) {
         const images = []
         this.deleteImages.map((image: CImages)=>{
-          images.push(image)
+          if (image.url){
+            images.push(image.url)
+          }
         })
         const deleteImages = await this.general.deleteImages(images)
-        if (deleteImages) {
-          this.currentImages = []
-          this.uploadImages()
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error a elimninar las imágenes' });
-        }
+        this.uploadImages()    
       }else{
         this.uploadImages()
       }
     }
   }
 
-  uploadImages(){    
+  uploadImages(){   
     if (this.currentImages?.length > 0) {     
         let count = 1
         this.currentImages.map(async (images:CImages)=>{
-          const url: any = await this.general.uploadImage(images.file, 'products/').toPromise()
+          if (images.file){
+            const url: any = await this.general.uploadImage(images.file, 'products/')?.toPromise()
+            if (url) {
+              this.currentItem.images = [...this.currentItem.images, url]
+            }
+          }
           this.uploadPercent = count*100/this.currentImages.length
-          count++
-          this.general.c('URL', url)
-          this.currentItem.images = [...this.currentItem.images, url]
+          count++          
           if(count === this.currentImages.length+1){
             this.add()
           }
@@ -230,13 +214,12 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  getBlobOrImage(image: CImages) {
+  getBlobOrImage(image: CImages) {   
     return image.blob || image.url
   }
 
   //PRODUCT LIST COMPONENT
   productListEvent($event){
-    this.general.c('PRODUCT LIST EVENT', $event)
     switch ($event.function) {
       case 'edit':
         this.addEdit($event.data)

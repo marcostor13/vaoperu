@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
-<p-toast></p-toast>
+<p-toast [baseZIndex]="100000000" autoZIndex="false"></p-toast>
 <div class="load" *ngIf="isLoading">
     <p-progressSpinner ></p-progressSpinner>
 </div>

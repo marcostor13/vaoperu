@@ -44,9 +44,9 @@ export class CategoryComponent implements OnInit {
       this.categoryService.get().subscribe((response: IResponseApi) => {
         this.general.c('Get', response)
         this.items = response.data
-        this.general.isLoad(false)        
+                
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });       
       })
     )
@@ -107,13 +107,13 @@ export class CategoryComponent implements OnInit {
   add() {    
     this.subs.add(
       this.categoryService.save(this.currentItem).subscribe((response: IResponseApi) => {
-        this.general.isLoad(false)
+        
         this.general.c('Add', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CCategory
         this.get()
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
       })
     )    
@@ -123,13 +123,13 @@ export class CategoryComponent implements OnInit {
     this.general.c('reorder', this.items)
     this.subs.add(
       this.categoryService.updateAll(this.items).subscribe((response: IResponseApi) => {
-        this.general.isLoad(false)
+        
         this.general.c('updateAll', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CCategory
         this.get()
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
       })
     )
@@ -141,13 +141,13 @@ export class CategoryComponent implements OnInit {
         this.currentImage = null
         this.subs.add(
           this.categoryService.delete(item._id).subscribe((response: IResponseApi) => {
-            this.general.isLoad(false)
+            
             this.general.c('Delete', response)
             this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
             this.currentItem = new CCategory
             this.get()
           }, error => {
-            this.general.isLoad(false)
+            
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           })
         )
@@ -184,7 +184,7 @@ export class CategoryComponent implements OnInit {
 
   presave() {
     if (!this.validate()) {
-      this.general.isLoad(true)
+      
       this.general.c('save image', this.deleteImage)
       if (this.deleteImage) {
         this.general.deleteImage(this.deleteImage.url).then(() => {

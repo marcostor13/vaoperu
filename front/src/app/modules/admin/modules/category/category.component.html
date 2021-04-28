@@ -54,7 +54,7 @@
                 <p-fileUpload 
                     styleClass="col-12 btn2"
                     mode="basic" 
-                    accept="image/png" 
+                    accept="image/*"
                     fileLimit="1" 
                     maxFileSize="10000000"
                     (onSelect)="onUpload($event); invalid.image=false" 
@@ -69,7 +69,7 @@
                 <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
             </div>
             <div *ngIf="currentImage" class="row m-0 justify-content-center align-items-center mt-2">
-                <div class="image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
+                <div class="bg-color6 image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
                     <div (click)="removeImage(currentImage)" class="delete">
                         <i class="pi pi-trash text-white f-20"></i>
                     </div>

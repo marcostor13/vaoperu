@@ -14,6 +14,11 @@ const routes: Routes = [
     canActivate: [RoleAdminGuard]
   },
   {
+    path: 'subcategories',
+    loadChildren: () => import('./modules/subcategory/subcategory.module').then(m => m.SubcategoryModule),
+    canActivate: [RoleAdminGuard]
+  },
+  {
     path: 'districts',
     loadChildren: () => import('./modules/district/district.module').then(m => m.DistrictModule),
     canActivate: [RoleAdminGuard]

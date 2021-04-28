@@ -59,9 +59,9 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
             this.currentImage = { file: null, blob: null, url: this.profileProvider.image }
           }
         }
-        this.general.isLoad(false)
+        
       }, error =>{
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message })
       })
     )
@@ -98,7 +98,7 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
 
 
   presave() {
-    this.general.isLoad(true)
+    
     this.profileProvider.userid = this.authService.getUserID()
 
     if(this.deleteImage){
@@ -129,12 +129,12 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.profileProvideService.save(this.profileProvider).subscribe((response: IResponseApi) => {
         this.general.c('Save Profile Provider', response)
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.getProfileProvider()
         this.uploadPercent = 0
       }, error => {
-        this.general.isLoad(false)
+        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )

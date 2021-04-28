@@ -4,10 +4,12 @@ import * as morgan from 'morgan'
 import authRoutes from './routes/auth.routes'
 import emailRoutes from './routes/email.routes'
 import categoryRoutes from './routes/category.routes'
+import subcategoryRoutes from './routes/subcategory.routes'
 import emailPasswordRoutes from './routes/emailpassword.routes'
 import profileProviderRoutes from './routes/profile-provider.routes'
 import districtRoutes from './routes/district.routes'
 import productRouter from './routes/product.routes'
+import offerRouter from './routes/offer.routes'
 
 import './database'
 import passportMiddleware from './middlewares/auth/passport'
@@ -33,9 +35,11 @@ app.use(authRoutes)
 app.use(emailPasswordRoutes)
 app.use(emailRoutes)
 app.use(categoryRoutes)
+app.use(subcategoryRoutes)
 app.use(districtRoutes)
 app.use(profileProviderRoutes)
 app.use(productRouter)
+app.use(offerRouter)
 
 app.use(passport.initialize())
 passport.use(passportMiddleware)
