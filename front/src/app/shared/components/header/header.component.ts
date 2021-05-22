@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../../../modules/auth/services/auth.service';
 import { faSearch, faChevronDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { GeneralService } from '@services/general.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
 
   faSearch = faSearch
   faChevronDown = faChevronDown
@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
   user: CUser
   display: boolean = false
 
+  @Input() eventHeader: any
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -34,6 +36,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.validateSession()
   } 
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    this.general.c('open login', changes)
+
+    if (this.eventHeader?.event === 'open-login') {
+      this.openLogin()
+    }
+  }
 
   validateSession(){
     this.user = this.authService.isLoginUser()

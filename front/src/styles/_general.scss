@@ -873,3 +873,14 @@ $size:100px;
         }
     }
 }
+
+
+.carousel-home{
+    .p-carousel-indicators{
+        display:none
+    }
+}
+
+.p-grid{
+    justify-content: center !important;
+}

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnChanges } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { MenuItem } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
@@ -8,7 +8,8 @@ import { SubcategoryService } from '../admin/modules/subcategory/services/subcat
 import { MessageService } from 'primeng/api';
 import { CSubcategory } from '../admin/modules/subcategory/models/subcategory';
 import { CCategory } from '../admin/modules/category/models/category';
-import { delay } from 'rxjs/operators';
+import { ProfileProviderService } from './../provider/modules/profile-provider/services/profile-provider.service';
+import { CProfileProvider } from '../provider/modules/profile-provider/models/profile-provider';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   isMobile: boolean = (window.innerWidth > 768) ? false : true
   categories: CCategory[]
   subcategories: CSubcategory[]
+  companies: CProfileProvider[]
 
   itemsCarousel = [
     {
@@ -39,8 +41,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ]
 
-  items: MenuItem[] = []
-
+  items: MenuItem[] = []  
+  responsiveOptions: any
+  eventHeader: any
 
 
   constructor(
@@ -48,16 +51,35 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private messageService: MessageService,
-    private rd: Renderer2
-  ) { }
+    private profileProviderService: ProfileProviderService
+  ) {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 1
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
+   }
 
   ngAfterViewInit(){
     this.getCategories()
     this.getSubcategories() 
+    this.getCompanies()
   }
 
   ngOnInit(): void {
-  }
+  } 
 
   ngOnDestroy(){
     this.subs.unsubscribe()
@@ -68,9 +90,23 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobile = (event.target.innerWidth > 768) ? false: true
   }
 
+  getCompanies() {
+    this.subs.add(
+      this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
+        this.general.c('Get Compmanies', response)
+        this.companies = response.data
+        if (response.data?.length === 0) {
+          this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
+        }
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      })
+    )
+  }
+
 
   getMenu(){
-    this.categories.map((cat: CCategory) => {
+    this.categories?.map((cat: CCategory) => {
       let subItems = []
       this.subcategories.map((subcat: CSubcategory) => {
         if (subcat.categoryId === cat._id){
@@ -131,10 +167,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     )
 
   }
+
+  companyListEvent($event:any) {
+    this.general.c('companyListEvent', $event)
+    switch ($event.event) {
+      case 'open-login':
+        this.eventHeader = $event
+        break;
+
+      default:
+        break;
+    }
+  }
   
 
   redirect(url){
     
   }
+
+  
 
 }

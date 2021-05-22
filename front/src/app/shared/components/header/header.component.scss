@@ -1,6 +1,13 @@
 @import '../../../../styles/variables';
 
-header{
+*{
+    font-size: 11pt;
+}
+::placeholder{
+    font-size: 11pt;
+}
+
+header{    
     .input-search{        
         position: relative;
         .icon-search{
@@ -10,9 +17,7 @@ header{
             font-size: 20px;
             color: $color6;
             z-index: 1;
-        }
-        
-        
+        }       
         .search{
             font-size: 12pt;
             text-align: center;
@@ -31,26 +36,31 @@ header{
             border-bottom-right-radius: 20px;            
         }
     }
-
     .logo{
         max-width: 140px;
         min-width: 140px;
-    }
-    
+    }    
     .menu{
         label{
             min-width: 30px;
             min-height: 3px;
+            max-height: 3px;
             background-color: white;
         }
     }  
 }
 
-
-
-
 .p-menuitem:hover{
     background-color: white !important;
 }
 
+
+@media screen and (max-width: 1024px) {
+    .input-search{
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(194,184,194,1);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(194,184,194,1);
+        box-shadow: 0px 0px 5px 0px rgba(194,184,194,1);
+        border-radius: 20px;
+    }
+}
 

@@ -27,6 +27,8 @@ export class CProfileProvider{
         this.enabledProductsFeatured = false
         this.enabledOffers = false
         this.createAt = null
+        this.openTime = ''
+        this.closeTime = ''
     }   
     _id: string 
     userid: string
@@ -56,4 +58,6 @@ export class CProfileProvider{
     enabledProductsFeatured: boolean
     enabledOffers: boolean
     createAt: Date
+    openTime: string
+    closeTime: string
 }

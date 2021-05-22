@@ -124,6 +124,14 @@
                         <option *ngFor="let district of districts" value="{{district._id}}">{{district.name}}</option>  
                     </select>
                 </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Hora de apertura</label>
+                    <input type="time" [(ngModel)]="profileProvider.openTime">
+                </div>
+                <div>
+                    <label class="col-12 p-0 mt-2">Hora de cierre</label>
+                    <input type="time" [(ngModel)]="profileProvider.closeTime">
+                </div>
                 
                 <button (click)="setUbication()" class="btn1 mt-4">Guardar</button>      
             </div>

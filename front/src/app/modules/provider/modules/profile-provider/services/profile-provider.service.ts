@@ -36,6 +36,15 @@ export class ProfileProviderService {
     return this.api.api(data)
   }
 
+  getAllCompanies() {
+    const data: IDataApi = {
+      service: `get-${this.model}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
   delete(id: string) {
     const data: IDataApi = {
       service: `delete-${this.model}/${id}`,
