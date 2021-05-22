@@ -82,6 +82,12 @@ const userSchema = new mongoose_1.Schema({
     enabledOffers: {
         type: Boolean,
     },
+    openTime: {
+        type: String
+    },
+    closeTime: {
+        type: String
+    },
     createAt: {
         type: Date,
         default: new Date()

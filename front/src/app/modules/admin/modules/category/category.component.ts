@@ -43,10 +43,8 @@ export class CategoryComponent implements OnInit {
     this.subs.add(
       this.categoryService.get().subscribe((response: IResponseApi) => {
         this.general.c('Get', response)
-        this.items = response.data
-                
-      }, error => {
-        
+        this.items = response.data                
+      }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });       
       })
     )

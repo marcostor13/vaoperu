@@ -6,19 +6,19 @@ import { HomeComponent } from './home.component';
 import { HeaderModule } from './../../shared/components/header/header.module';
 import { CarouselModule } from 'primeng/carousel';
 import { FooterModule } from './../../shared/components/footer/footer.module';
-import { ProductsComponent } from './components/products/products.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
-
+import { CompanyListModule } from './../../shared/components/company-list/company-list.module';
 
 @NgModule({
-  declarations: [HomeComponent, ProductsComponent],
-  imports: [    
+  declarations: [HomeComponent],
+  imports: [      
     CommonModule,
     HomeRoutingModule,
     HeaderModule,
     CarouselModule,
     FooterModule,
-    PanelMenuModule
+    PanelMenuModule,
+    CompanyListModule
   ]
 })
 export class HomeModule { }

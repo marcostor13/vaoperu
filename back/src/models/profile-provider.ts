@@ -28,7 +28,9 @@ export interface IProfileProvider extends Document {
     enabledProducts: boolean,
     enabledProductsFeatured: boolean,
     enabledOffers: boolean,
-    createAt: Date
+    createAt: Date,
+    openTime: string,
+    closeTime: string
 }
 
 const userSchema = new Schema({
@@ -112,6 +114,12 @@ const userSchema = new Schema({
     },
     enabledOffers: {
         type: Boolean,
+    },
+    openTime: {
+        type: String
+    },
+    closeTime: {
+        type: String
     },
     createAt: {
         type: Date,

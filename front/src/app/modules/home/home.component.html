@@ -1,8 +1,8 @@
-<app-header></app-header>
+<app-header [eventHeader]="eventHeader"></app-header>
 
 <div class="p-3 p-md-0">
     <div class="slide-primary p-3 p-md-0">
-        <p-carousel [value]="itemsCarousel" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="6000" [circular]="true">
+        <p-carousel [value]="itemsCarousel" [numVisible]="1" [numScroll]="1" [autoplayInterval]="6000">
             <ng-template let-item pTemplate="item">
                 <div [ngStyle]="{ 'background-image': 'url('+getImageType(item)+')'}" class="image">
                     
@@ -12,8 +12,28 @@
     </div>
 </div>
 
-<div class="p-3">
+<div  class="d-block d-md-none p-3">
     <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
 </div>
+
+<div class="d-none d-md-block mt-3 carousel-home">
+    <p-carousel [value]="categories" [numVisible]="6" [numScroll]="1" [autoplayInterval]="4000" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+            <div class="p-2">
+                <div class="item-carousel bg-color1 card border-0 p-3">
+                    <div [ngStyle]="{ 'background-image': 'url('+item.image+')'}" class="icon-categories"></div>
+                    <h6 class="f-10 text-white mt-2">{{item.name}}</h6>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>    
+</div>
+
+<div>
+    <h1 class="text-center h3 font-300 mt-3">¿Qué negocios estás buscando?</h1>
+    <app-company-list *ngIf="items?.length>0" [items]="companies" (emitEvent)=companyListEvent($event)></app-company-list>
+</div>
+
+
 
 <app-footer></app-footer>
