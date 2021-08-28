@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.issetEmail = exports.singIn = exports.singUp = void 0;
+exports.del = exports.update = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = void 0;
 const user_1 = require("../models/user");
 const jwt = require("jsonwebtoken");
 const keys = require("../keys");
+const title = 'Usuario';
+const Collection = user_1.default;
 function createToken(user) {
     return jwt.sign({ id: user.id, email: user.email }, keys.mongodb.jwtSecret, {
         expiresIn: 86400
@@ -62,4 +64,60 @@ exports.issetEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(200).json({ message: 'El usuario ya existe', data: 2 });
     }
 });
+exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    Collection.find({}, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+});
+exports.getByID = (req, res) => {
+    Collection.findById(req.params.id, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.update = (req, res) => {
+    Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al actualizar ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: `${title} actualizado`,
+            data: response
+        });
+    });
+};
+exports.del = (req, res) => {
+    Collection.remove({ _id: req.params.id }, (err) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al eliminar ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: `${title} eliminado`,
+            data: null
+        });
+    });
+};
 //# sourceMappingURL=user.controller.js.map

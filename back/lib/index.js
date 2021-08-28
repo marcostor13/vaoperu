@@ -21,6 +21,7 @@ const profile_provider_routes_1 = require("./routes/profile-provider.routes");
 const district_routes_1 = require("./routes/district.routes");
 const product_routes_1 = require("./routes/product.routes");
 const offer_routes_1 = require("./routes/offer.routes");
+const user_routes_1 = require("./routes/user.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
@@ -44,6 +45,7 @@ app.use(district_routes_1.default);
 app.use(profile_provider_routes_1.default);
 app.use(product_routes_1.default);
 app.use(offer_routes_1.default);
+app.use(user_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
 //LOCAL

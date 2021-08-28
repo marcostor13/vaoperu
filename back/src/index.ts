@@ -10,6 +10,7 @@ import profileProviderRoutes from './routes/profile-provider.routes'
 import districtRoutes from './routes/district.routes'
 import productRouter from './routes/product.routes'
 import offerRouter from './routes/offer.routes'
+import userRouter from './routes/user.routes'
 
 import './database'
 import passportMiddleware from './middlewares/auth/passport'
@@ -40,6 +41,7 @@ app.use(districtRoutes)
 app.use(profileProviderRoutes)
 app.use(productRouter)
 app.use(offerRouter)
+app.use(userRouter)
 
 app.use(passport.initialize())
 passport.use(passportMiddleware)

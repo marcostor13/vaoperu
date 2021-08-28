@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/district/district.module').then(m => m.DistrictModule),
     canActivate: [RoleAdminGuard]
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
+    canActivate: [RoleAdminGuard]
+  },
 
   {
     path: '',
