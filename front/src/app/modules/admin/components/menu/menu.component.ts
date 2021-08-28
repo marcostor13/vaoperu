@@ -50,8 +50,19 @@ export class MenuComponent implements OnInit {
       },
       {
         label: 'Usuarios',
-        routerLink: '/admin/users'
+        items: [
+          {
+            label: 'Registro',
+            routerLink: '/admin/users'
+          },
+          {
+            label: 'Urls',
+            routerLink: '/admin/urls'
+          },
+        ]
       },
+      
+      
       {
         label: 'Salir',
         icon: 'pi arrow-left',
