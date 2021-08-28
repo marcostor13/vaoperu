@@ -28,7 +28,7 @@ export class AuthloginComponent implements OnInit {
     name: '',
     email: '',
     password: '',
-    role: 'user'
+    role: ['user']
   };
   emailRecovery: string
   user: CUser
@@ -64,7 +64,7 @@ export class AuthloginComponent implements OnInit {
       name: '',
       email: '',
       password: '',
-      role: 'user'
+      role: ['user']
     }
     this.response = {
       class: '',
@@ -130,9 +130,7 @@ export class AuthloginComponent implements OnInit {
       valid = false
     }
     return valid
-  }
-
-
+  }  
 
   login() {
     
@@ -140,6 +138,7 @@ export class AuthloginComponent implements OnInit {
       this.generalService.isLoad(true)  
       this.subs.add(
         this.authService.login(this.form).subscribe((user: CUser) => {
+          this.generalService.c('USER', user)
           this.generalService.isLoad(false)
           this.send.emit({
             type: 'user',
@@ -150,10 +149,9 @@ export class AuthloginComponent implements OnInit {
             class: 'text-color1',
             message: `Bienvenido ${user.name}`
           }
-
-          if(user.role === 'admin'){
+          if (user.role.indexOf('admin')>-1){
             this.router.navigate(['/admin/dashboard'])
-          } else if (user.role === 'provider') {
+          } else if (user.role.indexOf('provider') > -1) {
             this.router.navigate(['/provider/dashboard'])
           } else{
             setTimeout(()=>{
@@ -227,7 +225,7 @@ export class AuthloginComponent implements OnInit {
         this.generalService.c('Register Finish', this.form)    
         this.subs.add(
           this.authService.register(this.form).subscribe((user: CUser) => {
-            if (user.role === 'admin') {
+            if (user.role.indexOf('admin') > -1) {
               this.router.navigate(['/admin'])
             }
             this.send.emit({

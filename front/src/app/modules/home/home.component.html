@@ -20,7 +20,7 @@
     <p-carousel [value]="categories" [numVisible]="6" [numScroll]="1" [autoplayInterval]="4000" [responsiveOptions]="responsiveOptions">
         <ng-template let-item pTemplate="item">
             <div class="p-2">
-                <div class="item-carousel bg-color1 card border-0 p-3">
+                <div class="cursor item-carousel bg-color1 card border-0 p-3">
                     <div [ngStyle]="{ 'background-image': 'url('+item.image+')'}" class="icon-categories"></div>
                     <h6 class="f-10 text-white mt-2">{{item.name}}</h6>
                 </div>
@@ -33,7 +33,5 @@
     <h1 class="text-center h3 font-300 mt-3">¿Qué negocios estás buscando?</h1>
     <app-company-list *ngIf="items?.length>0" [items]="companies" (emitEvent)=companyListEvent($event)></app-company-list>
 </div>
-
-
 
 <app-footer></app-footer>

@@ -3,6 +3,9 @@ import User, { Iuser } from "../models/user";
 import * as jwt from "jsonwebtoken";
 import * as keys from '../keys'
 
+const title = 'Usuario'
+const Collection = User
+
 function createToken(user: Iuser){
     return jwt.sign({ id: user.id, email: user.email }, keys.mongodb.jwtSecret,{
         expiresIn: 86400
@@ -19,7 +22,7 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
         return res.status(400).json({message: 'El usuario ya existe'})
     }
     const newUser:Iuser = new User(req.body)
-    await newUser.save()  
+    await newUser.save()
     return res.status(200).json(newUser)
 }
 
@@ -60,5 +63,69 @@ export const issetEmail = async (req: Request, res: Response) => {
     }    
 
 }
+
+
+export const get = async (req: Request, res: Response) => {
+    Collection.find({}, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        })
+    })
+}
+
+export const getByID = (req: Request, res: Response) => {
+    Collection.findById(req.params.id, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        })
+    })
+}
+
+export const update = (req: Request, res: Response) => {
+    Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al actualizar ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: `${title} actualizado`,
+            data: response
+        })
+    })
+}
+
+export const del = (req: Request, res: Response) => {
+    Collection.remove({ _id: req.params.id }, (err: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al eliminar ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: `${title} eliminado`,
+            data: null
+        })
+    })
+}
+
+
+
 
 

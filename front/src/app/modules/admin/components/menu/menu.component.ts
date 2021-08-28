@@ -49,6 +49,10 @@ export class MenuComponent implements OnInit {
         }]
       },
       {
+        label: 'Usuarios',
+        routerLink: '/admin/users'
+      },
+      {
         label: 'Salir',
         icon: 'pi arrow-left',
         styleClass: 'bg-color1 text-color1',

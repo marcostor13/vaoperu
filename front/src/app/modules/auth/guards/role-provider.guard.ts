@@ -19,7 +19,7 @@ export class RoleProviderGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const role = this.authService.getRole()
-    if (!role || role !== 'provider') {
+    if (!role || role.indexOf('provider')===-1) {
       this.router.navigate(['/'])
       return false
     }

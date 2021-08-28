@@ -5,7 +5,7 @@ export interface Iuser extends Document{
     name: string,
     email:string,
     password: string,
-    role: string,
+    role: string[],
     comparePassword: (password: string) =>Promise<boolean>
 }
 
@@ -26,7 +26,7 @@ const userSchema = new Schema({
         required: true
     },
     role: {
-        type: String,
+        type: Array,
         required: true
     }
 })
