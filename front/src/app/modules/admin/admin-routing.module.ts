@@ -28,6 +28,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
     canActivate: [RoleAdminGuard]
   },
+  {
+    path: 'urls',
+    loadChildren: () => import('./modules/url/url.module').then(m => m.UrlModule),
+    canActivate: [RoleAdminGuard]
+  },
 
   {
     path: '',
