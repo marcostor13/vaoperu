@@ -261,6 +261,10 @@ export class AuthloginComponent implements OnInit {
     )
   }
 
+  recovery(){
+    
+  }
+
   
 
 }

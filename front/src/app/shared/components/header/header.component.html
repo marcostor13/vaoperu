@@ -12,7 +12,7 @@
                 <li (click)="openLogin()" class="mr-4 text-white cursor f-12">Ingresar</li>              
             </ng-container>
             <ng-container *ngIf="user">
-                <li *ngIf="user.role === 'admin' || user.role === 'provider'" (click)="redirect(user.role)" class="mr-4 text-white cursor f-12">Mi cuenta</li>
+                <li *ngIf="isAdminOrProvider()" (click)="redirect(user.role)" class="mr-4 text-white cursor f-12">Mi cuenta</li>
             </ng-container>
         </ul>
         <div (click)="toogleMenu()" class="menu d-flex flex-column cursor mr-3">
