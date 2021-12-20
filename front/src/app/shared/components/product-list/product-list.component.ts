@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 export class ProductListComponent implements OnInit {
 
   @Input() items: Array<any>
+  @Input() rows: number
   @Output() productsEvent: EventEmitter<any> =  new EventEmitter();
 
   responsiveOptions: Array<any>
@@ -80,7 +81,8 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  search(srt:string){
+  search(event:any){
+    const srt = event.target.value
     this.general.c('srt', srt)
     if(srt === ''){
       this.items = [...this.itemsTmp]

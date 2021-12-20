@@ -88,6 +88,9 @@ const userSchema = new mongoose_1.Schema({
     closeTime: {
         type: String
     },
+    role: {
+        type: String
+    },
     createAt: {
         type: Date,
         default: new Date()

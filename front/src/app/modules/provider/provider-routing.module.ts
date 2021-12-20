@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RoleProviderGuard } from '../auth/guards/role-provider.guard';
 
-const routes: Routes = [
+const routes: Routes = [  
   {
     path: 'dashboard',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),

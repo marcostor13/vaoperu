@@ -28,7 +28,7 @@ export class UserComponent implements OnInit {
     this.roles = [
       { name: 'Administrador', key: 'admin' },
       { name: 'Proveedor', key: 'provider' },
-      { name: 'Gallería', key: 'gallery' },
+      { name: 'Galería', key: 'gallery' },
       { name: 'Usuario', key: 'user' }
     ]
    }
@@ -108,6 +108,7 @@ export class UserComponent implements OnInit {
 
   add(){    
     if (!this.validate(this.currentItem)) {
+      delete this.currentItem.password
       this.userService.save(this.currentItem).subscribe((response: IResponseApi) => {
         this.general.c('Add', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message ? response.message: 'Usuario registrado' });

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.updateAll = exports.update = exports.getByUrl = exports.getByProfileProviderId = exports.getByID = exports.get = exports.save = void 0;
 const url_1 = require("../models/url");
 const title = 'Url';
 const Collection = url_1.default;
@@ -53,6 +53,34 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getByID = (req, res) => {
     Collection.findById(req.params.id, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.getByProfileProviderId = (req, res) => {
+    Collection.find({ profileProviderId: req.params.id }, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.getByUrl = (req, res) => {
+    Collection.find({ url: req.params.url }, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

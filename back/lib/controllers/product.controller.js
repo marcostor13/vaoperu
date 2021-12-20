@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getByID = exports.getByProfileProviderId = exports.get = exports.save = void 0;
 const product_1 = require("../models/product");
 const title = 'Producto';
 const Collection = product_1.default;
@@ -39,6 +39,20 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     Collection.find({}, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}s`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+});
+exports.getByProfileProviderId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    Collection.find({ profileProviderId: req.params.id }, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}s`,

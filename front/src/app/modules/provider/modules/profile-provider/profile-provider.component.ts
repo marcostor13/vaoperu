@@ -50,6 +50,10 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe()
   }
 
+  getRole():string[]{
+    return this.authService.getRole()
+  }
+
   getProfileProvider(){
     this.subs.add(
       this.profileProvideService.get().subscribe((response: IResponseApi)=>{
@@ -58,10 +62,8 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
           if(this.profileProvider.image){
             this.currentImage = { file: null, blob: null, url: this.profileProvider.image }
           }
-        }
-        
-      }, error =>{
-        
+        }        
+      }, error =>{        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message })
       })
     )
@@ -125,11 +127,10 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
 
   save(){
     this.general.c('SAVE PRE', this.profileProvider)
-    this.profileProvider.distrinctName = this.general.getItemByID(this.districts, this.profileProvider.districtId).name
+    this.profileProvider.distrinctName = this.general.getItemByID(this.districts, this.profileProvider.districtId).name    
     this.subs.add(
       this.profileProvideService.save(this.profileProvider).subscribe((response: IResponseApi) => {
-        this.general.c('Save Profile Provider', response)
-        
+        this.general.c('Save Profile Provider', response)        
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.getProfileProvider()
         this.uploadPercent = 0

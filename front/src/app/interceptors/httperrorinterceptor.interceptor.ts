@@ -1,7 +1,9 @@
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HTTP_INTERCEPTORS, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AuthService } from '../modules/auth/services/auth.service';
 import { GeneralService } from './../services/general.service';
 
 
@@ -9,7 +11,9 @@ import { GeneralService } from './../services/general.service';
 export class HttpRequestInterceptor  implements HttpInterceptor {
 
     constructor(
-        private general: GeneralService
+        private general: GeneralService,
+        private authService: AuthService,
+        private messageService: MessageService
     ){
 
     }
@@ -20,6 +24,12 @@ export class HttpRequestInterceptor  implements HttpInterceptor {
             .pipe(
                 catchError((error: HttpErrorResponse) => {                    
                     this.general.isLoad(false)
+                    if (error.status === 401) {
+                        this.authService.logout()
+                    } else {
+                        this.general.c('Error HTTP', error)
+                        this.messageService.add({ severity: 'Error', summary: `Error ${error.status}`, detail: error?.error?.message ? error.error.message : error.error })
+                    }
                     return throwError(error);
                 })
             )

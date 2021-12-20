@@ -31,6 +31,7 @@ export interface IProfileProvider extends Document {
     createAt: Date,
     openTime: string,
     closeTime: string
+    role: string
 }
 
 const userSchema = new Schema({
@@ -119,6 +120,9 @@ const userSchema = new Schema({
         type: String
     },
     closeTime: {
+        type: String
+    },
+    role: {
         type: String
     },
     createAt: {

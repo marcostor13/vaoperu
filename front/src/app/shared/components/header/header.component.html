@@ -40,8 +40,11 @@
             <img width="140" src="assets/img/logo.png" alt="">
         </h1>
         <li class="cursor mt-2 font-500 text-black f-12 mt-5">Inicio</li>
-        <li class="cursor mt-2 font-500 text-black f-12">Favoritos</li>               
-        <li (click)="logout()" *ngIf="user" class="cursor mt-5 font-500 text-black f-12">Cerrar Sesión</li>        
+        <li class="cursor mt-2 font-500 text-black f-12">Favoritos</li>           
+        <ng-container *ngIf="user">
+            <li (click)="redirectPlatform()" class="cursor mt-2 font-500 text-black f-12">Plataforma</li>               
+            <li (click)="logout()" class="cursor mt-5 font-500 text-black f-12">Cerrar Sesión</li>        
+        </ng-container>    
     </ul>
 </p-sidebar>
 

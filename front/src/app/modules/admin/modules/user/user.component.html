@@ -5,10 +5,10 @@
         <div class="p-5">
             <div class="row m-0 justify-content-between align-items-center">
                 <h4>Usuarios</h4>
-                <button class="btn2" (click)="addEdit()">
+                <!-- <button class="btn2" (click)="addEdit()">
                     <i class="pi pi-plus mr-2"></i>
                     Agregar
-                </button>
+                </button> -->
             </div>
             
             <div class="mt-5">
@@ -52,7 +52,7 @@
         <div class="row m-0 p-0 flex-column col-12 col-md-6">            
             <input type="text" (keyup.enter)="add()" (keyup)="invalid.name=false" [(ngModel)]="currentItem.name" class="invalid mt-3 input-login" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Nombre'">  
             <input type="email" (keyup.enter)="add()" (keyup)="invalid.email=false" [(ngModel)]="currentItem.email" class="invalid mt-3 input-login" [ngClass]="{'invalid': invalid.email}" [placeholder]="'Correo'">
-            <input type="password" (keyup.enter)="add()" (keyup)="invalid.password=false" [(ngModel)]="currentItem.password" class="invalid mt-3 input-login" [ngClass]="{'invalid': invalid.password}" [placeholder]="'Contraseña'">      
+            <button *ngIf="currentItem._id" class="btn1 mt-3">Resetar contraseña</button>      
             <label class="mt-3">Seleccione los roles</label>
             <p-listbox 
             [options]="roles" 
