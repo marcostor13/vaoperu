@@ -79,8 +79,8 @@ export class HeaderComponent implements OnInit, OnChanges {
     }    
   }
 
-  redirect(role: string) {
-    this.router.navigate([`/${role}`])
+  redirect(role: string[]) {
+    this.router.navigate([`/${role[0]}`])
   }
 
   redirectPlatform(){
@@ -94,6 +94,17 @@ export class HeaderComponent implements OnInit, OnChanges {
       //Redirect User BackOffice
       this.router.navigate(['/'])
     }
+  }
+
+  isAdminOrProvider(){
+    let res = false
+    this.user.role.map((role:string)=>{
+      if(role === 'admin' || role === 'provider'){
+        res = true
+      }
+    })
+
+    return res
   }
   
 

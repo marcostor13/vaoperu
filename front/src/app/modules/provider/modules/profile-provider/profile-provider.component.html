@@ -18,15 +18,15 @@
                                 styleClass="btn2 tran w-100" 
                                 mode="basic" 
                                 accept="image/*" 
-                                fileLimit="1" 
-                                maxFileSize="10000000"
+                                [fileLimit]="1" 
+                                [maxFileSize]="10000000"
                                 (onSelect)="onUpload($event)" 
                                 [chooseLabel]="'Subir Imagen'" 
                                 uploadLabel="Subir" 
                                 cancelLabel="Cancelar"
                                 [files]="images" 
                                 [auto]="false" 
-                                [disabled]="currentImage"
+                                [disabled]="currentImage?true:false"
                                 invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
                             </p-fileUpload>
                             <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
