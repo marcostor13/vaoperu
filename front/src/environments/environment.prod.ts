@@ -11,5 +11,5 @@ export const environment = {
   from: 'tustaff2020@gmail.com',
   fromname: 'Vao perú',
   apiLocal: 'http://localhost:3008/',
-  apiProd: 'https://vaoapi.marcostorres.site'
+  apiProd: 'https://vaoapi.marcostorres.site/'
 };
