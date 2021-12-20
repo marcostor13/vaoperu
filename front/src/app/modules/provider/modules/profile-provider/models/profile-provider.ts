@@ -29,6 +29,7 @@ export class CProfileProvider{
         this.createAt = null
         this.openTime = ''
         this.closeTime = ''
+        this.role = ''
     }   
     _id: string 
     userid: string
@@ -60,4 +61,5 @@ export class CProfileProvider{
     createAt: Date
     openTime: string
     closeTime: string
+    role: string
 }

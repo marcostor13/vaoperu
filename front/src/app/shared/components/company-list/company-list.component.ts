@@ -1,10 +1,14 @@
 import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { GeneralService } from '@services/general.service';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
+import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
+import { IResponseApi } from 'src/app/models/responses';
 
 @Component({
   selector: 'app-company-list',
@@ -13,7 +17,7 @@ import * as moment from 'moment';
 })
 export class CompanyListComponent implements OnInit {
 
-  @Input() items: Array<any>
+  @Input() items: Array<CProfileProvider>
   @Output() emitEvent: EventEmitter<any> =  new EventEmitter();
 
   responsiveOptions: Array<any>
@@ -26,12 +30,15 @@ export class CompanyListComponent implements OnInit {
   isMobile:boolean = false
   displayModal: boolean = false
   currentItem: any
-  faWhatsapp = faWhatsapp;
-  faPhone = faPhone;
+  faWhatsapp = faWhatsapp
+  faPhone = faPhone
 
   constructor(
     private general: GeneralService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private profileProviderService: ProfileProviderService,
+    private messageService: MessageService
   ) {
     this.responsiveOptions = [
       {
@@ -127,6 +134,16 @@ export class CompanyListComponent implements OnInit {
       })  
      
     }
+  }
+
+  gotToViewCompany(item: CProfileProvider){
+    this.profileProviderService.getUrlByProfileProviderId(item._id).subscribe((response:IResponseApi)=>{
+      if (response?.data[0]){
+        this.router.navigate([`/${response.data[0].url.trim()}`])
+      }else{
+        this.messageService.add({detail: 'Url no configurada, contactate con el administrador', summary: 'Error', severity:'error'})
+      }
+    })
   }
   
 

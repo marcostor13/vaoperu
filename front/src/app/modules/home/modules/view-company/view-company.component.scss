@@ -1,0 +1,23 @@
+
+
+
+.image-profile{
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 300px;
+    max-height: 300px;
+}
+
+.icon{
+    cursor: pointer;
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+}
+
+@media (max-width: 1200px) {
+    .cont{
+        min-width: 100%;
+    }
+}

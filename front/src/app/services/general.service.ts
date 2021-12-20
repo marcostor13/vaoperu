@@ -167,6 +167,10 @@ export class GeneralService {
     this.store.dispatch(action.setLoading({ isLoading: is }))
   }
 
+  setCurrentRole(role: any) {
+    this.store.dispatch(action.setCurrentRole({ currentRole: role }))
+  }
+
   styles(): string {
     return 'red'
   }

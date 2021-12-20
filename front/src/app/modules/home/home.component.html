@@ -31,7 +31,7 @@
 
 <div>
     <h1 class="text-center h3 font-300 mt-3">¿Qué negocios estás buscando?</h1>
-    <app-company-list *ngIf="items?.length>0" [items]="companies" (emitEvent)=companyListEvent($event)></app-company-list>
+    <app-company-list *ngIf="companies?.length>0" [items]="companies" (emitEvent)=companyListEvent($event)></app-company-list>
 </div>
 
 <app-footer></app-footer>

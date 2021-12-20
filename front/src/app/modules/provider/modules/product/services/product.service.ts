@@ -31,6 +31,15 @@ export class ProductService {
     return this.api.api(data)
   }
 
+  getByProfileProviderId(profileProviderId: string) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-profile-provider-id/${profileProviderId}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
   delete(id: string) {
     const data: IDataApi = {
       service: `delete-${this.model}/${id}`,

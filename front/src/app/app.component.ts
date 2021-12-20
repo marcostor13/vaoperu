@@ -30,7 +30,7 @@ export class AppComponent {
           this.isLoading = isLoading;
         })
       ) 
-  }  
+  }
 
   ngOnDestroy() {
     this.subs.unsubscribe()

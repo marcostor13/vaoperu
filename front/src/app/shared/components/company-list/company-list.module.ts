@@ -5,12 +5,11 @@ import { CarouselModule } from 'primeng/carousel';
 import { CompanyListComponent } from './company-list.component';
 import { DialogModule } from 'primeng/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { WhatsappPipe } from '../../../shared/pipes/whatsapp.pipe';
+import { WhastappModule } from './../../pipes/whastapp/whastapp.module';
 
 @NgModule({
   declarations: [
-    CompanyListComponent, 
-    WhatsappPipe
+    CompanyListComponent    
   ],
   imports: [  
     CommonModule,
@@ -18,6 +17,7 @@ import { WhatsappPipe } from '../../../shared/pipes/whatsapp.pipe';
     CarouselModule, 
     DialogModule,
     FontAwesomeModule,
+    WhastappModule
   ],
   exports: [CompanyListComponent],
 })

@@ -34,13 +34,11 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   }
   ngOnInit(): void {
-    this.validateSession()
+    this.validateSession()    
   } 
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.general.c('open login', changes)
-
     if (this.eventHeader?.event === 'open-login') {
       this.openLogin()
     }
@@ -83,6 +81,19 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   redirect(role: string) {
     this.router.navigate([`/${role}`])
+  }
+
+  redirectPlatform(){
+    const role = this.authService.getRole()
+    console.log('Role', role)
+    if(role.indexOf('admin')>-1){
+      this.router.navigate(['admin'])
+    }else if(role.indexOf('provider')>-1 || role.indexOf('gallery')>-1){
+      this.router.navigate(['provider'])
+    }else{
+      //Redirect User BackOffice
+      this.router.navigate(['/'])
+    }
   }
   
 

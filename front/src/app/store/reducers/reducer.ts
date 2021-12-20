@@ -23,15 +23,15 @@ const reducer = createReducer(
             }
         }
     ),
-    // on(
-    //     states.setCreatingDataLanging,
-    //     (state: globalState.IStoreState, action: { dataLanding: Landing }): globalState.IStoreState => {            
-    //         return {
-    //             ...state,
-    //             landing: action.dataLanding
-    //         }
-    //     }
-    // ), 
+    on(
+        states.setCurrentRole,
+        (state: globalState.IStoreState, action: { currentRole: string }): globalState.IStoreState => {
+            return {
+                ...state,
+                currentRole: action.currentRole
+            }
+        }
+    ), 
         
 )
 

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getByProfileProviderId = exports.getByID = exports.get = exports.save = void 0;
 const offer_1 = require("../models/offer");
 const title = 'Oferta';
 const Collection = offer_1.default;
@@ -65,6 +65,20 @@ exports.getByID = (req, res) => {
         });
     });
 };
+exports.getByProfileProviderId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    Collection.find({ profileProviderId: req.params.id }, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}s`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+});
 exports.update = (req, res) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {

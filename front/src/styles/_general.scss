@@ -884,3 +884,7 @@ $size:100px;
 .p-grid{
     justify-content: center !important;
 }
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+    border-color: $color1 !important
+}
