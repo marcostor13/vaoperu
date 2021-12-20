@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? 'https://vaoapi.marcostorres.site/' : 'http://localhost:3004/'
+  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? environment.apiProd : environment.apiLocal
 
   constructor(private http: HttpClient) {}
 
