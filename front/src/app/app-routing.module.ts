@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HubComponent } from '@shared/components/hub/hub.component';
 import { RoleAdminGuard } from './modules/auth/guards/role-admin.guard';
+import { RoleProviderGuard } from './modules/auth/guards/role-provider.guard';
 
 const routes: Routes = [  
   {
@@ -19,11 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'provider',
-    loadChildren: () => import('./modules/provider/provider.module').then(m => m.ProviderModule)
-  },
-  {
-    path: 'hub',
-    component: HubComponent
+    loadChildren: () => import('./modules/provider/provider.module').then(m => m.ProviderModule),
+    canActivate: [RoleProviderGuard]
   },
   {
     path: '',

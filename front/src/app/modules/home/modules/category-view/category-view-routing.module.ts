@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryViewComponent } from './category-view.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: ':id',
+    component: CategoryViewComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -10,6 +10,7 @@ import { CSubcategory } from '../admin/modules/subcategory/models/subcategory';
 import { CCategory } from '../admin/modules/category/models/category';
 import { ProfileProviderService } from './../provider/modules/profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../provider/modules/profile-provider/models/profile-provider';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   categories: CCategory[]
   subcategories: CSubcategory[]
   companies: CProfileProvider[]
+  currentSubcategories: CSubcategory[]
 
   itemsCarousel = [
     {
@@ -44,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   items: MenuItem[] = []  
   responsiveOptions: any
   eventHeader: any
+  displaySubcategories: boolean = false
 
 
   constructor(
@@ -51,7 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private messageService: MessageService,
-    private profileProviderService: ProfileProviderService
+    private profileProviderService: ProfileProviderService,
+    private router: Router
   ) {
     this.responsiveOptions = [
       {
@@ -185,6 +189,29 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     
   }
 
+  openSubcategoriesModal(subcategories: CSubcategory[]){
+    this.general.c('openSubcategoriesModal', subcategories)
+    this.currentSubcategories = subcategories
+    this.displaySubcategories = true
+  }
+
+  openSubcat(category: CCategory){
+    let subcategories: CSubcategory[] = []
+
+    subcategories = [...this.subcategories.filter(subcategory=>subcategory.categoryId === category._id)]
+    this.general.c('subcategories', subcategories)
+    if(subcategories.length>0){
+      this.openSubcategoriesModal(subcategories)
+    }else{
+      const redirect = category.name.toLowerCase().replace(/\s/g, '-') 
+      this.router.navigate([`/resultados/${redirect}`])
+    }
+  }
+  
+  redirectSubcategory(subcategory: CSubcategory){
+    const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-') 
+    this.router.navigate([`/resultados/${redirect}`])
+  }
   
 
 }

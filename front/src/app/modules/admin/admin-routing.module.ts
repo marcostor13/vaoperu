@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/url/url.module').then(m => m.UrlModule),
     canActivate: [RoleAdminGuard]
   },
+  {
+    path: 'category-subcategory-profile',
+    loadChildren: () => import('./modules/category-subcategory-profile/category-subcategory-profile.module').then(m => m.CategorySubcategoryProfileModule),
+    canActivate: [RoleAdminGuard]
+  },
 
   {
     path: '',

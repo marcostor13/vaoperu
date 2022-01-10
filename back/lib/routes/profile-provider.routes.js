@@ -9,6 +9,7 @@ router.post(`/save-${model}`, passport.authenticate('jwt', { session: false }), 
 router.get(`/get-${model}`, profile_provider_controller_1.get);
 router.get(`/get-${model}-by-id/:id`, profile_provider_controller_1.getByID);
 router.get(`/get-${model}-by-userid/:userid`, passport.authenticate('jwt', { session: false }), profile_provider_controller_1.getByUserID);
+router.get(`/get-${model}-by-array`, profile_provider_controller_1.getByArray);
 router.patch(`/update-${model}/:id`, passport.authenticate('jwt', { session: false }), profile_provider_controller_1.update);
 router.delete(`/delete-${model}/:id`, passport.authenticate('jwt', { session: false }), profile_provider_controller_1.del);
 exports.default = router;

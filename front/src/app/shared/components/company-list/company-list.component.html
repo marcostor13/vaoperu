@@ -18,11 +18,15 @@
                             <a href="tel:{{company.phone}}" target="_blank" title="Llamar" class="link-unstyled p-0 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
                                 <fa-icon class="f-13" [icon]="faPhone"></fa-icon>
                             </a>
-                            <a href="https://wa.me/{{company.whatsapp | whatsapp}}?text=Hola! {{company.comercialName}}" title="Whatsapp" class="ml-2 p-0 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
+                            <a href="https://wa.me/{{company.whatsapp | whatsapp}}?text=Hola! {{company.comercialName}}" target="_blank" title="Whatsapp" class="ml-2 p-0 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
                                 <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
                             </a>
-                        </div>
-                        <button (click)="addfavorites()" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Agregar a favoritos</button>                        
+                        </div>                        
+                        <button *ngIf="!isFavorite(company._id)" (click)="addfavorites(company._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Agregar a favoritos</button>
+                       
+                        <button *ngIf="isFavorite(company._id)" (click)="confirmDeleteFavorites(company._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
+                            <fa-icon class="f-13" [icon]="faStar"></fa-icon>
+                        </button>                        
                     </div>
                 </div>               
             </div>
@@ -30,3 +34,5 @@
     </p-dataView>
     
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

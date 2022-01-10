@@ -25,17 +25,7 @@ export class RoleAdminGuard implements CanActivate {
     if (!role || role.indexOf('admin')===-1) {
       this.router.navigate(['/'])
       return false
-    } else if (role.length > 1) {
-      this.store.select((sta:any) => sta.Reducer.currentRole)
-        .pipe(delay(0))
-        .subscribe((role: string) => {
-          this.generalGeneral.c('role state', role)
-          if (!role){
-            this.router.navigate(['/hub'])
-          }
-        })
-      return true
-    } else {
+    }else {
       return true
     }
   }

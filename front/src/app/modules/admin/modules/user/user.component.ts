@@ -28,7 +28,6 @@ export class UserComponent implements OnInit {
     this.roles = [
       { name: 'Administrador', key: 'admin' },
       { name: 'Proveedor', key: 'provider' },
-      { name: 'Galería', key: 'gallery' },
       { name: 'Usuario', key: 'user' }
     ]
    }

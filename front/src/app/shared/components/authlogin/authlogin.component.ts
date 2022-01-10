@@ -149,20 +149,25 @@ export class AuthloginComponent implements OnInit {
             class: 'text-color1',
             message: `Bienvenido ${user.name}`
           }
-          if (user.role.indexOf('admin')>-1){
-            this.router.navigate(['/admin/dashboard'])
+          if (user.role.indexOf('user') > -1){
+            this.generalService.c('login', 'user')
+            this.router.navigate(['/'])
           } else if (user.role.indexOf('provider') > -1) {
-            this.router.navigate(['/provider/dashboard'])
+            this.generalService.c('login', 'provider')
+            this.router.navigate(['/provider'])
+          } else if (user.role.indexOf('admin') > -1) {
+            this.generalService.c('login', 'admin')
+            this.router.navigate(['/admin/dashboard'])
           } else{
-            setTimeout(()=>{
-              this.resetLogin()
-              this.send.emit({
-                type: 'close',
-                data: null
-              })
-              this.displayModal = false
-            }, 3000)
+            this.resetLogin()
           }
+          setTimeout(()=>{
+            this.send.emit({
+              type: 'close',
+              data: null
+            })
+            this.displayModal = false
+          }, 3000)
 
         }, error => {
           this.generalService.isLoad(false)

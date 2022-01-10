@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/view-company/view-company.module').then(m => m.ViewCompanyModule),
   },  
   {
+    path: 'resultados',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'

@@ -19,7 +19,7 @@
 <div class="d-none d-md-block mt-3 carousel-home">
     <p-carousel [value]="categories" [numVisible]="6" [numScroll]="1" [autoplayInterval]="4000" [responsiveOptions]="responsiveOptions">
         <ng-template let-item pTemplate="item">
-            <div class="p-2">
+            <div (click)="openSubcat(item)" class="p-2">
                 <div class="cursor item-carousel bg-color1 card border-0 p-3">
                     <div [ngStyle]="{ 'background-image': 'url('+item.image+')'}" class="icon-categories"></div>
                     <h6 class="f-10 text-white mt-2">{{item.name}}</h6>
@@ -35,3 +35,15 @@
 </div>
 
 <app-footer></app-footer>
+
+<p-dialog [modal]="true" header="Subcategorías" [(visible)]="displaySubcategories">
+    <div class="d-flex flex-wrap justify-content-center">
+
+        <div *ngFor="let item of currentSubcategories" (click)="redirectSubcategory(item)" class="p-2">
+            <div class="cursor shadow item-carousel bg-white card border-0 p-3">
+                <div [ngStyle]="{ 'background-image': 'url('+item.image+')'}" class="icon-categories"></div>
+                <h6 class="f-10 text-color1 mt-2">{{item.name}}</h6>
+            </div>
+    </div>
+    </div>
+</p-dialog>

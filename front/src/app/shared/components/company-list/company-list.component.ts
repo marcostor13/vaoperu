@@ -1,14 +1,16 @@
 import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import { MessageService, SelectItem } from 'primeng/api';
+import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { GeneralService } from '@services/general.service';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
 import { IResponseApi } from 'src/app/models/responses';
+import { FavoriteService } from './../../services/favorite/favorite.service';
+import { IFavorite } from './../../interfaces/favorites.interface';
 
 @Component({
   selector: 'app-company-list',
@@ -24,7 +26,7 @@ export class CompanyListComponent implements OnInit {
   sortOptions: SelectItem[]
   sortOrder: number
   sortField: string
-  role: string
+  role: string[]
   itemsTmp: any[]
   effect:string = 'scrollx'
   isMobile:boolean = false
@@ -32,13 +34,17 @@ export class CompanyListComponent implements OnInit {
   currentItem: any
   faWhatsapp = faWhatsapp
   faPhone = faPhone
+  faStar = faStar
+  favorites: IFavorite[]
 
   constructor(
     private general: GeneralService,
     private authService: AuthService,
     private router: Router,
     private profileProviderService: ProfileProviderService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private favoriteService:FavoriteService,
+    private confirmationService: ConfirmationService
   ) {
     this.responsiveOptions = [
       {
@@ -63,12 +69,33 @@ export class CompanyListComponent implements OnInit {
   
   ngOnInit(): void {
     this.initializeItems()    
-    this.role = this.authService.getRole()    
+    this.role = this.authService.getRole() 
+    this.getFavorites()   
   }
 
   initializeItems(){
     if (this.items) {
       this.itemsTmp = [...this.items]
+    }
+  }
+
+  getFavorites(){
+    this.role = this.authService.getRole()
+    if (this.role) {
+      this.favoriteService.getByClientId(this.authService.getUserID()).subscribe((response:IResponseApi)=>{
+        this.favorites = response.data        
+        this.general.c('favorites', this.favorites)
+      })
+    }
+  }
+
+  isFavorite(profileProviderId:string){
+    if (this.favorites){
+      let res = false
+      this.favorites.map(favorite=>{
+        if(favorite.profileProviderId === profileProviderId) res=true
+      })
+      return res
     }
   }
 
@@ -125,15 +152,54 @@ export class CompanyListComponent implements OnInit {
     return time
   }
 
-  addfavorites(){
+  addfavorites(profileProviderId:string){
+    this.role = this.authService.getRole()
     if(this.role){
-      //add Favorites
+      this.favoriteService.save({
+        clientId: this.authService.getUserID(),
+        profileProviderId: profileProviderId
+      }).subscribe((response:IResponseApi)=>{
+        this.general.c('addfavorites', response)
+        this.messageService.add({ detail: response.message, summary: 'Éxito', severity: 'success' })
+        this.getFavorites()
+      }, error=>{
+        this.messageService.add({ detail: error.error, summary: 'Error', severity: 'error' })
+      })
     }else{
       this.emitEvent.emit({
         event: 'open-login'
-      })  
-     
+      })     
     }
+  }
+
+  deleteFavorites(profileProviderId: string){
+    let idFavorite: string
+    this.favorites.map(favorite=>{
+      if(favorite.profileProviderId === profileProviderId) idFavorite=favorite._id
+    })
+
+    if (idFavorite){
+      this.favoriteService.delete(idFavorite).subscribe((response: IResponseApi) => {
+        this.general.c('deleteFavorites', response)
+        this.messageService.add({ detail: response.message, summary: 'Éxito', severity: 'success' })
+        this.getFavorites()
+      }, error => {
+        this.messageService.add({ detail: error.error, summary: 'Error', severity: 'error' })
+      })
+    }
+
+  }
+
+ confirmDeleteFavorites(profileProviderId:string){
+    this.confirmationService.confirm({
+      message: '¿Seguro que desea eliminar de favoritos?',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
+      header: 'Confirmación',
+      accept: () => {
+        this.deleteFavorites(profileProviderId)
+      }
+    });
   }
 
   gotToViewCompany(item: CProfileProvider){

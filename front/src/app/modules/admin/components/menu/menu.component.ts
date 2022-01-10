@@ -59,6 +59,10 @@ export class MenuComponent implements OnInit {
             label: 'Urls',
             routerLink: '/admin/urls'
           },
+          {
+            label: 'Asignación categorías',
+            routerLink: '/admin/category-subcategory-profile'
+          },
         ]
       },
       

@@ -16,7 +16,11 @@
                             <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
                         </a>
                     </div>
-                    <button (click)="addfavorites()" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Agregar a favoritos</button>                        
+                    <button *ngIf="!isFavorite(profileProvider._id)" (click)="addfavorites()" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Agregar a favoritos</button>
+                       
+                    <button *ngIf="isFavorite(profileProvider._id)" (click)="confirmDeleteFavorites(profileProvider._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
+                        <fa-icon class="f-13" [icon]="faStar"></fa-icon>
+                    </button>               
                 </div>            
             </div>
         </div>
