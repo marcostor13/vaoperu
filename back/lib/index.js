@@ -23,12 +23,14 @@ const product_routes_1 = require("./routes/product.routes");
 const offer_routes_1 = require("./routes/offer.routes");
 const user_routes_1 = require("./routes/user.routes");
 const url_routes_1 = require("./routes/url.routes");
+const favorite_routes_1 = require("./routes/favorite.routes");
+const category_subcategory_profile_routes_1 = require("./routes/category-subcategory-profile.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
 const app = express();
 //Setting
-app.set('port', 3004);
+app.set('port', 3008);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
@@ -48,6 +50,8 @@ app.use(product_routes_1.default);
 app.use(offer_routes_1.default);
 app.use(user_routes_1.default);
 app.use(url_routes_1.default);
+app.use(favorite_routes_1.default);
+app.use(category_subcategory_profile_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
 //LOCAL

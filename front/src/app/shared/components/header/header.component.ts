@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   displayModal: boolean = false
   user: CUser
   display: boolean = false
+  role: string[]
 
   @Input() eventHeader: any
 
@@ -30,18 +31,16 @@ export class HeaderComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private general: GeneralService
     ) { 
-   
-
   }
   ngOnInit(): void {
-    this.validateSession()    
+    this.validateSession()       
   } 
 
   ngOnChanges(changes: SimpleChanges) {
-    this.general.c('open login', changes)
     if (this.eventHeader?.event === 'open-login') {
       this.openLogin()
     }
+    this.role = this.authService.getRole()
   }
 
   validateSession(){
@@ -66,6 +65,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   output($event){
+    this.role = this.authService.getRole()
     this.general.c('Output', $event)
     switch ($event.type) {
       case 'user':
@@ -83,17 +83,9 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.router.navigate([`/${role[0]}`])
   }
 
-  redirectPlatform(){
-    const role = this.authService.getRole()
-    console.log('Role', role)
-    if(role.indexOf('admin')>-1){
-      this.router.navigate(['admin'])
-    }else if(role.indexOf('provider')>-1 || role.indexOf('gallery')>-1){
-      this.router.navigate(['provider'])
-    }else{
-      //Redirect User BackOffice
-      this.router.navigate(['/'])
-    }
+  redirectPlatform(route: string){
+    this.general.c('redirectPlatform', route)
+    this.router.navigate([route])
   }
 
   isAdminOrProvider(){
@@ -106,6 +98,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     return res
   }
+  
   
 
 }

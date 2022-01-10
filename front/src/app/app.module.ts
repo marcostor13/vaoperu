@@ -21,14 +21,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { HubComponent } from '@shared/components/hub/hub.component';
-
-
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HubComponent    
+    AppComponent   
   ],
   imports: [  
     BrowserModule,

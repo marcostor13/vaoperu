@@ -6,6 +6,7 @@ import { CompanyListComponent } from './company-list.component';
 import { DialogModule } from 'primeng/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WhastappModule } from './../../pipes/whastapp/whastapp.module';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { WhastappModule } from './../../pipes/whastapp/whastapp.module';
     CarouselModule, 
     DialogModule,
     FontAwesomeModule,
-    WhastappModule
+    WhastappModule, 
+    ConfirmDialogModule
   ],
   exports: [CompanyListComponent],
 })

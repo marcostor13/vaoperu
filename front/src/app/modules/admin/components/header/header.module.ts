@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuAdminModule } from '../menu/menu.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { MenuAdminModule } from '../menu/menu.module';
   imports: [
     CommonModule,
     FontAwesomeModule,
-    MenuAdminModule
+    MenuAdminModule,
+    RouterModule
   ],
   exports: [HeaderComponent],
 })

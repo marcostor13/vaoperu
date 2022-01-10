@@ -22,7 +22,7 @@ export class RoleProviderGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const role = this.authService.getRole()
-    if (!role || (role.indexOf('provider')===-1 && role.indexOf('gallery')===-1)) {      
+    if (!role || (role.indexOf('provider')===-1)) {      
       this.router.navigate(['/'])
       return false
     } else if (role.length > 1) {
