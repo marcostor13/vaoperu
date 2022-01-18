@@ -1,1 +1,21 @@
-<p>category-view works!</p>
+<app-header [eventHeader]="eventHeader"></app-header>
+
+<div class="p-5">
+    <div class="filters">
+        <h4 class="text-color1">Filtrar por distritos</h4>
+        <div class="col-12 col-md-4 p-0 ">
+            <p-multiSelect  display="chip" (onChange)="filterByDistrict()" placeholder="Seleccione un distrito" [options]="districts" [(ngModel)]="selectedDistricts" optionLabel="name" optionValue="_id"></p-multiSelect>
+        </div>
+    </div>
+
+    <div>
+        <app-company-list *ngIf="currentProfileProviders?.length>0" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
+    </div>
+
+</div>
+
+
+
+
+
+<app-footer></app-footer>

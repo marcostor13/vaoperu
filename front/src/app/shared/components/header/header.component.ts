@@ -99,6 +99,14 @@ export class HeaderComponent implements OnInit, OnChanges {
     return res
   }
   
+  redirectFavorites(){
+    this.general.c('redirectFavorites', this.role)
+    if (this.role){
+      this.router.navigate(['/favoritos'])
+    }else{
+      this.displayModal = true
+    }
+  }
   
 
 }

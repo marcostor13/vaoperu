@@ -5,10 +5,12 @@ import { CategorySubcategoryProfileRoutingModule } from './category-subcategory-
 import { CategorySubcategoryProfileComponent } from './category-subcategory-profile.component';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { OrderListModule } from 'primeng/orderlist';
 import { HeaderAdminModule } from '../../components/header/header.module';
 import { MenuAdminModule } from '../../components/menu/menu.module';
+import { ConfirmationService } from 'primeng/api';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -20,10 +22,14 @@ import { MenuAdminModule } from '../../components/menu/menu.module';
     CategorySubcategoryProfileRoutingModule,
     DialogModule,
     FormsModule,
-    ConfirmPopupModule,
+    ConfirmDialogModule,
     OrderListModule,
     MenuAdminModule,
-    HeaderAdminModule
+    HeaderAdminModule,
+    FontAwesomeModule,
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class CategorySubcategoryProfileModule { }

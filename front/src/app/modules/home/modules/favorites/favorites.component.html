@@ -1,0 +1,10 @@
+<app-header [eventHeader]="eventHeader"></app-header>
+
+<div class="p-5">
+    <div>
+        <app-company-list *ngIf="currentProfileProviders?.length>0" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
+    </div>
+    <h4 *ngIf="currentProfileProviders?.length===0" class="text-center">No se encontraron favoritos</h4>
+</div>
+
+<app-footer></app-footer>
