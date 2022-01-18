@@ -39,8 +39,8 @@
         <h1 class="font-t font-900 font-italic text-white mt-5">
             <img width="140" src="assets/img/logo.png" alt="">
         </h1>
-        <li class="cursor mt-2 font-500 text-black f-12 mt-5">Inicio</li>
-        <li class="cursor mt-2 font-500 text-black f-12">Favoritos</li>           
+        <li routerLink="/" class="cursor mt-2 font-500 text-black f-12 mt-5">Inicio</li>
+        <li (click)="redirectFavorites()" class="cursor mt-2 font-500 text-black f-12">Favoritos</li>           
         <ng-container *ngIf="user">
             <ng-container *ngIf="role">
                 <li *ngFor="let item of role" (click)="redirectPlatform('/'+item+'/dashboard')" class="cursor mt-2 font-500 text-black f-12">

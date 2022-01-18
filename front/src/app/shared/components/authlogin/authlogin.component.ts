@@ -187,38 +187,43 @@ export class AuthloginComponent implements OnInit {
 
     if(this.validationRegister()){
       this.generalService.isLoad(true)
-      this.subs.add(
-        this.authService.issetEmail(this.form.email).subscribe((response: IResponseApi) => {
-          if (response.data === 1) {
-            this.subs.add(
-              this.authService.sendEmailCode(this.form.email).subscribe(_ => {
-                this.generalService.isLoad(false)
-                this.registerStep = 2
-                this.response = {
-                  class: 'text-color1',
-                  message: `Hemos enviado un código a ${this.form.email}`
-                }
-              }, error => {
-                this.generalService.isLoad(false)
-                this.generalService.c('Login Error', error)
-                this.response = {
-                  class: 'text-danger',
-                  message: error.error.message
-                }
-              })
-            )
-
-          }else{
+      this.authService.codeComprobation(this.form.email, this.code).subscribe(_ => {
+        this.generalService.c('Register Finish', this.form)
+        this.subs.add(
+          this.authService.register(this.form).subscribe((user: CUser) => {
+            if (user.role.indexOf('admin') > -1) {
+              this.router.navigate(['/admin'])
+            }
+            this.send.emit({
+              type: 'user',
+              data: user
+            })
             this.generalService.isLoad(false)
+            localStorage.setItem('vaouser', JSON.stringify(user))
+            this.registerStep = 3
+            this.response = {
+              class: 'text-color1',
+              message: `Gracias por registrarse Bienvenido ${user.name}`
+            }
+          }, error => {
+            this.generalService.isLoad(false)
+            this.generalService.c('Login Error', error)
             this.response = {
               class: 'text-danger',
-              message: response.message
+              message: error.error.message
             }
-          }
-        })
-      )
+          })
+        )
 
-      
+      }, error => {
+        this.generalService.isLoad(false)
+        this.generalService.c('Login Error', error)
+        this.response = {
+          class: 'text-danger',
+          message: error.error.message
+        }
+      }
+      )      
     }
 
   }

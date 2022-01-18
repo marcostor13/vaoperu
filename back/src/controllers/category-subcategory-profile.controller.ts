@@ -62,6 +62,36 @@ export const getByIdAndType = (req: Request, res: Response) => {
     })
 }
 
+export const getByProfileProviderId = (req: Request, res: Response) => {
+    Collection.find({ profileProviderId: req.params.profileProviderId }, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        })
+    })
+}
+
+export const getByCategorySubcategoryId = (req: Request, res: Response) => {
+    Collection.find({ categorySubcategoryId: req.params.categorySubcategoryId }, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        })
+    })
+}
+
 export const del = (req: Request, res: Response) => {
     Collection.remove({ _id: req.params.id }, (err: any) => {
         if (err) {

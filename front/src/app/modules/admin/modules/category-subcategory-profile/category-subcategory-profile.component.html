@@ -5,25 +5,21 @@
         <div class="p-5">
             <div class="row m-0 justify-content-between align-items-center">
                 <h4>Agregar categorías y/o subcategorías</h4>
-                <button class="btn2" (click)="addEdit()">
-                    <i class="pi pi-plus mr-2"></i>
-                    Agregar
-                </button>
             </div>
             
-            <div *ngIf="list" class="mt-5">
+            <div *ngIf="profileProviders" class="mt-5">
                 <p-orderList 
                 header="Lista de perfiles"
                 filterPlaceholder="Buscar por nombre"
                 filterBy="name"
-                [value]="list" 
+                [value]="profileProviders" 
                 [listStyle]="{'max-height':'30rem'}"
                 [dragdrop]="true" 
                 >
                     <ng-template let-item pTemplate="item" class="mt-3">
                         <div draggable="true" class="item-list row justify-content-between align-items-center m-0 pl-2 pr-2">
                             <div>
-                                <span class="font-700">Nombre :</span><span class="ml-3">{{item.name}}</span>
+                                <span class="font-700">Negocio :</span><span class="ml-3">{{item.comercialName}}</span>
                             </div>
                             <div>
                                 <button (click)="addEdit(item)" class="btn2 p-0 pl-3 pr-3">Editar</button>
@@ -48,16 +44,26 @@
     
 
     <div class="col-12 row m-0 justify-content-center">
-        <div class="row m-0 p-0 flex-column col-12 col-md-6">      
-            <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Categoría'"> 
-            <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.categorySubcategoryId" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Categoría'"> 
-            <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.type" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Categoría'"> 
-            <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.profileProviderId" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Categoría'"> 
-            <button (click)="add()" class="btn1 mt-4">Guardar</button>            
-            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>    
+        <div *ngIf="currentProfileProvider" class="row m-0 p-0 flex-column col-12 col-md-6">      
+            <h5 class="text-center">{{currentProfileProvider.comercialName}}</h5>
+            <select (change)="toogleSubcategories()" class="mt-4" [(ngModel)]="currentCategory">
+                <option value="">Seleccione la categoría</option>
+                <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+            </select>
+            <select *ngIf="currentSubcategories?.length>0" class="mt-2" [(ngModel)]="currentSubcategory">
+                <option value="">Seleccione la subcategoría</option>
+                <option *ngFor="let subcategory of currentSubcategories" [value]="subcategory._id">{{subcategory.name}}</option>
+            </select>
+            <button (click)="add()" [disabled]="!((currentCategory && currentSubcategories?.length === 0) || (currentCategory && currentSubcategory))" class="btn1 mt-2">Agregar</button>
+            <div *ngIf="currentList" class="mt-3 d-flex justify-content-center align-items-center flex-wrap border rounded">
+                <div class="m-2 p-2 px-4 rounded" [ngClass]="{'bg-color8': item.type==='subcategory', 'bg-color1': item.type==='category'}" *ngFor="let item of currentList">{{item.name}}
+                    <fa-icon (click)="confirm($event, item)" class="f-15 text-color4 cursor" [icon]="faTrash"></fa-icon>
+                </div>
+            </div>
+            
         </div>
     </div>
 
 </p-dialog>
 
-<p-confirmPopup [autoZIndex]="false" [baseZIndex]="1000001"></p-confirmPopup>
+<p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle"></p-confirmDialog>
