@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +46,7 @@ import { ToastModule } from 'primeng/toast';
   providers: [
     AuthTokenHttpInterceptorProvider,
     HttpErrorHttpInterceptorProvider,
-    MessageService
+    MessageService,    
   ],
   bootstrap: [AppComponent]
 })

@@ -73,7 +73,7 @@ exports.getByArray = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         res.status(200).json({
             message: '',
-            data: response[0]
+            data: response
         });
     });
 });

@@ -9,18 +9,20 @@ import { FooterModule } from './../../shared/components/footer/footer.module';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { CompanyListModule } from './../../shared/components/company-list/company-list.module';
 import { DialogModule } from 'primeng/dialog';
+import { PromotionListModule } from './../../shared/components/promotion-list/promotion-list.module';
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [      
-    CommonModule,
+  CommonModule,
     HomeRoutingModule,
     HeaderModule,
     CarouselModule,
     FooterModule,
     PanelMenuModule,
     CompanyListModule,
-    DialogModule    
+    DialogModule,
+    PromotionListModule 
   ]
 })
 export class HomeModule { }

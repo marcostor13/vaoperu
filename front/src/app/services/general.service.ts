@@ -175,13 +175,73 @@ export class GeneralService {
     return 'red'
   }
 
+  uploadImageMultiple(images: CImages[], path: string) {
+    var arrayRes: any = []
+    var task: any
+    var fileRef: any
+    var count = 0
+    return new Observable((obs) => {
+      images.map(async (image: CImages) => {
+        if (image.file) {
+          const filePath = `${path}${new Date().getTime()}_${image.file.name}`
+          fileRef = this.storage.ref(filePath)
+          task = await (await this.storage.upload(filePath, image.file)).ref.getDownloadURL()
+          count++
+          arrayRes.push(task)
+          if (count === images.length) {
+            obs.next(arrayRes)
+            obs.complete()
+          } else {
+            obs.next((count + 1) * 100 / images.length)
+          }
+        } else {
+          count++
+          if (count === images.length) {
+            obs.next(false)
+            obs.complete()
+          }
+        }
+      })
+    })
+  }
+
+  uploadImageMultipleByBlob(images: CImages[], path: string) {
+    var arrayRes: any = []
+    var task: any
+    var fileRef: any
+    var count = 0
+    return new Observable((obs) => {
+      images.map(async (image: CImages) => {
+        if (image.file) {
+          const filePath = `${path}${new Date().getTime()}_${image.file.name}`
+          fileRef = this.storage.ref(filePath)
+          task = await (await this.storage.storage.ref(filePath).putString(image.blob.split(',')[1], "base64", { contentType: 'image/png' })).ref.getDownloadURL()
+          this.c('task', task)
+          count++
+          arrayRes.push(task)
+          if (count === images.length) {
+            obs.next(arrayRes)
+            obs.complete()
+          } else {
+            obs.next((count + 1) * 100 / images.length)
+          }
+        } else {
+          count++
+          if (count === images.length) {
+            obs.next(false)
+            obs.complete()
+          }
+        }
+      })
+    })
+  }
+
   uploadImage(file: File, path: string) {
 
     if(file?.name){
       const filePath = `${path}${new Date().getTime()}_${file.name}`
       const fileRef = this.storage.ref(filePath)
       const task = this.storage.upload(filePath, file)
-  
       return new Observable((obs) => {
         task.percentageChanges().subscribe(res => {
           if (res !== 100) {

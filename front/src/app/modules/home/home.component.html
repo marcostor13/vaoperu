@@ -30,8 +30,8 @@
 </div>
 
 <div>
-    <h1 class="text-center h3 font-300 mt-3">¿Qué negocios estás buscando?</h1>
-    <app-company-list *ngIf="companies?.length>0" [items]="companies" (emitEvent)=companyListEvent($event)></app-company-list>
+    <h1 class="text-center h3 font-300 mt-3">Promociones</h1>
+    <app-promotion-list *ngIf="promotions?.length>0 && profileProviders" [items]="promotions" [profileProviders]="profileProviders" (emitEvent)=companyListEvent($event)></app-promotion-list>
 </div>
 
 <app-footer></app-footer>

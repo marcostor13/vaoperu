@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
-import { MenuAdminModule } from '../../components/menu/menu.module';
-import { HeaderAdminModule } from '../../components/header/header.module';
 import { ConfirmPopupModule } from "primeng/confirmpopup";
 import { OrderListModule } from 'primeng/orderlist';
 import { DialogModule } from 'primeng/dialog';
@@ -18,8 +16,6 @@ import { ListboxModule } from 'primeng/listbox';
   imports: [
     CommonModule,
     UserRoutingModule,
-    MenuAdminModule,
-    HeaderAdminModule,
     ConfirmPopupModule,
     OrderListModule,
     DialogModule,

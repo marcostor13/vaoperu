@@ -9,8 +9,10 @@ import { MessageService } from 'primeng/api';
 import { CSubcategory } from '../admin/modules/subcategory/models/subcategory';
 import { CCategory } from '../admin/modules/category/models/category';
 import { ProfileProviderService } from './../provider/modules/profile-provider/services/profile-provider.service';
-import { CProfileProvider } from '../provider/modules/profile-provider/models/profile-provider';
 import { Router } from '@angular/router';
+import { PromotionService } from './../admin/modules/promotions/services/promotion.service';
+import { CPromotion } from '../admin/modules/promotions/interfaces/promotion.interface';
+import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +27,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   isMobile: boolean = (window.innerWidth > 768) ? false : true
   categories: CCategory[]
   subcategories: CSubcategory[]
-  companies: CProfileProvider[]
   currentSubcategories: CSubcategory[]
 
   itemsCarousel = [
@@ -47,6 +48,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   responsiveOptions: any
   eventHeader: any
   displaySubcategories: boolean = false
+  promotions: CPromotion[]
+  profileProviders: CProfileProvider[]
 
 
   constructor(
@@ -55,7 +58,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private subcategoryService: SubcategoryService,
     private messageService: MessageService,
     private profileProviderService: ProfileProviderService,
-    private router: Router
+    private router: Router,
+    private promotionsService: PromotionService
   ) {
     this.responsiveOptions = [
       {
@@ -79,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(){
     this.getCategories()
     this.getSubcategories() 
-    this.getCompanies()
+    this.getPromotions()
   }
 
   ngOnInit(): void {
@@ -94,13 +98,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobile = (event.target.innerWidth > 768) ? false: true
   }
 
-  getCompanies() {
+  getProfileProviders() {
+    this.profileProviderService.getByArray(this.promotions.map(promotion => { return promotion.profileProviderId })).subscribe((response: IResponseApi) => {
+      this.general.c('getProfileProviders', response)
+      this.profileProviders = response.data
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
+  }
+
+  getPromotions() {
     this.subs.add(
-      this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
-        this.general.c('Get Compmanies', response)
-        this.companies = response.data
+      this.promotionsService.get().subscribe((response: IResponseApi) => {
+        this.general.c('Get getPromotions', response)
+        this.promotions = response.data
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
+        }else{
+          this.getProfileProviders()
         }
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -169,8 +184,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
-
-  }
+  }  
 
   companyListEvent($event:any) {
     this.general.c('companyListEvent', $event)
@@ -212,6 +226,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-') 
     this.router.navigate([`/resultados/${redirect}`])
   }
+  
   
 
 }

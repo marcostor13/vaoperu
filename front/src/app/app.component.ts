@@ -13,10 +13,8 @@ export class AppComponent {
 
   private subs = new SubSink()
 
-  constructor(
-    private store: Store<any>,
-    private general: GeneralService
-    ){
+  constructor(private store: Store<any>,
+              private general: GeneralService){
       this.subscriptionLoading()        
     }    
     title = 'front'

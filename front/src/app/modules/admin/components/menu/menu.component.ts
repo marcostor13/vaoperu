@@ -38,6 +38,10 @@ export class MenuComponent implements OnInit {
           {
             label: 'Subcategorías',
             routerLink: '/admin/subcategories'
+          },
+          {
+            label: 'Promociones',
+            routerLink: '/admin/promotions'
           }
         ]
       },    

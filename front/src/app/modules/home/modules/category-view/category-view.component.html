@@ -11,6 +11,7 @@
     <div>
         <app-company-list *ngIf="currentProfileProviders?.length>0" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
     </div>
+    <h4 class="text-center mt-3" *ngIf="currentProfileProviders?.length === 0" >No se encontraron resultados</h4>
 
 </div>
 

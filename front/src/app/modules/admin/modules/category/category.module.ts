@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryComponent } from './category.component';
-import { MenuAdminModule } from '../../components/menu/menu.module';
-import { HeaderAdminModule } from '../../components/header/header.module';
-
 import { ConfirmationService } from 'primeng/api';
 import { OrderListModule } from 'primeng/orderlist';
 import { DialogModule } from 'primeng/dialog';
@@ -19,8 +15,6 @@ import { FileUploadModule } from 'primeng/fileupload';
   imports: [
     CommonModule,
     CategoryRoutingModule,
-    MenuAdminModule,
-    HeaderAdminModule,
     ConfirmPopupModule,
     OrderListModule,
     DialogModule,

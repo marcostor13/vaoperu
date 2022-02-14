@@ -624,6 +624,41 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
     }
 }
 
+.slide-promotion{
+    .p-carousel-next{
+        position: absolute !important;
+        right: 0 !important;
+        background-color: white !important;        
+    }
+    
+    .p-carousel-content{
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .p-carousel-prev{
+        position: absolute !important;
+        left: 0 !important;
+        z-index: 100 !important;
+        background-color: white !important;
+        
+    }  
+    
+    @media (max-width: 1024px) {
+        .p-carousel-content{
+            border-radius: 14px;
+        }
+        .p-carousel-next{
+            display: none !important;        
+        }  
+    
+        .p-carousel-prev{
+            display: none !important;        
+        }
+    
+    }
+}
+
 
 .slide-products{
     .p-carousel-indicators{
@@ -895,4 +930,8 @@ $size:100px;
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
     border-color: $color1 !important
+}
+
+.cropper-wrapper{
+    max-width: 100% !important;
 }
