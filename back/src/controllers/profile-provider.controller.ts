@@ -70,7 +70,7 @@ export const getByArray = async (req: Request, res: Response) => {
         }
         res.status(200).json({
             message: '',
-            data: response[0]
+            data: response
         })
     })
 }

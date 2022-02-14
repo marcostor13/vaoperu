@@ -72,6 +72,15 @@ export class ProfileProviderService {
     return this.api.api(data)
   }
 
+  getByArray(profileProviders: string[]){
+    const data: IDataApi = {
+      service: `get-${this.model}-by-array`,
+      type: 'post',
+      data: { profileProviders }
+    }
+    return this.api.api(data)
+  }
+
   getUrlByUrl(url: string) {
     const data: IDataApi = {
       service: `get-url-by-url/${url}`,

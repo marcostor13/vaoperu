@@ -1,0 +1,73 @@
+
+
+<div class="p-5 col-12 col-md-6">
+    <button class="btn2" (click)="back()">Atrás</button>
+    <h4 class="text-color1 mt-5">{{promotionId? 'Editar': 'Agregar'}} promoción</h4>
+    <input (keyup)="invalid.name=false"  class="mt-5" type="text" placeholder="Nombre" [ngClass]="{'invalid': invalid.name}" [(ngModel)]="currentItem.name" >
+    <textarea (keyup)="invalid.description=false" class="mt-2" placeholder="Descripción" [ngClass]="{'invalid': invalid.description}" [(ngModel)]="currentItem.description"></textarea>
+    <select  (change)="invalid.profileProviderId=false" [ngClass]="{'invalid': invalid.profileProviderId}" class="mt-1" [(ngModel)]="currentItem.profileProviderId">
+        <option value="">Seleccionar negocio</option>
+        <option *ngFor="let profileProvider of profileProviders" [value]="profileProvider._id">
+            {{profileProvider.comercialName}}
+        </option>
+    </select>
+    <input class="mt-2" type="number" placeholder="S/ Precio (opcional)" [(ngModel)]="currentItem.price" >
+    <div class="mt-5" [ngClass]="{'invalid': invalid.images}">
+        <p-fileUpload 
+            #fileUpload
+            styleClass="col-12 btn2"
+            mode="basic" 
+            accept="image/*"
+            [fileLimit]="1" 
+            [maxFileSize]="2048000"
+            (onSelect)="onUpload($event, fileUpload); invalid.images=false" 
+            [chooseLabel]="'Subir imagen'" 
+            uploadLabel="Subir" 
+            cancelLabel="Cancelar"
+            [multiple]="false"
+            [files]="images" 
+            [auto]="false" 
+            invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
+        </p-fileUpload>                      
+        <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
+    </div>    
+    
+    <div *ngIf="currentImages?.length>0" class="row m-0 justify-content-center align-items-center mt-2">
+        <div *ngFor="let currentImage of currentImages" class="bg-color6 image image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
+            <div (click)="removeImage(currentImage)" class="delete">
+                <i class="pi pi-trash text-white f-20"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <button (click)="presave()" class="btn1 mr-2">Guardar</button>            
+        <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6">Eliminar</button>
+    </div>
+    
+</div>
+
+<p-dialog 
+    header="" 
+    [(visible)]="displayModal" 
+    [modal]="true" 
+    (onHide)="resetUploadButton()"
+    [styleClass]="'modalLogin'" 
+    [baseZIndex]="10000"
+    [autoZIndex]="true"
+    [draggable]="false"
+    [resizable]="false">
+    <div class="d-flex justify-content-center">             
+        <div class="container-cropper p-3">
+            <angular-cropper #angularCropper (cropmove)="moveCropper()" [cropperOptions]="config" [imageUrl]="imageUrl"></angular-cropper>
+        </div>
+        <div class="p-3">
+            <div class="image image2" [ngStyle]="{'background-image': 'url('+dataImage+')'}"></div>
+        </div>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+        <button class="btn1" (click)="cropper()">Subir</button>
+    </div>
+</p-dialog>
+
+<p-confirmPopup [autoZIndex]="false" [baseZIndex]="1000001"></p-confirmPopup>

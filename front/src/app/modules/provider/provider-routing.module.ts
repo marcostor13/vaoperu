@@ -1,27 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RoleProviderGuard } from '../auth/guards/role-provider.guard';
 
 const routes: Routes = [  
   {
     path: 'dashboard',
-    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [RoleProviderGuard]
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./modules/profile-provider/profile-provider.module').then(m => m.ProfileProviderModule),
-    canActivate: [RoleProviderGuard]
+    loadChildren: () => import('./modules/profile-provider/profile-provider.module').then(m => m.ProfileProviderModule)
   },
   {
     path: 'products',
-    loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule),
-    canActivate: [RoleProviderGuard]
+    loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
   },
   {
     path: 'offers',
-    loadChildren: () => import('./modules/offer/offer.module').then(m => m.OfferModule),
-    canActivate: [RoleProviderGuard]
+    loadChildren: () => import('./modules/offer/offer.module').then(m => m.OfferModule)
   },
 
   {

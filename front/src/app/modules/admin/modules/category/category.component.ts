@@ -110,8 +110,7 @@ export class CategoryComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CCategory
         this.get()
-      }, error => {
-        
+      }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
       })
     )    
@@ -152,8 +151,7 @@ export class CategoryComponent implements OnInit {
       }).catch(_ => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
       })
-    }
-    
+    }    
   }
 
   //IMAGE
