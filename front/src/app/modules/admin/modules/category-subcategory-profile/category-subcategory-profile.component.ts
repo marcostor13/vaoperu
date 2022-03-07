@@ -55,7 +55,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
 
   getProfiles(){
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi)=>{
-      this.general.c('getProfiles', response)
       this.profileProviders = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
@@ -64,7 +63,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
 
   getCategories(){
     this.categoryService.get().subscribe((response: IResponseApi) => {
-      this.general.c('getCategories', response)
       this.categories = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
@@ -73,7 +71,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
 
   getSubcategories() {
     this.subcategoryService.get().subscribe((response: IResponseApi) => {
-      this.general.c('getSubcategories', response)
       this.subcategories = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
@@ -82,7 +79,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
 
   getCategoriesAndSubcategoriesByProfileProfiderId(profileProviderId: string) {
     this.categorySubcategoryProfileService.getByProfileProviderId(profileProviderId).subscribe((response: IResponseApi) => {
-      this.general.c('getCategoriesAndSubcategoriesByProfileProfiderId', response.data)
       this.currentList = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
@@ -94,7 +90,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   }
 
   addEdit(item: CProfileProvider = null) {
-    this.general.c('ITem', item)
     if (item) {
       this.currentProfileProvider = item
       this.getCategoriesAndSubcategoriesByProfileProfiderId(item._id)     
@@ -122,7 +117,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
           this.categories.filter(category=>category._id === this.currentCategory)[0].name
       }
       this.categorySubcategoryProfileService.save(payload).subscribe((response: IResponseApi) => {
-        this.general.c('add', response.data)
         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
         this.getCategoriesAndSubcategoriesByProfileProfiderId(this.currentProfileProvider._id)
       }, error => {

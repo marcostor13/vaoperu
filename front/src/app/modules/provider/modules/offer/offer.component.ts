@@ -44,7 +44,6 @@ export class OfferComponent implements OnInit {
   get() {
     this.subs.add(
       this.offerService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get', response)
         this.items = response.data
         if(response.data?.length === 0){
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay ofertas disponibles' });

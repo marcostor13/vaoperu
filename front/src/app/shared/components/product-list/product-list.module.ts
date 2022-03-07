@@ -4,6 +4,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { CarouselModule } from 'primeng/carousel';
 import { ProductListComponent } from './product-list.component';
 import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ProductListComponent],
@@ -12,6 +13,7 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     CarouselModule, 
     DialogModule,
+    FormsModule
   ],
   exports: [ProductListComponent],
 })

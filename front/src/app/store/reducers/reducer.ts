@@ -1,7 +1,7 @@
 import {  Action, createReducer, on } from '@ngrx/store';
 import * as states from '../actions/setdata.actions';
 import * as globalState from '../state/state';
-import { cloneDeep } from 'lodash-es';
+import { ICart } from '@shared/interfaces/cart.interfaces';
 
 const reducer = createReducer(
     globalState.initialState,
@@ -32,6 +32,15 @@ const reducer = createReducer(
             }
         }
     ), 
+    on(
+        states.setCart,
+        (state: globalState.IStoreState, action: { cart: ICart }): globalState.IStoreState => {
+            return {
+                ...state,
+                cart: action.cart
+            }
+        }
+    ),
         
 )
 

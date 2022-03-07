@@ -32,6 +32,24 @@ export class UserService {
     return this.api.api(data)
   }
 
+  getById(id:string) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-id/${id}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+  
+  getByIds(ids: string[]) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-ids`,
+      type: 'post',
+      data: {ids}
+    }
+    return this.api.api(data)
+  }
+
   delete(id: string) {
     const data: IDataApi = {
       service: `delete-${this.model}/${id}`,

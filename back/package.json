@@ -3,7 +3,8 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
-    "dev": "concurrently \"tsc -w\" \"nodemon lib/index.js\""
+    "start": "concurrently \"tsc -w\" \"nodemon lib/index.js\"",
+    "dev": "concurrently \"tsc -w\" \"nodemon lib/index.js\""    
   },
   "engines": {
     "node": "10"

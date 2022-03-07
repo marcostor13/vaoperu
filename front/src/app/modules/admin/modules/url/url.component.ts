@@ -38,7 +38,6 @@ export class UrlComponent implements OnInit {
 
   get() {
     this.urlService.get().subscribe((response: IResponseApi) => {
-      this.general.c('Get', response)
       this.items = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -47,7 +46,6 @@ export class UrlComponent implements OnInit {
 
   getProfileProviders() {
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
-      this.general.c('getProfileProviders', response)
       this.profileProviders = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -102,7 +100,6 @@ export class UrlComponent implements OnInit {
   add(){    
     if (!this.validate(this.currentItem)) {
       this.urlService.save(this.currentItem).subscribe((response: IResponseApi) => {
-        this.general.c('Add', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message ? response.message: 'Usuario registrado' });
         if(!this.currentItem._id){
           this.currentItem = new CUrl
@@ -118,7 +115,6 @@ export class UrlComponent implements OnInit {
   delete(item: CUrl) {
     
     this.urlService.delete(item._id).subscribe((response: IResponseApi) => {
-      this.general.c('Delete', response)
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUrl
       this.get()
@@ -132,9 +128,7 @@ export class UrlComponent implements OnInit {
   }
 
   updateAll() {
-    this.general.c('reorder', this.items)
     this.urlService.updateAll(this.items).subscribe((response: IResponseApi) => {
-      this.general.c('updateAll', response)
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUrl
       this.get()

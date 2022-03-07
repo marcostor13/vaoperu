@@ -34,7 +34,6 @@ export class DistrictComponent implements OnInit {
   get() {
     this.subs.add(
       this.districtService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get', response)
         this.items = response.data
         
       }, error => {
@@ -88,8 +87,6 @@ export class DistrictComponent implements OnInit {
     if (!this.validate()){
       this.subs.add(
         this.districtService.save(this.currentItem).subscribe((response: IResponseApi) => {
-          
-          this.general.c('Add', response)
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
           this.currentItem = new CDistrict
           this.get()
@@ -102,11 +99,8 @@ export class DistrictComponent implements OnInit {
   }
 
   updateAll(){
-    this.general.c('reorder', this.items)
     this.subs.add(
       this.districtService.updateAll(this.items).subscribe((response: IResponseApi) => {
-        
-        this.general.c('updateAll', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CDistrict
         this.get()
@@ -120,8 +114,6 @@ export class DistrictComponent implements OnInit {
   delete(item: CDistrict) {
     this.subs.add(
       this.districtService.delete(item._id).subscribe((response: IResponseApi) => {
-        
-        this.general.c('Delete', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CDistrict
         this.get()

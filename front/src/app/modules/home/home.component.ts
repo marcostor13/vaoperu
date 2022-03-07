@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   categories: CCategory[]
   subcategories: CSubcategory[]
   currentSubcategories: CSubcategory[]
+  switch: string = 'companies'
 
   itemsCarousel = [
     {
@@ -50,8 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   displaySubcategories: boolean = false
   promotions: CPromotion[]
   profileProviders: CProfileProvider[]
-
-
+  
   constructor(
     private general: GeneralService,
     private categoryService: CategoryService,
@@ -99,8 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getProfileProviders() {
-    this.profileProviderService.getByArray(this.promotions.map(promotion => { return promotion.profileProviderId })).subscribe((response: IResponseApi) => {
-      this.general.c('getProfileProviders', response)
+    this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
       this.profileProviders = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -110,7 +109,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   getPromotions() {
     this.subs.add(
       this.promotionsService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get getPromotions', response)
         this.promotions = response.data
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
@@ -166,7 +164,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   getCategories(){
     this.subs.add(
       this.categoryService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get Categories', response)
         this.categories = response.data
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -177,7 +174,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   getSubcategories(){
     this.subs.add(
       this.subcategoryService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get subcategories', response)
         this.subcategories = response.data
         this.getMenu()
       }, error => {
@@ -187,7 +183,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }  
 
   companyListEvent($event:any) {
-    this.general.c('companyListEvent', $event)
     switch ($event.event) {
       case 'open-login':
         this.eventHeader = $event
@@ -204,7 +199,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   openSubcategoriesModal(subcategories: CSubcategory[]){
-    this.general.c('openSubcategoriesModal', subcategories)
     this.currentSubcategories = subcategories
     this.displaySubcategories = true
   }
@@ -213,7 +207,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     let subcategories: CSubcategory[] = []
 
     subcategories = [...this.subcategories.filter(subcategory=>subcategory.categoryId === category._id)]
-    this.general.c('subcategories', subcategories)
     if(subcategories.length>0){
       this.openSubcategoriesModal(subcategories)
     }else{
@@ -225,6 +218,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   redirectSubcategory(subcategory: CSubcategory){
     const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-') 
     this.router.navigate([`/resultados/${redirect}`])
+  }
+
+  toogleSwitch(type: string){
+    this.switch = type
   }
   
   

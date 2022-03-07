@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as action from '@actions/setdata.actions'
+import { Store } from '@ngrx/store';
+import * as action from '@actions/setdata.actions';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/storage';

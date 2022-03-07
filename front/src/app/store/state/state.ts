@@ -1,14 +1,27 @@
 
-
+import { ICart } from '@shared/interfaces/cart.interfaces'
 
 export interface IStoreState {
     data: any
     isLoading: boolean
     currentRole: string
+    cart: ICart
+    
+}
+
+const initialCart = {
+    profileProviderId: '',
+    userId: '',
+    items: []
 }
 
 export const initialState: IStoreState = {
     data: {}, 
     isLoading: false,    
-    currentRole: null
-};
+    currentRole: '1',
+    cart: {
+        profileProviderId: '',
+        userId: '',
+        items: []
+    }
+}

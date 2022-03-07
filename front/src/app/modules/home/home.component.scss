@@ -31,14 +31,6 @@
     min-width: 200px;
 }
 
-
-@media (min-width: 1024px) {
-    .image{               
-        min-height: 500px;
-    }
-}
-
-
 .categories{
     padding-top: 100px;
     padding-bottom: 100px;
@@ -60,7 +52,19 @@
     background-size: cover;
 }
 
+.btn2:hover{
+    opacity: 1 !important;
+}
 
+.button-switch{
+    min-width: 140px;
+}
+
+@media (min-width: 1024px) {
+    .image{               
+        min-height: 500px;
+    }
+}
 
 @media (max-width: 1470px) {
     .item-carousel{               

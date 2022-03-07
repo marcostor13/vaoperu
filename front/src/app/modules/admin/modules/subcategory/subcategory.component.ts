@@ -47,7 +47,6 @@ export class SubcategoryComponent implements OnInit {
   get() {
     this.subs.add(
       this.subcategoryService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get', response)
         this.items = response.data
                 
       }, error => {        
@@ -90,7 +89,6 @@ export class SubcategoryComponent implements OnInit {
   }
 
   addEdit(item: CSubcategory = null) {
-    this.general.c('ITem', item)
     if (item) {
       this.currentItem = item  
       if (item.image){
@@ -120,8 +118,7 @@ export class SubcategoryComponent implements OnInit {
 
   add() {    
     this.subs.add(
-      this.subcategoryService.save(this.currentItem).subscribe((response: IResponseApi) => {        
-        this.general.c('Add', response)
+      this.subcategoryService.save(this.currentItem).subscribe((response: IResponseApi) => {   
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CSubcategory
         if(!this.currentItem._id){
@@ -136,11 +133,8 @@ export class SubcategoryComponent implements OnInit {
   }
 
   updateAll(){
-    this.general.c('reorder', this.items)
     this.subs.add(
       this.subcategoryService.updateAll(this.items).subscribe((response: IResponseApi) => {
-        
-        this.general.c('updateAll', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CSubcategory
         this.get()
@@ -157,8 +151,6 @@ export class SubcategoryComponent implements OnInit {
         this.currentImage = null
         this.subs.add(
           this.subcategoryService.delete(item._id).subscribe((response: IResponseApi) => {
-            
-            this.general.c('Delete', response)
             this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
             this.currentItem = new CSubcategory
             this.get()
@@ -177,7 +169,6 @@ export class SubcategoryComponent implements OnInit {
   //IMAGE
 
   removeImage(image: CImages) {
-    this.general.c('RemoveImage', image)
     if (image.url) {
       this.deleteImage = image
       this.currentItem.image = ''
@@ -186,13 +177,11 @@ export class SubcategoryComponent implements OnInit {
   }
 
   onUpload(event: any) {
-    this.general.c('onUpload', event)
     event.currentFiles.map((file: any) => {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.currentImage = { file: file, blob: reader.result, url: null }
-        this.general.c('Onupload', this.currentImage)
       };
     })
     this.images = []
@@ -201,7 +190,6 @@ export class SubcategoryComponent implements OnInit {
   presave() {
     if (!this.validate()) {
       this.general.isLoad(true)
-      this.general.c('save image', this.deleteImage)
       if (this.deleteImage) {
         this.general.deleteImage(this.deleteImage.url).then(() => {
           this.currentImage = null

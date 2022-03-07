@@ -154,7 +154,7 @@ export class AuthloginComponent implements OnInit {
             this.router.navigate(['/'])
           } else if (user.role.indexOf('provider') > -1) {
             this.generalService.c('login', 'provider')
-            this.router.navigate(['/provider'])
+            this.router.navigate(['/provider/dashboard'])
           } else if (user.role.indexOf('admin') > -1) {
             this.generalService.c('login', 'admin')
             this.router.navigate(['/admin/dashboard'])

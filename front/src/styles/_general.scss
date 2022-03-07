@@ -292,6 +292,16 @@ body, .home, footer{
     opacity: 0.7;
 }
 
+.btn-disabled{
+    background-color: $color6;
+    color: $color4;
+    font-size: 11pt;   
+    border: none;
+    min-width: 100px;    
+    border-radius: 0;
+}
+
+
 
 //SELECTS
 

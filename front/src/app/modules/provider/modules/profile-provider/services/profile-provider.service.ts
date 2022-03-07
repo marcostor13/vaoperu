@@ -18,7 +18,6 @@ export class ProfileProviderService {
   ) { }
 
   save(element: any) {
-    this.general.c('SAVE ELEMEENT', element.userid)
     const data: IDataApi = {
       service: element._id ? `update-${this.model}/${element._id}` : `save-${this.model}`,
       type: element._id ? 'patch' : 'post',
@@ -39,6 +38,15 @@ export class ProfileProviderService {
   getById(id: string) {
     const data: IDataApi = {
       service: `get-${this.model}-by-id/${id}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
+  getByUserId(id: string) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-user-id/${id}`,
       type: 'get',
       data: null
     }

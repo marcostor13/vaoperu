@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = void 0;
+exports.del = exports.update = exports.getByIds = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = void 0;
 const user_1 = require("../models/user");
 const jwt = require("jsonwebtoken");
 const keys = require("../keys");
@@ -80,6 +80,20 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getByID = (req, res) => {
     Collection.findById(req.params.id, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.getByIds = (req, res) => {
+    Collection.find({ _id: req.body.ids }, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

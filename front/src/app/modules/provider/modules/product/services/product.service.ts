@@ -31,6 +31,15 @@ export class ProductService {
     return this.api.api(data)
   }
 
+  getByIds(ids:string[]) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-ids`,
+      type: 'post',
+      data: { ids}
+    }
+    return this.api.api(data)
+  }
+
   getByProfileProviderId(profileProviderId: string) {
     const data: IDataApi = {
       service: `get-${this.model}-by-profile-provider-id/${profileProviderId}`,
