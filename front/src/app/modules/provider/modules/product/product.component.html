@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div class="section-products col-4 p-0">
-                <app-product-list *ngIf="items?.length>0" [items]="items" (productsEvent)=productListEvent($event)></app-product-list>            
+                <app-product-list [profileProviderId]="profileProvider._id" *ngIf="items?.length>0" [items]="items" (productsEvent)=productListEvent($event)></app-product-list>            
             </div>
         </div>
     </div>

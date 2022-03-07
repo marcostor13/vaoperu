@@ -126,11 +126,9 @@ export class ProfileProviderComponent implements OnInit, OnDestroy {
   }
 
   save(){
-    this.general.c('SAVE PRE', this.profileProvider)
     this.profileProvider.distrinctName = this.general.getItemByID(this.districts, this.profileProvider.districtId).name    
     this.subs.add(
       this.profileProvideService.save(this.profileProvider).subscribe((response: IResponseApi) => {
-        this.general.c('Save Profile Provider', response)        
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.getProfileProvider()
         this.uploadPercent = 0

@@ -1,6 +1,6 @@
 <div class="product-list">
 
-    <p-dataView [value]="items" [paginator]="true" [rows]="rows ? rows: null" filterBy="name" layout="grid">
+    <p-dataView *ngIf="items?.length>0" [value]="items" [paginator]="items?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid">
         <ng-template *ngIf="rows===0" pTemplate="header">
             <div  class="row justify-content-between m-0">           
                 <div class="input-search">
@@ -11,7 +11,7 @@
             </div>
         </ng-template>
         
-        <ng-template let-product pTemplate="listItem">
+        <ng-template let-product let-i="rowIndex" pTemplate="listItem">
             <div class="product col-12 p-3 row flex-column flex-md-row m-0">
                 <div class="row m-0 align-items-center flex-wrap sub-product">
                     <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="product.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
@@ -20,6 +20,11 @@
                         </ng-template>
                     </p-carousel>
                     <div class="mt-2 pt-2 d-flex flex-column ml-3">
+                        <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center">
+                            <button (click)="changeProduct(i, 'subtract', product)">-</button>
+                            <input disabled="true" type="text" [(ngModel)]="quantity[i]">
+                            <button (click)="changeProduct(i, 'increase', product)" class="cursor">+</button>
+                        </div>
                         <h5 (click)="openModal(product)" class="cursor title">{{product.name}}</h5>
                         <div class="row align-items-center m-0">
                             <h5 (click)="openModal(product)" *ngIf="product.promotionalPrice" class="cursor primary-price text-color8">{{getPrice(product.promotionalPrice)}}</h5>
@@ -37,15 +42,20 @@
             </div>
         </ng-template>
 
-        <ng-template let-product pTemplate="gridItem">
+        <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
             <div class="product col-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row justify-content-center pt-2 pb-2">
                 <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="'carousel'">
                     <ng-template let-image pTemplate="item">
                         <div (click)="openModal(product)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>                        
                     </ng-template>
                 </p-carousel>
-                <div class="mt-2 pt-2 col-12 d-flex flex-column justify-content-between align-items-center">
-                    <h5 (click)="openModal(product)" class="title cursor">{{product.name}}</h5>
+                <div class="mt-2 col-12 d-flex flex-column justify-content-between align-items-center">
+                    <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center"    >
+                        <button (click)="changeProduct(i, 'subtract', product)">-</button>
+                        <input disabled="true" type="text" [(ngModel)]="quantity[i]">
+                        <button (click)="changeProduct(i, 'increase', product)" class="cursor">+</button>
+                    </div>
+                    <h5 (click)="openModal(product)" class="title cursor mt-2">{{product.name}}</h5>
                     <div class="row align-items-center">
                         <h5 (click)="openModal(product)" *ngIf="product.promotionalPrice" class="primary-price text-color8 cursor">{{getPrice(product.promotionalPrice)}}</h5>
                         <h5 (click)="openModal(product)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color8 cursor">{{getPrice(product.price)}}</h5>

@@ -49,7 +49,6 @@ export class PromotionListComponent implements OnInit {
   ngOnInit(): void {
     this.initializeItems()    
     this.role = this.authService.getRole() 
-    this.general.c('ProfileProviders', this.profileProviders)
   }
 
   initializeItems(){

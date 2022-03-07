@@ -1,6 +1,7 @@
 @import '../../../../styles/variables';
 
 $size: 210px;
+
 .product{
     min-height: $size;
     
@@ -46,6 +47,28 @@ $size: 210px;
     .description{
         white-space: pre-wrap;
     }  
+}
+
+.controls{
+    input{
+        margin-left: 10px;
+        margin-right: 10px;
+        max-width: 40px;
+        max-height: 30px;
+        border-radius: 4px;
+    }
+    input:disabled{
+        background-color: white !important;
+    }
+    button{
+
+        border-radius: 4px;
+        min-width: 30px;
+        min-height: 30px;
+        background-color: $color1;
+        border: none;
+        color: white;
+    }
 }
 
 

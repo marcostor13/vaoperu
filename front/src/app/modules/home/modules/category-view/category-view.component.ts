@@ -54,7 +54,6 @@ export class CategoryViewComponent implements OnInit {
 
   getCategories() {   
     this.categoryService.get().subscribe((response: IResponseApi) => {
-      this.general.c('Get Categories', response)
       this.categories = response.data
       this.getSubcategories()
     }, error => {
@@ -65,7 +64,6 @@ export class CategoryViewComponent implements OnInit {
 
   getDistricts() {
     this.districtService.get().subscribe((response: IResponseApi) => {
-      this.general.c('getDistricts', response)
       this.districts = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -75,7 +73,6 @@ export class CategoryViewComponent implements OnInit {
 
   getSubcategories() {   
     this.subcategoryService.get().subscribe((response: IResponseApi) => {
-      this.general.c('Get subcategories', response)
       this.subcategories = response.data
       this.searchData()
     }, error => {
@@ -96,14 +93,12 @@ export class CategoryViewComponent implements OnInit {
     if (categorySubcategory.length===0){
       categorySubcategory = [...this.subcategories.filter(subcategory => subcategory.name.toLowerCase().replace(/\s/g, '-') === this.catOrSubcategory)]
     }
-    this.general.c('searchData', categorySubcategory)
     this.getCategorySubcategoriesProfiles(categorySubcategory[0])
 
   }
 
   getCategorySubcategoriesProfiles(categorySubcategory: any){    
     this.categorySubcategoryProfileService.getByCategorySubcategoryId(categorySubcategory._id).subscribe((response: IResponseApi) => {
-      this.general.c('getCategorySubcategoriesProfiles', response)
       const catSubPro: ICategorySubcategoryProfile[] = response.data
       this.currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
       this.currentProfileProvidersTmp = [...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
@@ -121,7 +116,6 @@ export class CategoryViewComponent implements OnInit {
   }
 
   companyListEvent($event: any) {
-    this.general.c('companyListEvent', $event)
     switch ($event.event) {
       case 'open-login':
         this.eventHeader = $event

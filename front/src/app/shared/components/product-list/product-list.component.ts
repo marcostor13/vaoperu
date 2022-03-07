@@ -1,18 +1,26 @@
-import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
+import { CartService } from './../../services/cart/cart.service';
+import { CProduct } from 'src/app/modules/provider/modules/product/models/product';
+import { SubSink } from 'subsink';
+import { ICart } from '@shared/interfaces/cart.interfaces';
+import { Store } from '@ngrx/store';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnChanges {
 
   @Input() items: Array<any>
   @Input() rows: number
-  @Output() productsEvent: EventEmitter<any> =  new EventEmitter();
+  @Input() type: string
+  @Input() profileProviderId: string
+  @Output() productsEvent: EventEmitter<any> =  new EventEmitter()
 
   responsiveOptions: Array<any>
   sortOptions: SelectItem[]
@@ -24,10 +32,17 @@ export class ProductListComponent implements OnInit {
   isMobile:boolean = false
   displayModal: boolean = false
   currentItem: any
+  quantity: number[] = []
+  cart: ICart
+  isProviderPath: boolean
+
+  private subs = new SubSink()
 
   constructor(
     private general: GeneralService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService,
+    private store: Store<any>,
   ) {
     this.responsiveOptions = [
       {
@@ -45,19 +60,84 @@ export class ProductListComponent implements OnInit {
         numVisible: 1,
         numScroll: 1
       }
-    ];
+    ];  
     
+    this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
+   
+  }
+
+  ngOnChanges(){
+    this.initializeQuantities()
+    if (!this.isProviderPath){
+      this.subscriptionCart() 
+    }
+  }
+
+  subscriptionCart() {
+    this.subs.add(
+      this.store.select((state) => state.Reducer.cart)
+        .pipe(delay(0))
+        .subscribe((cart: ICart) => {
+          if (!cart) {
+            this.resetCart()
+          }else{
+            if(cart.profileProviderId !== this.profileProviderId){
+              this.resetCart()
+            }else{
+              this.cart = cart;
+            }
+          }
+          this.setQuantities()
+        })
+    )
+  }
+
+  resetCart(){
+    this.cartService.setDataCart({
+      profileProviderId: this.profileProviderId,
+      userId: '',
+      items: []
+    })
   }
   
   
   ngOnInit(): void {
-    this.initializeItems()    
     this.role = this.authService.getRole()
+    this.initializeItems()  
+  }
+  
+  setQuantities() {
+    this.items?.map((prod, index) => {
+      this.quantity[index] = 0
+    })
+    if (this.cart?.items?.length>0){
+      this.cart.items.map((item, i) => {
+        this.items?.map((prod, index) => {
+          if (prod._id === item.productId) {
+            this.quantity[index] = item.quantity
+          }
+        })
+      })
+    }else{
+      this.items?.map((prod, index) => {
+        this.quantity[index] = 0        
+      })
+    }
   }
 
   initializeItems(){
     if (this.items) {
       this.itemsTmp = [...this.items]
+    }
+  }
+
+  initializeQuantities(){   
+    if (this.items){
+      if(this.type === 'Productos' || this.type === 'Destacados'){
+        this.items.map((_, i)=>{
+          this.quantity[i] = 0
+        })
+      }
     }
   }
 
@@ -83,7 +163,6 @@ export class ProductListComponent implements OnInit {
 
   search(event:any){
     const srt = event.target.value
-    this.general.c('srt', srt)
     if(srt === ''){
       this.items = [...this.itemsTmp]
     }else{
@@ -105,6 +184,38 @@ export class ProductListComponent implements OnInit {
   openModal(item: any){
     this.currentItem = item
     this.displayModal = true
+  }
+
+  changeProduct(i:number, type:string, product: CProduct){
+    let quantity:number
+    switch (type) {
+      case 'increase':
+        quantity = this.quantity[i]+1
+        const itemCart = {
+          productId: product._id,
+          quantity,
+          productData: {
+            name: product.name,
+            price: product.price,
+            promotionalPrice: product.promotionalPrice
+          }
+        }
+        this.cartService.addToCart(itemCart, this.profileProviderId)
+        break;      
+      case 'subtract':
+        quantity = this.quantity[i]-1
+        if (quantity>0){
+          this.cartService.substractToCart(product._id, this.profileProviderId)
+        }else{
+          this.cartService.removeToCart(product._id, this.profileProviderId)
+        }
+        break;
+    }
+    this.setQuantities()
+  } 
+
+  ngOnDestroy() {
+    this.subs.unsubscribe()
   }
   
 

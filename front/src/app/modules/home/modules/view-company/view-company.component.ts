@@ -50,7 +50,6 @@ export class ViewCompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.generalService.c('CompanyURL', this.companyUrl)
     this.getUrlData()
     this.getFavorites()
   }
@@ -63,7 +62,6 @@ export class ViewCompanyComponent implements OnInit {
 
   getProfileProvider(profileProviderId:string){
     this.profileProviderService.getById(profileProviderId).subscribe((response: IResponseApi) => {
-      this.generalService.c('getProfileProvider', response.data)
       this.profileProvider = response.data
       this.getProducts()
     })
@@ -71,7 +69,6 @@ export class ViewCompanyComponent implements OnInit {
 
   getProducts(){
     this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
-      this.generalService.c('getProducts', response.data)
       this.products = response.data
       this.getOffers()
     })
@@ -79,7 +76,6 @@ export class ViewCompanyComponent implements OnInit {
 
   getOffers() {
     this.offersService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
-      this.generalService.c('offers', response.data)
       this.offers = response.data
       this.formatTabs()
     })
@@ -99,8 +95,7 @@ export class ViewCompanyComponent implements OnInit {
         title: 'Ofertas',
         data: this.offers
       }]     
-    }
-   
+    }      
   }
 
   addfavorites() {
@@ -118,7 +113,6 @@ export class ViewCompanyComponent implements OnInit {
     if (this.role) {
       this.favoriteService.getByClientId(this.authService.getUserID()).subscribe((response: IResponseApi) => {
         this.favorites = response.data
-        this.generalService.c('favorites', this.favorites)
       })
     }
   }
@@ -141,7 +135,6 @@ export class ViewCompanyComponent implements OnInit {
 
     if (idFavorite) {
       this.favoriteService.delete(idFavorite).subscribe((response: IResponseApi) => {
-        this.generalService.c('deleteFavorites', response)
         this.messageService.add({ detail: response.message, summary: 'Éxito', severity: 'success' })
         this.getFavorites()
       }, error => {

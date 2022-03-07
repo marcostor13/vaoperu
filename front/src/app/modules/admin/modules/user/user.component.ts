@@ -39,7 +39,6 @@ export class UserComponent implements OnInit {
 
   get() {
     this.userService.get().subscribe((response: IResponseApi) => {
-      this.general.c('Get', response)
       this.items = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -107,9 +106,10 @@ export class UserComponent implements OnInit {
 
   add(){    
     if (!this.validate(this.currentItem)) {
-      delete this.currentItem.password
+      if(this.currentItem._id){
+        delete this.currentItem.password
+      }
       this.userService.save(this.currentItem).subscribe((response: IResponseApi) => {
-        this.general.c('Add', response)
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message ? response.message: 'Usuario registrado' });
         this.currentItem = new CUser
         this.get()
@@ -123,7 +123,6 @@ export class UserComponent implements OnInit {
   delete(item: CUser) {
     
     this.userService.delete(item._id).subscribe((response: IResponseApi) => {
-      this.general.c('Delete', response)
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUser
       this.get()

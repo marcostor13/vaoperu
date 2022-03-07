@@ -10,13 +10,17 @@ import { MegaMenuModule } from 'primeng/megamenu';
 import { AuthloginModule } from './../authlogin/authlogin.module';
 import { DialogModule } from 'primeng/dialog';
 import { SidebarModule } from 'primeng/sidebar';
+import { BadgeModule } from 'primeng/badge';
+import { CartComponent } from './../cart/cart.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    CartComponent
   ],
   imports: [
-    CommonModule,    
+  CommonModule,    
     MenuModule,
     MenubarModule,
     SharedModule,
@@ -26,6 +30,8 @@ import { SidebarModule } from 'primeng/sidebar';
     AuthloginModule,
     DialogModule,    
     SidebarModule,
+    BadgeModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent

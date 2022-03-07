@@ -37,7 +37,6 @@ export class FavoritesComponent implements OnInit {
         const favorites: IFavoriteData[] = response.data
         const favoritesArray: string[] = favorites.map(favorite => { return favorite.profileProviderId })
         this.currentProfileProviders = this.profileProviders.filter(profile => favoritesArray.includes(profile._id))
-        this.general.c('getFavorites', this.currentProfileProviders)      
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
@@ -48,7 +47,6 @@ export class FavoritesComponent implements OnInit {
 
   getProfilesProvider(){
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
-      this.general.c('getProfilesProvider', response)
       this.profileProviders = response.data
       this.getFavorites()
     }, error => {
@@ -57,7 +55,6 @@ export class FavoritesComponent implements OnInit {
   }
 
   companyListEvent($event: any) {
-    this.general.c('companyListEvent', $event)
     switch ($event.event) {
       case 'open-login':
         this.eventHeader = $event

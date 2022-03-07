@@ -1,0 +1,33 @@
+@import '../../../../styles/variables';
+
+
+.image{
+    min-height: 70px;
+    min-width: 70px;
+}
+
+.controls{
+    input{
+        margin-left: 10px;
+        margin-right: 10px;
+        max-width: 40px;
+        max-height: 30px;
+        border-radius: 4px;
+    }
+    input:disabled{
+        background-color: white !important;
+    }
+    button{
+
+        border-radius: 4px;
+        min-width: 30px;
+        min-height: 30px;
+        background-color: $color1;
+        border: none;
+        color: white;
+    }
+}
+
+li{
+    border-bottom: 1px solid $color1;
+}

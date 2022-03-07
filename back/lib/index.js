@@ -26,6 +26,7 @@ const url_routes_1 = require("./routes/url.routes");
 const favorite_routes_1 = require("./routes/favorite.routes");
 const category_subcategory_profile_routes_1 = require("./routes/category-subcategory-profile.routes");
 const promotion_routes_1 = require("./routes/promotion.routes");
+const order_routes_1 = require("./routes/order.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
@@ -54,6 +55,7 @@ app.use(url_routes_1.default);
 app.use(favorite_routes_1.default);
 app.use(category_subcategory_profile_routes_1.default);
 app.use(promotion_routes_1.default);
+app.use(order_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
 //LOCAL

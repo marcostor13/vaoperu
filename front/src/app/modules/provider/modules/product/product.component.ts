@@ -38,13 +38,21 @@ export class ProductComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.get()
+    this.getProfileProvider()
+  }
+  
+  getProfileProvider() {
+    this.profileProviderService.get().subscribe((response: IResponseApi) => {
+      this.profileProvider = response.data
+      this.getProducts()
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
   }
 
-  get() {
+  getProducts() {
     this.subs.add(
-      this.productService.get().subscribe((response: IResponseApi) => {
-        this.general.c('Get', response)
+      this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
         this.items = response.data
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
@@ -107,28 +115,19 @@ export class ProductComponent implements OnInit {
         // Nothing
       }
     });
-  }
+  } 
 
   add() {
-    this.subs.add(
-      this.profileProviderService.get().subscribe((response:IResponseApi)=>{
-        this.profileProvider = response.data
-        this.currentItem.profileProviderId = this.profileProvider._id
-        this.subs.add(
-          this.productService.save(this.currentItem).subscribe((response: IResponseApi) => {
-            this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
-            if(!this.currentItem?._id){
-              this.reset()
-            }
-            this.get()
-          }, error => {            
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-          })
-        )        
-      }, error=>{        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      })
-    )
+    this.currentItem.profileProviderId = this.profileProvider._id
+    this.productService.save(this.currentItem).subscribe((response: IResponseApi) => {
+      this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
+      if(!this.currentItem?._id){
+        this.reset()
+      }
+      this.getProducts()
+    }, error => {            
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
   }
 
   delete(item:CProduct){
@@ -137,7 +136,7 @@ export class ProductComponent implements OnInit {
       this.productService.delete(item._id).subscribe((response: IResponseApi) => {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CProduct
-        this.get()
+        this.getProducts()
       }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })

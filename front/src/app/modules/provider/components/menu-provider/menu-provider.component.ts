@@ -41,6 +41,10 @@ export class MenuProviderComponent implements OnInit {
         routerLink: '/provider/offers',
       },
       {
+        label: 'Ordenes',
+        routerLink: '/provider/orders',
+      },
+      {
         separator: true,
       },
       {

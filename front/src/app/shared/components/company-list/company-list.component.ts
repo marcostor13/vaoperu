@@ -84,7 +84,6 @@ export class CompanyListComponent implements OnInit {
     if (this.role) {
       this.favoriteService.getByClientId(this.authService.getUserID()).subscribe((response:IResponseApi)=>{
         this.favorites = response.data        
-        this.general.c('favorites', this.favorites)
       })
     }
   }
@@ -120,7 +119,6 @@ export class CompanyListComponent implements OnInit {
   }
 
   search(srt:string){
-    this.general.c('srt', srt)
     if(srt === ''){
       this.items = [...this.itemsTmp]
     }else{
@@ -159,7 +157,6 @@ export class CompanyListComponent implements OnInit {
         clientId: this.authService.getUserID(),
         profileProviderId: profileProviderId
       }).subscribe((response:IResponseApi)=>{
-        this.general.c('addfavorites', response)
         this.messageService.add({ detail: response.message, summary: 'Éxito', severity: 'success' })
         this.getFavorites()
       }, error=>{
@@ -180,7 +177,6 @@ export class CompanyListComponent implements OnInit {
 
     if (idFavorite){
       this.favoriteService.delete(idFavorite).subscribe((response: IResponseApi) => {
-        this.general.c('deleteFavorites', response)
         this.messageService.add({ detail: response.message, summary: 'Éxito', severity: 'success' })
         this.getFavorites()
       }, error => {
