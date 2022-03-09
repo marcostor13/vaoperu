@@ -28,7 +28,7 @@ export class ProfileProviderService {
 
   get() {
     const data: IDataApi = {
-      service: `get-${this.model}-by-userid/${this.authService.getUserID()}`,
+      service: `get-${this.model}-by-user-id/${this.authService.getUserID()}`,
       type: 'get',
       data: null
     }
