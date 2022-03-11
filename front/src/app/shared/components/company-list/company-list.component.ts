@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { GeneralService } from '@services/general.service';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faStar, faStore, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
@@ -35,6 +35,8 @@ export class CompanyListComponent implements OnInit {
   faWhatsapp = faWhatsapp
   faPhone = faPhone
   faStar = faStar
+  faStore = faStore
+  faMotorcycle = faMotorcycle
   favorites: IFavorite[]
 
   constructor(
@@ -70,7 +72,7 @@ export class CompanyListComponent implements OnInit {
   ngOnInit(): void {
     this.initializeItems()    
     this.role = this.authService.getRole() 
-    this.getFavorites()   
+    this.getFavorites() 
   }
 
   initializeItems(){

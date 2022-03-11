@@ -49,6 +49,7 @@ export class PromotionListComponent implements OnInit {
   ngOnInit(): void {
     this.initializeItems()    
     this.role = this.authService.getRole() 
+    this.general.c('Items', this.items)
   }
 
   initializeItems(){
@@ -95,6 +96,10 @@ export class PromotionListComponent implements OnInit {
         this.messageService.add({ detail: 'Url no configurada, contactate con el administrador', summary: 'Error', severity: 'error' })
       }
     })
+  }
+
+  filterFalse(images: any[]){
+    return images.filter(i=>i)
   }
 
 }

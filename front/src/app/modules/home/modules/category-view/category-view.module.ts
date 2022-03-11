@@ -8,6 +8,7 @@ import { FooterModule } from '@shared/components/footer/footer.module';
 import { CompanyListModule } from '@shared/components/company-list/company-list.module';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
+import { PromotionListModule } from '@shared/components/promotion-list/promotion-list.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     FooterModule,
     CompanyListModule,
     MultiSelectModule,
-    FormsModule
+    FormsModule,
+    PromotionListModule
   ]
 })
 export class CategoryViewModule { }

@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { PromotionService } from './../admin/modules/promotions/services/promotion.service';
 import { CPromotion } from '../admin/modules/promotions/interfaces/promotion.interface';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
+import { CategorySubcategoryProfileService } from '../admin/modules/category-subcategory-profile/services/category-subcategory-profile.service';
+import { ICategorySubcategoryProfile } from '../admin/modules/category-subcategory-profile/interfaces/category-subcategory-profile.interfaces';
 
 @Component({
   selector: 'app-home',
@@ -51,6 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   displaySubcategories: boolean = false
   promotions: CPromotion[]
   profileProviders: CProfileProvider[]
+  currentProfileProviders: CProfileProvider[]
+  currentPromotions: CPromotion[]
   
   constructor(
     private general: GeneralService,
@@ -59,7 +63,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private messageService: MessageService,
     private profileProviderService: ProfileProviderService,
     private router: Router,
-    private promotionsService: PromotionService
+    private promotionsService: PromotionService,
+    private categorySubcategoryProfileService: CategorySubcategoryProfileService
   ) {
     this.responsiveOptions = [
       {
@@ -106,6 +111,16 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
+  getCategorySubcategoriesProfiles(categorySubcategoryId: string) {
+    this.categorySubcategoryProfileService.getByCategorySubcategoryId(categorySubcategoryId).subscribe((response: IResponseApi) => {
+      const catSubPro: ICategorySubcategoryProfile[] = response.data
+      this.currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
+      this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
+  }
+
   getPromotions() {
     this.subs.add(
       this.promotionsService.get().subscribe((response: IResponseApi) => {
@@ -137,6 +152,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
                   `,
               styleClass: 'item-subcategory',
               escape: false,
+              command: _ =>{
+                if(this.isMobile){
+                  this.router.navigate([`/resultados/`+subcat.name])
+                }else{
+                  this.getCategorySubcategoriesProfiles(subcat._id)
+                }
+              }
             }
           ]
         }
@@ -151,11 +173,21 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
                 `,
           escape: false,    
           styleClass: 'item-category',      
-          items: subItems.length > 0? subItems: null
+          items: subItems.length > 0? subItems: null,
+          command: _ => {
+            if (subItems.length === 0){
+              if (this.isMobile) {
+                this.router.navigate([`/resultados/` + cat.name])
+              } else {
+                this.getCategorySubcategoriesProfiles(cat._id)
+              }
+            }
+          }
         }
       ]
     })
   }
+  
 
   getImageType(item){
     return this.isMobile? item.imageMobile: item.imageDesktop
@@ -192,12 +224,18 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
     }
   }
-  
 
-  redirect(url){
-    
+  eventsPanelMenu($event: any){
+    switch ($event.event) {
+      case 'click':
+        this.getCategorySubcategoriesProfiles($event.data)
+        break;
+
+      default:
+        break;
+    }
   }
-
+  
   openSubcategoriesModal(subcategories: CSubcategory[]){
     this.currentSubcategories = subcategories
     this.displaySubcategories = true
@@ -223,6 +261,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   toogleSwitch(type: string){
     this.switch = type
   }
+
+  
   
   
 
