@@ -8,10 +8,17 @@
         </div>
     </div>
 
-    <div>
-        <app-company-list *ngIf="currentProfileProviders?.length>0" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
+    <div class="mt-3">
+        <div class="d-flex justify-content-center">
+            <button class="mx-2 px-5 rounded-pill button-switch" (click)="toogleSwitch('companies')" [ngClass]="{'btn2': switch==='companies', 'btn-disabled': switch==='promotions'}" >Negocios</button>
+            <button class="mx-2 px-5 rounded-pill button-switch" (click)="toogleSwitch('promotions')" [ngClass]="{'btn2': switch==='promotions', 'btn-disabled': switch==='companies'}" >Promociones</button>
+        </div>
+        <app-promotion-list *ngIf="currentPromotions?.length>0 && profileProviders && switch==='promotions'" [items]="currentPromotions" [profileProviders]="profileProviders" (emitEvent)=companyListEvent($event)></app-promotion-list>
+        <h4 class="text-center mt-3" *ngIf="(!currentPromotions || currentPromotions?.length === 0) && switch==='promotions'" >No se encontraron resultados</h4>
+        <app-company-list *ngIf="currentProfileProviders?.length>0 && switch==='companies'" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
+        <h4 class="text-center mt-3" *ngIf="(!currentProfileProviders || currentProfileProviders?.length === 0) && switch==='companies'" >No se encontraron resultados</h4>
     </div>
-    <h4 class="text-center mt-3" *ngIf="currentProfileProviders?.length === 0" >No se encontraron resultados</h4>
+    
 
 </div>
 

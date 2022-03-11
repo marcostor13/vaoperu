@@ -1,16 +1,22 @@
 <div class="mt-5 company-list">
 
-    <p-dataView [value]="items" [paginator]="true" [rows]="9" filterBy="name" layout="grid">
+    <p-dataView [value]="items" [paginator]="true" [rows]="9" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
                
         <ng-template let-company pTemplate="gridItem">
             <div class="company shadow mb-3 ml-3 mr-3">
                 <div (click)="gotToViewCompany(company)" class="image-company cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
                 <div class="p-3 d-flex flex-column justify-content-between align-items-start">
                     <h5 class="title font-400 cursor">{{company.comercialName}}</h5>
-                    <div class="row align-items-center m-0">
-                        <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">                        
-                        <img *ngIf="!aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/close.svg" alt="Cerrado">                        
-                        <span class="ml-3 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>                        
+                    <div class="row align-items-center m-0 justify-content-between w-100">
+                        <div>
+                            <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">                        
+                            <img *ngIf="!aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/close.svg" alt="Cerrado">                        
+                            <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>   
+                        </div>
+                        <div>
+                            <fa-icon *ngIf="company.delivery" class="f-13 text-color1" [icon]="faStore" [title]="'Delivery'"></fa-icon>
+                            <fa-icon *ngIf="company.onMarket" class="f-13 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Recojo en tienda'"></fa-icon>
+                        </div>
                     </div>
                     <p class="font-300 mt-2 f-10 address">{{company.addressText}}</p>
                     <div class="m-0 col-12 p-0 row justify-content-between align-items-center">
