@@ -9,6 +9,7 @@ import { CompanyListModule } from '@shared/components/company-list/company-list.
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { PromotionListModule } from '@shared/components/promotion-list/promotion-list.module';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PromotionListModule } from '@shared/components/promotion-list/promotion
     CompanyListModule,
     MultiSelectModule,
     FormsModule,
-    PromotionListModule
+    PromotionListModule,
+    CarouselModule
   ]
 })
 export class CategoryViewModule { }

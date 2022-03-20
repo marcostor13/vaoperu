@@ -106,6 +106,7 @@ export class CategoryComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CCategory
         this.get()
+        this.reset()
       }, error => {        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
       })

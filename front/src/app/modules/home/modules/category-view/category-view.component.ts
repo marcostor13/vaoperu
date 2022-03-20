@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeneralService } from '@services/general.service';
-import { MessageService } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
 import { CCategory } from 'src/app/modules/admin/modules/category/models/category';
 import { CategoryService } from 'src/app/modules/admin/modules/category/services/category.service';
@@ -15,6 +14,7 @@ import { DistrictService } from 'src/app/modules/admin/modules/district/services
 import { CDistrict } from 'src/app/modules/admin/modules/district/models/district';
 import { CPromotion } from 'src/app/modules/admin/modules/promotions/interfaces/promotion.interface';
 import { PromotionService } from 'src/app/modules/admin/modules/promotions/services/promotion.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-category-view',
