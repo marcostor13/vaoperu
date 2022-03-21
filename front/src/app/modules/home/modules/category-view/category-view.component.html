@@ -1,42 +1,55 @@
 <app-header [eventHeader]="eventHeader"></app-header>
 
-<div class="p-3">
+<div class="py-3">
 
-    <div class="d-none d-md-block">
+    <div class="d-none d-md-flex px-5 w-100">
         <div class="filters">
-            <h4 class="text-color1">Filtrar por distritos</h4>
-            <div class="col-12 col-md-4 p-0 ">
-                <p-multiSelect  display="chip" (onChange)="filterByDistrict()" placeholder="Seleccione un distrito" [options]="districts" [(ngModel)]="selectedDistricts" optionLabel="name" optionValue="_id"></p-multiSelect>
-            </div>
+            <label>Filtrar por categorias</label>
+            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias" [maxSelectedLabels]="1"  display="chip" (onChange)="filter()" placeholder="Seleccione un distrito" [options]="categories" [(ngModel)]="selectedCategories" optionLabel="name" optionValue="_id"></p-multiSelect>
+           
+        </div>
+        <div class="filters ml-3">
+            <label>Filtrar por subcategorías</label>
+            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias"  display="chip" (onChange)="filter()" placeholder="Seleccione un distrito" [options]="subcategoriesFilter" [(ngModel)]="selectedSubcategories" optionLabel="name" optionValue="_id"></p-multiSelect>
+           
+        </div>
+        <div class="filters ml-3">
+            <label>Filtrar por distritos</label>
+            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias"  display="chip" (onChange)="filter()" placeholder="Seleccione un distrito" [options]="districts" [(ngModel)]="selectedDistricts" optionLabel="name" optionValue="_id"></p-multiSelect>
+            
         </div>
     </div>
 
-    <div class="d-flex d-md-none justify-content-start flex-wrap">
+    <div class="d-flex d-md-none justify-content-start flex-wrap">        
 
-        <p-carousel [value]="categories" [style]="{'width': '94vw'}" [numVisible]="categories.length" [circular]="true" showIndicators="false" showNavigators="false">
+        <p-carousel [value]="type === 'categories'? categories:subcategories" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="5" [showIndicators]="false" [showNavigators]="false">
             <ng-template let-category pTemplate="item">
-                <div class="p-2 cursor">
-                    <div class="shadow icon-category image bg-color1" [ngStyle]="{'background-image': 'url('+category.image}"></div>
-                    <p class="label-category text-center f-9 mt-1 m-0">{{category.name}}</p>
+                <div (click)="redirectCarousel(category.name)" class="p-2 cursor">
+                    <div [ngClass]="{'bg-color1': type==='categories', 'bg-color2': type==='subcategories'}" class="icon-category image" [ngStyle]="{'background-image': 'url('+category.image}"></div>
+                    <p class="label-category text-center f-7 mt-1 m-0">{{category.name}}</p>
                 </div>
             </ng-template>
         </p-carousel>
-
+        <div *ngIf="type === 'subcategory'" class="w-100 d-flex justify-content-end pr-2">
+            <button (click)="returnCaterogies()" class="bg-color1 px-2 f-8 border-0 d-flex align-items-center justify-content-center rounded-pill text-white">
+                <fa-icon class="f-7 icon-search mr-2 text-white" [icon]="faArrowLeft"></fa-icon>
+                Categorías
+            </button>
+        </div>
         
     </div>
 
-    
 
-
-    <div class="mt-3">
-        <div class="d-flex justify-content-center">
+    <div class="mt-2 mt-md-5 text-center">
+        <h5 *ngIf="title" class="mt-3 text-color1 pl-4 pl-md-5 text-left text-capitalize">{{title}}</h5>
+        <div class="d-flex justify-content-center mt-3">
             <button class="mx-2 px-5 rounded-pill button-switch" (click)="toogleSwitch('companies')" [ngClass]="{'btn2': switch==='companies', 'btn-disabled': switch==='promotions'}" >Negocios</button>
             <button class="mx-2 px-5 rounded-pill button-switch" (click)="toogleSwitch('promotions')" [ngClass]="{'btn2': switch==='promotions', 'btn-disabled': switch==='companies'}" >Promociones</button>
         </div>
         <app-promotion-list *ngIf="currentPromotions?.length>0 && profileProviders && switch==='promotions'" [items]="currentPromotions" [profileProviders]="profileProviders" (emitEvent)=companyListEvent($event)></app-promotion-list>
-        <h4 class="text-center mt-3" *ngIf="(!currentPromotions || currentPromotions?.length === 0) && switch==='promotions'" >No se encontraron resultados</h4>
+        <p class="f-13  text-center text-color5 mt-5" *ngIf="(!currentPromotions || currentPromotions?.length === 0) && switch==='promotions'" >No se encontraron resultados</p>
         <app-company-list *ngIf="currentProfileProviders?.length>0 && switch==='companies'" [items]="currentProfileProviders" (emitEvent)="companyListEvent($event)"></app-company-list>
-        <h4 class="text-center mt-3" *ngIf="(!currentProfileProviders || currentProfileProviders?.length === 0) && switch==='companies'" >No se encontraron resultados</h4>
+        <p class="f-13  text-center text-color5 mt-5" *ngIf="(!currentProfileProviders || currentProfileProviders?.length === 0) && switch==='companies'" >No se encontraron resultados</p>
     </div>
     
 
