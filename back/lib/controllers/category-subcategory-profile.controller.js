@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.getByCategorySubcategoryId = exports.getByProfileProviderId = exports.getByIdAndType = exports.get = exports.save = void 0;
+exports.del = exports.getByCategorySubcategoryIds = exports.getByCategorySubcategoryId = exports.getByProfileProviderId = exports.getByIdAndType = exports.get = exports.save = void 0;
 const category_subcategory_profile_1 = require("../models/category-subcategory-profile");
 const title = 'Servicio';
 const Collection = category_subcategory_profile_1.default;
@@ -81,6 +81,21 @@ exports.getByProfileProviderId = (req, res) => {
 };
 exports.getByCategorySubcategoryId = (req, res) => {
     Collection.find({ categorySubcategoryId: req.params.categorySubcategoryId }, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.getByCategorySubcategoryIds = (req, res) => {
+    const { ids } = req.body;
+    Collection.find({ categorySubcategoryId: ids }, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

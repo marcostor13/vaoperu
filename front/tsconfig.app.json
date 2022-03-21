@@ -4,7 +4,6 @@
   "compilerOptions": {
     "outDir": "./dist/front",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "types": ["googlemaps"],
     "baseUrl": "./",
     "paths": {

@@ -11,8 +11,8 @@ import { AuthTokenHttpInterceptorProvider } from './interceptors/auth.intercepto
 import { HttpErrorHttpInterceptorProvider } from './interceptors/httperrorinterceptor.interceptor';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 
 import { Reducer } from '@reducers/reducer';

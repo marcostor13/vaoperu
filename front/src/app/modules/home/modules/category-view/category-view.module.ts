@@ -9,6 +9,8 @@ import { CompanyListModule } from '@shared/components/company-list/company-list.
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { PromotionListModule } from '@shared/components/promotion-list/promotion-list.module';
+import { CarouselModule } from 'primeng/carousel';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { PromotionListModule } from '@shared/components/promotion-list/promotion
     CompanyListModule,
     MultiSelectModule,
     FormsModule,
-    PromotionListModule
+    PromotionListModule,
+    CarouselModule,
+    FontAwesomeModule
   ]
 })
 export class CategoryViewModule { }

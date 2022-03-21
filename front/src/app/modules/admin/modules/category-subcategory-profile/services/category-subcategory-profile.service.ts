@@ -59,6 +59,15 @@ export class CategorySubcategoryProfileService {
     return this.api.api(data)
   }
 
+  getByCategorySubcategoryIds(categorySubcategoryIds: string[]) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-category-subcategory-ids`,
+      type: 'post',
+      data: {ids: categorySubcategoryIds}
+    }
+    return this.api.api(data)
+  }
+
   delete(id: string) {
     const data: IDataApi = {
       service: `delete-${this.model}/${id}`,

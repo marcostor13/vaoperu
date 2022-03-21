@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as action from '@actions/setdata.actions';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { IEmailData } from './../models/emailData';
 import { ApiService } from './api.service';
 import { Iuser } from './../../../../back/src/models/user';

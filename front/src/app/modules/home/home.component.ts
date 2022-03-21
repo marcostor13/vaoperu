@@ -87,7 +87,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(){
     this.getCategories()
-    this.getSubcategories() 
     this.getPromotions()
   }
 
@@ -197,6 +196,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subs.add(
       this.categoryService.get().subscribe((response: IResponseApi) => {
         this.categories = response.data
+        this.getSubcategories()
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
