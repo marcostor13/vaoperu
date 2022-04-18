@@ -13,6 +13,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { BadgeModule } from 'primeng/badge';
 import { CartComponent } from './../cart/cart.component';
 import { FormsModule } from '@angular/forms';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FormsModule } from '@angular/forms';
     DialogModule,    
     SidebarModule,
     BadgeModule,
-    FormsModule
+    FormsModule,
+    TabViewModule
   ],
   exports: [
     HeaderComponent

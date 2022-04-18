@@ -38,6 +38,7 @@
     "jquery": "^3.6.0",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
+    "nativescript-social-share": "^1.6.0",
     "ngx-image-cropper": "^4.0.1",
     "popper.js": "^1.16.1",
     "primeicons": "^5.0.0",

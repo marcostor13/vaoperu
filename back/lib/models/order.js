@@ -18,6 +18,9 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         default: 'pendiente'
     },
+    orderData: {
+        type: Object
+    },
     createAt: {
         type: Date,
         default: new Date()

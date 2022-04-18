@@ -4,3 +4,8 @@ export interface ITabList{
     data: any
 }
 
+export interface IKeyValue{
+    key: string,
+    value: any
+}
+

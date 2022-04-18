@@ -47,14 +47,43 @@
     <div *ngIf="currentOrder" class="col-12 row m-0 justify-content-center">
 
         <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
-            <li class="py-3 col d-flex justify-content-between align-items-center">              
-                <h6 class="text-color1">Cliente</h6>
-                <p>{{getById(users, currentOrder.userId).name}}</p>               
+            <h6 class="mt-2">Datos de usuario</h6>
+
+            <li class="mt-2 py-1 col d-flex justify-content-between align-items-center">              
+                <h6 class="m-0 text-color1">Cliente</h6>
+                <p class="m-0">{{getById(users, currentOrder.userId).name}}</p>               
             </li>
-            <li class="py-3 col d-flex justify-content-between align-items-center">
-                <h6 class="text-color1">Número email</h6>
-                <p>{{getById(users, currentOrder.userId).email}}</p>
+            <li class="py-1 col d-flex justify-content-between align-items-center">
+                <h6 class="m-0 text-color1">Número email</h6>
+                <p class="m-0">{{getById(users, currentOrder.userId).email}}</p>
             </li>
+
+            <hr>
+            <h6 class="mt-2">Datos de la orden</h6>
+
+            <ng-container *ngIf="currentOrder.orderData">
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 text-color1">Nombre</h6>
+                    <p class="m-0">{{currentOrder.orderData.name}}</p>
+                </li>
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 text-color1">Teléfono</h6>
+                    <p class="m-0">{{currentOrder.orderData.phone}}</p>
+                </li>
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 text-color1">Dirección</h6>
+                    <p class="m-0">{{(currentOrder.orderData.address && currentOrder.orderData.address !== 'custom' )? currentOrder.orderData.address: currentOrder.orderData.address2}}</p>
+                </li>
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 text-color1">Fecha</h6>
+                    <p class="m-0">{{currentOrder.orderData.date}}</p>
+                </li>
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 text-color1">Medio de pago</h6>
+                    <p class="m-0">{{currentOrder.orderData.typePaymment}}</p>
+                </li>
+
+            </ng-container>
         </ul>
 
         <h5>Productos</h5>

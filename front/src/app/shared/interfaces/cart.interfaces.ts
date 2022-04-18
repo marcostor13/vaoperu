@@ -5,6 +5,7 @@ export interface ICart{
     items: IItemCart[]
     state?: string
     createAt?: Date
+    orderData?: ICartForm
 }
 
 export interface IItemCart{
@@ -17,4 +18,13 @@ export interface IItemProduct{
     name: string
     price: number
     promotionalPrice: number
+}
+
+export interface ICartForm{
+    name: string
+    phone: string
+    address?: string
+    address2?: string
+    date: string
+    typePaymment: string
 }

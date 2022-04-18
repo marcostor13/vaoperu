@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   faChevronDown = faChevronDown
   faSignOutAlt = faSignOutAlt
   faShoppingCart = faShoppingCart
+  key:string
 
   menuHeader: boolean = false
   isShowInputSearch: boolean = false
@@ -164,6 +165,14 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.openLogin()
     }
     this.closeModalCart()
+  }
+
+  search(){
+    if (this.key){
+      this.router.navigate([`/resultados/${this.key}`]).then(() => {
+        window.location.reload();
+      });
+    }
   }
 
 }

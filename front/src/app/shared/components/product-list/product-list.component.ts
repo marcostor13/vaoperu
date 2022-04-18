@@ -35,6 +35,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   quantity: number[] = []
   cart: ICart
   isProviderPath: boolean
+  currentIndex: number
 
   private subs = new SubSink()
 
@@ -181,7 +182,8 @@ export class ProductListComponent implements OnInit, OnChanges {
     }
   }
 
-  openModal(item: any){
+  openModal(item: any, i: number){
+    this.currentIndex = i
     this.currentItem = item
     this.displayModal = true
   }

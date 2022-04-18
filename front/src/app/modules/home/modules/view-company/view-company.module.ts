@@ -8,10 +8,13 @@ import { WhastappModule } from '@shared/pipes/whastapp/whastapp.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TabViewModule } from 'primeng/tabview';
 import { ProductListModule } from '@shared/components/product-list/product-list.module';
+import { InformationComponent } from './components/information/information.component';
+
 
 @NgModule({
   declarations: [
-    ViewCompanyComponent
+    ViewCompanyComponent,
+    InformationComponent
   ],
   imports: [
     CommonModule,
