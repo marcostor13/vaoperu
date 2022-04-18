@@ -95,7 +95,12 @@ export class ViewCompanyComponent implements OnInit {
         title: 'Ofertas',
         data: this.offers
       }]     
-    }      
+    }
+    this.tabs = [...this.tabs, {
+      title: 'Información', 
+      data: this.profileProvider
+    }]
+    
   }
 
   addfavorites() {

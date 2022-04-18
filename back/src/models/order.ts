@@ -5,6 +5,7 @@ export interface IOrder extends Document {
     userId: string
     items: IItemCart[]
     state: string
+    orderData: IOrderData
 }
 
 export interface IItemCart {
@@ -17,6 +18,15 @@ export interface IItemProduct {
     name: string
     price: number
     promotionalPrice: number
+}
+
+export interface IOrderData{
+    name: string
+    phone: string
+    address?: string
+    address2?: string
+    date: string
+    typePaymment: string
 }
 
 const userSchema = new Schema({
@@ -35,6 +45,9 @@ const userSchema = new Schema({
     state: {
         type: String,
         default: 'pendiente'
+    },
+    orderData: {
+        type: Object
     },
     createAt: {
         type: Date,

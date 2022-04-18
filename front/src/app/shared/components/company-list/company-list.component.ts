@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { GeneralService } from '@services/general.service';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faPhone, faStar, faStore, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faStar, faStore, faMotorcycle, faShare } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
@@ -37,6 +37,7 @@ export class CompanyListComponent implements OnInit {
   faStar = faStar
   faStore = faStore
   faMotorcycle = faMotorcycle
+  faShare = faShare
   favorites: IFavorite[]
 
   constructor(
@@ -65,6 +66,8 @@ export class CompanyListComponent implements OnInit {
         numScroll: 1
       }
     ];
+
+   this.getCurrentPosition()
     
   }
   
@@ -208,6 +211,50 @@ export class CompanyListComponent implements OnInit {
         this.messageService.add({detail: 'Url no configurada, contactate con el administrador', summary: 'Error', severity:'error'})
       }
     })
+  }
+
+  shared(url: string, name: string){
+    const urlShare = `https://vaoperu.com/${url}`
+    window.navigator.share({ url: urlShare, title: `Vao Perú - ${name}`})
+  }
+
+  rad(x) {
+    return x * Math.PI / 180;
+  }
+
+  getKilometros(lat1, lon1, lat2, lon2) {
+    var R = 6378.137; //Radio de la tierra en km
+    var dLat = this.rad(lat2 - lat1);
+    var dLong = this.rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.rad(lat1)) * Math.cos(this.rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d.toFixed(1); //Retorna un decimales
+  }
+
+  async getCurrentPosition() {
+    
+    const currentPosition = await this.general.getPosition()
+    if (currentPosition) {
+      this.items = [...this.items.map(i=>{
+        if (i.lat && i.lng) {
+          i.distance = parseFloat(this.getKilometros(i.lat, i.lng, currentPosition.lat, currentPosition.lng))
+        } else {
+          i.distance = 1000000
+        }
+        return i
+      })]     
+    }
+    this.items = [...this.items.sort(function (a, b) {
+      if (a['distance'] > b['distance']) {
+        return 1;
+      }
+      if (a['distance'] < b['distance']) {
+        return -1;
+      }
+      return 0;
+    })]
+
   }
   
 

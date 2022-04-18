@@ -1,30 +1,83 @@
 
-<h5 *ngIf="!cart || cart?.items?.length === 0" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
-<ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
-    <li class="py-3 col d-flex justify-content-between align-items-center" *ngFor="let item of cart?.items; let i=index">
-        <div class="image" [ngStyle]="{'background-image': 'url('+getProductById(item.productId)?.images[0]+')'}"></div>
-        <div>
-            <h5>{{getProductById(item.productId).name}}</h5>
-        </div>
-        
-        <div>
-            <div class="controls d-flex align-items-center">
-                <button (click)="changeProduct(i, 'subtract', getProductById(item.productId))">-</button>
-                <input disabled="true" type="text" [(ngModel)]="cart.items[i].quantity">
-                <button (click)="changeProduct(i, 'increase', getProductById(item.productId))" class="cursor">+</button>
+<h5 *ngIf="(!cart || cart?.items?.length === 0) && step===1" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
+
+<ng-container *ngIf="step===1">
+    <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
+        <li class="py-3 col d-flex justify-content-between align-items-center" *ngFor="let item of cart?.items; let i=index">
+            <div class="image-local image" [ngStyle]="{'background-image': 'url('+getProductById(item.productId)?.images[0]+')'}"></div>
+            <div class="m-2">
+                <h5 class="title m-0">{{getProductById(item.productId).name}}</h5>
             </div>
-        </div>
-        <div>
-            <p>S/ {{getProductById(item.productId).promotionalPrice ? getProductById(item.productId).promotionalPrice: getProductById(item.productId).price}}</p>
-        </div>
-    </li>
-</ul>
+            
+            <div class="m-2">
+                <div class="controls d-flex align-items-center">
+                    <button (click)="changeProduct(i, 'subtract', getProductById(item.productId))">-</button>
+                    <input disabled="true" type="text" [(ngModel)]="cart.items[i].quantity">
+                    <button (click)="changeProduct(i, 'increase', getProductById(item.productId))" class="cursor">+</button>
+                </div>
+            </div>
+            <div>
+                <p class="m-0">S/ {{getProductById(item.productId).promotionalPrice ? getProductById(item.productId).promotionalPrice: getProductById(item.productId).price}}</p>
+            </div>
+        </li>
+    </ul>
+    
+    <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center">
+        <h5 class="px-5 text-color1">Total</h5>
+        <h5 class="pr-2">S/ {{getTotal()}}</h5>
+    </div>
+    
+    <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
+        <button (click)="continue()" class="btn2">Continuar</button>
+    </div>
+</ng-container>
 
-<div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center">
-    <h5 class="px-5 text-color1">Total</h5>
-    <h5 class="pr-2">S/ {{getTotal()}}</h5>
-</div>
+<ng-container *ngIf="step === 2">
+    <p-tabView>
+        <p-tabPanel *ngIf="profileProvider.delivery" header="A domicilio">
+            <button (click)="return()" class="btn2">Volver</button>
+            <h4 class="text-center">Datos para su pedido</h4>
+            <input type="text" placeholder="Nombre" [(ngModel)]="form.name">      
+            <input type="text" class="mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
+            <select class="mt-2" [(ngModel)]="form.address">
+                <option value="{{currentDirection}}">{{currentDirection}} (Actual)</option>
+                <option value="{{profileProvider.addressText}}">{{profileProvider.addressText}}</option>
+                <option value="custom">Ingresar otra dirección</option>
+            </select>
+            <input *ngIf="form.address === 'custom'" class="mt-2" type="text" placeholder="Ingrese una dirección" [(ngModel)]="form.address2">
+            <div class="d-flex align-items-center mt-2">
+                <input type="date" [(ngModel)]="form.date">
+                <button (click)="setActual()" class="btn2 ml-2">Actual</button>                
+            </div> 
+            <select class="mt-2" [(ngModel)]="form.typePaymment">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Yape">Yape</option>
+                <option value="Plin">Plin</option>
+            </select>  
+            <p class="text-danger mt-3 text-center">{{response}}</p>                    
 
-<div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
-    <button (click)="finishedShop()" class="btn2">Hacer pedido</button>
-</div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="profileProvider.onMarket" header="En tienda">
+            <h4 class="text-center">Datos para su pedido</h4>
+            <input type="text" class="input" placeholder="Nombre" [(ngModel)]="form.name">            
+            <input type="text" class="input mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">           
+            <div class="d-flex align-items-center mt-2">
+                <input type="date" [(ngModel)]="form.date">
+                <button (click)="setActual()" class="btn2 ml-2">Actual</button>
+            </div>
+            <select class="mt-2" [(ngModel)]="form.typePaymment">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Yape">Yape</option>
+                <option value="Plin">Plin</option>
+            </select>
+            <p class="text-danger mt-3 text-center">{{response}}</p>
+        </p-tabPanel>        
+    </p-tabView>
+
+    <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
+        <button (click)="finishedShop()" class="btn2">Hacer pedido</button>
+    </div>
+</ng-container>
+

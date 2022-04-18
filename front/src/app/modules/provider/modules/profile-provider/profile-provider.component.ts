@@ -8,7 +8,6 @@ import { CImages } from 'src/app/models/images';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { DistrictService } from 'src/app/modules/admin/modules/district/services/district.service';
-// import { googlemaps } from '@types/googlemaps';
 
 /// <reference types="@types/googlemaps" />
 

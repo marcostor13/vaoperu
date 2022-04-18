@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ICart } from '@shared/interfaces/cart.interfaces';
+import { ICart, ICartForm } from '@shared/interfaces/cart.interfaces';
 import { CartService } from '@shared/services/cart/cart.service';
 import { MessageService } from 'primeng/api';
 import { delay } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { SubSink } from 'subsink';
 import { cloneDeep } from 'lodash-es';
 import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cart',
@@ -25,6 +26,17 @@ export class CartComponent implements OnInit {
   profileProvider: CProfileProvider
   private subs = new SubSink()
   cart: ICart
+  step: number = 1
+  form: ICartForm = {
+    name: '',
+    phone: '',
+    address: '',
+    address2: '',
+    date: moment(new Date()).format('YYYY-MM-DD'),
+    typePaymment: 'Efectivo',
+  }
+  currentDirection: string
+  response: string = ''
 
   constructor(
     private store: Store<any>,
@@ -46,8 +58,27 @@ export class CartComponent implements OnInit {
         .pipe(delay(0))
         .subscribe((cart: ICart) => {
           this.cart = cart
+          console.log('cart', this.cart)
         })
     )
+  }
+
+  setActual(){
+    this.form.date = moment(new Date()).format('YYYY-MM-DD')
+  }
+
+  getCurrentDirection(){
+    if (this.profileProvider.lat && this.profileProvider.lng){
+      const geocoder = new google.maps.Geocoder();
+      const latlng = { lat: this.profileProvider.lat, lng: this.profileProvider.lng }
+      geocoder
+        .geocode({ location: latlng }, (res)=>{
+          if(res){
+            this.form.address = res[0].formatted_address
+            this.currentDirection = res[0].formatted_address
+          }
+        })  
+    }
   }
 
   getProductById(productId:string){
@@ -87,18 +118,52 @@ export class CartComponent implements OnInit {
     return total
   }
 
+  continue(){
+    this.getProfileProvider()    
+    this.response = ''
+  }
+
+  return(){
+    this.step = 1
+    this.response = ''
+  }
+
+  getProfileProvider(){
+    this.profileProviderService.getById(this.cart.profileProviderId).subscribe((response2: IResponseApi) => {
+      this.profileProvider = response2.data
+      this.getCurrentDirection()
+      this.step = 2
+    }, _ => this.messageService.add({ severity: 'Error', detail: 'Error al obtener el perfil', summary: 'Error' }))
+  }
+
+  validateForm(){
+    this.response = ''
+    if(
+      !this.form.name ||
+      !this.form.phone ||
+      !this.form.address ||
+      (this.form.address === 'custom '&& !this.form.address2) || 
+      !this.form.date || 
+      !this.form.typePaymment
+    ){
+      this.response = 'Debe completar todos los campos'
+      return false
+    }else{
+      return true
+    }
+  }
+
   finishedShop(){
-    if (this.authService.getRole()?.indexOf('user')>-1){
-      let cart = cloneDeep(this.cart)
-      cart.userId = this.authService.getUserID()
-      this.cartService.saveOrder(cart).subscribe((response:IResponseApi)=>{    
-        this.messageService.add({ severity: 'Success', detail: 'Orden Guardada', summary: 'Éxito' })
-        this.profileProviderService.getById(this.cart.profileProviderId).subscribe((response2: IResponseApi)=>{
+    if(this.validateForm()){      
+      if (this.authService.getRole()?.indexOf('user')>-1){
+        let cart = cloneDeep(this.cart)
+        cart.orderData = this.form
+        cart.userId = this.authService.getUserID()
+        this.cartService.saveOrder(cart).subscribe((response:IResponseApi)=>{    
+          this.messageService.add({ severity: 'Success', detail: 'Orden Guardada', summary: 'Éxito' })
           this.cartService.resetCart()  
           this.events.emit('close-modal') 
-          console.log(' finishedShop profileProviderService', response2)
           console.log('finishedShop', response)
-          this.profileProvider = response2.data
           if (this.profileProvider.whatsapp){
             const whatsapp = this.profileProvider.whatsapp.length === 11 ? this.profileProvider.whatsapp : `51${this.profileProvider.whatsapp.replace('+', '')}`
             const url = `https://wa.me/${whatsapp}?text=Hola!%20tengo%20un%20pedido%20:%20${response.data._id}`
@@ -106,11 +171,11 @@ export class CartComponent implements OnInit {
             window.open(url, "_blank");
           }else{
             this.messageService.add({ severity: 'Error', detail: 'El negocio no tiene whastapp configurado', summary: 'Error' })
-          }
-        }, _ => this.messageService.add({ severity: 'Error', detail: 'Error al guardar obtener el perfil', summary: 'Error' }))
-      }, _ => this.messageService.add({severity:'Error', detail: 'Error al guardar el pedido', summary: 'Error'}))
-    }else{      
-      this.events.emit('open-login')
+          }        
+        }, _ => this.messageService.add({severity:'Error', detail: 'Error al guardar el pedido', summary: 'Error'}))
+      }else{      
+        this.events.emit('open-login')
+      }
     }
   }
 

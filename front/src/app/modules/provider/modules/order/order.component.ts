@@ -96,6 +96,7 @@ export class OrderComponent implements OnInit {
   }
 
   openOrder(order: ICart){
+    console.log('order', order)
     this.currentOrder = order
     this.displayModal = true
   }
