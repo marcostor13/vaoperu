@@ -4,7 +4,7 @@
 *{
     font-family: $fontP;
     font-size: 11pt;
-    transition: all .15s ease-in;    
+    transition: all .15s ease-in;
     outline: none !important;
 }
 
@@ -259,12 +259,12 @@ body, .home, footer{
 .btn1{
     background-color: $color1;
     color: white;
-    font-size: 11pt;   
+    font-size: 11pt;
     border: none;
     min-width: 100px;
     border: 1px solid $color1;
     padding: 9px 30px 9px 30px;
-}  
+}
 
 .btn1:hover{
     opacity: 0.7;
@@ -275,12 +275,12 @@ body, .home, footer{
 .btn2{
     background-color: $color2;
     color: #121212;
-    font-size: 11pt;   
+    font-size: 11pt;
     border: 1px solid $color2;
     min-width: 100px;
     padding: 9px 30px 9px 30px;
 }
-.btn2:hover{    
+.btn2:hover{
     opacity: 0.9;
     background-color: $color2 !important;
     border-color:  $color2 !important;
@@ -290,9 +290,9 @@ body, .home, footer{
 .btn3{
     background-color: $color8;
     color: white;
-    font-size: 11pt;   
+    font-size: 11pt;
     border: none;
-    min-width: 100px;    
+    min-width: 100px;
     border-radius: 0;
 }
 .btn3:hover{
@@ -303,13 +303,28 @@ body, .home, footer{
 .btn-disabled{
     background-color: $color6;
     color: $color4;
-    font-size: 11pt;   
+    font-size: 11pt;
     border: none;
-    min-width: 100px;    
+    min-width: 100px;
     border-radius: 0;
 }
 
-
+.btn-register{
+  color: white;
+  border: none;
+  font-size: 11pt;
+  min-height: 60px;
+  border-radius: 40px;
+}
+.btn-facebook{
+  background-color: #3F4D9C;
+}
+.btn-correo{
+  background-color: #007DA6;
+}
+.btn-celular{
+  background-color: #343434;
+}
 
 //SELECTS
 
@@ -404,7 +419,7 @@ body, .home, footer{
 }
 
 
-//KEYFRAMES 
+//KEYFRAMES
 
 @-webkit-keyframes opacity {
   0%   { opacity: 0; }
@@ -455,7 +470,7 @@ body, .home, footer{
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000000000000;    
+    z-index: 1000000000000;
 }
 
 
@@ -478,8 +493,8 @@ body, .home, footer{
 
 .select, .p-multiselect{
     border: 2px solid $color1;
-    border-radius: 0;    
-    font-family: $fontP;        
+    border-radius: 0;
+    font-family: $fontP;
 }
 
 input, select, .inputs, textarea{
@@ -488,8 +503,8 @@ input, select, .inputs, textarea{
     padding: 7px;
     padding-left: 14px;
     padding-right: 14px;
-    font-family: $fontP;   
-    width: 100%;     
+    font-family: $fontP;
+    width: 100%;
 }
 
 
@@ -586,22 +601,22 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
         position: absolute !important;
         right: 0 !important;
         background-color: white !important;
-        
+
     }
-    
+
     .p-carousel-content{
         position: relative;
         overflow: hidden;
     }
-    
+
     .p-carousel-prev{
         position: absolute !important;
         left: 0 !important;
         z-index: 100 !important;
         background-color: white !important;
-        
+
     }
-    
+
     .p-carousel-indicators{
         position: absolute;
         bottom: 0;
@@ -610,15 +625,15 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
         justify-content: center;
         align-items: center;
     }
-    
+
     .p-highlight{
         button{
-            background-color: $color2 !important;        
+            background-color: $color2 !important;
         }
     }
-    
+
     .p-carousel-indicator{
-        button{        
+        button{
             min-width: 10px !important;
             min-height: 10px !important;
             max-width: 10px !important;
@@ -626,19 +641,19 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
             border-radius: 50% !important;
         }
     }
-    
+
     @media (max-width: 1024px) {
         .p-carousel-content{
             border-radius: 14px;
         }
         .p-carousel-next{
-            display: none !important;        
-        }  
-    
-        .p-carousel-prev{
-            display: none !important;        
+            display: none !important;
         }
-    
+
+        .p-carousel-prev{
+            display: none !important;
+        }
+
     }
 }
 
@@ -646,34 +661,34 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
     .p-carousel-next{
         position: absolute !important;
         right: 0 !important;
-        background-color: white !important;        
+        background-color: white !important;
     }
-    
+
     .p-carousel-content{
         position: relative;
         overflow: hidden;
     }
-    
+
     .p-carousel-prev{
         position: absolute !important;
         left: 0 !important;
         z-index: 100 !important;
         background-color: white !important;
-        
-    }  
-    
+
+    }
+
     @media (max-width: 1024px) {
         .p-carousel-content{
             border-radius: 14px;
         }
         .p-carousel-next{
-            display: none !important;        
-        }  
-    
-        .p-carousel-prev{
-            display: none !important;        
+            display: none !important;
         }
-    
+
+        .p-carousel-prev{
+            display: none !important;
+        }
+
     }
 }
 
@@ -701,10 +716,10 @@ p-multiSelect, .p-multiselect, .p-multiselect-label-container{
 //IMAGE MINUATURE
 
 $size:100px;
-.image-miniature{ 
+.image-miniature{
     &:hover > .delete{
         opacity: 1;
-    }    
+    }
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: cover;
@@ -843,14 +858,14 @@ $size:100px;
             max-width: 210px !important;
         }
         .p-carousel-container{
-            max-width: 120px !important;            
+            max-width: 120px !important;
         }
     }
-    .product-list2{        
+    .product-list2{
         .p-carousel-container{
             .p-carousel-prev, .p-carousel-next{
                 display: none;
-            }  
+            }
         }
     }
 }
@@ -866,8 +881,8 @@ $size:100px;
                 display: none;
             }
         }
-    }    
-    
+    }
+
 }
 
 
@@ -956,4 +971,25 @@ $size:100px;
 
 .p-dataview .p-paginator-bottom {
     border-width: 0 0 0 0 !important;
+}
+
+.responsiveMobile.p-dialog .p-dialog-content{
+  background: transparent;
+}
+.responsiveMobile.p-dialog .p-dialog-header{
+  background: transparent;
+ }
+.responsiveMobile{
+  background-image: url('/assets/img/register-background.png')!important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 30vw;
+  min-height: 30vh;
+}
+@media screen and (max-width: 540px) {
+  .responsiveMobile{
+    min-width: 100vw;
+    min-height: 100vh;
+  }
 }

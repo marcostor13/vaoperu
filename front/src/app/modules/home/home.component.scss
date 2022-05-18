@@ -1,14 +1,21 @@
 @import './../../../styles/variables';
 
+.image-categories{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 80px;
+  height: 80px;
+}
 .image{
     min-width: 100%;
     min-height: 360px;
     background-repeat: no-repeat;
     background-size: cover;
-    
 
-    .content-slide{        
-        min-width: auto;             
+
+    .content-slide{
+        min-width: auto;
     }
 }
 .icon{
@@ -61,19 +68,19 @@
 }
 
 @media (min-width: 1024px) {
-    .image{               
+    .image{
         min-height: 500px;
     }
 }
 
 @media (max-width: 1470px) {
-    .item-carousel{               
+    .item-carousel{
         min-height: 110px;
     }
 }
 
 @media (max-width: 1036px) {
-    .item-carousel{               
+    .item-carousel{
         min-height: 110px;
         min-width: 120px;
         h6{

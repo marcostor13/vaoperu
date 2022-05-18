@@ -13,7 +13,7 @@ import { PromotionListModule } from './../../shared/components/promotion-list/pr
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [      
+  imports: [
   CommonModule,
     HomeRoutingModule,
     HeaderModule,
@@ -22,7 +22,7 @@ import { PromotionListModule } from './../../shared/components/promotion-list/pr
     PanelMenuModule,
     CompanyListModule,
     DialogModule,
-    PromotionListModule 
+    PromotionListModule
   ]
 })
 export class HomeModule { }

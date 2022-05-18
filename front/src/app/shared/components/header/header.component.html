@@ -1,50 +1,56 @@
 <div class="cont-header">
-    <header class="row m-0 justify-content-between align-items-center bg-color1 p-0">
-       
-        <img [routerLink]="['/']" class="cursor mt-3 mb-3 ml-3" width="60" src="assets/img/logo.png" alt="VaoPerú">
-        <div class="mt-3 mb-3 input-search d-none d-md-flex align-items-center">
-            <fa-icon class="icon-search" [icon]="faSearch"></fa-icon>
-            <input (keydown.enter)="search()" class="search f-10 pt-2" type="search" placeholder="¿Qué estás buscando?">
-            <button (click)="search()" class="btn2">Buscar</button>
+    <header class="row m-0 justify-content-between align-items-center bg-white p-0">
+
+      <div (click)="toogleMenu()" class="menu d-flex flex-column cursor ml-3 pt-2">
+          <label></label>
+          <label></label>
+          <label></label>
+      </div>
+        <!-- <img [routerLink]="['/']" class="cursor mt-3 mb-3 ml-3" width="60" src="assets/img/logo.png" alt="VaoPerú"> -->
+        <div class="mt-3 input-search mb-3 d-none d-md-flex align-items-center">
+            <input (keydown.enter)="search()" (click)="search()" class="search f-10 pt-2 border text-left" type="search" placeholder="Búscar...">
+            <fa-icon class="icon-search cursor" [icon]="faSearch"></fa-icon>
+            <!-- <button (click)="search()" class="btn2">Buscar</button> -->
+        </div>
+        <div class="mt-3 mb-3 d-flex d-md-none align-items-center">
+          <div class="text-color1"><img class="mr-2" width="20" src="/assets/img/partials/load.svg" alt=""> {{getAddress(address)}}</div>
         </div>
         <div class="row mt-3 mb-3 mr-3 align-items-center">
             <ul class="list-unstyled row m-0">
                 <ng-container *ngIf="!user">
-                    <li (click)="openLogin()" class="m-auto pr-4 text-white cursor f-12">Ingresar</li>              
+                    <!-- <li (click)="openLogin()" class="m-auto pr-4 text-color1 cursor f-12">Ingresar</li> -->
                 </ng-container>
                 <li class="mr-4">
-                    <div (click)="openModalCart()" class="shopping-cart cursor rounded-circle p-2 d-flex justify-content-center align-items-center bg-white">
+                    <div (click)="openModalCart()" class="shopping-cart cursor rounded-circle p-2 d-flex justify-content-center align-items-center bg-white shadow">
                         <div class="badge">
                             <p-badge *ngIf="cart?.items?.length > 0" [value]="cart.items.length.toString()" severity="danger"></p-badge>
                         </div>
                         <fa-icon class="text-color1" [icon]="faShoppingCart"></fa-icon>
                     </div>
-                </li>    
-            </ul>
-            <div (click)="toogleMenu()" class="menu d-flex flex-column cursor mr-3 pt-2">
-                <label></label>
-                <label></label>
-                <label></label>
-            </div>    
-        </div>  
-    
+                </li>
+              </ul>
+        </div>
+
         <div class="div-search d-flex d-md-none justify-content-center pl-4 pr-4 m-0 p-0 col-12 bg-white w-100">
-            <div class="input-search d-flex align-items-center m-0 col-12 p-0 mt-3">
-                <fa-icon class="icon-search" [icon]="faSearch"></fa-icon>
-                <input (keydown.enter)="search()" class="search f-10 pt-2 col-9" type="search" placeholder="¿Qué estás buscando?" [(ngModel)]="key">
-                <button (click)="search()" class="btn2 col-3">Buscar</button>
+            <div class="input-search d-flex align-items-center m-0 col-8 p-0 mt-3">
+              <input (keydown.enter)="search()" (click)="search()" class="search f-10 pt-2 border text-left" type="search" placeholder="Búscar..." [(ngModel)]="key">
+              <fa-icon class="icon-search cursor" [icon]="faSearch"></fa-icon>
+                <!-- <button (click)="search()" class="btn2 col-3">Buscar</button> -->
             </div>
-        </div>          
+        </div>
     </header>
 </div>
 
-<p-sidebar [(visible)]="display" position="right" styleClass="bg-color2">
+<p-sidebar [(visible)]="display" position="left" styleClass="bg-color2">
     <ul class="list-unstyled d-flex flex-column pl-5 pt-5">
         <h1 class="font-t font-900 font-italic text-white mt-5">
             <img width="140" src="assets/img/logo.png" alt="">
         </h1>
-        <li routerLink="/" class="cursor mt-2 font-500 text-black f-12 mt-5">Inicio</li>
-        <li (click)="redirectFavorites()" class="cursor mt-2 font-500 text-black f-12">Favoritos</li>           
+        <ng-container *ngIf="!user">
+          <li (click)="openLogin()" class="cursor mt-5 font-500 text-black f-12">Ingresar</li>
+        </ng-container>
+        <li routerLink="/" class="cursor mt-2 font-500 text-black f-12">Inicio</li>
+        <li (click)="redirectFavorites()" class="cursor mt-2 font-500 text-black f-12">Favoritos</li>
         <ng-container *ngIf="user">
             <ng-container *ngIf="role">
                 <li *ngFor="let item of role" (click)="redirectPlatform('/'+item+'/dashboard')" class="cursor mt-2 font-500 text-black f-12">
@@ -53,28 +59,30 @@
                         <ng-container *ngSwitchCase="'provider'">Proveedor</ng-container>
                     </ng-container>
                 </li>
-            </ng-container>          
-            <li (click)="logout()" class="cursor mt-5 font-500 text-black f-12">Cerrar Sesión</li>        
-        </ng-container>    
+            </ng-container>
+            <li (click)="logout()" class="cursor mt-5 font-500 text-black f-12">Cerrar Sesión</li>
+        </ng-container>
     </ul>
 </p-sidebar>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayModal" 
-    [modal]="true" 
-    [styleClass]="'modalLogin'" 
+<p-dialog
+    header=""
+    [(visible)]="displayModal"
+    [modal]="true"
+    height="100"
+    width="100"
+    [styleClass]="'modalLogin responsiveMobile'"
     [baseZIndex]="10000"
     [draggable]="false"
     [resizable]="false">
     <app-authlogin (send)="output($event)"></app-authlogin>
 </p-dialog>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayCart" 
-    [modal]="true" 
-    [styleClass]="'modalLogin'" 
+<p-dialog
+    header=""
+    [(visible)]="displayCart"
+    [modal]="true"
+    [styleClass]="'modalLogin'"
     [baseZIndex]="10000"
     [draggable]="false"
     [resizable]="false">
