@@ -10,6 +10,15 @@
     </div>
 </div>
 
+<div class="p-3 mb-5">
+  <h1 class="f-24 text-color1 bold mt-2 my-4">ESTABLECIMIENTOS</h1>
+  <div class="d-flex flex-wrap">
+    <div *ngFor="let item of categories" class="px-5 py-4 mt-5 rounded shadow mr-5 card">
+      <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.image+')'}"></div>
+      <h6 class="f-16 text-color1 mt-2">{{item.name}}</h6>
+    </div>
+  </div>
+</div>
 <div  class="d-block d-md-none p-3">
     <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
 </div>

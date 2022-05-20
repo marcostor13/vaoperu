@@ -9,52 +9,51 @@
 .cont-header{
     padding-top: 68px;
 }
-header{    
+header{
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1;
     width: 100vw;
-    .input-search{        
+    .input-search{
         position: relative;
         .icon-search{
             position:absolute;
             top: 7px;
-            left: 10px;
+            right: 25px;
             font-size: 20px;
-            color: $color6;
+            color: $color1;
             z-index: 1;
-        }       
+        }
         .search{
             font-size: 12pt;
             text-align: center;
             min-height: 40px;
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
+            border-radius: 20px;
             border: 0;
             font-weight: 300;
             padding-bottom: 4px;
             padding-left: 40px;
-            padding-right: 24px;            
+            padding-right: 84px;
         }
         .btn2{
             max-height: 40px !important;
             border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;            
+            border-bottom-right-radius: 20px;
         }
     }
     .logo{
         max-width: 140px;
         min-width: 140px;
-    }    
+    }
     .menu{
         label{
             min-width: 30px;
             min-height: 3px;
             max-height: 3px;
-            background-color: white;
+            background-color: $color1;
         }
-    }  
+    }
     .shopping-cart{
         min-width: 40px;
         min-height: 40px;
@@ -82,12 +81,12 @@ header{
 }
 
 @media screen and (max-width: 768px) {
-    
+
     .cont-header{
         padding-top: 120px;
     }
-  
-    
+
+
 }
 
 

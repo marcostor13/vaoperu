@@ -27,41 +27,41 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   subs = new SubSink()
   isMobile: boolean = (window.innerWidth > 768) ? false : true
-  categories: CCategory[]
-  subcategories: CSubcategory[]
-  currentSubcategories: CSubcategory[]
-  switch: string = 'companies'
+    categories: CCategory[]
+    subcategories: CSubcategory[]
+    currentSubcategories: CSubcategory[]
+    switch: string = 'companies'
 
-  itemsCarousel = [
-    {
-      imageDesktop: 'assets/img/photos/photo1-d.jpg',
-      imageMobile: 'assets/img/photos/photo1.jpg'
-    },
-    {   
-      imageDesktop: 'assets/img/photos/photo2-d.jpg',
-      imageMobile: 'assets/img/photos/photo2.jpg'
-    }, 
-    {    
-      imageDesktop: 'assets/img/photos/photo3-d.jpg',
-      imageMobile: 'assets/img/photos/photo2.jpg'
-    }
-  ]
+    itemsCarousel = [
+      {
+        imageDesktop: 'assets/img/photos/photo1-d.jpg',
+        imageMobile: 'assets/img/photos/photo1.jpg'
+      },
+      {
+        imageDesktop: 'assets/img/photos/photo2-d.jpg',
+        imageMobile: 'assets/img/photos/photo2.jpg'
+      },
+      {
+        imageDesktop: 'assets/img/photos/photo3-d.jpg',
+        imageMobile: 'assets/img/photos/photo2.jpg'
+      }
+    ]
 
-  items: MenuItem[] = []  
-  responsiveOptions: any
-  eventHeader: any
-  displaySubcategories: boolean = false
-  promotions: CPromotion[]
-  profileProviders: CProfileProvider[]
-  currentProfileProviders: CProfileProvider[]
-  currentPromotions: CPromotion[]
-  
-  constructor(
-    private general: GeneralService,
-    private categoryService: CategoryService,
-    private subcategoryService: SubcategoryService,
-    private messageService: MessageService,
-    private profileProviderService: ProfileProviderService,
+    items: MenuItem[] = []
+    responsiveOptions: any
+    eventHeader: any
+    displaySubcategories: boolean = false
+    promotions: CPromotion[]
+    profileProviders: CProfileProvider[]
+    currentProfileProviders: CProfileProvider[]
+    currentPromotions: CPromotion[]
+
+    constructor(
+      private general: GeneralService,
+      private categoryService: CategoryService,
+      private subcategoryService: SubcategoryService,
+      private messageService: MessageService,
+      private profileProviderService: ProfileProviderService,
     private router: Router,
     private promotionsService: PromotionService,
     private categorySubcategoryProfileService: CategorySubcategoryProfileService
@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-  } 
+  }
 
   ngOnDestroy(){
     this.subs.unsubscribe()
@@ -103,6 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getProfileProviders() {
+    console.log("response")
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
       this.profileProviders = response.data
     }, error => {
@@ -124,10 +125,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subs.add(
       this.promotionsService.get().subscribe((response: IResponseApi) => {
         this.promotions = response.data
+        this.getProfileProviders()
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
-        }else{
-          this.getProfileProviders()
         }
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -161,7 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           ]
         }
-      })      
+      })
       this.items = [...this.items,
         {
           label: `
@@ -170,8 +170,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
                   <img width="30" height="auto" src="${cat.image}">
                 </div>
                 `,
-          escape: false,    
-          styleClass: 'item-category',      
+          escape: false,
+          styleClass: 'item-category',
           items: subItems.length > 0? subItems: null,
           command: _ => {
             if (subItems.length === 0){
@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       ]
     })
   }
-  
+
 
   getImageType(item){
     return this.isMobile? item.imageMobile: item.imageDesktop
@@ -212,7 +212,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
-  }  
+  }
 
   companyListEvent($event:any) {
     switch ($event.event) {
@@ -235,7 +235,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
     }
   }
-  
+
   openSubcategoriesModal(subcategories: CSubcategory[]){
     this.currentSubcategories = subcategories
     this.displaySubcategories = true
@@ -248,13 +248,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     if(subcategories.length>0){
       this.openSubcategoriesModal(subcategories)
     }else{
-      const redirect = category.name.toLowerCase().replace(/\s/g, '-') 
+      const redirect = category.name.toLowerCase().replace(/\s/g, '-')
       this.router.navigate([`/resultados/${redirect}`])
     }
   }
-  
+
   redirectSubcategory(subcategory: CSubcategory){
-    const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-') 
+    const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-')
     this.router.navigate([`/resultados/${redirect}`])
   }
 
@@ -262,8 +262,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.switch = type
   }
 
-  
-  
-  
+
+
+
 
 }

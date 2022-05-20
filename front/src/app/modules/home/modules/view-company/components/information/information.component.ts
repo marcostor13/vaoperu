@@ -51,7 +51,7 @@ export class InformationComponent implements OnInit, AfterViewInit {
     const ubication = { lat: this.profileProvider.lat, lng: this.profileProvider.lng } 
     const map = new google.maps.Map(this.el.nativeElement as HTMLElement, {
       center: ubication,
-      zoom: 8,
+      zoom: 14,
     });
 
     new google.maps.Marker({

@@ -36,6 +36,9 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   cart: ICart
   displayCart: boolean = false
   products: CProduct[]
+  public latitude;
+  public longitude;
+  public address;
 
   private subs = new SubSink()
   @Input() eventHeader: any
@@ -47,13 +50,14 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private store: Store<any>,
     private productsService: ProductService,
     private messageService: MessageService
-    ) { 
+    ) {
     this.subscriptionCart()
-  }  
+  }
 
   ngOnInit(): void {
-    this.validateSession() 
-  }  
+    this.validateSession();
+    this.getLocation();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.eventHeader?.event === 'open-login') {
@@ -70,7 +74,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     this.subs.add(
       this.store.select((state) => state.Reducer.cart)
         .pipe(delay(0))
-        .subscribe((cart: ICart) => {          
+        .subscribe((cart: ICart) => {
           this.cart = cart;
           if (!this.products || !this.cart || this.products[0].profileProviderId !== this.cart.profileProviderId){
             this.getProducts()
@@ -93,7 +97,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   validateSession(){
     this.user = this.authService.isLoginUser()
   }
-  
+
   showInputSearch(){
     this.isShowInputSearch = this.isShowInputSearch ? false : true
   }
@@ -122,7 +126,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
         break;
       default:
         break;
-    }    
+    }
   }
 
   redirect(role: string[]) {
@@ -143,7 +147,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
 
     return res
   }
-  
+
   redirectFavorites(){
     if (this.role){
       this.router.navigate(['/favoritos'])
@@ -155,7 +159,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   openModalCart(){
     this.displayCart = true
   }
-  
+
   closeModalCart() {
     this.displayCart = false
   }
@@ -175,4 +179,40 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+
+
+  getPosition(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resp => {
+                resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
+            },
+            err => {
+                reject(err);
+          });
+    });
+  }
+  getLocation() {
+    this.getPosition().then(pos => {
+      this.latitude = pos.lat;
+      this.longitude = pos.lng;
+      var latlng = new google.maps.LatLng(this.latitude, this.longitude);
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'location': latlng },  (results, status) =>{
+        if (status !== google.maps.GeocoderStatus.OK) {
+            alert(status);
+        }
+        if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results);
+            this.address = (results[0].formatted_address);
+        }
+      });
+    });
+  }
+  getAddress(address: string){
+    if(address.length > 30) {
+      return `${address.substring(0, 30)}...`
+    } else {
+      return address
+    }
+  }
 }

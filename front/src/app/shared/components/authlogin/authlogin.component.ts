@@ -22,7 +22,7 @@ export class AuthloginComponent implements OnInit {
   faEyeSlash = faEyeSlash
 
   displayModal: boolean = true
-  typeLogin: string = 'login'
+  typeLogin: string = 'dialogLogin'
   passwordView: boolean = false
   form: any = {
     name: '',
@@ -113,7 +113,7 @@ export class AuthloginComponent implements OnInit {
         message: 'Revise su email'
       }
       valid = false
-    }   
+    }
     return valid
   }
 
@@ -130,12 +130,12 @@ export class AuthloginComponent implements OnInit {
       valid = false
     }
     return valid
-  }  
+  }
 
   login() {
-    
+
     if(this.validationLogin()){
-      this.generalService.isLoad(true)  
+      this.generalService.isLoad(true)
       this.subs.add(
         this.authService.login(this.form).subscribe((user: CUser) => {
           this.generalService.c('USER', user)
@@ -143,8 +143,8 @@ export class AuthloginComponent implements OnInit {
           this.send.emit({
             type: 'user',
             data: user
-          })         
-          localStorage.setItem('vaouser', JSON.stringify(user))     
+          })
+          localStorage.setItem('vaouser', JSON.stringify(user))
           this.response = {
             class: 'text-color1',
             message: `Bienvenido ${user.name}`
@@ -175,7 +175,7 @@ export class AuthloginComponent implements OnInit {
           this.response = {
             class: 'text-danger',
             message: error.error.message
-          }     
+          }
         })
       )
     }
@@ -223,7 +223,7 @@ export class AuthloginComponent implements OnInit {
           message: error.error.message
         }
       }
-      )      
+      )
     }
 
   }
@@ -231,8 +231,8 @@ export class AuthloginComponent implements OnInit {
   registerFinish(){
     this.generalService.isLoad(true)
     this.subs.add(
-      this.authService.codeComprobation(this.form.email, this.code).subscribe(_=>{    
-        this.generalService.c('Register Finish', this.form)    
+      this.authService.codeComprobation(this.form.email, this.code).subscribe(_=>{
+        this.generalService.c('Register Finish', this.form)
         this.subs.add(
           this.authService.register(this.form).subscribe((user: CUser) => {
             if (user.role.indexOf('admin') > -1) {
@@ -242,7 +242,7 @@ export class AuthloginComponent implements OnInit {
               type: 'user',
               data: user
             })
-            this.generalService.isLoad(false)           
+            this.generalService.isLoad(false)
             localStorage.setItem('vaouser', JSON.stringify(user))
             this.registerStep = 3
             this.response = {
@@ -267,14 +267,14 @@ export class AuthloginComponent implements OnInit {
             message: error.error.message
           }
         }
-      )      
+      )
     )
   }
 
   recovery(){
-    
+
   }
 
-  
+
 
 }
