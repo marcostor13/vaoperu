@@ -15,6 +15,7 @@ import { CPromotion } from '../admin/modules/promotions/interfaces/promotion.int
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 import { CategorySubcategoryProfileService } from '../admin/modules/category-subcategory-profile/services/category-subcategory-profile.service';
 import { ICategorySubcategoryProfile } from '../admin/modules/category-subcategory-profile/interfaces/category-subcategory-profile.interfaces';
+import { faSearch, faChevronDown, faSignOutAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -55,6 +56,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     profileProviders: CProfileProvider[]
     currentProfileProviders: CProfileProvider[]
     currentPromotions: CPromotion[]
+    faSearch = faSearch
+    key:string
 
     constructor(
       private general: GeneralService,
@@ -261,7 +264,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   toogleSwitch(type: string){
     this.switch = type
   }
-
+  search(){
+    if (this.key){
+      this.router.navigate([`/resultados/${this.key}`]).then(() => {
+        window.location.reload();
+      });
+    }
+  }
 
 
 

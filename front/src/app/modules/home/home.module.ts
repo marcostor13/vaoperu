@@ -10,6 +10,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { CompanyListModule } from './../../shared/components/company-list/company-list.module';
 import { DialogModule } from 'primeng/dialog';
 import { PromotionListModule } from './../../shared/components/promotion-list/promotion-list.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -22,7 +23,8 @@ import { PromotionListModule } from './../../shared/components/promotion-list/pr
     PanelMenuModule,
     CompanyListModule,
     DialogModule,
-    PromotionListModule
+    PromotionListModule,
+    FontAwesomeModule
   ]
 })
 export class HomeModule { }

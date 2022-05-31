@@ -209,7 +209,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
   getAddress(address: string){
-    if(address.length > 30) {
+    if(address?.length > 30) {
       return `${address.substring(0, 30)}...`
     } else {
       return address
