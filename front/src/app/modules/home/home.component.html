@@ -13,27 +13,43 @@
   <h1 class="f-24 text-color1 bold mt-2 my-4">ESTABLECIMIENTOS</h1>
   <div class="d-flex flex-wrap">
     <div *ngFor="let item of categories; let i=index">
-      <div *ngIf="i<7" class="px-5 py-4 mt-3 mr-3 rounded shadow card">
+      <div *ngIf="i<7" class="px-5 py-4 mt-3 mr-3 radius-5 shadow card cursor" [routerLink]="['/resultados/'+item.name]">
         <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.image+')'}"></div>
         <h6 class="f-16 text-color1 mt-2">{{item.name}}</h6>
       </div>
     </div>
-    <div class="px-5 py-4 mt-3 mr-3 rounded shadow card">
+    <div class="px-5 py-4 mt-3 mr-3 radius-5 shadow card">
         <div class="image-categories" [ngStyle]="{ 'background-image': 'url(/assets/img/icons/tienda.png)'}"></div>
         <h6 class="f-16 text-color1 mt-2">Ver más</h6>
     </div>
   </div>
 
   <h1 class="f-24 text-color1 bold my-5">TOPS</h1>
-  <div class="slide-primary p-3 p-md-0">
-    <p-carousel [value]="itemsCarousel" [numVisible]="1" [numScroll]="1" [autoplayInterval]="7000">
-        <ng-template let-item pTemplate="item">
-            <div [ngStyle]="{ 'background-image': 'url('+getImageType(item)+')'}" class="image"></div>
-        </ng-template>
-    </p-carousel>
-</div>
+  <div class="slide-primary container-1">
+    <div class="d-flex container-image">
+          <div class="col">
+              <img src="https://img.freepik.com/foto-gratis/hamburguesa-carne-res-hamburguesa-verduras-frescas-superficie-oscura_2829-5883.jpg?t=st=1654722027~exp=1654722627~hmac=a5dcacc133c4dba31f8be91687b06956106724ab1f97385e8d53567e3d1af029&w=740" class="w-100 h-75 radius-5">
+          </div>
+          <div class="col">
+              <img src="https://img.freepik.com/foto-gratis/hamburguesa-carne-res-hamburguesa-verduras-frescas-superficie-oscura_2829-5883.jpg?t=st=1654722027~exp=1654722627~hmac=a5dcacc133c4dba31f8be91687b06956106724ab1f97385e8d53567e3d1af029&w=740" class="w-100 h-75 radius-5">
+          </div>
+      </div>
+  </div>
+
+  <h1 class="f-24 text-color1 bold my-1">EMPORIOS Y CENTROS COMERCIALES</h1>
+  <div class="slide-primary">
+    <div class="d-flex overflow-hidden">
+          <div class="col">
+              <img src="https://img.freepik.com/foto-gratis/frigorifico-comida_1203-842.jpg?t=st=1654724968~exp=1654725568~hmac=cf6634a4ac2591aeb9d886e00a2fb3d7a1ac35731dce566e3669fc5b4e98a673&w=996" class="w-100 h-75 radius-5">
+          </div>
+          <div class="col">
+              <img src="https://img.freepik.com/foto-gratis/frigorifico-comida_1203-842.jpg?t=st=1654724968~exp=1654725568~hmac=cf6634a4ac2591aeb9d886e00a2fb3d7a1ac35731dce566e3669fc5b4e98a673&w=996" class="w-100 h-75 radius-5">
+          </div>
+      </div>
+  </div>
 </div>
 
+<!--
 <div class="d-block d-md-none p-3">
     <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
 </div>
@@ -50,7 +66,7 @@
         <app-promotion-list *ngIf="promotions?.length>0 && profileProviders && switch==='promotions'" [items]="currentPromotions || promotions" [profileProviders]="profileProviders" (emitEvent)=companyListEvent($event)></app-promotion-list>
         <app-company-list *ngIf="profileProviders?.length>0 && switch==='companies'" [items]="currentProfileProviders || profileProviders" (emitEvent)=companyListEvent($event)></app-company-list>
     </div>
-</div>
+</div> -->
 
 <app-footer></app-footer>
 

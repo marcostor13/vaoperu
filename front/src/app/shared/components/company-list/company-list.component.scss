@@ -1,10 +1,9 @@
 @import '../../../../styles/variables';
 
-$size: 280px;
+$size: 180px;
 .company{
-    border-radius: 10px;  
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
     .image-company{
         background-repeat: no-repeat;
         background-size: cover;
@@ -12,7 +11,16 @@ $size: 280px;
         min-width: $size;
         max-width: $size;
         margin: auto !important;
+        border-radius: 10px;
     }
+    .image-company-responsive{
+      background-repeat: no-repeat;
+      background-size: cover;
+      min-height: $size;
+      min-width: $size;
+      max-width: $size;
+      border-radius: 10px;
+  }
     .address{
         min-height: 30px;
     }

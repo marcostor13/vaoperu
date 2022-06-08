@@ -89,6 +89,19 @@
       padding-right: 84px;
   }
 }
+.radius-5{
+  border-radius: 20px;
+}
+.container-1{
+  position: relative;
+  height: 300px;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  overflow: hidden;
+  .container-image{
+    position: absolute;
+  }
+}
 
 @media (min-width: 1024px) {
     .image{

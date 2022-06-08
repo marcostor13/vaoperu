@@ -1,7 +1,7 @@
-<div class="mt-5 company-list">
+<div class="d-none d-md-block mt-5 company-list bg-color7">
 
     <p-dataView [value]="items" [paginator]="true" [rows]="9" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
-               
+
         <ng-template let-company pTemplate="gridItem">
             <div class="company shadow mb-3 ml-3 mr-3">
                 <div (click)="gotToViewCompany(company)" class="image-company cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
@@ -9,11 +9,11 @@
                     <h5 class="title font-400 cursor">{{company.comercialName}}</h5>
                     <div class="row align-items-center m-0 justify-content-between w-100">
                         <div>
-                            <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">                        
-                            <img *ngIf="!aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/close.svg" alt="Cerrado">                        
-                            <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>   
+                            <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">
+                            <img *ngIf="!aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/close.svg" alt="Cerrado">
+                            <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>
                         </div>
-                        <div>                            
+                        <div>
                             <fa-icon (click)="shared(company.url, company.comercialName)" class="cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon>
                             <fa-icon *ngIf="company.delivery" class="f-13 text-color1" [icon]="faStore" [title]="'Recojo en tienda'"></fa-icon>
                             <fa-icon *ngIf="company.onMarket" class="f-13 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Delivery'"></fa-icon>
@@ -23,29 +23,78 @@
                         <p class="font-300 m-0 f-10 address">{{company.addressText}}</p>
                         <label class="text-color1" *ngIf="company.distance">{{company.distance}} km</label>
                     </div>
-                    <div class="m-0 col-12 p-0 row justify-content-between align-items-center"> 
+                    <div class="m-0 col-12 p-0 row justify-content-between align-items-center">
                         <div class="row m-0">
                             <a href="tel:{{company.phone}}" target="_blank" title="Llamar" class="link-unstyled p-0 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
                                 <fa-icon class="f-13" [icon]="faPhone"></fa-icon>
                             </a>
                             <a href="https://wa.me/{{company.whatsapp | whatsapp}}?text=Hola! {{company.comercialName}}" target="_blank" title="Whatsapp" class="ml-2 p-0 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
                                 <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
-                            </a> 
-                        </div>                        
+                            </a>
+                        </div>
                         <button *ngIf="!isFavorite(company._id)" (click)="addfavorites(company._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Agregar a favoritos</button>
 
                         <button *ngIf="isFavorite(company._id)" (click)="confirmDeleteFavorites(company._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
                             <fa-icon class="f-13" [icon]="faStar"></fa-icon>
-                        </button>                        
+                        </button>
                     </div>
                     <div class="m-0 col-12 p-0 row justify-content-start align-items-center mt-3">
                         <button (click)="gotToViewCompany(company)" class="cursor pl-2 pr-2 bg-color7 border-0 p-1 rounded-pill f-9 font-500">Más información</button>
                     </div>
-                </div>               
+                </div>
             </div>
         </ng-template>
     </p-dataView>
-    
+
 </div>
 
+<div class="d-block d-md-none mt-5">
+  <p-dataView [value]="items" filterBy="name" [emptyMessage]="'No se encontraron resultados'">
+
+    <ng-template let-company pTemplate="listItem">
+        <div class="company mb-3 d-flex col">
+            <div (click)="gotToViewCompany(company)" class="image-company-responsive cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
+            <div class="p-3 d-flex flex-column col justify-content-between align-items-start">
+                <h5 class="title font-400 cursor">{{company.comercialName}}</h5>
+                <div class="row align-items-center col m-0 p-0 justify-content-between w-100">
+                    <div>
+                        <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">
+                        <img *ngIf="!aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/close.svg" alt="Cerrado">
+                        <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>
+                    </div>
+                    <div>
+                        <!-- <fa-icon (click)="shared(company.url, company.comercialName)" class="cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon> -->
+                        <fa-icon *ngIf="company.delivery" class="f-13 text-color1" [icon]="faStore" [title]="'Recojo en tienda'"></fa-icon>
+                        <fa-icon *ngIf="company.onMarket" class="f-13 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Delivery'"></fa-icon>
+                    </div>
+                </div>
+                <div class="mt-2 d-flex align-items-center justify-content-between w-100">
+                    <p class="font-300 m-0 f-10 address">{{company.addressText}}</p>
+                    <label class="text-color1" *ngIf="company.distance">{{company.distance}} km</label>
+                </div>
+                <div class="d-flex col m-0 p-0 justify-content-between align-items-center">
+                    <div class="row m-0">
+                        <a href="tel:{{company.phone}}" target="_blank" title="Llamar" class="link-unstyled p-0 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
+                            <fa-icon class="f-13" [icon]="faPhone"></fa-icon>
+                        </a>
+                        <a href="https://wa.me/{{company.whatsapp | whatsapp}}?text=Hola! {{company.comercialName}}" target="_blank" title="Whatsapp" class="ml-2 p-0 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
+                            <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
+                        </a>
+                    </div>
+                      <button *ngIf="!isFavorite(company._id)" (click)="addfavorites(company._id)" class="cursor px-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
+                        <fa-icon class="f-13 text-white" [icon]="faStar"></fa-icon>
+                      </button>
+
+                      <button *ngIf="isFavorite(company._id)" (click)="confirmDeleteFavorites(company._id)" class="cursor px-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
+                      </button>
+                </div>
+                <div class="m-0 col-12 p-0 row justify-content-start align-items-center mt-3">
+                    <button (click)="gotToViewCompany(company)" class="cursor pl-2 pr-2 bg-color7 border-0 p-1 rounded-pill f-9 font-500">Más información</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+  </p-dataView>
+</div>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
