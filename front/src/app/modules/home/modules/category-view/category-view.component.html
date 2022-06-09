@@ -2,6 +2,13 @@
 
 <div class="py-3">
 
+  <div *ngIf="type === 'subcategory'" class="w-100 mt-2 mb-3 px-3 d-flex justify-content-start">
+      <button (click)="returnCaterogies()" class="bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
+          <fa-icon class="f-14 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
+          Atrás
+      </button>
+  </div>
+
     <div class="d-none d-md-flex px-5 w-100">
         <div class="filters">
             <label>Filtrar por categorias</label>
@@ -20,7 +27,7 @@
         </div>
     </div>
 
-    <div class="d-flex d-md-none justify-content-start flex-wrap">
+    <div class="d-flex d-md-none justify-content-start flex-wrap px-3">
 
         <p-carousel [value]="type === 'categories'? categories:subcategories" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="5" [showIndicators]="false" [showNavigators]="false">
             <ng-template let-category pTemplate="item">
@@ -30,12 +37,6 @@
                 </div>
             </ng-template>
         </p-carousel>
-        <div *ngIf="type === 'subcategory'" class="w-100 d-flex justify-content-end pr-2">
-            <button (click)="returnCaterogies()" class="bg-color1 px-2 f-8 border-0 d-flex align-items-center justify-content-center rounded-pill text-white">
-                <fa-icon class="f-7 icon-search mr-2 text-white" [icon]="faArrowLeft"></fa-icon>
-                Categorías
-            </button>
-        </div>
 
     </div>
 

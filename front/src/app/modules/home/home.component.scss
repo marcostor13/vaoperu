@@ -1,12 +1,5 @@
 @import './../../../styles/variables';
 
-.image-categories{
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  width: 80px;
-  height: 80px;
-}
 .image{
     min-width: 100%;
     min-height: 360px;
@@ -101,6 +94,40 @@
   .container-image{
     position: absolute;
   }
+  .bg-image{
+    min-width: 500px;
+    min-height: 250px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+.card-categories{
+  width: 170px;
+  height: 170px;
+  @media (max-width: 504px) {
+    width: 140px;
+    height: 140px;
+    .f-14{
+      font-size: 14px;
+    }
+    .f-16{
+      font-size: 14px;
+    }
+  }
+}
+.image-categories{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-width: 80px;
+  min-height: 80px;
+  @media (max-width: 504px) {
+    min-width: 60px;
+    min-height: 60px;
+  }
+
 }
 
 @media (min-width: 1024px) {
@@ -123,5 +150,11 @@
             font-size: 9pt;
             font-weight: 400;
         }
+    }
+}
+
+@media (max-width: 504px) {
+    .f-24{
+      font-size: 26px;
     }
 }

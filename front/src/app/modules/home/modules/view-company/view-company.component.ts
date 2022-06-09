@@ -15,6 +15,7 @@ import { ITabList } from './interfaces/view-company.interface';
 import { FavoriteService } from './../../../../shared/services/favorite/favorite.service';
 import { IFavorite } from '@shared/interfaces/favorites.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-view-company',
@@ -34,6 +35,7 @@ export class ViewCompanyComponent implements OnInit {
   role: string[]
   favorites: IFavorite[]
   faStar = faStar
+  faArrowLeft = faArrowLeft
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +47,7 @@ export class ViewCompanyComponent implements OnInit {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) { 
+  ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
   }
 
@@ -57,7 +59,7 @@ export class ViewCompanyComponent implements OnInit {
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
       this.getProfileProvider(response?.data[0].profileProviderId)
-    })  
+    })
   }
 
   getProfileProvider(profileProviderId:string){
@@ -94,13 +96,13 @@ export class ViewCompanyComponent implements OnInit {
       this.tabs = [...this.tabs, {
         title: 'Ofertas',
         data: this.offers
-      }]     
+      }]
     }
     this.tabs = [...this.tabs, {
-      title: 'Información', 
+      title: 'Información',
       data: this.profileProvider
     }]
-    
+
   }
 
   addfavorites() {
@@ -159,6 +161,6 @@ export class ViewCompanyComponent implements OnInit {
       }
     });
   }
-  
+
 
 }

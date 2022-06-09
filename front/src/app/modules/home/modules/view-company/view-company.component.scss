@@ -1,8 +1,14 @@
 .image-profile{
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 300px;
-    max-height: 300px;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 250px;
+    max-height: 250px;
+    @media (max-width: 520px) {
+      min-width: 170px;
+      max-width: 170px;
+      min-height: 170px;
+      max-height: 170px;
+    }
 }
 
 .icon{
@@ -13,6 +19,10 @@
     max-height: 32px;
 }
 
+@media (max-width: 520px){
+  .f-16{ font-size: 14px;}
+  .f-22{ font-size: 18px;}
+}
 @media (max-width: 1200px) {
     .cont{
         min-width: 100%;
