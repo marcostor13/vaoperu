@@ -13,18 +13,18 @@
             <div class="d-flex container-profile">
               <div class="image image-profile" [ngStyle]="{'background-image': 'url('+profileProvider.image+')'}"></div>
               <div class="ml-4 my-auto">
-                <h1 class="h3 mt-xl-0 text-left">{{profileProvider.comercialName}}</h1>
+                <h1 class="f-18 font-600 mt-xl-0 text-left">{{profileProvider.comercialName}}</h1>
                   <p class="mt-2">{{profileProvider.description}}</p>
                       <div class="d-flex">
-                          <a href="tel:{{profileProvider.phone}}" target="_blank" title="Llamar" class="link-unstyled p-3 p-sm-4 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
-                              <fa-icon class="f-16 text-white fa-rotate-90" [icon]="faPhone"></fa-icon>
+                          <a href="tel:{{profileProvider.phone}}" target="_blank" title="Llamar" class="link-unstyled p-1 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
+                              <fa-icon class="f-13 text-white fa-rotate-90" [icon]="faPhone"></fa-icon>
                           </a>
-                          <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" title="Whatsapp" class="ml-2 p-3 p-sm-4 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
-                              <fa-icon class="f-22 text-white" [icon]="faWhatsapp"></fa-icon>
+                          <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" title="Whatsapp" class="ml-2 p-1 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
+                              <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
                           </a>
                       </div>
                       <div class="mt-3 mt-sm-4">
-                        <button *ngIf="!isFavorite(profileProvider._id)" (click)="addfavorites()" class="cursor bg-color1 border-0 py-3 px-4 px-sm-5 text-white f-9 font-500">Información</button>
+                        <button *ngIf="!isFavorite(profileProvider._id)" (click)="addfavorites()" class="cursor bg-color1 border-0 py-2 px-4 px-sm-5 text-white f-8 font-500">Información</button>
 
                         <button *ngIf="isFavorite(profileProvider._id)" (click)="confirmDeleteFavorites(profileProvider._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
                             <fa-icon class="f-13" [icon]="faStar"></fa-icon>
@@ -35,7 +35,12 @@
         </div>
         <div class="w-100 m-0 p-0 mt-5">
             <p-tabView styleClass="tabview-custom">
-                <p-tabPanel *ngFor="let tab of tabs">
+                <p-tabPanel *ngFor="let tab of tabs"><div  class="w-100 mt-2 mb-3 px-3 d-flex justify-content-start">
+
+                  <button (click)="allproduct()" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 rounded-pill text-color5">
+                      ver todos
+                  </button>
+                </div>
                     <ng-template pTemplate = "header">
                         <span class="f-12 font-300">{{tab.title}}</span>
                     </ng-template>
@@ -47,8 +52,8 @@
         </div>
 
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <h3 class="text-center mt-5 w-100 px-3 text-color1">Todos nuestros productos</h3>
         <app-product-list [type]="'Productos'" [profileProviderId]="profileProvider._id"  [items]="products" [rows]="9"></app-product-list>
-    </div>
+    </div> -->
 </div>

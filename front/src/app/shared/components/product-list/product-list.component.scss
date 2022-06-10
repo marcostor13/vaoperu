@@ -4,7 +4,7 @@ $size: 210px;
 
 .product{
     min-height: $size;
-    
+
     .image-product{
         border-radius: 10px;
         background-repeat: no-repeat;
@@ -43,10 +43,10 @@ $size: 210px;
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 200px;  
+    max-height: 200px;
     .description{
         white-space: pre-wrap;
-    }  
+    }
 }
 
 .controls{
@@ -78,14 +78,14 @@ $size: 210px;
     .title{
         font-size: 11pt !important;
     }
-    .product{ 
-        min-height: $size;  
+    .product{
+        min-height: $size;
         align-items: center;
         .sub-product{
             justify-content: space-between !important;
             width: 100%;
         }
-        
+
     }
     .product-list{
         .image-product{
@@ -114,6 +114,6 @@ $size: 210px;
         font-size: 12pt;
     }
 
-   
-   
+
+
 }

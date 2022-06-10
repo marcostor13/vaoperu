@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: ':id',
     loadChildren: () => import('./modules/view-company/view-company.module').then(m => m.ViewCompanyModule),
-  },  
+  },
+  {
+    path: ':id/productos',
+    loadChildren: () => import('./modules/view-company/components/all-products/all-products.module').then(m => m.AllProductsModule),
+  },
   {
     path: '',
     redirectTo: '',

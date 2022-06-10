@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -46,7 +47,8 @@ export class ViewCompanyComponent implements OnInit {
     private offersService: OfferService,
     private favoriteService: FavoriteService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
   }
@@ -85,12 +87,21 @@ export class ViewCompanyComponent implements OnInit {
 
   formatTabs(){
     let prods = [...this.products.filter(product => product.isFeatured)]
+
+    if (this.products.length > 0){
+      this.tabs = [...this.tabs, {
+        title: 'Productos',
+        data: this.products
+      }]
+    }
+
     if (prods.length > 0){
       this.tabs = [...this.tabs, {
         title: 'Destacados',
         data: prods
       }]
     }
+
 
     if (this.offers.length > 0) {
       this.tabs = [...this.tabs, {
@@ -162,5 +173,7 @@ export class ViewCompanyComponent implements OnInit {
     });
   }
 
-
+  allproduct(){
+      this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos`])
+  }
 }

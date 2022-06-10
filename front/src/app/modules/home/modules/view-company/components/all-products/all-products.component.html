@@ -1,0 +1,15 @@
+<app-header [eventHeader]="eventHeader"></app-header>
+
+<div  class="w-100 mt-2 mb-3 px-3 d-flex justify-content-start">
+  <button routerLink="/" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
+      <fa-icon class="f-14 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
+      Atrás
+  </button>
+</div>
+
+<div *ngIf="profileProvider" class="container-fluid mt-4 p-0">
+  <div class="row">
+      <h3 class="text-center mt-5 w-100 px-3 text-color1">Todos nuestros productos</h3>
+      <app-product-list [type]="'Productos'" [profileProviderId]="profileProvider._id"  [items]="products" [rows]="9"></app-product-list>
+  </div>
+</div>
