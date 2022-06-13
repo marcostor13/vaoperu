@@ -8,6 +8,7 @@ import { SubSink } from 'subsink';
 import { ICart } from '@shared/interfaces/cart.interfaces';
 import { Store } from '@ngrx/store';
 import { delay } from 'rxjs/operators';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-list',
@@ -36,6 +37,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   cart: ICart
   isProviderPath: boolean
   currentIndex: number
+  faShoppingCart = faShoppingCart
+  eventHeader: any
 
   private subs = new SubSink()
 
@@ -61,16 +64,16 @@ export class ProductListComponent implements OnInit, OnChanges {
         numVisible: 1,
         numScroll: 1
       }
-    ];  
-    
+    ];
+
     this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
-   
+
   }
 
   ngOnChanges(){
     this.initializeQuantities()
     if (!this.isProviderPath){
-      this.subscriptionCart() 
+      this.subscriptionCart()
     }
   }
 
@@ -100,13 +103,13 @@ export class ProductListComponent implements OnInit, OnChanges {
       items: []
     })
   }
-  
-  
+
+
   ngOnInit(): void {
     this.role = this.authService.getRole()
-    this.initializeItems()  
+    this.initializeItems()
   }
-  
+
   setQuantities() {
     this.items?.map((prod, index) => {
       this.quantity[index] = 0
@@ -121,7 +124,7 @@ export class ProductListComponent implements OnInit, OnChanges {
       })
     }else{
       this.items?.map((prod, index) => {
-        this.quantity[index] = 0        
+        this.quantity[index] = 0
       })
     }
   }
@@ -132,7 +135,7 @@ export class ProductListComponent implements OnInit, OnChanges {
     }
   }
 
-  initializeQuantities(){   
+  initializeQuantities(){
     if (this.items){
       if(this.type === 'Productos' || this.type === 'Destacados'){
         this.items.map((_, i)=>{
@@ -150,7 +153,7 @@ export class ProductListComponent implements OnInit, OnChanges {
       this.isMobile = false
     }
   }
-  
+
   onSortChange(event) {
     this.general.c('SORT BY', event)
   }
@@ -203,7 +206,7 @@ export class ProductListComponent implements OnInit, OnChanges {
           }
         }
         this.cartService.addToCart(itemCart, this.profileProviderId)
-        break;      
+        break;
       case 'subtract':
         quantity = this.quantity[i]-1
         if (quantity>0){
@@ -214,12 +217,12 @@ export class ProductListComponent implements OnInit, OnChanges {
         break;
     }
     this.setQuantities()
-  } 
+  }
 
   ngOnDestroy() {
     this.subs.unsubscribe()
   }
-  
+
 
 
 }

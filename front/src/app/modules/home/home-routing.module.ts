@@ -24,6 +24,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/view-company/components/all-products/all-products.module').then(m => m.AllProductsModule),
   },
   {
+    path: 'categorias',
+    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+  },
+  {
+    path: ':id/informacion',
+    loadChildren: () => import('./modules/view-company/components/information-products/information-products.module').then(m => m.InformationProductsModule),
+  },
+  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'

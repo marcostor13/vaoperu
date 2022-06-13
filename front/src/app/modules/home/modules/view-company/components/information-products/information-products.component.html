@@ -7,7 +7,3 @@
   </button>
 </div>
 
-<div *ngIf="profileProvider" class="mt-4 px-4">
-      <h3 class="mt-2 w-100 text-color5">Productos</h3>
-      <app-product-list [type]="'Productos'" [profileProviderId]="profileProvider._id"  [items]="products" [rows]="9"></app-product-list>
-</div>

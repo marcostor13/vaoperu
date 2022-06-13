@@ -5,15 +5,19 @@ import { CarouselModule } from 'primeng/carousel';
 import { ProductListComponent } from './product-list.component';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HeaderModule } from './../../../shared/components/header/header.module';
 
 @NgModule({
   declarations: [ProductListComponent],
-  imports: [  
+  imports: [
     CommonModule,
     DataViewModule,
-    CarouselModule, 
+    CarouselModule,
     DialogModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule,
+    HeaderModule
   ],
   exports: [ProductListComponent],
 })

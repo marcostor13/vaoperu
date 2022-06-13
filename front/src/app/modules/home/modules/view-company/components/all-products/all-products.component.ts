@@ -6,6 +6,7 @@ import { ProfileProviderService } from 'src/app/modules/provider/modules/profile
 import { CProduct } from 'src/app/modules/provider/modules/product/models/product';
 import { ProductService } from 'src/app/modules/provider/modules/product/services/product.service';
 import { IResponseApi } from 'src/app/models/responses';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-products',
@@ -23,7 +24,7 @@ export class AllProductsComponent implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
     private profileProviderService: ProfileProviderService,
-
+    private router: Router
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
    }
@@ -50,5 +51,9 @@ export class AllProductsComponent implements OnInit {
       this.products = response.data
     })
   }
+
+  allproduct(){
+    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-')])
+}
 
 }

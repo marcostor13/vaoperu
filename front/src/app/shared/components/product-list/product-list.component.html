@@ -2,7 +2,7 @@
 
     <p-dataView *ngIf="items?.length>0" [value]="items" [paginator]="items?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
         <ng-template *ngIf="rows===0" pTemplate="header">
-            <div  class="row justify-content-between m-0">           
+            <div  class="row justify-content-between m-0">
                 <div class="input-search">
                     <i class="pi pi-search"></i>
                     <input type="search" pInputText placeholder="Buscar" (input)="search($event)">
@@ -10,13 +10,13 @@
                 <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
             </div>
         </ng-template>
-        
+
         <ng-template let-product let-i="rowIndex" pTemplate="listItem">
             <div class="product col-12 p-3 row flex-column flex-md-row m-0">
                 <div class="row m-0 align-items-center flex-wrap sub-product">
                     <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="product.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
                         <ng-template let-image pTemplate="item">
-                            <div (click)="openModal(product, i)" class="shadow  image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>  
+                            <div (click)="openModal(product, i)" class="shadow  image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>
                         </ng-template>
                     </p-carousel>
                     <div class="mt-2 pt-2 d-flex flex-column ml-3">
@@ -33,87 +33,92 @@
                         <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
                     </div>
                 </div>
-                <div class="d-none d-md-flex m-0 flex-1 align-items-center mt-3">       
+                <div class="d-none d-md-flex m-0 flex-1 align-items-center mt-3">
                     <div class="description-content">
                         <pre class="p-0 m-0 pl-0 pr-0 pl-md-5 description font-p font-400 f-10">{{product.description}}</pre>
                     </div>
-                    
+
                 </div>
             </div>
         </ng-template>
 
         <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
-            <div class="product col-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row justify-content-center pt-2 pb-2">
-                <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [styleClass]="'carousel'">
+            <div class="product col-6 col-sm-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row py-2 justify-content-center">
+              <div class="d-flex flex-column justify-content-center align-items-center align-content-center">
+                <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
                     <ng-template let-image pTemplate="item">
-                        <div (click)="openModal(product, i)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>                        
+                        <div (click)="openModal(product, i)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>
                     </ng-template>
                 </p-carousel>
-                <div class="mt-2 col-12 d-flex flex-column justify-content-between align-items-center">
-                    <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center"    >
-                        <button (click)="changeProduct(i, 'subtract', product)">-</button>
-                        <input disabled="true" type="text" [(ngModel)]="quantity[i]">
-                        <button (click)="changeProduct(i, 'increase', product)" class="cursor">+</button>
-                    </div>
+                <div class="w-100 d-flex flex-column align-items-left">
+                  <div class="row flex-column m-0">
                     <h5 (click)="openModal(product, i)" class="title cursor mt-2">{{product.name}}</h5>
-                    <div class="row align-items-center">
-                        <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color8 cursor">{{getPrice(product.promotionalPrice)}}</h5>
-                        <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color8 cursor">{{getPrice(product.price)}}</h5>
-                    </div>
-                    <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
-                </div>               
+                    <p (click)="openModal(product, i)" class="cursor">{{product.description}}</p>
+                      <!-- <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center"    >
+                          <button (click)="changeProduct(i, 'subtract', product)">-</button>
+                          <input disabled="true" type="text" [(ngModel)]="quantity[i]">
+                        </div> -->
+                        <div class="row m-0 align-items-center">
+                          <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
+                          <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
+                        </div>
+                        <div class="mt-1">
+                          <button (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
+                            Agregar</button>
+                        </div>
+                      <button *ngIf="role==='provider'" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
+                  </div>
+                </div>
+              </div>
             </div>
         </ng-template>
     </p-dataView>
-    
+
 </div>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayModal" 
+<p-dialog
+    header=""
+    [(visible)]="displayModal"
     [modal]="true"
     [baseZIndex]="100000"
     [autoZIndex]="true"
     [draggable]="false"
     [resizable]="false"
-    [style]="{'min-width': '60vw'}"    
-    >   
+    [style]="{'min-width': '100vw', 'min-height':'100vh'}"
+    >
+    <app-header [eventHeader]="eventHeader"></app-header>
 
-    <div *ngIf="currentItem" class="product-list2 p-0 p-md-5">
-        <div class="product col-12 p-3 row flex-column flex-md-row m-0">
-            <div class="row col-12 p-0 m-0 align-items-center flex-wrap sub-product">
-                <div class="col-md-12 col-lg-6 col-xl-8 p-0">
-                    <p-carousel [responsiveOptions]="responsiveOptions" [value]="currentItem?.images" [numVisible]="3" [numScroll]="1" [styleClass]="currentItem.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
-                        <ng-template let-image pTemplate="item">
-                            <div class="p-2">
-                                <div class="image-product shadow " [ngStyle]="{'background-image': 'url('+image+')'}"></div>  
-                            </div>
-                        </ng-template>
-                    </p-carousel>
+    <div *ngIf="currentItem" class="product-list2 d-flex flex-column align-items-center">
+        <div class="product">
+          <div class="sub-product">
+              <div class="slider-image">
+                  <p-carousel [responsiveOptions]="responsiveOptions" [showNavigators]="false" [value]="currentItem?.images" [numVisible]="3" [numScroll]="1" [styleClass]="currentItem.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
+                      <ng-template let-image pTemplate="item">
+                          <div class="image-product shadow " [ngStyle]="{'background-image': 'url('+image+')'}"></div>
+                      </ng-template>
+                  </p-carousel>
+              </div>
+              <div class="pl-5">
+                <h5 class="title">{{currentItem.name}}</h5>
+                  <div class="mt-3 description-content">
+                      <pre class="description font-p font-400 f-10">{{currentItem.description}}</pre>
+                  </div>
+                <div class="row align-items-center m-0">
+                    <h5 *ngIf="currentItem.promotionalPrice" class="primary-price text-color1">{{getPrice(currentItem.promotionalPrice)}}</h5>
+                    <h5 [ngClass]="{'price-sub ml-2': currentItem.promotionalPrice}" class="text-color1">{{getPrice(currentItem.price)}}</h5>
                 </div>
-                <div class="row m-0 col-md-12 col-lg-6 col-xl-4 p-0 align-items-center flex-column">
-                    <h5 class="title">{{currentItem.name}}</h5>
-                    <div class="row align-items-center m-0">
-                        <h5 *ngIf="currentItem.promotionalPrice" class="primary-price text-color8">{{getPrice(currentItem.promotionalPrice)}}</h5>
-                        <h5 [ngClass]="{'price-sub ml-2': currentItem.promotionalPrice}" class="text-color8">{{getPrice(currentItem.price)}}</h5>
-                    </div>                
-                </div>
+              </div>
             </div>
-            <div class="row col-12 p-0 mt-3">       
-                <div class="description-content">
-                    <pre class="p-0 m-0 pl-0 pr-0 pl-md-5 description font-p font-400 f-10">{{currentItem.description}}</pre>
-                </div>                
-            </div>
-            <div class="row col-12 p-0 mt-3 justify-content-between align-items-center">
-                <h6 class="text-color1">Agregar a carrito</h6>
-                <div class="controls d-flex align-items-center">
+            <div class="d-flex mt-3  align-items-center bg-color7 px-5 py-4">
+                <h6 class="text-color1">Agregar</h6>
+                <div class="pl-3 controls d-flex align-items-center">
                     <button (click)="changeProduct(currentIndex, 'subtract', currentItem)">-</button>
-                    <input disabled="true" type="text" [(ngModel)]="quantity[currentIndex]">
+                    <input  disabled="true" type="text" [(ngModel)]="quantity[currentIndex]">
                     <button (click)="changeProduct(currentIndex, 'increase', currentItem)" class="cursor">+</button>
                 </div>
             </div>
-        </div>
-    </div>      
+          </div>
+    </div>
 
 
 </p-dialog>

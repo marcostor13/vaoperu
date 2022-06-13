@@ -942,7 +942,7 @@ $size:100px;
 }
 
 .p-grid{
-    justify-content: center !important;
+    justify-content: left !important;
 }
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
@@ -1001,3 +1001,12 @@ $size:100px;
 .p-paginator{
   background-color: $color11!important;
 }
+.slider-image{
+  .p-carousel{
+    flex-direction: initial!important;
+  }
+}
+.p-dialog-content{
+  padding: 0!important;
+}
+

@@ -9,26 +9,23 @@
 
 </div>
 
-<div class="p-3 mb-5">
-  <h1 class="f-24 text-color1 bold  my-2">ESTABLECIMIENTOS</h1>
+<div class="pl-3 mb-5">
+  <h1 class="title f-20 text-color1 bold my-2">ESTABLECIMIENTOS</h1>
   <div class="d-flex flex-wrap">
     <div *ngFor="let item of categories; let i=index">
-      <div *ngIf="i<5" class="d-none d-sm-flex card-categories align-items-center justify-content-end text-center px-2 py-3 mt-3 mr-3 radius-5 shadow card cursor" [routerLink]="['/resultados/'+item.name]">
+      <div *ngIf="i<5" class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor" [routerLink]="['/resultados/'+item.name]">
         <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.image+')'}"></div>
-        <h6 class="f-14 text-color1 mt-2">{{item.name}}</h6>
+        <h6 class="f-8 text-color1 mt-2">{{item.name}}</h6>
       </div>
-      <div *ngIf="i<3" class="d-flex d-sm-none card-categories align-items-center justify-content-end text-center px-2 py-3 mt-3 mr-3 radius-5 shadow card cursor" [routerLink]="['/resultados/'+item.name]">
-        <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.image+')'}"></div>
-        <h6 class="f-14 text-color1 mt-2">{{item.name}}</h6>
-      </div>
+
     </div>
-    <div class="card-categories align-items-center justify-content-end text-center px-2 py-3 mt-3 mr-3 radius-5 shadow card cursoradow card">
+    <div class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor">
         <div class="image-categories" [ngStyle]="{ 'background-image': 'url(/assets/img/icons/tienda.png)'}"></div>
-        <h6 class="f-14 text-color1 mt-2">Ver más</h6>
+        <h6 class="f-8 text-color1 mt-2">Ver más</h6>
     </div>
   </div>
 
-  <h1 class="f-24 text-color1 bold mt-5">TOPS</h1>
+  <h1 class="title f-20 text-color1 bold mt-5">TOPS</h1>
   <div class="container-1">
     <div class="d-flex container-image">
       <div class="bg-image radius-5 mr-3" [ngStyle]="{'background-image': 'url(https://img.freepik.com/foto-gratis/hamburguesa-carne-res-hamburguesa-verduras-frescas-superficie-oscura_2829-5883.jpg?t=st=1654722027~exp=1654722627~hmac=a5dcacc133c4dba31f8be91687b06956106724ab1f97385e8d53567e3d1af029&w=740)'}">
@@ -38,7 +35,7 @@
     </div>
   </div>
 
-  <h1 class="f-24 text-color1 bold">EMPORIOS Y CENTROS COMERCIALES</h1>
+  <h1 class="title f-20 text-color1 bold mt-2">EMPORIOS Y CENTROS COMERCIALES</h1>
   <div class="container-1">
     <div class="d-flex container-image">
       <div class="bg-image radius-5 mr-3" [ngStyle]="{'background-image': 'url(https://img.freepik.com/foto-gratis/frigorifico-comida_1203-842.jpg?t=st=1654724968~exp=1654725568~hmac=cf6634a4ac2591aeb9d886e00a2fb3d7a1ac35731dce566e3669fc5b4e98a673&w=996)'}">
