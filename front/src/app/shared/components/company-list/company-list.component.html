@@ -58,14 +58,14 @@
                 <h5 class="f-12 font-400 cursor">{{company.comercialName}}</h5>
                 <div class="row align-items-center col m-0 p-0 justify-content-between w-100">
                     <div>
-                        <img *ngIf="aperture(company.openTime, company.closeTime)" width="24" src="assets/img/icons/open.svg" alt="Abierto">
-                        <img *ngIf="!aperture(company.openTime, company.closeTime)" width="24" src="assets/img/icons/close.svg" alt="Cerrado">
-                        <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>
+                        <img *ngIf="aperture(company.openTime, company.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
+                        <img *ngIf="!aperture(company.openTime, company.closeTime)" width="23" src="assets/img/icons/close.svg" alt="Cerrado">
+                        <span class="ml-2 f-9 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>
                     </div>
                     <div>
                         <!-- <fa-icon (click)="shared(company.url, company.comercialName)" class="cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon> -->
-                        <fa-icon *ngIf="company.delivery" class="f-13 text-color1" [icon]="faStore" [title]="'Recojo en tienda'"></fa-icon>
-                        <fa-icon *ngIf="company.onMarket" class="f-13 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Delivery'"></fa-icon>
+                        <fa-icon *ngIf="company.delivery" class="f-10 text-color1" [icon]="faStore" [title]="'Recojo en tienda'"></fa-icon>
+                        <fa-icon *ngIf="company.onMarket" class="f-10 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Delivery'"></fa-icon>
                     </div>
                 </div>
                 <div class="mt-2 d-flex align-items-center justify-content-between w-100">

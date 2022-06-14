@@ -16,16 +16,16 @@ const routes: Routes = [
     loadChildren: () => import('./modules/favorites/favorites.module').then(m => m.FavoritesModule),
   },
   {
+    path: 'categorias',
+    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+  },
+  {
     path: ':id',
     loadChildren: () => import('./modules/view-company/view-company.module').then(m => m.ViewCompanyModule),
   },
   {
     path: ':id/productos',
     loadChildren: () => import('./modules/view-company/components/all-products/all-products.module').then(m => m.AllProductsModule),
-  },
-  {
-    path: 'categorias',
-    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
   },
   {
     path: ':id/informacion',

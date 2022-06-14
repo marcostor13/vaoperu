@@ -60,7 +60,7 @@ export class ViewCompanyComponent implements OnInit {
 
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
-      this.getProfileProvider(response?.data[0].profileProviderId)
+      this.getProfileProvider(response?.data[0]?.profileProviderId)
     })
   }
 
