@@ -1,0 +1,32 @@
+.image-categories{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-width: 60px;
+  min-height: 60px;
+  @media (max-width: 504px) {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+}
+.card-categories{
+  width: 135px;
+  height: 135px;
+  .f-8{
+    font-size: 14px;
+  }
+  @media (max-width: 472px) {
+    width: 97px;
+    height: 97px;
+    .f-8{
+      font-size: 12px;
+    }
+    .f-16{
+      font-size: 14px;
+    }
+  }
+}
+.radius-5{
+  border-radius: 20px;
+}

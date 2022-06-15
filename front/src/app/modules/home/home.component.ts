@@ -271,7 +271,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
   }
-
+  urlCategories(){
+    this.router.navigate([ '/categorias' ])
+  }
 
 
 

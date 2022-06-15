@@ -41,7 +41,7 @@
                     Ver todos
                   </button>
                 </div>
-                    <ng-template pTemplate = "header">
+                    <ng-template pTemplate = "header" headerStyleClass = "w-100">
                         <span class="f-12 font-300">{{tab.title}}</span>
                     </ng-template>
                     <app-product-list *ngIf="tab.title!=='Información'" [type]="tab.title" [profileProviderId]="profileProvider._id" [items]="tab.data" [rows]="3"></app-product-list>

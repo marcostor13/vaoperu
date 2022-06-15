@@ -1,1 +1,22 @@
-<p class="mt-5">categories works!</p>
+<app-header [eventHeader]="eventHeader"></app-header>
+
+<div  class="w-100 mt-2 mb-3 pl-3 d-flex justify-content-start">
+  <button (click)="allproduct()" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
+      <fa-icon class="f-14 icon-search ml-2 text-color5" [icon]="faArrowLeft"></fa-icon>
+      Atrás
+  </button>
+</div>
+
+<div class="ml-3 mb-3">
+  <h1 class="title f-20 text-color1 bold my-2">CATEGORIAS</h1>
+
+  <div class="d-flex flex-wrap">
+    <div *ngFor="let item of categories; let i=index">
+      <div class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor" [routerLink]="['/resultados/'+item.name]">
+        <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.image+')'}"></div>
+        <h6 class="f-8 text-color1 mt-2">{{item.name}}</h6>
+      </div>
+
+    </div>
+  </div>
+</div>

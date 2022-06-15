@@ -945,18 +945,25 @@ $size:100px;
     justify-content: left !important;
 }
 
+.p-tabview-nav{
+  justify-content: space-between;
+}
+.p-tabview-nav li{
+  width: 100%;
+}
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
     border-color: $color1 !important;
     background-color: $color1;
     color:#ffffff!important;
-}
-.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link:hover{
-  border-color: $color1 !important;
-  background-color: $color1!important;
-  color:#ffffff!important;
-}
-.p-tabview .p-tabview-nav li .p-tabview-nav-link{
-  color:$color1!important;
+  }
+  .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link:hover{
+    border-color: $color1 !important;
+    background-color: $color1!important;
+    color:#ffffff!important;
+  }
+  .p-tabview .p-tabview-nav li .p-tabview-nav-link{
+    color:$color1!important;
+    justify-content: center;
 }
 
 .cropper-wrapper{
@@ -1009,4 +1016,3 @@ $size:100px;
 .p-dialog-content{
   padding: 0!important;
 }
-
