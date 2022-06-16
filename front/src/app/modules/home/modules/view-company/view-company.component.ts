@@ -109,10 +109,6 @@ export class ViewCompanyComponent implements OnInit {
         data: this.offers
       }]
     }
-    this.tabs = [...this.tabs, {
-      title: 'Información',
-      data: this.profileProvider
-    }]
 
   }
 
@@ -175,5 +171,8 @@ export class ViewCompanyComponent implements OnInit {
 
   allproduct(){
       this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos`])
+  }
+  information(){
+    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/informacion`])
   }
 }

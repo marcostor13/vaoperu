@@ -24,7 +24,7 @@
                           </a>
                       </div>
                       <div class="mt-3 mt-sm-4">
-                        <button *ngIf="!isFavorite(profileProvider._id)" (click)="addfavorites()" class="cursor bg-color1 border-0 py-2 px-4 px-sm-5 text-white f-8 font-500">Información</button>
+                        <button *ngIf="!isFavorite(profileProvider._id)" (click)="information()" class="cursor bg-color1 border-0 py-2 px-4 px-sm-5 text-white f-8 font-500">Información</button>
 
                         <button *ngIf="isFavorite(profileProvider._id)" (click)="confirmDeleteFavorites(profileProvider._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
                             <fa-icon class="f-13" [icon]="faStar"></fa-icon>
@@ -45,7 +45,6 @@
                         <span class="f-12 font-300">{{tab.title}}</span>
                     </ng-template>
                     <app-product-list *ngIf="tab.title!=='Información'" [type]="tab.title" [profileProviderId]="profileProvider._id" [items]="tab.data" [rows]="3"></app-product-list>
-                    <app-information *ngIf="tab.title==='Información'" [profileProvider]="profileProvider" ></app-information>
                 </p-tabPanel>
 
             </p-tabView>

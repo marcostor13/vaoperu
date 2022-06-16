@@ -24,14 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./modules/view-company/view-company.module').then(m => m.ViewCompanyModule),
   },
   {
-    path: ':id/productos',
-    loadChildren: () => import('./modules/view-company/components/all-products/all-products.module').then(m => m.AllProductsModule),
-  },
-  {
-    path: ':id/informacion',
-    loadChildren: () => import('./modules/view-company/components/information-products/information-products.module').then(m => m.InformationProductsModule),
-  },
-  {
     path: '',
     redirectTo: '',
     pathMatch: 'full'
