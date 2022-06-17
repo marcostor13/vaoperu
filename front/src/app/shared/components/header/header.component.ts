@@ -44,12 +44,12 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() eventHeader: any
 
   constructor(
-    private router: Router,
+    public router: Router,
     private authService: AuthService,
     private general: GeneralService,
     private store: Store<any>,
     private productsService: ProductService,
-    private messageService: MessageService
+    private messageService: MessageService,
     ) {
     this.subscriptionCart()
   }

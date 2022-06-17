@@ -32,7 +32,7 @@ header{
             font-weight: 300;
             padding-bottom: 4px;
             padding-left: 40px;
-            padding-right: 84px;
+            padding-right: 0px;
         }
         .btn2{
             max-height: 40px !important;
@@ -79,12 +79,16 @@ header{
 }
 
 @media screen and (max-width: 768px) {
-
     .cont-header{
         padding-top: 60px;
     }
 
+  }
 
-}
-
-
+  @media screen and (max-width: 400px){
+    .search{
+      font-size: 10pt;
+      width: 180px;
+      max-height: 20px;
+    }
+  }

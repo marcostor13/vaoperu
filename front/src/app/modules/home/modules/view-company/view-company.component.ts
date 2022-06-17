@@ -17,6 +17,7 @@ import { FavoriteService } from './../../../../shared/services/favorite/favorite
 import { IFavorite } from '@shared/interfaces/favorites.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-company',
@@ -174,5 +175,13 @@ export class ViewCompanyComponent implements OnInit {
   }
   information(){
     this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/informacion`])
+  }
+
+  aperture(start:string, end:string) {
+    let today = moment().format('YYYY-MM-DD');
+    let betweenStart = today + ' ' + start;
+    let betweenEnd = today + ' ' + end;
+    let time = moment().isBetween(betweenStart, betweenEnd)
+    return time
   }
 }
