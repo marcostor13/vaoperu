@@ -1,5 +1,6 @@
 <div class="product-list">
 
+
     <p-dataView *ngIf="items?.length>0" [value]="items" [paginator]="items?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
         <ng-template *ngIf="rows===0" pTemplate="header">
             <div  class="row justify-content-between m-0">
@@ -89,6 +90,14 @@
     <app-header [eventHeader]="eventHeader"></app-header>
 
     <div *ngIf="currentItem" class="product-list2 d-flex flex-column align-items-center">
+
+      <div  class="w-100 mb-3 pl-4 d-flex justify-content-start">
+        <button (click)="displayModal = false" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
+            <fa-icon class="f-14 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
+            Atrás
+        </button>
+      </div>
+
         <div class="product">
           <div class="sub-product">
               <div class="slider-image">

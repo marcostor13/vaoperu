@@ -9,6 +9,7 @@ import { ICart } from '@shared/interfaces/cart.interfaces';
 import { Store } from '@ngrx/store';
 import { delay } from 'rxjs/operators';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-list',
@@ -39,6 +40,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   currentIndex: number
   faShoppingCart = faShoppingCart
   eventHeader: any
+  faArrowLeft = faArrowLeft
 
   private subs = new SubSink()
 
