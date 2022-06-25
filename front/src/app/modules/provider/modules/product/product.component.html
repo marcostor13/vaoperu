@@ -62,8 +62,7 @@
             </div>
             <textarea (keyup.enter)="add()" cols="30" rows="5" [(ngModel)]="currentItem.description" [ngClass]="{'invalid': invalid.description}" [placeholder]="'Descripción'"></textarea>
             <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.price" (keyup)="invalid.price=false" [ngClass]="{'invalid': invalid.price}" [placeholder]="'Precio'">
-            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.promotionalPrice" [placeholder]="'Precio promocional'">
-
+            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.promotionalPrice" [placeholder]="'Precio promocional'">            
             <button (click)="presave()" class="btn1 mt-4">Guardar</button>            
             <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>    
         </div>
