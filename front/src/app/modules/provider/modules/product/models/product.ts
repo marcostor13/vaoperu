@@ -8,14 +8,15 @@ export class CProduct {
         this.isFeatured = false
         this.promotionalPrice = null
     }
-    _id:string
+    _id?:string
     name:string
     profileProviderId:string
     description:string
     images:Array<string>
     price:number
     isFeatured:boolean
-    promotionalPrice:number
+    promotionalPrice?:number
+    category?: string
 }
 
 export class CProductInvalid{
@@ -24,7 +25,7 @@ export class CProductInvalid{
         this.images = false
         this.price = false
         this.description = false
-    }    
+    }
     name: boolean
     images: boolean
     price: boolean

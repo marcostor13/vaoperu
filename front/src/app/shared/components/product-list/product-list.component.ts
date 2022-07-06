@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import { delay } from 'rxjs/operators';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { IFormatProduct } from './../../interfaces/product.interface';
+import { COffer } from 'src/app/modules/provider/modules/offer/models/offer';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +20,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 })
 export class ProductListComponent implements OnInit, OnChanges {
 
-  @Input() items: Array<any>
+  @Input() items: Array<CProduct> | Array<COffer>
   @Input() rows: number
   @Input() type: string
   @Input() profileProviderId: string
@@ -41,6 +43,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   faShoppingCart = faShoppingCart
   eventHeader: any
   faArrowLeft = faArrowLeft
+  productsFormat: IFormatProduct[]
+  productsFormatOthers: IFormatProduct[]
 
   private subs = new SubSink()
 
@@ -110,6 +114,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.role = this.authService.getRole()
     this.initializeItems()
+    this.getCategoriesProducts()
   }
 
   setQuantities() {
@@ -135,6 +140,38 @@ export class ProductListComponent implements OnInit, OnChanges {
     if (this.items) {
       this.itemsTmp = [...this.items]
     }
+  }
+
+  getCategoriesProducts(){
+    let res:IFormatProduct[] = []
+    this.items.map(i=>{
+      const category = i.category || 'otros'
+      if(res.length > 0){
+        let issetCategory = false
+        res = [...res.map((r)=>{
+          if(r.category === category){
+            r.products = [...r.products, i]
+            issetCategory = true
+          }
+          return r
+        })]
+        if(!issetCategory){
+          res = [...res, {
+            category: category,
+            products: [i]
+          }]
+        }
+      }else{
+        res = [...res, {
+          category: category,
+          products: [i]
+        }]
+      }
+    })
+    this.productsFormat = [...res.filter(r=>r.category !== 'otros')]
+    this.productsFormatOthers = [...res.filter(r=>r.category === 'otros')]
+
+    console.log('products T', res)
   }
 
   initializeQuantities(){
@@ -219,6 +256,14 @@ export class ProductListComponent implements OnInit, OnChanges {
         break;
     }
     this.setQuantities()
+  }
+
+  getDescription(description: string){
+    if(description.length > 60){
+      return `${description.substring(0, 60)}...`
+    }else{
+      return description
+    }
   }
 
   ngOnDestroy() {

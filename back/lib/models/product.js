@@ -22,6 +22,9 @@ const userSchema = new mongoose_1.Schema({
     idFeatured: {
         type: Boolean,
     },
+    category: {
+        type: String,
+    },
     promotionalPrice: {
         type: Number,
     },

@@ -22,6 +22,10 @@ export class ProductComponent implements OnInit {
   currentItem: CProduct = new CProduct
   invalid: CProductInvalid = new CProductInvalid
   profileProvider: CProfileProvider
+  categories: string[]
+  listCat: boolean = false
+  listCats: string[] = []
+  listCatsTmp: string[] = []
 
   //IMAGES
   currentImages: CImages[] = []
@@ -40,7 +44,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.getProfileProvider()
   }
-  
+
   getProfileProvider() {
     this.profileProviderService.get().subscribe((response: IResponseApi) => {
       this.profileProvider = response.data
@@ -54,13 +58,33 @@ export class ProductComponent implements OnInit {
     this.subs.add(
       this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
         this.items = response.data
+        this.getCategories(response.data)
+        this.getListCategories()
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
         }
-      }, error => {        
+      }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
+  }
+
+  getListCategories(){
+    this.listCats = this.items.map(p=>{
+      if(p.category){
+        return p.category
+      }
+    })
+    this.listCatsTmp = [...this.listCats]
+  }
+
+  getCategories(products: CProduct[]){
+    this.categories = products.map(p=>{
+      if(p.category){
+        return p.category
+      }
+    })
+    this.categories = [...new Set(this.categories)]
   }
 
   validate() {
@@ -87,14 +111,15 @@ export class ProductComponent implements OnInit {
   }
 
   addEdit(item: CProduct = null) {
-    this.currentImages = []   
+    this.listCat = false
+    this.currentImages = []
     if (item) {
       this.currentItem = item
       if (item.images) {
         item.images.map((image:string)=>{
           this.currentImages = [...this.currentImages, { file: null, blob: null, url: image }]
         })
-      }      
+      }
     } else {
       this.reset()
     }
@@ -115,7 +140,7 @@ export class ProductComponent implements OnInit {
         // Nothing
       }
     });
-  } 
+  }
 
   add() {
     this.currentItem.profileProviderId = this.profileProvider._id
@@ -125,7 +150,7 @@ export class ProductComponent implements OnInit {
         this.reset()
       }
       this.getProducts()
-    }, error => {            
+    }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
   }
@@ -137,7 +162,7 @@ export class ProductComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CProduct
         this.getProducts()
-      }, error => {        
+      }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -146,7 +171,7 @@ export class ProductComponent implements OnInit {
   async preDelete(item: CProduct) {
     if (item.images) {
       await this.general.deleteImages(item.images)
-      this.delete(item)        
+      this.delete(item)
     }else{
       this.delete(item)
     }
@@ -156,7 +181,7 @@ export class ProductComponent implements OnInit {
 
   removeImage(image: CImages) {
     if (image.url) {
-      this.deleteImages = [...this.deleteImages, image]    
+      this.deleteImages = [...this.deleteImages, image]
       this.currentItem.images = [...this.currentItem.images.filter((ima: string) => ima !== image.url)]
     }
     this.currentImages = [...this.currentImages.filter((ima: CImages) => ima.url !== image.url)]
@@ -168,14 +193,14 @@ export class ProductComponent implements OnInit {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.currentImages = [...this.currentImages, { file: file, blob: reader.result, url: null }]       
+        this.currentImages = [...this.currentImages, { file: file, blob: reader.result, url: null }]
       };
     })
     this.images = []
   }
- 
+
   async presave() {
-    if (!this.validate()) {    
+    if (!this.validate()) {
       this.general.isLoad(true)
       if (this.deleteImages?.length > 0) {
         const images = []
@@ -185,15 +210,15 @@ export class ProductComponent implements OnInit {
           }
         })
         const deleteImages = await this.general.deleteImages(images)
-        this.uploadImages()    
+        this.uploadImages()
       }else{
         this.uploadImages()
       }
     }
   }
 
-  uploadImages(){   
-    if (this.currentImages?.length > 0) {     
+  uploadImages(){
+    if (this.currentImages?.length > 0) {
         let count = 1
         this.currentImages.map(async (images:CImages)=>{
           if (images.file){
@@ -203,17 +228,17 @@ export class ProductComponent implements OnInit {
             }
           }
           this.uploadPercent = count*100/this.currentImages.length
-          count++          
+          count++
           if(count === this.currentImages.length+1){
             this.add()
           }
-        }) 
+        })
     } else {
       this.add()
     }
   }
 
-  getBlobOrImage(image: CImages) {   
+  getBlobOrImage(image: CImages) {
     return image.blob || image.url
   }
 
@@ -223,11 +248,32 @@ export class ProductComponent implements OnInit {
       case 'edit':
         this.addEdit($event.data)
         break;
-    
+
       default:
         break;
     }
   }
+
+  showListCat($event){
+    const listCats: string[] = this.items.map(p=>{
+      if(p.category){
+        return p.category
+      }
+    })
+    if($event.target.value?.length > 0){
+      this.listCats = [...this.listCatsTmp.filter(l=>l?.indexOf($event.target.value)>-1)]
+      this.listCat = true
+    }else{
+      this.listCats = [...this.listCatsTmp]
+      this.listCat = false
+    }
+  }
+
+  selectCat(category:string){
+    this.currentItem.category = category
+    this.listCat = false
+  }
+
 
 
 

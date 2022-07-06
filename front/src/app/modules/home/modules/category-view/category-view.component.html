@@ -12,12 +12,12 @@
     <div class="d-none d-md-flex px-5 w-100">
         <div class="filters">
             <label>Filtrar por categorias</label>
-            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias" [maxSelectedLabels]="1"  display="chip" (onChange)="filter()" placeholder="Seleccione un distrito" [options]="categories" [(ngModel)]="selectedCategories" optionLabel="name" optionValue="_id"></p-multiSelect>
+            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias" [maxSelectedLabels]="1"  display="chip" (onChange)="filter()" placeholder="Seleccione una categoría" [options]="categories" [(ngModel)]="selectedCategories" optionLabel="name" optionValue="_id"></p-multiSelect>
 
         </div>
         <div class="filters ml-3">
             <label>Filtrar por subcategorías</label>
-            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias"  display="chip" (onChange)="filter()" placeholder="Seleccione un distrito" [options]="subcategoriesFilter" [(ngModel)]="selectedSubcategories" optionLabel="name" optionValue="_id"></p-multiSelect>
+            <p-multiSelect emptyMessage="No estisten coincidencias" emptyFilterMessage="No existen coincidencias"  display="chip" (onChange)="filter()" placeholder="Seleccione una subcategoría" [options]="subcategoriesFilter" [(ngModel)]="selectedSubcategories" optionLabel="name" optionValue="_id"></p-multiSelect>
 
         </div>
         <div class="filters ml-3">

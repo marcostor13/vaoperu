@@ -65,14 +65,14 @@ export class CategoryViewComponent implements OnInit {
     this.getPromotions()
   }
 
-  getCategories() {   
+  getCategories() {
     this.categoryService.get().subscribe((response: IResponseApi) => {
       this.categories = response.data
       this.getSubcategories()
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-    
+
   }
 
   getDistricts() {
@@ -84,7 +84,7 @@ export class CategoryViewComponent implements OnInit {
 
   }
 
-  getSubcategories() {   
+  getSubcategories() {
     this.subcategoryService.get().subscribe((response: IResponseApi) => {
       this.subcategories = response.data
       this.subcategoriesTmp = response.data
@@ -93,7 +93,7 @@ export class CategoryViewComponent implements OnInit {
       }
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })  
+    })
   }
 
   getProfileProviders() {
@@ -105,8 +105,8 @@ export class CategoryViewComponent implements OnInit {
     })
   }
 
-  searchData(){ 
-    
+  searchData(){
+
     if (!this.searchInCategoriesAndSubcategories()){
       //KEY SEARCH
       this.title = this.catOrSubcategory
@@ -118,7 +118,7 @@ export class CategoryViewComponent implements OnInit {
       if (this.searchInCategoriesAndSubcategories()?.categoryId){
         this.type = 'subcategory'
         this.getCategorySubcategoriesProfiles(this.searchInCategoriesAndSubcategories()._id)
-      }else{      
+      }else{
         this.subcategories = [...this.subcategoriesTmp.filter(subcategory => subcategory.categoryId === this.searchInCategoriesAndSubcategories()?._id)]
         if(this.subcategories.length>0){
           this.type = 'subcategory'
@@ -126,8 +126,8 @@ export class CategoryViewComponent implements OnInit {
         }else{
           this.getCategorySubcategoriesProfiles(this.searchInCategoriesAndSubcategories()._id)
         }
-      }        
-    } 
+      }
+    }
   }
 
 
@@ -159,12 +159,15 @@ export class CategoryViewComponent implements OnInit {
     profiles = [...profiles, ...this.profileProviders.filter(p => p.comercialName.toLowerCase().indexOf(key)>-1)]
     //BY PROMOTION NAME
     promotions = [...promotions, ...this.promotions.filter(p=>p.name.toLowerCase().indexOf(key)>-1)]
-    //BY CATEGORIES 
+    //BY CATEGORIES
     const categories = [...this.categories.filter(c => c.name.toLowerCase().indexOf(key) > -1)].map(item=>{return item._id})
     //BY SUBCATEGORIES
     const subcategories = [...this.subcategories.filter(c => c.name.toLowerCase().indexOf(key) > -1)].map(item=>{return item._id})
+    console.log('totalSearch categories', categories)
     console.log('totalSearch subcategories', subcategories)
     this.categorySubcategoryProfileService.getByCategorySubcategoryIds([...categories, ...subcategories]).subscribe((response: IResponseApi) => {
+      console.log('totalSearch getByCategorySubcategoryIds', response)
+
       const catSubPro: ICategorySubcategoryProfile[] = response.data
       const currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
       const currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))
@@ -177,7 +180,7 @@ export class CategoryViewComponent implements OnInit {
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-    
+
 
   }
 
@@ -195,7 +198,7 @@ export class CategoryViewComponent implements OnInit {
     })
   }
 
-  getCategorySubcategoriesProfiles(categorySubcategoryId: string){    
+  getCategorySubcategoriesProfiles(categorySubcategoryId: string){
     this.categorySubcategoryProfileService.getByCategorySubcategoryId(categorySubcategoryId).subscribe((response: IResponseApi) => {
       const catSubPro: ICategorySubcategoryProfile[] = response.data
       this.currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
@@ -205,7 +208,7 @@ export class CategoryViewComponent implements OnInit {
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-  }   
+  }
 
   companyListEvent($event: any) {
     switch ($event.event) {
@@ -221,7 +224,7 @@ export class CategoryViewComponent implements OnInit {
   toogleSwitch(type: string) {
     this.switch = type
   }
-  
+
   redirectCarousel(name:string){
     let newName = name.toLowerCase().replace(/\s/g, '-')
     this.router.navigate([`/resultados/${newName}`])
@@ -232,9 +235,9 @@ export class CategoryViewComponent implements OnInit {
   returnCaterogies(){
     this.catOrSubcategory = ''
     this.router.navigate([`/resultados`])
-    this.currentProfileProviders = this.profileProviders    
+    this.currentProfileProviders = this.profileProviders
     this.currentProfileProvidersTmp = this.profileProviders
-    this.currentPromotions = this.currentPromotions    
+    this.currentPromotions = this.currentPromotions
     this.currentPromotionsTmp = this.currentPromotions
   }
 
@@ -260,14 +263,14 @@ export class CategoryViewComponent implements OnInit {
       if (this.subcategories.length > 0) {
         categoryIds = this.subcategoriesFilter.map(s => { return s._id })
       } else {
-        categoryIds = this.selectedCategories      
+        categoryIds = this.selectedCategories
       }
       const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(categoryIds).toPromise()
       const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
-      console.log('catSubPro1', catSubPro)      
+      console.log('catSubPro1', catSubPro)
 
       providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-      promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]        
+      promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
     }
 
     if (this.selectedSubcategories?.length > 0) {
@@ -278,11 +281,11 @@ export class CategoryViewComponent implements OnInit {
       promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
       console.log('catSubPro2', catSubPro)
     }
-    
+
     this.currentProfileProviders = [...new Set(providers)]
     this.currentPromotions = [...new Set(promotions)]
   }
 
-  
-  
+
+
 }

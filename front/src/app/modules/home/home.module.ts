@@ -11,6 +11,7 @@ import { CompanyListModule } from './../../shared/components/company-list/compan
 import { DialogModule } from 'primeng/dialog';
 import { PromotionListModule } from './../../shared/components/promotion-list/promotion-list.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -24,7 +25,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CompanyListModule,
     DialogModule,
     PromotionListModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ]
 })
 export class HomeModule { }
