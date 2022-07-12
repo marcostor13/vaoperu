@@ -18,7 +18,8 @@ input{
     position: relative;
     .icon-eye{
         position: absolute;
-        top: 4px;
+        top: 50%;
+        transform: translateY(-50%);
         right: 10px;
     }
 }

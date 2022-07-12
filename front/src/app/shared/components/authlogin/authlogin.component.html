@@ -16,10 +16,10 @@
 <div *ngIf="typeLogin==='login'" class="col-12 row m-0 justify-content-center">
     <div class="col-12 d-flex flex-column m-0 p-0 align-items-between height-76">
         <input (keyup.enter)="login()" type="email" [(ngModel)]="form.email" class="invalid mt-5 input-login" [ngClass]="{'invalid': invalid.password}" placeholder="Email">
-        <div class="mt-3 input-password">
+        <div class="mt-3 input-password align-items-center">
             <input (keyup.enter)="login()" [type]="passwordView ? 'text': 'password'" [(ngModel)]="form.password" class="input-login w-100" [ngClass]="{'invalid': invalid.password}" placeholder="Contraseña">
-            <fa-icon (click)="passwordView = true" *ngIf="!passwordView" class="icon-eye cursor" [icon]="faEyeSlash"></fa-icon>
-            <fa-icon (click)="passwordView = false" *ngIf="passwordView" class="icon-eye cursor" [icon]="faEye"></fa-icon>
+            <fa-icon (click)="passwordView = !passwordView" class="icon-eye cursor" [icon]="passwordView ? faEyeSlash : faEye"></fa-icon>
+            <!-- <fa-icon (click)="passwordView = false" *ngIf="passwordView" class="icon-eye cursor" [icon]="faEye"></fa-icon> -->
         </div>
         <button (click)="login()" class="btn1 mt-4">Ingresar</button>
         <div class="mt-3 text-center {{response.class}}">{{response.message}}</div>

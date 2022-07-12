@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faPhone, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faStar, faShare } from '@fortawesome/free-solid-svg-icons';
 import { GeneralService } from '@services/general.service';
 import { IResponseApi } from 'src/app/models/responses';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
@@ -36,6 +36,7 @@ export class ViewCompanyComponent implements OnInit {
   tabs: ITabList[] = []
   role: string[]
   favorites: IFavorite[]
+  faShare = faShare
   faStar = faStar
   faArrowLeft = faArrowLeft
 
@@ -68,6 +69,8 @@ export class ViewCompanyComponent implements OnInit {
   getProfileProvider(profileProviderId:string){
     this.profileProviderService.getById(profileProviderId).subscribe((response: IResponseApi) => {
       this.profileProvider = response.data
+      console.log('profileprovider: ', this.profileProvider)
+      this.getCurrentPosition()
       this.getProducts()
     })
   }
@@ -183,5 +186,37 @@ export class ViewCompanyComponent implements OnInit {
     let betweenEnd = today + ' ' + end;
     let time = moment().isBetween(betweenStart, betweenEnd)
     return time
+  }
+
+  shared(url: string, name: string){
+    const urlShare = `https://vaoperu.com/${url}`.replace(' ', '-')
+    window.navigator.share({ url: urlShare, title: `Vao Perú - ${name}`})
+  }
+
+  rad(x) {
+    return x * Math.PI / 180;
+  }
+
+  getKilometros(lat1, lon1, lat2, lon2) {
+    var R = 6378.137; //Radio de la tierra en km
+    var dLat = this.rad(lat2 - lat1);
+    var dLong = this.rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.rad(lat1)) * Math.cos(this.rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d.toFixed(1); //Retorna un decimales
+  }
+
+  async getCurrentPosition() {
+
+    const currentPosition = await this.generalService.getPosition()
+    if (currentPosition) {
+
+        if (this.profileProvider.lat && this.profileProvider.lng) {
+          this.profileProvider.distance = parseFloat(this.getKilometros(this.profileProvider.lat, this.profileProvider.lng, currentPosition.lat, currentPosition.lng))
+        } else {
+          this.profileProvider.distance = 1000000
+        }
+    }
   }
 }

@@ -8,35 +8,49 @@
 </div>
 
 <div *ngIf="profileProvider" class="container-fluid mt-4 p-0">
-    <div class="row m-0 p-0 justify-content-center">
-        <div class="cont d-flex justify-content-sm-center px-3">
-            <div class="d-flex container-profile">
-              <div class="image image-profile" [ngStyle]="{'background-image': 'url('+profileProvider.image+')'}"></div>
+  <div class="row m-0 p-0 justify-content-center">
+    <div class="px-3">
+            <div class="mb-1  f-14 bold font-600 mt-xl-0 ">{{profileProvider.comercialName}}</div>
+            <div class=" d-flex justify-content-sm-center container-profile">
+              <div class="image image-profile" [ngStyle]="{'background-image': 'url('+profileProvider.image+')'}">
+              </div>
               <div class="ml-4 my-auto">
-                <div class="f-14 bold font-600 mt-xl-0 text-left">{{profileProvider.comercialName}}</div>
-                  <div class="mt-0 f-9">{{profileProvider.description}}</div>
-                      <div class="d-flex align-items-center my-2">
-                        <img *ngIf="aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
-                        <img *ngIf="!aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/close.svg" alt="Cerrado">
-                        <span class="ml-2 f-9 text-color5 font-500">{{profileProvider.openTime}} - {{profileProvider.closeTime}}</span>
-                      </div>
-                      <div class="d-flex">
-                          <a href="tel:{{profileProvider.phone}}" target="_blank" title="Llamar" class="link-unstyled p-1 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
-                              <fa-icon class="f-10 text-white fa-rotate-90" [icon]="faPhone"></fa-icon>
-                          </a>
-                          <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" title="Whatsapp" class="ml-2 p-1 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
-                              <fa-icon class="f-12 text-white" [icon]="faWhatsapp"></fa-icon>
-                          </a>
-                      </div>
-                      <div class="mt-2 mt-sm-4">
-                        <button *ngIf="!isFavorite(profileProvider._id)" (click)="information()" class="cursor bg-color1 border-0 rounded-lg py-2 px-4 px-sm-5 text-white f-7 font-500">Información</button>
+                  <div class="mt-0 f-9">
+                    {{profileProvider.description}}
+                  </div>
+                  <div class="d-flex align-items-center my-2">
+                    <img *ngIf="aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
+                    <img *ngIf="!aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/close.svg" alt="Cerrado">
+                    <span class="ml-2 f-9 text-color5 font-500">{{profileProvider.openTime}} - {{profileProvider.closeTime}}</span>
+                  </div>
+                  <div class="d-flex">
+                      <a href="tel:{{profileProvider.phone}}" target="_blank" title="Llamar" class="link-unstyled p-1 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
+                          <fa-icon class="f-10 text-white fa-rotate-90" [icon]="faPhone"></fa-icon>
+                      </a>
+                      <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" title="Whatsapp" class="ml-2 p-1 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
+                          <fa-icon class="f-12 text-white" [icon]="faWhatsapp"></fa-icon>
+                      </a>
+                      <fa-icon (click)="shared(profileProvider.comercialName, profileProvider.comercialName)" class="ml-2 cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon>
+                  </div>
+                  <div class="mt-2 mt-sm-4">
+                    <button *ngIf="!isFavorite(profileProvider._id)" (click)="information()" class="cursor bg-color1 border-0 rounded-lg py-2 px-4 px-sm-5 text-white f-7 font-500">Información</button>
 
-                        <button *ngIf="isFavorite(profileProvider._id)" (click)="confirmDeleteFavorites(profileProvider._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
-                            <fa-icon class="f-13" [icon]="faStar"></fa-icon>
-                        </button>
-                      </div>
+                    <button *ngIf="isFavorite(profileProvider._id)" (click)="confirmDeleteFavorites(profileProvider._id)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">
+                        <fa-icon class="f-13" [icon]="faStar"></fa-icon>
+                    </button>
+                  </div>
               </div>
             </div>
+            <div class="mt-2 d-flex col m-0 p-0 justify-content-between align-items-center">
+              <div class="d-flex justify-content-center align-items-center">
+                {{profileProvider.addressText}}
+              </div>
+              <div class="row m-0">
+                <label>{{profileProvider.distrinctName}}</label>
+                <label class="text-color1 m-0 pl-2" *ngIf="profileProvider.distance">{{profileProvider.distance}} km</label>
+              </div>
+            </div>
+
         </div>
         <div class="w-100 m-0 p-0 mt-5">
             <p-tabView styleClass="tabview-custom">
