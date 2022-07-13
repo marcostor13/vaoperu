@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CImages } from 'src/app/models/images';
@@ -8,6 +8,7 @@ import { CProduct, CProductInvalid } from './models/product'
 import { ProductService } from './services/product.service';
 import { ProfileProviderService } from './../profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../profile-provider/models/profile-provider';
+import { CropperComponent } from 'angular-cropperjs';
 
 @Component({
   selector: 'app-product',
@@ -15,6 +16,8 @@ import { CProfileProvider } from '../profile-provider/models/profile-provider';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+
+  @ViewChild('angularCropper') public angularCropper: CropperComponent;
 
   public subs = new SubSink()
   displayModal: boolean = false
@@ -32,6 +35,16 @@ export class ProductComponent implements OnInit {
   images: File[] = []
   uploadPercent: number
   deleteImages: CImages[] = []
+  fileUpload: any
+  imageUrl: string
+  dataImage: string
+  displayModalCroper: boolean = false
+  currentFile: File
+  config = {
+    aspectRatio: 16/16,
+    dragMode: 'none',
+    autoCropArea: 100
+  }
 
   constructor(
     private productService: ProductService,
@@ -187,16 +200,39 @@ export class ProductComponent implements OnInit {
     this.currentImages = [...this.currentImages.filter((ima: CImages) => ima.url !== image.url)]
   }
 
-
-  onUpload(event: any) {
-    event.currentFiles.map((file: any) => {
+   onUpload(event: any, fileUpload:any) {
+    event.currentFiles.map((file: File) => {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.currentImages = [...this.currentImages, { file: file, blob: reader.result, url: null }]
+        this.currentFile = file
+        this.openModalCrroper(reader.result)
+        this.fileUpload = fileUpload
       };
     })
-    this.images = []
+  }
+
+  openModalCrroper(image: string) {
+    this.imageUrl = image
+    this.dataImage = image
+    this.displayModalCroper = true
+  }
+
+  resetUploadButton(){
+    this.fileUpload.clear()
+  }
+
+  moveCropper() {
+    this.dataImage = this.angularCropper.cropper.crop().getCroppedCanvas({
+      width: 400,
+      height: 400
+    }).toDataURL();
+  }
+
+  cropper() {
+    this.currentImages = [...this.currentImages, { file: this.currentFile, blob: this.dataImage, url: null }]
+    this.displayModalCroper = false
+    this.fileUpload.clear()
   }
 
   async presave() {

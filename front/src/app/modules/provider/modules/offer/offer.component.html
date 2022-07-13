@@ -11,43 +11,44 @@
                 </button>
             </div>
             <div class="section-offers col-4 p-0">
-                <app-product-list *ngIf="items?.length>0" [items]="items" (offersEvent)=offerListEvent($event)></app-product-list>            
+                <app-product-list *ngIf="items?.length>0" [items]="items" (offersEvent)=offerListEvent($event)></app-product-list>
             </div>
         </div>
     </div>
 </div>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayModal" 
-    [modal]="true" 
-    [styleClass]="'modalLogin'" 
+<p-dialog
+    header=""
+    [(visible)]="displayModal"
+    [modal]="true"
+    [styleClass]="'modalLogin'"
     [baseZIndex]="10000"
     [autoZIndex]="false"
     [draggable]="false"
-    [resizable]="false">   
+    [resizable]="false">
 
     <div class="col-12 row m-0 justify-content-center">
-        <div class="row m-0 p-0 flex-column col-12 col-md-6">     
+        <div class="row m-0 p-0 flex-column col-12 col-md-6">
             <div class="row align-items-center m-0">
                 <p-inputSwitch [disabled]="currentItem._id?true:false" [(ngModel)]="currentItem.isActive"></p-inputSwitch>
                 <label class="ml-4">Activa</label>
             </div>
-            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Oferta'"> 
+            <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalid.name=false" [ngClass]="{'invalid': invalid.name}" [placeholder]="'Oferta'">
             <div class="mt-3" [ngClass]="{'invalid': invalid.images}">
-                <p-fileUpload 
+                <p-fileUpload
+                    #fileUpload
                     styleClass="col-12 btn2"
-                    mode="basic" 
-                    accept="image/*" 
-                    [fileLimit]="5" 
+                    mode="basic"
+                    accept="image/*"
+                    [fileLimit]="5"
                     [multiple]="true"
                     [maxFileSize]="10000000"
-                    (onSelect)="onUpload($event); invalid.images=false" 
-                    [chooseLabel]="'Subir Imágenes'" 
-                    uploadLabel="Subir" 
+                    (onSelect)="onUpload($event, fileUpload); invalid.images=false"
+                    [chooseLabel]="'Subir Imágenes'"
+                    uploadLabel="Subir"
                     cancelLabel="Cancelar"
-                    [files]="images" 
-                    [auto]="false" 
+                    [files]="images"
+                    [auto]="false"
                     invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
                 </p-fileUpload>
                 <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
@@ -67,11 +68,35 @@
 
             </div>
 
-            <button (click)="presave()" class="btn1 mt-4">Guardar</button>            
-            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>    
+            <button (click)="presave()" class="btn1 mt-4 mb-4">Guardar</button>
+            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-4">Eliminar</button>
         </div>
     </div>
 
 </p-dialog>
+
+<p-dialog
+    header=""
+    [(visible)]="displayModalCropper  "
+    [modal]="true"
+    (onHide)="resetUploadButton()"
+    [styleClass]="'modalLogin'"
+    [baseZIndex]="10000"
+    [autoZIndex]="true"
+    [draggable]="false"
+    [resizable]="false">
+    <div class="d-flex justify-content-center">
+        <div class="container-cropper p-3">
+            <angular-cropper #angularCropper (cropmove)="moveCropper()" [cropperOptions]="config" [imageUrl]="imageUrl"></angular-cropper>
+        </div>
+        <div class="p-3">
+            <div class="image image2" [ngStyle]="{'background-image': 'url('+dataImage+')'}"></div>
+        </div>
+    </div>
+    <div class="col-12 d-flex justify-content-center pb-5">
+        <button class="btn1" (click)="cropper()">Subir</button>
+    </div>
+</p-dialog>
+
 
 <p-confirmPopup [autoZIndex]="false" [baseZIndex]="1000001"></p-confirmPopup>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CImages } from 'src/app/models/images';
@@ -8,6 +8,7 @@ import { COffer, COfferInvalid } from './models/offer'
 import { OfferService } from './services/offer.service';
 import { ProfileProviderService } from '../profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../profile-provider/models/profile-provider';
+import { CropperComponent } from 'angular-cropperjs';
 
 @Component({
   selector: 'app-offer',
@@ -16,12 +17,23 @@ import { CProfileProvider } from '../profile-provider/models/profile-provider';
 })
 export class OfferComponent implements OnInit {
 
+  @ViewChild('angularCropper') public angularCropper: CropperComponent;
   public subs = new SubSink()
   displayModal: boolean = false
+  displayModalCropper: boolean = false
   items: COffer[]
   currentItem: COffer = new COffer
   invalid: COfferInvalid = new COfferInvalid
   profileProvider: CProfileProvider
+  imageUrl: string
+  dataImage: string
+  config = {
+    aspectRatio: 16/16,
+    dragMode: 'none',
+    autoCropArea: 100
+  }
+  currentFile: File
+  fileUpload: any
 
   //IMAGES
   currentImages: CImages[]
@@ -44,12 +56,12 @@ export class OfferComponent implements OnInit {
   get() {
     this.subs.add(
       this.offerService.get().subscribe((response: IResponseApi) => {
-        this.items = response.data
+        this.items = [...response.data]
         if(response.data?.length === 0){
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay ofertas disponibles' });
-        }        
+        }
       }, error => {
-        
+
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -116,18 +128,19 @@ export class OfferComponent implements OnInit {
         this.profileProvider = response.data
         this.currentItem.profileProviderId = this.profileProvider._id
         this.subs.add(
-          this.offerService.save(this.currentItem).subscribe((response: IResponseApi) => {            
+          this.offerService.save(this.currentItem).subscribe((response: IResponseApi) => {
             this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
             if(!this.currentItem?._id){
               this.reset()
             }
             this.get()
-          }, error => {            
+            this.displayModal = false
+          }, error => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           })
-        )        
+        )
       }, error=>{
-        
+
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -141,7 +154,7 @@ export class OfferComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new COffer
         this.get()
-      }, error => {        
+      }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -160,24 +173,47 @@ export class OfferComponent implements OnInit {
 
   removeImage(image: CImages) {
     if (image.url) {
-      this.deleteImages = [...this.deleteImages, image]    
+      this.deleteImages = [...this.deleteImages, image]
       this.currentItem.images = [...this.currentItem.images.filter((ima: string) => ima !== image.url)]
     }
     this.currentImages = [...this.currentImages.filter((ima: CImages) => ima.url !== image.url)]
   }
 
-
-  onUpload(event: any) {
-    event.currentFiles.map((file: any) => {
+  onUpload(event: any, fileUpload:any) {
+    event.currentFiles.map((file: File) => {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.currentImages = [...this.currentImages, { file: file, blob: reader.result, url: null }]       
+        this.currentFile = file
+        this.openModalCrroper(reader.result)
+        this.fileUpload = fileUpload
       };
     })
-    this.images = []
   }
- 
+
+  resetUploadButton(){
+    this.fileUpload.clear()
+  }
+
+  moveCropper() {
+    this.dataImage = this.angularCropper.cropper.crop().getCroppedCanvas({
+      width: 400,
+      height: 400
+    }).toDataURL();
+  }
+
+  openModalCrroper(image: string) {
+    this.imageUrl = image
+    this.dataImage = image
+    this.displayModalCropper = true
+  }
+
+  cropper() {
+    this.currentImages = [...this.currentImages, { file: this.currentFile, blob: this.dataImage, url: null }]
+    this.displayModalCropper = false
+    this.fileUpload.clear()
+  }
+
   async presave() {
     if (!this.validate()) {
       this.general.isLoad(true)
@@ -196,8 +232,8 @@ export class OfferComponent implements OnInit {
     }
   }
 
-  uploadImages(){    
-    if (this.currentImages?.length > 0) {     
+  uploadImages(){
+    if (this.currentImages?.length > 0) {
         let count = 1
         this.currentImages.map(async (images:CImages)=>{
           if (images.file) {
@@ -207,11 +243,11 @@ export class OfferComponent implements OnInit {
             }
           }
           this.uploadPercent = count*100/this.currentImages.length
-          count++         
+          count++
           if(count === this.currentImages.length+1){
             this.add()
           }
-        }) 
+        })
     } else {
       this.add()
     }
@@ -227,7 +263,7 @@ export class OfferComponent implements OnInit {
       case 'edit':
         this.addEdit($event.data)
         break;
-    
+
       default:
         break;
     }

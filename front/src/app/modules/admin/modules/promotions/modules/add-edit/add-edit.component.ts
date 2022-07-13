@@ -16,7 +16,7 @@ import { PromotionService } from '../../services/promotion.service';
   styleUrls: ['./add-edit.component.scss']
 })
 export class AddEditComponent implements OnInit {
-  
+
   @ViewChild('angularCropper') public angularCropper: CropperComponent;
   promotionId: string
   displayModal: boolean = false
@@ -25,7 +25,7 @@ export class AddEditComponent implements OnInit {
   dataImage: string
   currentItem: CPromotion = new CPromotion
   currentImages: CImages[] = []
-  images: File[] = [] 
+  images: File[] = []
   uploadPercent: number
   config = {
     aspectRatio: 16/16,
@@ -49,7 +49,7 @@ export class AddEditComponent implements OnInit {
     this.promotionId = this.route.snapshot.paramMap.get('id')
    }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getCompanies()
     this.getPromotion()
   }
@@ -87,7 +87,7 @@ export class AddEditComponent implements OnInit {
         this.fileUpload = fileUpload
       };
     })
-  }  
+  }
 
   moveCropper() {
     this.dataImage = this.angularCropper.cropper.crop().getCroppedCanvas({
@@ -115,7 +115,7 @@ export class AddEditComponent implements OnInit {
       if (typeof res === 'number') {
         this.uploadPercent = res
       } else {
-        this.currentItem.images = [...this.currentItem.images, res]        
+        this.currentItem.images = [...this.currentItem.images, res]
         this.add()
       }
     })
@@ -125,7 +125,7 @@ export class AddEditComponent implements OnInit {
     if (!this.validate()) {
       if (this.deleteImages?.length > 0) {
         this.generalService.deleteImages(this.deleteImages.map(d => { return d.url })).then(() => {
-          this.uploadImages()          
+          this.uploadImages()
         }).catch(_ => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagenes' });
         })
@@ -150,11 +150,12 @@ export class AddEditComponent implements OnInit {
       if(!this.promotionId){
         this.resetForm()
       }
-      
+      this.displayModal = false
+      this.getPromotion()
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-  }   
+  }
 
   replaceCurrentImagesByUrls(){
     this.currentImages = [...this.currentItem.images.map(img => {
@@ -178,7 +179,7 @@ export class AddEditComponent implements OnInit {
     if (!this.currentItem.name) {
       invalid = true
       this.invalid.name = true
-    }    
+    }
     if (!this.currentItem.profileProviderId) {
       invalid = true
       this.invalid.profileProviderId = true
@@ -195,7 +196,7 @@ export class AddEditComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Revise los campos' });
     }
     return invalid
-  }  
+  }
 
   resetUploadButton(){
     this.fileUpload.clear()
@@ -203,7 +204,7 @@ export class AddEditComponent implements OnInit {
 
   getBlobOrImage(image: CImages) {
     return image.blob || image.url
-  }  
+  }
 
   confirm(event: Event, item: CPromotion) {
     this.confirmationService.confirm({
@@ -214,7 +215,7 @@ export class AddEditComponent implements OnInit {
       rejectLabel: "No",
       accept: () => {
         this.delete(item);
-      }     
+      }
     });
   }
 

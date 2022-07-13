@@ -13,25 +13,25 @@
     </select>
     <input class="mt-2" type="number" placeholder="S/ Precio (opcional)" [(ngModel)]="currentItem.price" >
     <div class="mt-5" [ngClass]="{'invalid': invalid.images}">
-        <p-fileUpload 
+        <p-fileUpload
             #fileUpload
             styleClass="col-12 btn2"
-            mode="basic" 
+            mode="basic"
             accept="image/*"
-            [fileLimit]="1" 
+            [fileLimit]="1"
             [maxFileSize]="2048000"
-            (onSelect)="onUpload($event, fileUpload); invalid.images=false" 
-            [chooseLabel]="'Subir imagen'" 
-            uploadLabel="Subir" 
+            (onSelect)="onUpload($event, fileUpload); invalid.images=false"
+            [chooseLabel]="'Subir imagen'"
+            uploadLabel="Subir"
             cancelLabel="Cancelar"
             [multiple]="false"
-            [files]="images" 
-            [auto]="false" 
+            [files]="images"
+            [auto]="false"
             invalidFileSizeMessageDetail="El tamaño máximo es {0}.">
-        </p-fileUpload>                      
+        </p-fileUpload>
         <div [style]="{'width': (uploadPercent)+'%'}" class="loading"></div>
-    </div>    
-    
+    </div>
+
     <div *ngIf="currentImages?.length>0" class="row m-0 justify-content-center align-items-center mt-2">
         <div *ngFor="let currentImage of currentImages" class="bg-color6 image image-miniature" [ngStyle]="{'background-image': 'url('+getBlobOrImage(currentImage)+')'}">
             <div (click)="removeImage(currentImage)" class="delete">
@@ -41,23 +41,23 @@
     </div>
 
     <div class="row justify-content-center mt-4">
-        <button (click)="presave()" class="btn1 mr-2">Guardar</button>            
+        <button (click)="presave()" class="btn1 mr-2">Guardar</button>
         <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6">Eliminar</button>
     </div>
-    
+
 </div>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayModal" 
-    [modal]="true" 
+<p-dialog
+    header=""
+    [(visible)]="displayModal"
+    [modal]="true"
     (onHide)="resetUploadButton()"
-    [styleClass]="'modalLogin'" 
+    [styleClass]="'modalLogin'"
     [baseZIndex]="10000"
     [autoZIndex]="true"
     [draggable]="false"
     [resizable]="false">
-    <div class="d-flex justify-content-center">             
+    <div class="d-flex justify-content-center">
         <div class="container-cropper p-3">
             <angular-cropper #angularCropper (cropmove)="moveCropper()" [cropperOptions]="config" [imageUrl]="imageUrl"></angular-cropper>
         </div>
@@ -65,7 +65,7 @@
             <div class="image image2" [ngStyle]="{'background-image': 'url('+dataImage+')'}"></div>
         </div>
     </div>
-    <div class="col-12 d-flex justify-content-center">
+    <div class="col-12 d-flex justify-content-center pb-5">
         <button class="btn1" (click)="cropper()">Subir</button>
     </div>
 </p-dialog>

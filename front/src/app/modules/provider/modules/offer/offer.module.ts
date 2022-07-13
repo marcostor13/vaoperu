@@ -14,13 +14,14 @@ import { ConfirmPopupModule } from "primeng/confirmpopup";
 import { FileUploadModule } from 'primeng/fileupload';
 import { ProductListModule } from '../../../../shared/components/product-list/product-list.module';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { AngularCropperjsModule } from 'angular-cropperjs';
 
 @NgModule({
   declarations: [
     OfferComponent
   ],
   imports: [
-  
+
   CommonModule,
     OfferRoutingModule,
     MenuProviderModule,
@@ -33,6 +34,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     FileUploadModule,
     ProductListModule,
     InputSwitchModule,
+    AngularCropperjsModule
   ],
   providers: [ConfirmationService]
 })
