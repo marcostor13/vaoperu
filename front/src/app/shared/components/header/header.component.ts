@@ -172,6 +172,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   search(){
+    console.log('Search', this.key)
     if (this.key){
       this.router.navigate([`/resultados/${this.key}`]).then(() => {
         window.location.reload();
@@ -202,7 +203,6 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
             alert(status);
         }
         if (status == google.maps.GeocoderStatus.OK) {
-            console.log(results);
             this.address = (results[0].formatted_address);
         }
       });
