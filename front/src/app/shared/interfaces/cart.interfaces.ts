@@ -1,7 +1,7 @@
 export interface ICart{
     _id?: string
-    profileProviderId: string 
-    userId: string 
+    profileProviderId: string
+    userId: string
     items: IItemCart[]
     state?: string
     createAt?: Date
@@ -14,7 +14,7 @@ export interface IItemCart{
     quantity: number
 }
 
-export interface IItemProduct{    
+export interface IItemProduct{
     name: string
     price: number
     promotionalPrice: number
@@ -27,4 +27,5 @@ export interface ICartForm{
     address2?: string
     date: string
     typePaymment: string
+    cash: number
 }

@@ -1,5 +1,5 @@
 
-<h5   class="text-center mt-5 text-color1">No hay productos disponibles</h5>
+<h5  *ngIf="cart?.items?.length === 0" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
 
 <ng-container *ngIf="step===1">
     <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
@@ -24,10 +24,10 @@
 
     <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center">
         <h5 class="px-5 text-color1">Total</h5>
-        <h5 class="pr-2">S/ {{getTotal()}}</h5>
+        <h5 class="pr-3">S/ {{getTotal()}}</h5>
     </div>
 
-    <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
+    <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3 mr-3 mb-3">
         <button (click)="continue()" class="btn2">Continuar</button>
     </div>
 </ng-container>
@@ -36,7 +36,7 @@
     <p-tabView>
         <p-tabPanel *ngIf="profileProvider.delivery" header="A domicilio">
             <button (click)="return()" class="btn2">Volver</button>
-            <h4 class="text-center">Datos para su pedido</h4>
+            <h5 class="text-center mt-2">Datos para su pedido</h5>
             <input type="text" placeholder="Nombre" [(ngModel)]="form.name">
             <input type="text" class="mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
             <select class="mt-2" [(ngModel)]="form.address">
@@ -55,6 +55,7 @@
                 <option value="Yape">Yape</option>
                 <option value="Plin">Plin</option>
             </select>
+            <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
             <p class="text-danger mt-3 text-center">{{response}}</p>
 
         </p-tabPanel>
@@ -72,12 +73,13 @@
                 <option value="Yape">Yape</option>
                 <option value="Plin">Plin</option>
             </select>
+            <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
             <p class="text-danger mt-3 text-center">{{response}}</p>
         </p-tabPanel>
     </p-tabView>
 
     <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
-        <button (click)="finishedShop()" class="btn2">Hacer pedido</button>
+        <button (click)="finishedShop()" class="btn2 mr-3 mb-3">Hacer pedido</button>
     </div>
 </ng-container>
 

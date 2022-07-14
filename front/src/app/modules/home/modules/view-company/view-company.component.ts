@@ -18,6 +18,7 @@ import { IFavorite } from '@shared/interfaces/favorites.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-view-company',
@@ -50,7 +51,8 @@ export class ViewCompanyComponent implements OnInit {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private _location: Location
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
   }
@@ -218,5 +220,9 @@ export class ViewCompanyComponent implements OnInit {
           this.profileProvider.distance = 1000000
         }
     }
+  }
+
+  back(){
+    this._location.back();
   }
 }

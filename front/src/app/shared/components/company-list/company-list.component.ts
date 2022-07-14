@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { GeneralService } from '@services/general.service';
@@ -17,7 +17,7 @@ import { IFavorite } from './../../interfaces/favorites.interface';
   templateUrl: './company-list.component.html',
   styleUrls: ['./company-list.component.scss']
 })
-export class CompanyListComponent implements OnInit {
+export class CompanyListComponent implements OnInit, OnChanges {
 
   @Input() items: Array<CProfileProvider>
   @Output() emitEvent: EventEmitter<any> =  new EventEmitter();
@@ -67,15 +67,17 @@ export class CompanyListComponent implements OnInit {
       }
     ];
 
-   this.getCurrentPosition()
-    
   }
-  
-  
+
+
   ngOnInit(): void {
-    this.initializeItems()    
-    this.role = this.authService.getRole() 
-    this.getFavorites() 
+    this.initializeItems()
+    this.role = this.authService.getRole()
+    this.getFavorites()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getCurrentPosition()
   }
 
   initializeItems(){
@@ -88,7 +90,7 @@ export class CompanyListComponent implements OnInit {
     this.role = this.authService.getRole()
     if (this.role) {
       this.favoriteService.getByClientId(this.authService.getUserID()).subscribe((response:IResponseApi)=>{
-        this.favorites = response.data        
+        this.favorites = response.data
       })
     }
   }
@@ -111,7 +113,7 @@ export class CompanyListComponent implements OnInit {
       this.isMobile = false
     }
   }
-  
+
   onSortChange(event) {
     this.general.c('SORT BY', event)
   }
@@ -170,7 +172,7 @@ export class CompanyListComponent implements OnInit {
     }else{
       this.emitEvent.emit({
         event: 'open-login'
-      })     
+      })
     }
   }
 
@@ -233,9 +235,11 @@ export class CompanyListComponent implements OnInit {
   }
 
   async getCurrentPosition() {
-    
+
     const currentPosition = await this.general.getPosition()
+    console.log('CUrrent Position', currentPosition)
     if (currentPosition) {
+      console.log('this.items', this.items)
       this.items = [...this.items.map(i=>{
         if (i.lat && i.lng) {
           i.distance = parseFloat(this.getKilometros(i.lat, i.lng, currentPosition.lat, currentPosition.lng))
@@ -243,7 +247,7 @@ export class CompanyListComponent implements OnInit {
           i.distance = 1000000
         }
         return i
-      })]     
+      })]
     }
     this.items = [...this.items.sort(function (a, b) {
       if (a['distance'] > b['distance']) {
@@ -256,7 +260,7 @@ export class CompanyListComponent implements OnInit {
     })]
 
   }
-  
+
 
 
 }

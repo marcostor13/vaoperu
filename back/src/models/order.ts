@@ -27,6 +27,7 @@ export interface IOrderData{
     address2?: string
     date: string
     typePaymment: string
+    cash: number
 }
 
 const userSchema = new Schema({
@@ -48,6 +49,9 @@ const userSchema = new Schema({
     },
     orderData: {
         type: Object
+    },
+    cash: {
+        type: Number,
     },
     createAt: {
         type: Date,

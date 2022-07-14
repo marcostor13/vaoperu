@@ -261,6 +261,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate([`/resultados/${redirect}`])
   }
 
+  redirectCategory(category: CCategory){
+    const redirect = category.name.toLowerCase().replace(/\s/g, '-')
+    this.router.navigate([`/resultados/${redirect}`])
+  }
+
   toogleSwitch(type: string){
     this.switch = type
   }
@@ -274,7 +279,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   urlCategories(){
     this.router.navigate([ '/categorias' ])
   }
-
 
 
 }

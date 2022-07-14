@@ -21,6 +21,9 @@ const userSchema = new mongoose_1.Schema({
     orderData: {
         type: Object
     },
+    cash: {
+        type: Number,
+    },
     createAt: {
         type: Date,
         default: new Date()

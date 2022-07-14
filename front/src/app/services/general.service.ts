@@ -76,7 +76,7 @@ export class GeneralService {
     return Math.round(Math.random() * (max - min) + min)
   }
 
-  //Inserta un objeto a partir de una posisión, 
+  //Inserta un objeto a partir de una posisión,
   insertObjectInPositionArray(obj, array, indexPosPrev) {
 
     let res = []
@@ -254,7 +254,7 @@ export class GeneralService {
                 obs.complete()
               })
             }, 1000)
-  
+
           }
         })
       })
@@ -273,11 +273,11 @@ export class GeneralService {
   async deleteImages(downloadUrls: Array<string>) {
     return Promise.all(downloadUrls.map(async (url:string)=>{
       try{
-        return await this.storage.storage.refFromURL(url).delete()  
+        return await this.storage.storage.refFromURL(url).delete()
       } catch (e){
         return e
       }
-    }))  
+    }))
   }
 
   sendMail(data: IEmailData) {

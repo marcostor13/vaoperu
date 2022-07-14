@@ -116,7 +116,7 @@ $size: 210px;
             background-repeat: no-repeat;
             background-size: cover;
             height: auto;
-            min-width: 100vw;
+            min-width: 100% !important;
         }
     }
     .primary-price{

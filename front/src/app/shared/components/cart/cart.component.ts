@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
     address2: '',
     date: moment(new Date()).format('YYYY-MM-DD'),
     typePaymment: 'Efectivo',
+    cash: null
   }
   currentDirection: string
   response: string = ''
@@ -77,7 +78,7 @@ export class CartComponent implements OnInit {
             this.form.address = res[0].formatted_address
             this.currentDirection = res[0].formatted_address
           }
-        })  
+        })
     }
   }
 
@@ -98,7 +99,7 @@ export class CartComponent implements OnInit {
           }
         }
         this.cartService.addToCart(itemCart, this.cart.profileProviderId)
-        break;     
+        break;
       case 'subtract':
         if (this.cart.items[i].quantity > 1) {
           this.cartService.substractToCart(product._id, this.cart.profileProviderId)
@@ -107,7 +108,7 @@ export class CartComponent implements OnInit {
         }
         break;
     }
-  } 
+  }
 
   getTotal(){
     let total = 0
@@ -119,7 +120,7 @@ export class CartComponent implements OnInit {
   }
 
   continue(){
-    this.getProfileProvider()    
+    this.getProfileProvider()
     this.response = ''
   }
 
@@ -142,9 +143,10 @@ export class CartComponent implements OnInit {
       !this.form.name ||
       !this.form.phone ||
       !this.form.address ||
-      (this.form.address === 'custom '&& !this.form.address2) || 
-      !this.form.date || 
-      !this.form.typePaymment
+      (this.form.address === 'custom '&& !this.form.address2) ||
+      !this.form.date ||
+      !this.form.typePaymment ||
+      (this.form.typePaymment === 'Efectivo' && !this.form.cash)
     ){
       this.response = 'Debe completar todos los campos'
       return false
@@ -154,15 +156,15 @@ export class CartComponent implements OnInit {
   }
 
   finishedShop(){
-    if(this.validateForm()){      
+    if(this.validateForm()){
       if (this.authService.getRole()?.indexOf('user')>-1){
         let cart = cloneDeep(this.cart)
         cart.orderData = this.form
         cart.userId = this.authService.getUserID()
-        this.cartService.saveOrder(cart).subscribe((response:IResponseApi)=>{    
+        this.cartService.saveOrder(cart).subscribe((response:IResponseApi)=>{
           this.messageService.add({ severity: 'Success', detail: 'Orden Guardada', summary: 'Éxito' })
-          this.cartService.resetCart()  
-          this.events.emit('close-modal') 
+          this.cartService.resetCart()
+          this.events.emit('close-modal')
           console.log('finishedShop', response)
           if (this.profileProvider.whatsapp){
             const whatsapp = this.profileProvider.whatsapp.length === 11 ? this.profileProvider.whatsapp : `51${this.profileProvider.whatsapp.replace('+', '')}`
@@ -171,14 +173,14 @@ export class CartComponent implements OnInit {
             window.open(url, "_blank");
           }else{
             this.messageService.add({ severity: 'Error', detail: 'El negocio no tiene whastapp configurado', summary: 'Error' })
-          }        
+          }
         }, _ => this.messageService.add({severity:'Error', detail: 'Error al guardar el pedido', summary: 'Error'}))
-      }else{      
+      }else{
         this.events.emit('open-login')
       }
     }
   }
 
-  
+
 
 }
