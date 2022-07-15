@@ -1,7 +1,7 @@
 <div class="mt-5 promotion-list">
 
     <p-dataView [value]="items" [paginator]="true" [rows]="9" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
-               
+
         <ng-template let-promotion pTemplate="gridItem">
             <div class="promotion shadow mb-3 ml-3 mr-3">
                 <div class="slide-promotion">
@@ -27,14 +27,14 @@
                             <a href="https://wa.me/{{getDataProvider(promotion.profileProviderId, 'whatsapp') | whatsapp}}?text=Hola! {{getDataProvider(promotion.profileProviderId, 'comercialName')}}" target="_blank" title="Whatsapp" class="ml-2 p-0 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
                                 <fa-icon class="f-15 text-white" [icon]="faWhatsapp"></fa-icon>
                             </a>
-                        </div>                          
-                        <button (click)="goToStore(promotion.profileProviderId)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Ir a la tienda</button>                        
+                        </div>
+                        <button (click)="goToStore(promotion.profileProviderId)" class="cursor pl-2 pr-2 bg-color2 border-0 p-1 rounded-pill f-9 font-500">Ir a la tienda</button>
                     </div>
-                </div>               
+                </div>
             </div>
         </ng-template>
     </p-dataView>
-    
+
 </div>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

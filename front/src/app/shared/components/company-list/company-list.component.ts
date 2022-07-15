@@ -52,7 +52,7 @@ export class CompanyListComponent implements OnInit, OnChanges {
     this.responsiveOptions = [
       {
         breakpoint: '1412px',
-        numVisible: 2,
+        numVisible: 1,
         numScroll: 1
       },
       {

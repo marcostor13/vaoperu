@@ -17,11 +17,12 @@ $size: 210px;
   }
 
 .product-list2{
+  // position: absolute!important;
   .image-product{
       background-repeat: no-repeat;
       background-size: cover;
       min-height: 300px;
-      min-width: 300px;
+      min-width: 100%;
   }
 }
 

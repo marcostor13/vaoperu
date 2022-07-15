@@ -45,7 +45,7 @@
           </ng-template>
 
           <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
-              <div class="product col-6 col-sm-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row py-2 justify-content-center">
+              <div class="product col d-flex p-0 mt-3 m-0 py-2 justify-content-left justify-content-lg-center">
                 <div class="d-flex flex-column justify-content-center align-items-center align-content-center">
                   <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
                       <ng-template let-image pTemplate="item">
@@ -125,7 +125,7 @@
           </ng-template>
 
           <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
-              <div class="product col-6 col-sm-6 p-0 col-lg-4 col-xl-4 mt-3 m-0 row py-2 justify-content-center">
+              <div class="product col d-flex p-0 mt-3 m-0 py-2 justify-content-left justify-content-lg-left">
                 <div class="d-flex flex-column justify-content-center align-items-center align-content-center">
                   <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
                       <ng-template let-image pTemplate="item">
