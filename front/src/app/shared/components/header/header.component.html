@@ -50,10 +50,10 @@
             <img width="140" src="assets/img/logo.png" alt="">
         </h1>
         <ng-container *ngIf="!user">
-          <li (click)="openLogin()" class="cursor mt-5 font-500 text-black f-12">Ingresar</li>
+          <li (click)="openLogin(); display=!display" class="cursor mt-5 font-500 text-black f-12">Ingresar</li>
         </ng-container>
-        <li routerLink="/" class="cursor mt-2 font-500 text-black f-12">Inicio</li>
-        <li (click)="redirectFavorites()" class="cursor mt-2 font-500 text-black f-12">Favoritos</li>
+        <li (click)="display=!display" routerLink="/" class="cursor mt-2 font-500 text-black f-12">Inicio</li>
+        <li (click)="redirectFavorites(); display=!display" class="cursor mt-2 font-500 text-black f-12">Favoritos</li>
         <ng-container *ngIf="user">
             <ng-container *ngIf="role">
                 <li *ngFor="let item of role" (click)="redirectPlatform('/'+item+'/dashboard')" class="cursor mt-2 font-500 text-black f-12">

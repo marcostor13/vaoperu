@@ -89,16 +89,19 @@ $size: 210px;
     $size: 120px;
     $size2: 600px;
     .title{
-        font-size: 11pt !important;
+      font-size: 11pt !important;
     }
     .product{
-        min-height: $size;
-        align-items: center;
-        .sub-product{
-            justify-content: space-between !important;
-            width: 100%;
-        }
+      min-height: $size;
+      align-items: center;
+      .sub-product{
+        justify-content: space-between !important;
+        width: 100%;
+      }
 
+    }
+    .product2{
+      width: 100%!important;
     }
     .product-list{
         .image-product{
@@ -118,6 +121,8 @@ $size: 210px;
             background-size: cover;
             height: auto;
             min-width: 100% !important;
+            border: 0;
+            border-radius: 0;
         }
     }
     .primary-price{
@@ -133,3 +138,7 @@ $size: 210px;
   max-height: 200px;
 }
 
+.position-close{
+  top: 0;
+  left: 0;
+}

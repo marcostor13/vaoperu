@@ -45,7 +45,7 @@
           </ng-template>
 
           <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
-              <div class="product col d-flex p-0 mt-3 m-0 py-2 justify-content-left justify-content-lg-center">
+              <div class="product col d-flex p-0 mt-3 m-0 py-2 justify-content-left">
                 <div class="d-flex flex-column justify-content-center align-items-center align-content-center">
                   <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
                       <ng-template let-image pTemplate="item">
@@ -54,17 +54,17 @@
                   </p-carousel>
                   <div class="w-100 d-flex flex-column align-items-left">
                     <div class="row flex-column m-0">
-                      <h5 (click)="openModal(product, i)" class="title cursor mt-2 text-center">{{product.name}}</h5>
-                      <p (click)="openModal(product, i)" class="cursor text-center">{{getDescription(product.description)}}</p>
+                      <h5 (click)="openModal(product, i)" class="title cursor mt-2 text-left">{{product.name}}</h5>
+                      <p (click)="openModal(product, i)" class="cursor text-left">{{getDescription(product.description)}}</p>
                         <!-- <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center"    >
                             <button (click)="changeProduct(i, 'subtract', product)">-</button>
                             <input disabled="true" type="text" [(ngModel)]="quantity[i]">
                           </div> -->
-                          <div class="row m-0 align-items-center justify-content-center">
+                          <div class="row m-0 align-items-center justify-content-left">
                             <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
                             <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
                           </div>
-                          <div *ngIf="!isProviderPath" class="mt-1 text-center">
+                          <div *ngIf="!isProviderPath" class="mt-1 text-left">
                             <button  (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
                               Agregar</button>
                           </div>
@@ -81,7 +81,7 @@
     </ng-container>
 
     <ng-container *ngFor="let productFormat of productsFormatOthers">
-      <h5 class="text-capitalize text-color1">Otros</h5>
+      <h5 class="text-capitalize text-color1 mt-3">Otros</h5>
       <p-dataView [value]="productFormat.products" [paginator]="productFormat.products?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
           <ng-template *ngIf="rows===0" pTemplate="header">
               <div  class="row justify-content-between m-0">
@@ -134,23 +134,23 @@
                   </p-carousel>
                   <div class="w-100 d-flex flex-column align-items-left">
                     <div class="row flex-column m-0">
-                      <h5 (click)="openModal(product, i)" class="title cursor mt-2 text-center">{{product.name}}</h5>
-                      <p (click)="openModal(product, i)" class="cursor text-center">{{getDescription(product.description)}}</p>
+                      <h5 (click)="openModal(product, i)" class="title cursor mt-2 text-left">{{product.name}}</h5>
+                      <p (click)="openModal(product, i)" class="cursor text-left">{{getDescription(product.description)}}</p>
                         <!-- <div *ngIf="type === 'Productos' || type === 'Productos'" class="controls d-flex align-items-center"    >
                             <button (click)="changeProduct(i, 'subtract', product)">-</button>
                             <input disabled="true" type="text" [(ngModel)]="quantity[i]">
                           </div> -->
-                          <div class="row m-0 align-items-center justify-content-center">
-                            <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
-                            <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
-                          </div>
-                          <div *ngIf="!isProviderPath" class="mt-1 text-center">
-                            <button  (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
-                              Agregar</button>
-                          </div>
-                          <div>
-                            <button *ngIf="isProviderPath" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
-                          </div>
+                      <div class="row m-0 align-items-center justify-content-left">
+                        <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
+                        <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
+                      </div>
+                      <div *ngIf="!isProviderPath" class="mt-1 text-left">
+                        <button  (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
+                          Agregar</button>
+                      </div>
+                      <div>
+                        <button *ngIf="isProviderPath" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
+                      </div>
 
                     </div>
                   </div>
@@ -175,23 +175,21 @@
     >
     <app-header [eventHeader]="eventHeader"></app-header>
 
-    <div *ngIf="currentItem" class="product-list2 d-flex flex-column align-items-center">
+    <div *ngIf="currentItem" class="fixed-top mt-5 pt-4 pt-sm-5 product-list2 d-flex flex-column align-items-center">
 
-      <div  class="w-100 mb-3 pl-4 d-flex justify-content-start">
-        <button (click)="displayModal = false" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
-            <fa-icon class="f-14 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
-            Atrás
-        </button>
-      </div>
 
-        <div class="product">
-          <div class="sub-product">
-              <div class="slider-image">
-                  <p-carousel [responsiveOptions]="responsiveOptions" [showNavigators]="false" [value]="currentItem?.images" [numVisible]="1" [numScroll]="1" [styleClass]="currentItem.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
-                      <ng-template let-image pTemplate="item">
-                          <div class="image-product shadow " [ngStyle]="{'background-image': 'url('+image+')'}"></div>
-                      </ng-template>
-                  </p-carousel>
+      <div class="product product2">
+        <div class="sub-product">
+          <div class="slider-image position-relative">
+            <p-carousel [responsiveOptions]="responsiveOptions" [showNavigators]="false" [value]="currentItem?.images" [numVisible]="1" [numScroll]="1" [styleClass]="currentItem.images.length === 1 ? 'carousel opacity-dots': 'carousel'">
+              <ng-template let-image pTemplate="item">
+                <div class="image-product shadow " [ngStyle]="{'background-image': 'url('+image+')'}"></div>
+              </ng-template>
+            </p-carousel>
+              <button (click)="displayModal = false" class="position-absolute position-close bg-white p-2 mt-4 f-12 font-500 border-0 d-flex align-items-center justify-content-center text-color5">
+                  <fa-icon class="f-12 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
+                  Atrás
+              </button>
               </div>
               <div class="pl-5">
                 <h5 class="title">{{currentItem.name}}</h5>
