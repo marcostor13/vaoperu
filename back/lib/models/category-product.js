@@ -10,28 +10,10 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-    },
-    images: {
-        type: Array,
-    },
-    price: {
-        type: Number,
-    },
-    idFeatured: {
-        type: Boolean,
-    },
-    categoryId: {
-        type: String,
-    },
-    promotionalPrice: {
-        type: Number,
-    },
     createAt: {
         type: Date,
         default: new Date()
     }
 });
-exports.default = mongoose_1.model('Product', userSchema);
-//# sourceMappingURL=product.js.map
+exports.default = mongoose_1.model('CategoryProduct', userSchema);
+//# sourceMappingURL=category-product.js.map

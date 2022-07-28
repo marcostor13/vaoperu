@@ -4,7 +4,6 @@ const mongoose_1 = require("mongoose");
 const userSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        unique: true,
         required: true
     },
     profileProviderId: {
@@ -22,6 +21,9 @@ const userSchema = new mongoose_1.Schema({
     },
     idFeatured: {
         type: Boolean,
+    },
+    categoryId: {
+        type: String,
     },
     promotionalPrice: {
         type: Number,

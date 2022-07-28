@@ -57,6 +57,7 @@
             </select>
             <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
             <p class="text-danger mt-3 text-center">{{response}}</p>
+            <textarea placeholder="Observaciones / detalles" [(ngModel)]="form.details"></textarea>
 
         </p-tabPanel>
         <p-tabPanel *ngIf="profileProvider.onMarket" header="En tienda">
@@ -75,6 +76,7 @@
             </select>
             <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
             <p class="text-danger mt-3 text-center">{{response}}</p>
+            <textarea placeholder="Observaciones / detalles" [(ngModel)]="form.details"></textarea>
         </p-tabPanel>
     </p-tabView>
 

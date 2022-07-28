@@ -13,4 +13,4 @@ router.get(`/get-${model}-by-profile-provider-id/:id`, product_controller_1.getB
 router.patch(`/update-${model}/:id`, passport.authenticate('jwt', { session: false }), product_controller_1.update);
 router.delete(`/delete-${model}/:id`, passport.authenticate('jwt', { session: false }), product_controller_1.del);
 exports.default = router;
-//# sourceMappingURL=product.routes copy.js.map
+//# sourceMappingURL=category-product.js.map

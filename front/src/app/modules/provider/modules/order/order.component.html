@@ -4,7 +4,7 @@
         <app-header-provider></app-header-provider>
         <div class="p-4 p-md-5">
             <div class="row m-0 justify-content-between align-items-center">
-                <h4>Ordenes</h4>             
+                <h4>Ordenes</h4>
             </div>
             <div *ngIf="!users || !orders  || !products || orders?.length===0">
                 <h3 class="text-center text-color1">No tiene ordenes disponibles</h3>
@@ -19,14 +19,14 @@
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
-                    <tbody>                      
+                    <tbody>
                         <tr class="cursor" (click)="openOrder(order)" *ngFor="let order of orders">
                             <th scope="row">1</th>
                             <td>{{getById(users, order.userId).name}}</td>
                             <td>{{formatDate(order.createAt)}}</td>
                             <td>S/ {{getTotal(order)}}</td>
                         </tr>
-                    
+
                     </tbody>
                 </table>
             </div>
@@ -34,24 +34,24 @@
     </div>
 </div>
 
-<p-dialog 
-    header="" 
-    [(visible)]="displayModal" 
-    [modal]="true" 
-    [styleClass]="'modalLogin'" 
+<p-dialog
+    header=""
+    [(visible)]="displayModal"
+    [modal]="true"
+    [styleClass]="'modalLogin'"
     [baseZIndex]="10000"
     [autoZIndex]="false"
     [draggable]="false"
-    [resizable]="false">   
+    [resizable]="false">
 
     <div *ngIf="currentOrder" class="col-12 row m-0 justify-content-center">
 
         <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
             <h6 class="mt-2">Datos de usuario</h6>
 
-            <li class="mt-2 py-1 col d-flex justify-content-between align-items-center">              
+            <li class="mt-2 py-1 col d-flex justify-content-between align-items-center">
                 <h6 class="m-0 text-color1">Cliente</h6>
-                <p class="m-0">{{getById(users, currentOrder.userId).name}}</p>               
+                <p class="m-0">{{getById(users, currentOrder.userId).name}}</p>
             </li>
             <li class="py-1 col d-flex justify-content-between align-items-center">
                 <h6 class="m-0 text-color1">Número email</h6>
@@ -82,7 +82,10 @@
                     <h6 class="m-0 text-color1">Medio de pago</h6>
                     <p class="m-0">{{currentOrder.orderData.typePaymment}}</p>
                 </li>
-
+                <li class="py-1 col d-flex justify-content-between align-items-center">
+                  <h6 class="m-0 text-color1">Observaciones / detalles</h6>
+                  <p class="m-0">{{currentOrder.orderData.details}}</p>
+                </li>
             </ng-container>
         </ul>
 

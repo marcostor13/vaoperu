@@ -34,7 +34,8 @@ export class CartComponent implements OnInit {
     address2: '',
     date: moment(new Date()).format('YYYY-MM-DD'),
     typePaymment: 'Efectivo',
-    cash: null
+    cash: null,
+    details: ''
   }
   currentDirection: string
   response: string = ''

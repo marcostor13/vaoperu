@@ -7,6 +7,7 @@ export class CProduct {
         this.price = null
         this.isFeatured = false
         this.promotionalPrice = null
+        this.categoryId = ''
     }
     _id?:string
     name:string
@@ -16,7 +17,7 @@ export class CProduct {
     price:number
     isFeatured:boolean
     promotionalPrice?:number
-    category?: string
+    categoryId?: string
 }
 
 export class CProductInvalid{
@@ -30,4 +31,10 @@ export class CProductInvalid{
     images: boolean
     price: boolean
     description: boolean
+}
+
+export interface ICategoryProduct{
+  name: string
+  profileProviderId: string
+  _id?: string
 }

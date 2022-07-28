@@ -16,6 +16,7 @@ import favoriteRouter from './routes/favorite.routes'
 import categorySubcategoryProfileRouter from './routes/category-subcategory-profile.routes'
 import promotionRouter from './routes/promotion.routes'
 import orderRouter from './routes/order.routes'
+import categoryProductRouter from './routes/category-product.routes'
 
 import './database'
 import passportMiddleware from './middlewares/auth/passport'
@@ -52,6 +53,7 @@ app.use(favoriteRouter)
 app.use(categorySubcategoryProfileRouter)
 app.use(promotionRouter)
 app.use(orderRouter)
+app.use(categoryProductRouter)
 
 app.use(passport.initialize())
 passport.use(passportMiddleware)

@@ -5,10 +5,16 @@
         <div class="p-4 p-md-5">
             <div class="row m-0 justify-content-between align-items-center">
                 <h4>Productos</h4>
-                <button class="btn2" (click)="addEdit()">
+                <div class="mb-3 mb-md-0">
+                  <button class="btn2 mr-2 mr-lg-4" (click)="addEditCategories()">
                     <i class="pi pi-plus mr-2"></i>
-                    Agregar
+                    Categoría
                 </button>
+                  <button class="btn2" (click)="addEdit()">
+                      <i class="pi pi-plus mr-2"></i>
+                      Agregar
+                  </button>
+                </div>
             </div>
             <div class="section-products col-4 p-0">
                 <app-product-list [profileProviderId]="profileProvider._id" *ngIf="items?.length>0" [items]="items" (productsEvent)=productListEvent($event)></app-product-list>
@@ -16,6 +22,37 @@
         </div>
     </div>
 </div>
+<p-dialog
+    header=""
+    [(visible)]="displayCategories"
+    [modal]="true"
+    [styleClass]="'modalLogin'"
+    [baseZIndex]="10000"
+    [autoZIndex]="false"
+    [draggable]="false"
+    [resizable]="false"
+>
+
+    <div class="px-5 pb-5">
+      <ul class="opts list-unstyled pt-2">
+        <li class="border cursor pl-2 d-flex justify-content-between" *ngFor="let cat of categories">
+          {{cat.name}}
+          <div>
+            <button (click)="deleteCategory()" class="border-0 bg-color2 text-white mr-2">
+              <i class="pi pi-trash"></i>
+            </button>
+            <button (click)="editCategory(cat)" class="border-0 bg-color2 text-white">
+              <i class="pi pi-pencil"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+      <input type="text" class="mt-3" placeholder="Categoría" [(ngModel)]="currentCategory.name">
+      <span class="mt-3 text-color1 d-flex justify-content-center">{{responseCategory}}</span>
+      <button (click)="saveCategory()" class="btn1 mt-3 col-12">Guardar</button>
+    </div>
+
+</p-dialog>
 
 <p-dialog
     header=""
@@ -64,12 +101,10 @@
             <textarea (keyup.enter)="add()" cols="30" rows="5" [(ngModel)]="currentItem.description" [ngClass]="{'invalid': invalid.description}" [placeholder]="'Descripción'"></textarea>
             <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.price" (keyup)="invalid.price=false" [ngClass]="{'invalid': invalid.price}" [placeholder]="'Precio'">
             <input type="text" class="mt-3" (keyup.enter)="add()" [(ngModel)]="currentItem.promotionalPrice" [placeholder]="'Precio promocional'">
-            <div class="">
-              <input (keyup)="showListCat($event)" type="text" class="mt-3" placeholder="Categoría (Opcional)" [(ngModel)]="currentItem.category">
-              <ul *ngIf="listCat" class="opts list-unstyled pt-2">
-                <li class="border cursor pl-2" (click)="selectCat(cat)" *ngFor="let cat of listCats">{{cat}}</li>
-              </ul>
-            </div>
+            <select class="mt-3" [(ngModel)]="currentItem.categoryId">
+              <option value="">Seleccione la categoria</option>
+              <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+            </select>
             <button (click)="presave()" class="btn1 mt-4">Guardar</button>
             <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2">Eliminar</button>
         </div>

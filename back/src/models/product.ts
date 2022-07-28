@@ -9,7 +9,7 @@ export interface IProduct extends Document {
     price: number,
     idFeatured: boolean,
     promotionalPrice: number,
-    category: string,
+    categoryId: string,
     createAt: Date
 }
 
@@ -34,7 +34,7 @@ const userSchema = new Schema({
     idFeatured:{
         type:Boolean,
     },
-    category:{
+    categoryId:{
         type:String,
     },
     promotionalPrice:{

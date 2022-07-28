@@ -121,4 +121,4 @@ exports.del = (req, res) => {
         });
     });
 };
-//# sourceMappingURL=product.controller copy.js.map
+//# sourceMappingURL=category-product.controller.js.map

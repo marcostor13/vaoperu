@@ -28,4 +28,5 @@ export interface ICartForm{
     date: string
     typePaymment: string
     cash: number
+    details: string
 }

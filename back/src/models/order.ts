@@ -28,6 +28,7 @@ export interface IOrderData{
     date: string
     typePaymment: string
     cash: number
+    details: string
 }
 
 const userSchema = new Schema({

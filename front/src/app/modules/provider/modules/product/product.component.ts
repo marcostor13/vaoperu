@@ -4,7 +4,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CImages } from 'src/app/models/images';
 import { IResponseApi } from 'src/app/models/responses';
 import { SubSink } from 'subsink';
-import { CProduct, CProductInvalid } from './models/product'
+import { CProduct, CProductInvalid, ICategoryProduct } from './models/product'
 import { ProductService } from './services/product.service';
 import { ProfileProviderService } from './../profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../profile-provider/models/profile-provider';
@@ -21,15 +21,26 @@ export class ProductComponent implements OnInit {
 
   public subs = new SubSink()
   displayModal: boolean = false
+  displayCategories: boolean = false
   items: CProduct[]
   currentItem: CProduct = new CProduct
   invalid: CProductInvalid = new CProductInvalid
   profileProvider: CProfileProvider
-  categories: string[]
+  categories: ICategoryProduct[]
   listCat: boolean = false
   listCats: string[] = []
   listCatsTmp: string[] = []
-
+  currentCategory: ICategoryProduct = {
+    name: '',
+    profileProviderId: ''
+  }
+  currentCategoryTmp: ICategoryProduct = {
+    name: '',
+    profileProviderId: ''
+  }
+  responseCategory: string
+  editState: boolean = false
+  deleteState: boolean = false
   //IMAGES
   currentImages: CImages[] = []
   images: File[] = []
@@ -71,8 +82,7 @@ export class ProductComponent implements OnInit {
     this.subs.add(
       this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
         this.items = response.data
-        this.getCategories(response.data)
-        this.getListCategories()
+        this.getCategories()
         if (response.data?.length === 0) {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
         }
@@ -82,22 +92,69 @@ export class ProductComponent implements OnInit {
     )
   }
 
-  getListCategories(){
-    this.listCats = this.items.map(p=>{
-      if(p.category){
-        return p.category
-      }
+
+  getCategories(){
+    this.productService.getCategoryByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
+      this.categories = response.data
     })
-    this.listCatsTmp = [...this.listCats]
   }
 
-  getCategories(products: CProduct[]){
-    this.categories = products.map(p=>{
-      if(p.category){
-        return p.category
+  issetCategory(categoryName){
+    if(this.categories.find(c => c.name === categoryName)){
+      return true
+    }else {
+      return false
+    }
+  }
+
+  validateCategory(){
+    let res = true
+    if(!this.currentCategory.name){
+      res = false
+      this.responseCategory = 'Debe completar todo los campos'
+    }
+    if(this.issetCategory(this.currentCategory.name)){
+      res = false
+      this.responseCategory = 'La categoria ya existe'
+    }
+    if(this.editState){
+      res = false
+      this.responseCategory = 'La categoria fue editada'
+    }
+    if(this.deleteState){
+      res = false
+      this.responseCategory = 'La categoria fue eliminada'
+    }
+    return res
+  }
+
+  saveCategory(){
+    if(this.validateCategory()){
+      const peyload: ICategoryProduct = {
+        name: this.currentCategory?.name,
+        profileProviderId: this.profileProvider._id
       }
-    })
-    this.categories = [...new Set(this.categories)]
+      this.productService.saveCategory(peyload).subscribe((response: IResponseApi) => {
+        this.responseCategory = 'Categoria guardada'
+        this.resetCategory()
+        this.getCategories()
+        console.log('edit', response)
+      })
+      this.currentCategory
+    }
+  }
+
+  editCategory(category: ICategoryProduct){
+      this.currentCategory = category
+      this.editState = true
+  }
+  deleteCategory(){
+      this.currentCategory = this.currentCategoryTmp
+      this.deleteState = true
+  }
+
+  resetCategory(){
+    this.currentCategory.name = ''
   }
 
   validate() {
@@ -290,27 +347,14 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  showListCat($event){
-    const listCats: string[] = this.items.map(p=>{
-      if(p.category){
-        return p.category
-      }
-    })
-    if($event.target.value?.length > 0){
-      this.listCats = [...this.listCatsTmp.filter(l=>l?.indexOf($event.target.value)>-1)]
-      this.listCat = true
-    }else{
-      this.listCats = [...this.listCatsTmp]
-      this.listCat = false
-    }
-  }
 
   selectCat(category:string){
-    this.currentItem.category = category
-    this.listCat = false
+
   }
 
-
+  addEditCategories(){
+    this.displayCategories = true
+  }
 
 
 }
