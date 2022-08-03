@@ -4,7 +4,7 @@
   "compilerOptions": {
     "outDir": "./dist/front",
     "experimentalDecorators": true,
-    "types": ["googlemaps"],
+    "types": ["googlemaps", "lodash"],
     "baseUrl": "./",
     "paths": {
       "@reducers/*": ["src/app/store/reducers/*"],

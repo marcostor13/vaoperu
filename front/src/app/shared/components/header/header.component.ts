@@ -86,7 +86,6 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   getProducts(){
     if (this.cart?.profileProviderId){
       this.productsService.getByProfileProviderId(this.cart.profileProviderId).subscribe((response: IResponseApi)=>{
-        console.log('get Products', response.data)
         this.products = response.data
       }, _=>{
         this.messageService.add({ detail: 'Error al obtener productos', severity: 'error', summary: 'Error'})

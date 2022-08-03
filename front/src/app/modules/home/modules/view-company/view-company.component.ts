@@ -71,7 +71,6 @@ export class ViewCompanyComponent implements OnInit {
   getProfileProvider(profileProviderId:string){
     this.profileProviderService.getById(profileProviderId).subscribe((response: IResponseApi) => {
       this.profileProvider = response.data
-      console.log('profileprovider: ', this.profileProvider)
       this.getCurrentPosition()
       this.getProducts()
     })

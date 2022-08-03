@@ -25,7 +25,7 @@ export class OrderComponent implements OnInit {
   users: CUser[]
   products: CProduct[]
   currentOrder: ICart
-  
+
 
   constructor(
     private cartService: CartService,
@@ -69,7 +69,7 @@ export class OrderComponent implements OnInit {
       productIds = [...productIds, i.productId]
     })})
     this.productService.getByIds(productIds).subscribe((response: IResponseApi) => {
-      this.products = response.data      
+      this.products = response.data
     }, _ => {
       this.errors('productos')
     })
@@ -85,7 +85,7 @@ export class OrderComponent implements OnInit {
 
   getById(array: any[], id:string){
     return array.find(a=>a._id === id)
-  } 
+  }
 
   formatDate(date: Date){
     return moment(date).format('lll')
@@ -96,7 +96,6 @@ export class OrderComponent implements OnInit {
   }
 
   openOrder(order: ICart){
-    console.log('order', order)
     this.currentOrder = order
     this.displayModal = true
   }

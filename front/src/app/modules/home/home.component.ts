@@ -106,7 +106,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getProfileProviders() {
-    console.log("response")
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
       this.profileProviders = response.data
     }, error => {

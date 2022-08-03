@@ -42,13 +42,13 @@ export class PromotionListComponent implements OnInit {
     private profileProviderService: ProfileProviderService,
     private messageService: MessageService,
   ) {
-   
+
   }
-  
-  
+
+
   ngOnInit(): void {
-    this.initializeItems()    
-    this.role = this.authService.getRole() 
+    this.initializeItems()
+    this.role = this.authService.getRole()
     this.general.c('Items', this.items)
   }
 
@@ -56,7 +56,7 @@ export class PromotionListComponent implements OnInit {
     if (this.items) {
       this.itemsTmp = [...this.items]
     }
-  }  
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -66,9 +66,8 @@ export class PromotionListComponent implements OnInit {
       this.isMobile = false
     }
   }
-  
+
   onSortChange(event) {
-    this.general.c('SORT BY', event)
   }
 
   getPrice(price: any){
@@ -83,7 +82,7 @@ export class PromotionListComponent implements OnInit {
     this.currentItem = item
     this.displayModal = true
   }
- 
+
   getDataProvider(profileProviderId:string, key:string){
     return this.profileProviders.filter(p => p._id === profileProviderId)[0][key]
   }

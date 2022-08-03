@@ -115,7 +115,6 @@ export class CompanyListComponent implements OnInit, OnChanges {
   }
 
   onSortChange(event) {
-    this.general.c('SORT BY', event)
   }
 
   edit(item: any){
@@ -237,9 +236,7 @@ export class CompanyListComponent implements OnInit, OnChanges {
   async getCurrentPosition() {
 
     const currentPosition = await this.general.getPosition()
-    console.log('CUrrent Position', currentPosition)
     if (currentPosition) {
-      console.log('this.items', this.items)
       this.items = [...this.items.map(i=>{
         if (i.lat && i.lng) {
           i.distance = parseFloat(this.getKilometros(i.lat, i.lng, currentPosition.lat, currentPosition.lng))

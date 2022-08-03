@@ -10,7 +10,7 @@ import { IKeyValue } from '../../interfaces/view-company.interface';
   styleUrls: ['./information.component.scss']
 })
 export class InformationComponent implements OnInit, AfterViewInit {
-  
+
   @ViewChild('map') el: ElementRef;
   @Input() profileProvider: CProfileProvider
   profileProviderFormat: IKeyValue[] = []
@@ -18,17 +18,16 @@ export class InformationComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('profileProvider', this.profileProvider)
     this.formatData()
   }
-  
+
   ngAfterViewInit(): void {
     this.initMap()
-    
+
   }
 
   formatData(){
-    if (this.profileProvider.comercialName) this.profileProviderFormat = [...this.profileProviderFormat, { key: 'Nombre comercial', value: this.profileProvider.comercialName }] 
+    if (this.profileProvider.comercialName) this.profileProviderFormat = [...this.profileProviderFormat, { key: 'Nombre comercial', value: this.profileProvider.comercialName }]
     if (this.profileProvider.legalName) this.profileProviderFormat = [...this.profileProviderFormat, { key: 'Razón social', value: this.profileProvider.legalName }]
     if (this.profileProvider.ruc) this.profileProviderFormat = [...this.profileProviderFormat, { key: 'Ruc', value: this.profileProvider.ruc }]
     if (this.profileProvider.whatsapp) this.profileProviderFormat = [...this.profileProviderFormat, { key: 'Whatsapp', value: this.profileProvider.whatsapp }]
@@ -47,8 +46,8 @@ export class InformationComponent implements OnInit, AfterViewInit {
     return key.replace('-', '').replace('-', '').replace('-', '').replace('-', '')
   }
 
-  initMap(): void {   
-    const ubication = { lat: this.profileProvider.lat, lng: this.profileProvider.lng } 
+  initMap(): void {
+    const ubication = { lat: this.profileProvider.lat, lng: this.profileProvider.lng }
     const map = new google.maps.Map(this.el.nativeElement as HTMLElement, {
       center: ubication,
       zoom: 14,

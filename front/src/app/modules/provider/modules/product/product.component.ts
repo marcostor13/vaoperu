@@ -138,7 +138,6 @@ export class ProductComponent implements OnInit {
         this.responseCategory = 'Categoria guardada'
         this.resetCategory()
         this.getCategories()
-        console.log('edit', response)
       })
       this.currentCategory
     }

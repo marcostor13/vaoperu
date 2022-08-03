@@ -3,7 +3,7 @@ import { GeneralService } from '@services/general.service';
 import { SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { CartService } from './../../services/cart/cart.service';
-import { CProduct } from 'src/app/modules/provider/modules/product/models/product';
+import { CProduct, ICategoryProduct } from 'src/app/modules/provider/modules/product/models/product';
 import { SubSink } from 'subsink';
 import { ICart } from '@shared/interfaces/cart.interfaces';
 import { Store } from '@ngrx/store';
@@ -12,6 +12,9 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { IFormatProduct } from './../../interfaces/product.interface';
 import { COffer } from 'src/app/modules/provider/modules/offer/models/offer';
+import { ProductService } from 'src/app/modules/provider/modules/product/services/product.service';
+import { IResponseApi } from 'src/app/models/responses';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-product-list',
@@ -45,6 +48,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   faArrowLeft = faArrowLeft
   productsFormat: IFormatProduct[]
   productsFormatOthers: IFormatProduct[]
+  categories: ICategoryProduct[]
 
   private subs = new SubSink()
 
@@ -53,6 +57,7 @@ export class ProductListComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private cartService: CartService,
     private store: Store<any>,
+    private productService: ProductService
   ) {
     this.responsiveOptions = [
       {
@@ -74,6 +79,12 @@ export class ProductListComponent implements OnInit, OnChanges {
 
     this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
 
+  }
+
+  ngOnInit(): void {
+    this.role = this.authService.getRole()
+    this.getCategories()
+    this.initializeItems()
   }
 
   ngOnChanges(){
@@ -110,13 +121,6 @@ export class ProductListComponent implements OnInit, OnChanges {
     })
   }
 
-
-  ngOnInit(): void {
-    this.role = this.authService.getRole()
-    this.initializeItems()
-    this.getCategoriesProducts()
-  }
-
   setQuantities() {
     this.items?.map((prod, index) => {
       this.quantity[index] = 0
@@ -142,36 +146,34 @@ export class ProductListComponent implements OnInit, OnChanges {
     }
   }
 
-  getCategoriesProducts(){
-    let res:IFormatProduct[] = []
-    this.items.map(i=>{
-      const category = i.category || 'otros'
-      if(res.length > 0){
-        let issetCategory = false
-        res = [...res.map((r)=>{
-          if(r.category === category){
-            r.products = [...r.products, i]
-            issetCategory = true
-          }
-          return r
-        })]
-        if(!issetCategory){
-          res = [...res, {
-            category: category,
-            products: [i]
-          }]
-        }
-      }else{
-        res = [...res, {
-          category: category,
-          products: [i]
-        }]
-      }
+  getCategories(){
+    this.productService.getCategoryByProfileProviderId(this.profileProviderId).subscribe((response: IResponseApi) => {
+      this.categories = response.data
+      this.getCategoriesProducts()
     })
-    this.productsFormat = [...res.filter(r=>r.category !== 'otros')]
-    this.productsFormatOthers = [...res.filter(r=>r.category === 'otros')]
+  }
 
-    console.log('products T', res)
+  getCategoriesById(id: string){
+    return this.categories?.find(c=>c._id===id)
+  }
+
+  getCategoriesByName(name: string){
+    return this.categories?.find(c=>c.name===name)
+  }
+
+  getCategoriesProducts(){
+    let data = _.chain(this.items).map((i:CProduct)=>{
+      i.categoryId = i.categoryId ? this.getCategoriesById(i.categoryId).name: 'otros'
+      return i
+    }).groupBy('categoryId').value()
+    this.productsFormat = Object.keys(data).map(k=>{
+      return {
+        category: k,
+        products: data[k]
+      }
+    }).sort((a:any,b:any)=>{
+      return a.category - b.category
+    })
   }
 
   initializeQuantities(){
@@ -194,7 +196,6 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   onSortChange(event) {
-    this.general.c('SORT BY', event)
   }
 
   edit(item: any){
@@ -225,9 +226,19 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   openModal(item: any, i: number){
-    this.currentIndex = i
-    this.currentItem = item
-    this.displayModal = true
+    if(this.role.indexOf('provider')>-1){
+      item.categoryId = !item.categoryId || item.categoryId === 'otros'? '': this.getCategoriesByName(item.categoryId)? this.getCategoriesByName(item.categoryId)._id: item.categoryId
+      this.productsEvent.emit({
+        function: 'edit',
+        data:item
+      })
+    }else{
+      this.currentIndex = i
+      this.currentItem = item
+      this.displayModal = true
+    }
+
+
   }
 
   changeProduct(i:number, type:string, product: CProduct){

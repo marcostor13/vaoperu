@@ -60,7 +60,6 @@ export class CartComponent implements OnInit {
         .pipe(delay(0))
         .subscribe((cart: ICart) => {
           this.cart = cart
-          console.log('cart', this.cart)
         })
     )
   }
@@ -166,11 +165,9 @@ export class CartComponent implements OnInit {
           this.messageService.add({ severity: 'Success', detail: 'Orden Guardada', summary: 'Éxito' })
           this.cartService.resetCart()
           this.events.emit('close-modal')
-          console.log('finishedShop', response)
           if (this.profileProvider.whatsapp){
             const whatsapp = this.profileProvider.whatsapp.length === 11 ? this.profileProvider.whatsapp : `51${this.profileProvider.whatsapp.replace('+', '')}`
             const url = `https://wa.me/${whatsapp}?text=Hola!%20tengo%20un%20pedido%20:%20${response.data._id}`
-            console.log('URL', url)
             window.open(url, "_blank");
           }else{
             this.messageService.add({ severity: 'Error', detail: 'El negocio no tiene whastapp configurado', summary: 'Error' })
