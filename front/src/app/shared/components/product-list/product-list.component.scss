@@ -93,7 +93,6 @@ $size: 210px;
     }
     .product{
       min-height: $size;
-      align-items: center;
       .sub-product{
         justify-content: space-between !important;
         width: 100%;
@@ -141,4 +140,11 @@ $size: 210px;
 .position-close{
   top: 0;
   left: 0;
+}
+
+.parraf{
+  min-height: 60px;
+  p{
+    max-width: 200px;
+  }
 }

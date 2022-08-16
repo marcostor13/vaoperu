@@ -270,9 +270,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   search(){
     if (this.key){
-      this.router.navigate([`/resultados/${this.key}`]).then(() => {
-        window.location.reload();
-      });
+      this.router.navigate([`/resultados/${this.key}`])
     }
   }
   urlCategories(){

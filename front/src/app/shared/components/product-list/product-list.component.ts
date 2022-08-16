@@ -270,8 +270,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   getDescription(description: string){
-    if(description.length > 60){
-      return `${description.substring(0, 60)}...`
+    if(description.length > 40){
+      return `${description.substring(0, 40)}...`
     }else{
       return description
     }
