@@ -40,7 +40,6 @@ export class ProductComponent implements OnInit {
   }
   responseCategory: string
   editState: boolean = false
-  deleteState: boolean = false
   //IMAGES
   currentImages: CImages[] = []
   images: File[] = []
@@ -121,12 +120,9 @@ export class ProductComponent implements OnInit {
       res = false
       this.responseCategory = 'La categoria fue editada'
     }
-    if(this.deleteState){
-      res = false
-      this.responseCategory = 'La categoria fue eliminada'
-    }
     return res
   }
+
 
   saveCategory(){
     if(this.validateCategory()){
@@ -134,22 +130,30 @@ export class ProductComponent implements OnInit {
         name: this.currentCategory?.name,
         profileProviderId: this.profileProvider._id
       }
+
       this.productService.saveCategory(peyload).subscribe((response: IResponseApi) => {
         this.responseCategory = 'Categoria guardada'
         this.resetCategory()
-        this.getCategories()
       })
-      this.currentCategory
+
+
+
     }
   }
 
   editCategory(category: ICategoryProduct){
-      this.currentCategory = category
-      this.editState = true
+    this.currentCategory = category
+
+    this.productService.saveCategory(category).subscribe((response: IResponseApi) => {
+      this.responseCategory = 'La categoria fue editada'
+    })
   }
-  deleteCategory(){
-      this.currentCategory = this.currentCategoryTmp
-      this.deleteState = true
+  deleteCategory(category: ICategoryProduct){
+
+      this.productService.deleteCategory(category).subscribe((response: IResponseApi) =>{
+        this.responseCategory = 'La categoria fue eliminada'
+      })
+      this.currentCategory
   }
 
   resetCategory(){
