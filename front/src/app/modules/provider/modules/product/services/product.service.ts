@@ -78,9 +78,9 @@ export class ProductService {
     return this.api.api(data)
   }
 
-  deleteCategory(id: string) {
+  deleteCategory(element: ICategoryProduct) {
     const data: IDataApi = {
-      service: `delete-${this.model2}/${id}`,
+      service: `delete-${this.model2}/${element._id}`,
       type: 'delete',
       data: null
     }
