@@ -25,9 +25,9 @@ export class MenuComponent implements OnInit {
   ngOnInit():void {
     this.items = [
       {
-        label: 'Panel',    
-        routerLink: '/admin/dashboard',                  
-      },      
+        label: 'Panel',
+        routerLink: '/admin/dashboard',
+      },
       {
         label: 'Comercial',
         items: [
@@ -40,11 +40,15 @@ export class MenuComponent implements OnInit {
             routerLink: '/admin/subcategories'
           },
           {
+            label: 'Secciones',
+            routerLink: '/admin/sections'
+          },
+          {
             label: 'Promociones',
             routerLink: '/admin/promotions'
           }
         ]
-      },    
+      },
       {
         label: 'General',
         items: [{
@@ -69,15 +73,15 @@ export class MenuComponent implements OnInit {
           },
         ]
       },
-      
-      
+
+
       {
         label: 'Salir',
         icon: 'pi arrow-left',
         styleClass: 'bg-color1 text-color1',
         command: () => this.logout()
       },
-      
+
     ];
 
     this.validateSession()

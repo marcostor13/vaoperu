@@ -17,6 +17,9 @@ import categorySubcategoryProfileRouter from './routes/category-subcategory-prof
 import promotionRouter from './routes/promotion.routes'
 import orderRouter from './routes/order.routes'
 import categoryProductRouter from './routes/category-product.routes'
+import sectionRouter from './routes/section.routes'
+import itemSectionRouter from './routes/item-section.routes'
+import subitemSectionRouter from './routes/subitem-section.routes'
 
 import './database'
 import passportMiddleware from './middlewares/auth/passport'
@@ -54,6 +57,9 @@ app.use(categorySubcategoryProfileRouter)
 app.use(promotionRouter)
 app.use(orderRouter)
 app.use(categoryProductRouter)
+app.use(sectionRouter)
+app.use(itemSectionRouter)
+app.use(subitemSectionRouter)
 
 app.use(passport.initialize())
 passport.use(passportMiddleware)
