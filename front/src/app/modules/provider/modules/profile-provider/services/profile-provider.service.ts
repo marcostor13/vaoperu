@@ -26,6 +26,15 @@ export class ProfileProviderService {
     return this.api.api(data)
   }
 
+  search(payload) {
+    const data: IDataApi = {
+      service: `search-${this.model}`,
+      type: 'post',
+      data: payload
+    }
+    return this.api.api(data)
+  }
+
   get() {
     const data: IDataApi = {
       service: `get-${this.model}-by-user-id/${this.authService.getUserID()}`,

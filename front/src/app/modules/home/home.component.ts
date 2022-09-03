@@ -16,6 +16,9 @@ import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provi
 import { CategorySubcategoryProfileService } from '../admin/modules/category-subcategory-profile/services/category-subcategory-profile.service';
 import { ICategorySubcategoryProfile } from '../admin/modules/category-subcategory-profile/interfaces/category-subcategory-profile.interfaces';
 import { faSearch, faChevronDown, faSignOutAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { SectionService } from './../admin/modules/section/services/section.service';
+import { CItem, ISectionsData } from '../admin/modules/section/models/section';
+import { CSubitem } from './../admin/modules/section/models/section';
 
 @Component({
   selector: 'app-home',
@@ -58,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     currentPromotions: CPromotion[]
     faSearch = faSearch
     key:string
+    sections: ISectionsData[]
 
     constructor(
       private general: GeneralService,
@@ -65,9 +69,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       private subcategoryService: SubcategoryService,
       private messageService: MessageService,
       private profileProviderService: ProfileProviderService,
-    private router: Router,
-    private promotionsService: PromotionService,
-    private categorySubcategoryProfileService: CategorySubcategoryProfileService
+      private router: Router,
+      private promotionsService: PromotionService,
+      private categorySubcategoryProfileService: CategorySubcategoryProfileService,
+      private sectionsService: SectionService
   ) {
     this.responsiveOptions = [
       {
@@ -91,6 +96,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(){
     this.getCategories()
     this.getPromotions()
+    this.getSections()
   }
 
   ngOnInit(): void {
@@ -103,6 +109,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
     this.isMobile = (event.target.innerWidth > 768) ? false: true
+  }
+
+  getSections(){
+    this.sectionsService.get().subscribe((response: IResponseApi)=>{
+      this.sections = response.data
+    })
   }
 
   getProfileProviders() {
@@ -136,6 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     )
   }
+
 
 
   getMenu(){
@@ -251,18 +264,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openSubcategoriesModal(subcategories)
     }else{
       const redirect = category.name.toLowerCase().replace(/\s/g, '-')
-      this.router.navigate([`/resultados/${redirect}`])
+      this.router.navigate([`/categorias/${redirect}`])
     }
   }
 
   redirectSubcategory(subcategory: CSubcategory){
     const redirect = subcategory.name.toLowerCase().replace(/\s/g, '-')
-    this.router.navigate([`/resultados/${redirect}`])
+    this.router.navigate([`/subcategorias/${redirect}`])
   }
 
   redirectCategory(category: CCategory){
     const redirect = category.name.toLowerCase().replace(/\s/g, '-')
-    this.router.navigate([`/resultados/${redirect}`])
+    this.router.navigate([`/categorias/${redirect}`])
+  }
+
+  redirectItem(item: CItem, sectionName: string){
+    const redirect = item.name.toLowerCase().replace(/\s/g, '-')
+    const section = sectionName.toLowerCase().replace(/\s/g, '-')
+    this.router.navigate([`${section}/${redirect}`])
   }
 
   toogleSwitch(type: string){

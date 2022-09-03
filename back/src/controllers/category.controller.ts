@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Category, { ICategory } from "../models/category";
+import Subcategory from "../models/subcategory";
 
 
 const title = 'Categoría'
@@ -46,6 +47,41 @@ export const get = async (req: Request, res: Response) => {
         })
     })
 }
+
+const diacriticSensitiveRegex = (text:string) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+       .replace(/e/g, '[e,é,ë]')
+       .replace(/i/g, '[i,í,ï]')
+       .replace(/o/g, '[o,ó,ö,ò]')
+       .replace(/u/g, '[u,ü,ú,ù]');
+}
+
+export const getByNameSubcategories = async (req: Request, res: Response) => {
+    const keyword = req.params.id.replace(/-/g, ' ')
+    try {
+        const categoryId = (await Collection.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?._id
+        console.log('categoryId', categoryId)
+        const subcategories = await Subcategory.find({categoryId})
+        if(subcategories.length>0){
+            return res.status(200).json({
+                message: '',
+                data: subcategories
+            })
+        }else{
+            const categories = await Collection.find({})
+            return res.status(200).json({
+                message: '',
+                data: categories
+            })
+        }
+    } catch (error) {
+        return res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: error
+            })
+    }   
+}
+
 
 export const getByID = (req: Request, res: Response) => {
     Collection.findById(req.params.id, (err: any, response: any) => {

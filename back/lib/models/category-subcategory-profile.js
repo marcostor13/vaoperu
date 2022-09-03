@@ -23,5 +23,6 @@ const userSchema = new mongoose_1.Schema({
         default: new Date()
     }
 });
+userSchema.index({ name: "text" }, { default_language: "spanish" });
 exports.default = mongoose_1.model('CategorySubcategoryProfile', userSchema);
 //# sourceMappingURL=category-subcategory-profile.js.map

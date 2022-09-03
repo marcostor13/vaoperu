@@ -31,6 +31,8 @@ const userSchema = new Schema({
     }
 })
 
+userSchema.index({name: "text"}, { default_language: "spanish" });
+
 
 export default model<ICategorySubcategoryProfile>('CategorySubcategoryProfile', userSchema)
 

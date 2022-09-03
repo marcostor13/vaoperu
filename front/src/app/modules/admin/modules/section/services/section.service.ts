@@ -51,6 +51,26 @@ export class SectionService {
     return this.api.api(data)
   }
 
+  getItemsBySubitemName(subitemName: string){
+    const data: IDataApi = {
+      service: `get-items-by-subitem-name/${subitemName}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
+  getSectionsAndItems(itemName: string){
+    const data: IDataApi = {
+      service: `get-section-and-items/${itemName}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
+
+
 
 
 

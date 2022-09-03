@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.updateAll = exports.update = exports.getByID = exports.getByNameSubcategories = exports.get = exports.save = void 0;
 const category_1 = require("../models/category");
+const subcategory_1 = require("../models/subcategory");
 const title = 'Categoría';
 const Collection = category_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,6 +51,41 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             data: response
         });
     });
+});
+const diacriticSensitiveRegex = (text) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+        .replace(/e/g, '[e,é,ë]')
+        .replace(/i/g, '[i,í,ï]')
+        .replace(/o/g, '[o,ó,ö,ò]')
+        .replace(/u/g, '[u,ü,ú,ù]');
+};
+exports.getByNameSubcategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const keyword = req.params.id.replace(/-/g, ' ');
+    try {
+        const categoryId = (_a = (yield Collection.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _a === void 0 ? void 0 : _a._id;
+        console.log('categoryId', categoryId);
+        const subcategories = yield subcategory_1.default.find({ categoryId });
+        if (subcategories.length > 0) {
+            return res.status(200).json({
+                message: '',
+                data: subcategories
+            });
+        }
+        else {
+            const categories = yield Collection.find({});
+            return res.status(200).json({
+                message: '',
+                data: categories
+            });
+        }
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
 });
 exports.getByID = (req, res) => {
     Collection.findById(req.params.id, (err, response) => {

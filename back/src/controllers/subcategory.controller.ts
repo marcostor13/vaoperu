@@ -50,6 +50,21 @@ export const getByID = (req: Request, res: Response) => {
     })
 }
 
+export const getByCategoryId = (req: Request, res: Response) => {
+    Collection.find({categoryId: req.params.id}, (err: any, response: any) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            })
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        })
+    })
+}
+
 export const update = (req: Request, res: Response) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response: any) => {
         if (err) {

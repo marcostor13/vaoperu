@@ -131,6 +131,12 @@ const userSchema = new Schema({
     }
 })
 
+userSchema.index({
+    name: "text",
+    legalName: "text",
+    comercialName: "text",
+    description: "text"
+}, { default_language: "spanish" });
 
 export default model<IProfileProvider>('ProfileProviders', userSchema)
 

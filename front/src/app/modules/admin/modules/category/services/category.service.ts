@@ -41,6 +41,15 @@ export class CategoryService {
     return this.api.api(data)
   }
 
+  getByNameCategories(name: string) {
+    const data: IDataApi = {
+      service: `get-${this.model}-by-name-subcategories/${name}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
   delete(id: string) {
     const data: IDataApi = {
       service: `delete-${this.model}/${id}`,

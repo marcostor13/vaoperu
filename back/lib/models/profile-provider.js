@@ -96,5 +96,11 @@ const userSchema = new mongoose_1.Schema({
         default: new Date()
     }
 });
+userSchema.index({
+    name: "text",
+    legalName: "text",
+    comercialName: "text",
+    description: "text"
+}, { default_language: "spanish" });
 exports.default = mongoose_1.model('ProfileProviders', userSchema);
 //# sourceMappingURL=profile-provider.js.map

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.updateAll = exports.update = exports.getByCategoryId = exports.getByID = exports.get = exports.save = void 0;
 const subcategory_1 = require("../models/subcategory");
 const title = 'Subcategoría';
 const Collection = subcategory_1.default;
@@ -43,6 +43,20 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getByID = (req, res) => {
     Collection.findById(req.params.id, (err, response) => {
+        if (err) {
+            res.status(501).json({
+                message: `Error al obtener ${title}`,
+                data: null
+            });
+        }
+        res.status(200).json({
+            message: '',
+            data: response
+        });
+    });
+};
+exports.getByCategoryId = (req, res) => {
+    Collection.find({ categoryId: req.params.id }, (err, response) => {
         if (err) {
             res.status(501).json({
                 message: `Error al obtener ${title}`,

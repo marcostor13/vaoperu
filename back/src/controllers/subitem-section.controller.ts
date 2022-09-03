@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import SubitemSection, { ISubitemSection } from "../models/subitem-section";
+import Section from "../models/section";
+import ItemSection from "../models/item-section";
 
 
 const title = 'Subitem'
@@ -60,6 +62,32 @@ export const getByID = (req: Request, res: Response) => {
             data: response
         })
     })
+}
+
+const diacriticSensitiveRegex = (text:string) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+       .replace(/e/g, '[e,é,ë]')
+       .replace(/i/g, '[i,í,ï]')
+       .replace(/o/g, '[o,ó,ö,ò]')
+       .replace(/u/g, '[u,ü,ú,ù]');
+}
+
+export const getItemsBySubitemName = async (req: Request, res: Response) => {
+    const keyword = req.params.id.replace(/-/g, ' ')
+    try {
+        const itemId = (await Collection.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?.itemId
+        const sectionId = (await ItemSection.findOne({_id:itemId }))?.sectionId
+        const resp = await ItemSection.find({sectionId})
+        return res.status(200).json({
+            message: '',
+            data: resp
+        })   
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        })
+    }
 }
 
 export const update = (req: Request, res: Response) => {

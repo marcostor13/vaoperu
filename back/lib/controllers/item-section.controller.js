@@ -9,8 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.updateAll = exports.update = exports.getSectionAndItems = exports.getByID = exports.get = exports.save = void 0;
 const item_section_1 = require("../models/item-section");
+const subitem_section_1 = require("../models/subitem-section");
+const section_1 = require("../models/section");
 const title = 'Item';
 const Collection = item_section_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,6 +67,41 @@ exports.getByID = (req, res) => {
         });
     });
 };
+const diacriticSensitiveRegex = (text) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+        .replace(/e/g, '[e,é,ë]')
+        .replace(/i/g, '[i,í,ï]')
+        .replace(/o/g, '[o,ó,ö,ò]')
+        .replace(/u/g, '[u,ü,ú,ù]');
+};
+exports.getSectionAndItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const keyword = req.params.id.replace(/-/g, ' ');
+    try {
+        const item = yield Collection.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } });
+        const subitems = yield subitem_section_1.default.find({ itemId: item === null || item === void 0 ? void 0 : item._id });
+        if ((subitems === null || subitems === void 0 ? void 0 : subitems.length) > 0) {
+            return res.status(200).json({
+                message: '',
+                data: subitems
+            });
+        }
+        else {
+            const sectionId = (_a = (yield section_1.default.findById(item === null || item === void 0 ? void 0 : item.sectionId))) === null || _a === void 0 ? void 0 : _a._id;
+            const resp = yield Collection.find({ sectionId });
+            return res.status(200).json({
+                message: '',
+                data: resp
+            });
+        }
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
+});
 exports.update = (req, res) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {

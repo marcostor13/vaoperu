@@ -5,16 +5,15 @@ import { CCategory } from 'src/app/modules/admin/modules/category/models/categor
 import { CategoryService } from 'src/app/modules/admin/modules/category/services/category.service';
 import { CSubcategory } from 'src/app/modules/admin/modules/subcategory/models/subcategory';
 import { SubcategoryService } from 'src/app/modules/admin/modules/subcategory/services/subcategory.service';
-import { CategorySubcategoryProfileService } from './../../../admin/modules/category-subcategory-profile/services/category-subcategory-profile.service';
 import { CProfileProvider } from './../../../provider/modules/profile-provider/models/profile-provider';
 import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
-import { ICategorySubcategoryProfile } from './../../../../../../../back/src/models/category-subcategory-profile';
 import { DistrictService } from 'src/app/modules/admin/modules/district/services/district.service';
 import { CDistrict } from 'src/app/modules/admin/modules/district/models/district';
 import { CPromotion } from 'src/app/modules/admin/modules/promotions/interfaces/promotion.interface';
 import { PromotionService } from 'src/app/modules/admin/modules/promotions/services/promotion.service';
 import { MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { SectionService } from './../../../admin/modules/section/services/section.service';
 
 @Component({
   selector: 'app-category-view',
@@ -23,7 +22,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 })
 export class CategoryViewComponent implements OnInit {
 
-  catOrSubcategory: string
+  category: string
+  subcategory: string
+  itemsCarousel
   categories: CCategory[]
   subcategories: CSubcategory[]
   subcategoriesTmp: CSubcategory[]
@@ -41,149 +42,135 @@ export class CategoryViewComponent implements OnInit {
   currentPromotionsTmp: CPromotion[]
   switch: string = 'companies'
   title: string
-  type: string = 'categories'
   faArrowLeft = faArrowLeft
-  finishSearch:boolean = false
+  section: string
+  item: string
+  subitem: string
+  id: string
+  classCarrousel: boolean
+  keyword: string
 
   constructor(
     private route: ActivatedRoute,
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private messageService: MessageService,
-    private categorySubcategoryProfileService: CategorySubcategoryProfileService,
     private profileProviderService: ProfileProviderService,
     private districtService: DistrictService,
     private promotionsService: PromotionService,
-    private router: Router
+    private router: Router,
+    private sectionService: SectionService
   ) {
-    this.catOrSubcategory = this.route.snapshot.paramMap.get('id')
+    this.category = this.route.snapshot.paramMap.get('category')
+    this.subcategory = this.route.snapshot.paramMap.get('subcategory')
+    this.section = this.route.snapshot.paramMap.get('section')
+    this.item = this.route.snapshot.paramMap.get('item')
+    this.subitem = this.route.snapshot.paramMap.get('subitem')
+    this.id = this.route.snapshot.paramMap.get('id')
    }
 
   ngOnInit(): void {
-    this.getCategories()
+    this.getCarrousel()
     this.getDistricts()
     this.getPromotions()
-
+    this.search()
   }
 
-  getCategories() {
-    this.categoryService.get().subscribe((response: IResponseApi) => {
-      this.categories = response.data
-      this.getSubcategories()
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })
+  getCarrousel(){
+    if(this.category){
+      this.getByNameCategories()
+    }else if(this.subcategory){
+      this.getAllCategories()
+      this.classCarrousel = true
+    }else if(this.subitem){
+      this.getItemsBySubitemName()
+    }else if(this.item){
+      this.getSectionsAndItems()
+    }
+  }
 
+  getByNameCategories() {
+    this.categoryService.getByNameCategories(this.category).subscribe((response: IResponseApi) => {
+      this.itemsCarousel = response.data
+      if(this.itemsCarousel[0]?.categoryId){
+        this.classCarrousel = false
+      }else{
+        this.classCarrousel = true
+      }
+    })
+  }
+
+  getAllCategories() {
+    this.categoryService.get().subscribe((response: IResponseApi) => {
+      this.itemsCarousel = response.data
+    })
   }
 
   getDistricts() {
     this.districtService.get().subscribe((response: IResponseApi) => {
       this.districts = response.data
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })
-
-  }
-
-  getSubcategories() {
-    this.subcategoryService.get().subscribe((response: IResponseApi) => {
-      this.subcategories = response.data
-      this.subcategoriesTmp = response.data
-      this.getProfileProviders()
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
   }
 
-  getProfileProviders() {
-    this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi) => {
+  getItemsBySubitemName(){
+    this.sectionService.getItemsBySubitemName(this.subitem).subscribe((response: IResponseApi) => {
+      this.itemsCarousel = response.data
+      if(this.itemsCarousel[0]?.itemId){
+        this.classCarrousel = false
+      }else{
+        this.classCarrousel = true
+      }
+    })
+  }
+
+  getSectionsAndItems(){
+    this.sectionService.getSectionsAndItems(this.item).subscribe((response: IResponseApi) => {
+      this.itemsCarousel = response.data
+      if(this.itemsCarousel[0]?.itemId){
+        this.classCarrousel = false
+      }else{
+        this.classCarrousel = true
+      }
+    })
+  }
+
+  getTitle(title: string){
+    return title.replace(/-/g, ' ')
+  }
+
+  search(){
+    let type = ''
+    this.keyword = this.id
+    if(this.category){
+      type = 'category'
+      this.keyword = this.category
+    }else if(this.subcategory){
+      type = 'subcategory'
+      this.keyword = this.subcategory
+    }else if(this.subitem){
+      type = 'subitem'
+      this.keyword = this.subitem
+    }else if(this.item){
+      type = 'item'
+      this.keyword = this.item
+    }
+    this.getProfileProviders(this.keyword, type)
+  }
+
+  resetIds(){
+    this.category = ''
+    this.subcategory = ''
+    this.subitem = ''
+    this.item = ''
+  }
+
+  getProfileProviders(keyword: string, type: string) {
+    this.profileProviderService.search({keyword, type}).subscribe((response: IResponseApi) => {
       this.profileProviders = response.data
       this.currentProfileProviders = this.profileProviders
-      if(this.catOrSubcategory){
-        this.searchData()
-      }else{
-        this.finishSearch = true
-      }
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-  }
-
-  searchData(){
-
-    if (!this.searchInCategoriesAndSubcategories()){
-      //KEY SEARCH
-      this.title = this.catOrSubcategory
-      this.totalSearch()
-    }else{
-      //CATEGORIES OR SUBCATEGORIES
-      this.title = this.searchInCategoriesAndSubcategories()?.name
-      if (this.searchInCategoriesAndSubcategories()?.categoryId){
-        this.type = 'subcategory'
-        this.getCategorySubcategoriesProfiles(this.searchInCategoriesAndSubcategories()._id)
-      }else{
-        this.subcategories = [...this.subcategoriesTmp.filter(subcategory => subcategory.categoryId === this.searchInCategoriesAndSubcategories()?._id)]
-        if(this.subcategories.length>0){
-          this.type = 'subcategory'
-          this.getProfilesIfSubcategories(this.subcategories.map(s => { return s._id }))
-          this.finishSearch = true
-        }else{
-          this.getCategorySubcategoriesProfiles(this.searchInCategoriesAndSubcategories()._id)
-        }
-      }
-
-    }
-  }
-
-
-  searchInCategoriesAndSubcategories(){
-    let categorySubcategory: any = [...this.categories.filter(category => category.name.toLowerCase().replace(/\s/g, '-') === this.catOrSubcategory.toLowerCase())]
-    if (categorySubcategory.length === 0) {
-      categorySubcategory = [...this.subcategories?.filter(subcategory => subcategory.name.toLowerCase().replace(/\s/g, '-') === this.catOrSubcategory.toLowerCase())]
-    }
-    return categorySubcategory[0]
-  }
-
-  getProfilesIfSubcategories(ids:string[]){
-    this.categorySubcategoryProfileService.getByCategorySubcategoryIds(ids).subscribe((response: IResponseApi) => {
-      const catSubPro: ICategorySubcategoryProfile[] = response.data
-      this.currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
-      this.currentProfileProvidersTmp = [...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-      this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))
-      this.currentPromotionsTmp = [...this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })
-  }
-
-  totalSearch(){
-    let profiles: CProfileProvider[] = []
-    let promotions: CPromotion[] = []
-    let key = this.catOrSubcategory.toLowerCase()
-    //BY PROFILE PROVIDER COMERCIAL NAME
-    profiles = [...profiles, ...this.profileProviders.filter(p => p.comercialName.toLowerCase().indexOf(key)>-1)]
-    //BY PROMOTION NAME
-    promotions = [...promotions, ...this.promotions.filter(p=>p.name.toLowerCase().indexOf(key)>-1)]
-    //BY CATEGORIES
-    const categories = [...this.categories.filter(c => c.name.toLowerCase().indexOf(key) > -1)].map(item=>{return item._id})
-    //BY SUBCATEGORIES
-    const subcategories = [...this.subcategories.filter(c => c.name.toLowerCase().indexOf(key) > -1)].map(item=>{return item._id})
-    this.categorySubcategoryProfileService.getByCategorySubcategoryIds([...categories, ...subcategories]).subscribe((response: IResponseApi) => {
-      const catSubPro: ICategorySubcategoryProfile[] = response.data
-      const currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
-      const currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))
-      const newProfiles = [...currentProfileProviders, ...profiles]
-      this.currentProfileProviders = [...new Set(newProfiles)]
-      this.currentProfileProvidersTmp = [...new Set(newProfiles)]
-      const newPromotions = [...currentPromotions, ...promotions]
-      this.currentPromotions = [...new Set(newPromotions)]
-      this.currentPromotionsTmp = [...new Set(newPromotions)]
-      this.finishSearch = true
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })
-
-
   }
 
   getPromotions() {
@@ -193,21 +180,7 @@ export class CategoryViewComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
       } else {
         this.currentPromotions = response.data
-        this.getProfileProviders()
       }
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })
-  }
-
-  getCategorySubcategoriesProfiles(categorySubcategoryId: string){
-    this.categorySubcategoryProfileService.getByCategorySubcategoryId(categorySubcategoryId).subscribe((response: IResponseApi) => {
-      const catSubPro: ICategorySubcategoryProfile[] = response.data
-      this.currentProfileProviders = this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))
-      this.currentProfileProvidersTmp = [...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-      this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))
-      this.currentPromotionsTmp = [...this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-      this.finishSearch = true
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
@@ -227,58 +200,66 @@ export class CategoryViewComponent implements OnInit {
     this.switch = type
   }
 
-  redirectCarousel(name:string){
-    let newName = name.toLowerCase().replace(/\s/g, '-')
-    this.router.navigate([`/resultados/${newName}`])
-    this.catOrSubcategory = newName
-    this.searchData()
+  redirectCarousel(item){
+    this.resetIds()
+    let newName = item.name.toLowerCase().replace(/\s/g, '-')
+    if(item.itemId){
+      this.subitem = newName
+    }else if(item.categoryId){
+      this.subcategory = newName
+    }else if(item.sectionId){
+      this.item = newName
+    }else{
+      this.category = newName
+    }
+    this.getCarrousel()
+    this.search()
   }
 
   returnCaterogies(){
-    this.catOrSubcategory = ''
-    this.router.navigate([`/resultados`])
-    this.currentProfileProviders = this.profileProviders
-    this.currentProfileProvidersTmp = this.profileProviders
-    this.currentPromotions = this.currentPromotions
-    this.currentPromotionsTmp = this.currentPromotions
+    this.router.navigate([`/`])
+    // this.currentProfileProviders = this.profileProviders
+    // this.currentProfileProvidersTmp = this.profileProviders
+    // this.currentPromotions = this.currentPromotions
+    // this.currentPromotionsTmp = this.currentPromotions
   }
 
-  async filter(){
-    let providers: CProfileProvider[] = []
-    let promotions: CPromotion[] = []
-    this.currentProfileProviders = [...this.currentProfileProvidersTmp]
-    this.currentPromotions = [...this.currentPromotionsTmp]
+  // async filter(){
+  //   let providers: CProfileProvider[] = []
+  //   let promotions: CPromotion[] = []
+  //   this.currentProfileProviders = [...this.currentProfileProvidersTmp]
+  //   this.currentPromotions = [...this.currentPromotionsTmp]
 
-    if (this.selectedDistricts?.length > 0){
-      providers = [...providers, ...this.currentProfileProvidersTmp.filter(profile => this.selectedDistricts.includes(profile.districtId))]
-      promotions = [...promotions, ...this.currentPromotionsTmp.filter(promotion => this.selectedDistricts.includes(this.profileProviders.find(profile => profile._id === promotion.profileProviderId).districtId))]
-    }
+  //   if (this.selectedDistricts?.length > 0){
+  //     providers = [...providers, ...this.currentProfileProvidersTmp.filter(profile => this.selectedDistricts.includes(profile.districtId))]
+  //     promotions = [...promotions, ...this.currentPromotionsTmp.filter(promotion => this.selectedDistricts.includes(this.profileProviders.find(profile => profile._id === promotion.profileProviderId).districtId))]
+  //   }
 
-    if (this.selectedCategories?.length > 0){
-      this.subcategoriesFilter = [...this.subcategoriesTmp.filter(subcategory => subcategory.categoryId === this.selectedCategories[0])]
-      let categoryIds:string[]
-      if (this.subcategories.length > 0) {
-        categoryIds = this.subcategoriesFilter.map(s => { return s._id })
-      } else {
-        categoryIds = this.selectedCategories
-      }
-      const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(categoryIds).toPromise()
-      const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
+  //   if (this.selectedCategories?.length > 0){
+  //     this.subcategoriesFilter = [...this.subcategoriesTmp.filter(subcategory => subcategory.categoryId === this.selectedCategories[0])]
+  //     let categoryIds:string[]
+  //     if (this.subcategories.length > 0) {
+  //       categoryIds = this.subcategoriesFilter.map(s => { return s._id })
+  //     } else {
+  //       categoryIds = this.selectedCategories
+  //     }
+  //     const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(categoryIds).toPromise()
+  //     const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
 
-      providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-      promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-    }
+  //     providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
+  //     promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
+  //   }
 
-    if (this.selectedSubcategories?.length > 0) {
-      const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(this.selectedSubcategories).toPromise()
-      const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
-      providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-      promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-    }
+  //   if (this.selectedSubcategories?.length > 0) {
+  //     const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(this.selectedSubcategories).toPromise()
+  //     const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
+  //     providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
+  //     promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
+  //   }
 
-    this.currentProfileProviders = [...new Set(providers)]
-    this.currentPromotions = [...new Set(promotions)]
-  }
+  //   this.currentProfileProviders = [...new Set(providers)]
+  //   this.currentPromotions = [...new Set(promotions)]
+  // }
 
 
 

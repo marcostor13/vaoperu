@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.updateAll = exports.update = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.updateAll = exports.update = exports.getItemsBySubitemName = exports.getByID = exports.get = exports.save = void 0;
 const subitem_section_1 = require("../models/subitem-section");
+const item_section_1 = require("../models/item-section");
 const title = 'Subitem';
 const Collection = subitem_section_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,6 +66,32 @@ exports.getByID = (req, res) => {
         });
     });
 };
+const diacriticSensitiveRegex = (text) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+        .replace(/e/g, '[e,é,ë]')
+        .replace(/i/g, '[i,í,ï]')
+        .replace(/o/g, '[o,ó,ö,ò]')
+        .replace(/u/g, '[u,ü,ú,ù]');
+};
+exports.getItemsBySubitemName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const keyword = req.params.id.replace(/-/g, ' ');
+    try {
+        const itemId = (_a = (yield Collection.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _a === void 0 ? void 0 : _a.itemId;
+        const sectionId = (_b = (yield item_section_1.default.findOne({ _id: itemId }))) === null || _b === void 0 ? void 0 : _b.sectionId;
+        const resp = yield item_section_1.default.find({ sectionId });
+        return res.status(200).json({
+            message: '',
+            data: resp
+        });
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
+});
 exports.update = (req, res) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {

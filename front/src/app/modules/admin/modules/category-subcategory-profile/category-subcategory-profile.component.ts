@@ -11,6 +11,9 @@ import { SubcategoryService } from '../subcategory/services/subcategory.service'
 import { CCategory } from '../category/models/category';
 import { CSubcategory } from '../subcategory/models/subcategory';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { SectionService } from '../section/services/section.service';
+import { IItemsData, ISectionsData } from './../section/models/section';
+import { ISubitemSection } from './../../../../../../../back/src/models/subitem-section';
 
 @Component({
   selector: 'app-category-subcategory-profile',
@@ -35,7 +38,14 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   currentCategory: string = ''
   currentSubcategory: string = ''
   currentSubcategories: CSubcategory[]
+  currentItemSectionId: string = ''
+  currentSubitemId: string = ''
+  currentSubitems: ISubitemSection[]
   faTrash = faTrash
+  step: number = 1
+  type: string
+  sections: ISectionsData[]
+  items: IItemsData[]
 
   constructor(
     private categorySubcategoryProfileService: CategorySubcategoryProfileService,
@@ -44,13 +54,15 @@ export class CategorySubcategoryProfileComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private profileProviderService: ProfileProviderService,
     private categoryService:CategoryService,
-    private subcategoryService: SubcategoryService
+    private subcategoryService: SubcategoryService,
+    private sectionService: SectionService
   ) { }
 
   ngOnInit(): void {
     this.getProfiles()
     this.getCategories()
     this.getSubcategories()
+    this.getSections()
   }
 
   getProfiles(){
@@ -66,7 +78,7 @@ export class CategorySubcategoryProfileComponent implements OnInit {
       this.categories = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-    })  
+    })
   }
 
   getSubcategories() {
@@ -92,7 +104,7 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   addEdit(item: CProfileProvider = null) {
     if (item) {
       this.currentProfileProvider = item
-      this.getCategoriesAndSubcategoriesByProfileProfiderId(item._id)     
+      this.getCategoriesAndSubcategoriesByProfileProfiderId(item._id)
     } else {
       this.reset()
     }
@@ -101,7 +113,7 @@ export class CategorySubcategoryProfileComponent implements OnInit {
 
   toogleSubcategories() {
     this.currentSubcategories = null
-    if (this.currentCategory){      
+    if (this.currentCategory){
       this.currentSubcategories = this.subcategories.filter(subcategory => subcategory.categoryId === this.currentCategory)
     }
   }
@@ -112,7 +124,7 @@ export class CategorySubcategoryProfileComponent implements OnInit {
         profileProviderId: this.currentProfileProvider._id,
         categorySubcategoryId: this.currentSubcategory ? this.currentSubcategory: this.currentCategory,
         type: this.currentSubcategory?'subcategory':'category',
-        name: this.currentSubcategory? 
+        name: this.currentSubcategory?
           this.subcategories.filter(subcategory=>subcategory._id === this.currentSubcategory)[0].name :
           this.categories.filter(category=>category._id === this.currentCategory)[0].name
       }
@@ -126,6 +138,36 @@ export class CategorySubcategoryProfileComponent implements OnInit {
     }else{
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos' });
     }
+  }
+
+  add2(){
+    if ((this.currentItemSectionId && this.currentSubitems?.length === 0) || (this.currentItemSectionId && this.currentSubitemId) ){
+      const payload: ICategorySubcategoryProfile = {
+        profileProviderId: this.currentProfileProvider._id,
+        categorySubcategoryId: this.currentSubitemId ? this.currentSubitemId: this.currentItemSectionId,
+        type: this.currentSubitemId?'subitem':'item',
+        name: this.currentSubitemId?
+          this.currentSubitems.find(s=>s._id === this.currentSubitemId).name :
+          this.items.find(i=>i.item._id === this.currentItemSectionId).item.name
+      }
+      this.categorySubcategoryProfileService.save(payload).subscribe((response: IResponseApi) => {
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
+        this.getCategoriesAndSubcategoriesByProfileProfiderId(this.currentProfileProvider._id)
+        this.reset2()
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+      })
+
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos' });
+    }
+  }
+
+  reset2(){
+    this.currentCategory = ''
+    this.currentItemSectionId = ''
+    this.currentSubitemId = ''
+    this.currentSubcategory = ''
   }
 
   confirm(event: Event, item:ICategorySubcategoryProfile) {
@@ -145,13 +187,39 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   }
 
   delete(item:ICategorySubcategoryProfile){
-    this.categorySubcategoryProfileService.delete(item._id).subscribe((response: IResponseApi) => {   
+    this.categorySubcategoryProfileService.delete(item._id).subscribe((response: IResponseApi) => {
       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
       this.getCategoriesAndSubcategoriesByProfileProfiderId(item.profileProviderId)
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
     })
   }
-  
+
+  getSections(){
+    this.sectionService.get().subscribe((response: IResponseApi)=>{
+      this.sections = response.data
+      this.items = [].concat.apply([], this.sections.map(s=>s.items));
+    })
+  }
+
+  nextStep(type: string){
+    this.type = type
+    this.step = 2
+  }
+
+  backStep(){
+    this.step = 1
+  }
+
+  toogleItems($event){
+    this.currentSubitems = null
+    const val = $event.target.value
+    this.currentSubitems = [].concat.apply([], this.items.map(i=>{
+      if(i.item._id === val){
+        return i.subitems
+      }
+    })).filter(c=>c);
+  }
+
 
 }

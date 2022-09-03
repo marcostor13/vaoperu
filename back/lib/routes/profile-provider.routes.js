@@ -6,6 +6,7 @@ const passport = require("passport");
 const model = 'profile-provider';
 const router = express_1.Router();
 router.post(`/save-${model}`, passport.authenticate('jwt', { session: false }), profile_provider_controller_1.save);
+router.post(`/search-${model}`, profile_provider_controller_1.search);
 router.get(`/get-${model}`, profile_provider_controller_1.get);
 router.get(`/get-${model}-by-id/:id`, profile_provider_controller_1.getByID);
 router.get(`/get-${model}-by-user-id/:userid`, passport.authenticate('jwt', { session: false }), profile_provider_controller_1.getByUserID);

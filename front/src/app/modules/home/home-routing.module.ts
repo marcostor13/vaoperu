@@ -8,7 +8,27 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'resultados/:id',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
     path: 'resultados',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
+    path: 'categorias/:category',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
+    path: 'subcategorias/:subcategory',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
+    path: ':section/:item/:subitem',
+    loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
+  },
+  {
+    path: ':section/:item',
     loadChildren: () => import('./modules/category-view/category-view.module').then(m => m.CategoryViewModule),
   },
   {

@@ -5,6 +5,8 @@ import { IResponseApi } from 'src/app/models/responses';
 import { CUser, CUserInvalid } from 'src/app/models/user';
 import { UserService } from './services/user.service';
 import { IRole } from './interfaces/user.interface';
+import { SectionService } from '../section/services/section.service';
+import { ISectionsData } from './../section/models/section';
 
 @Component({
   selector: 'app-user',
@@ -18,9 +20,10 @@ export class UserComponent implements OnInit {
   invalid: CUserInvalid = new CUserInvalid
   currentItem: CUser = new CUser
   roles: IRole[]
+  sections: ISectionsData[]
 
   constructor(
-    private general: GeneralService,
+    private sectionsService: SectionService,
     private userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -34,6 +37,19 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.get()
+    this.getSections()
+  }
+
+  getSections(){
+    this.sectionsService.get().subscribe((response: IResponseApi)=>{
+      this.sections = response.data
+      this.roles = [...this.roles, ...this.sections.map(s=>{
+        return {
+          name: s.section.name,
+          key: s.section.name.toLowerCase()
+        }
+      })]
+    })
   }
 
 
@@ -43,7 +59,7 @@ export class UserComponent implements OnInit {
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
-    
+
   }
 
   validate(item: CUser) {
@@ -104,7 +120,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  add(){    
+  add(){
     if (!this.validate(this.currentItem)) {
       if(this.currentItem._id){
         delete this.currentItem.password
@@ -116,19 +132,19 @@ export class UserComponent implements OnInit {
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
-      
+
     }
   }
 
   delete(item: CUser) {
-    
+
     this.userService.delete(item._id).subscribe((response: IResponseApi) => {
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUser
       this.get()
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })    
+    })
   }
 
   getElementByID(id: string) {

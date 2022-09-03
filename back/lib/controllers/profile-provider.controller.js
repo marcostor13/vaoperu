@@ -9,8 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByArray = exports.getByUserID = exports.getByID = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getByArray = exports.getByUserID = exports.getByID = exports.search = exports.get = exports.save = void 0;
 const profile_provider_1 = require("../models/profile-provider");
+const category_subcategory_profile_1 = require("../models/category-subcategory-profile");
+const category_1 = require("../models/category");
+const item_section_1 = require("../models/item-section");
+const subitem_section_1 = require("../models/subitem-section");
+const subcategory_1 = require("../models/subcategory");
 const title = 'Perfil de proveedor';
 const Collection = profile_provider_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,6 +39,61 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             data: response
         });
     });
+});
+const diacriticSensitiveRegex = (text) => {
+    return text.replace(/a/g, '[a,á,à,ä]')
+        .replace(/e/g, '[e,é,ë]')
+        .replace(/i/g, '[i,í,ï]')
+        .replace(/o/g, '[o,ó,ö,ò]')
+        .replace(/u/g, '[u,ü,ú,ù]');
+};
+exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    try {
+        let { type, keyword } = req.body;
+        keyword = keyword.replace(/-/g, ' ');
+        let resp = [];
+        if (type) {
+            if (type === 'category') {
+                const categoryId = (_a = (yield category_1.default.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _a === void 0 ? void 0 : _a._id;
+                const subcategoriesIds = (yield subcategory_1.default.find({ categoryId: categoryId })).map(s => s._id);
+                const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subcategoriesIds === null || subcategoriesIds === void 0 ? void 0 : subcategoriesIds.length) > 0 ? subcategoriesIds : categoryId })).map(c => {
+                    return c.profileProviderId;
+                });
+                resp = yield profile_provider_1.default.find({ _id: ids });
+            }
+            else if (type === 'item') {
+                const itemId = (_b = (yield item_section_1.default.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _b === void 0 ? void 0 : _b._id;
+                const subitemsIds = (yield subitem_section_1.default.find({ itemId: itemId })).map(s => s._id);
+                const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subitemsIds === null || subitemsIds === void 0 ? void 0 : subitemsIds.length) > 0 ? subitemsIds : itemId })).map(c => {
+                    return c.profileProviderId;
+                });
+                resp = yield profile_provider_1.default.find({ _id: ids });
+            }
+            else {
+                const ids1 = (yield category_subcategory_profile_1.default.find({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' }, type })).map(c => {
+                    return c.profileProviderId;
+                });
+                const ids2 = (yield category_subcategory_profile_1.default.find({ $text: { $search: keyword }, type })).map(c => {
+                    return c.profileProviderId;
+                });
+                resp = yield profile_provider_1.default.find({ _id: [...new Set([...ids1, ...ids2])] });
+            }
+        }
+        else {
+            resp = yield profile_provider_1.default.find({ $text: { $search: keyword } });
+        }
+        return res.status(200).json({
+            message: ``,
+            data: resp
+        });
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error en la búsqueda`,
+            data: error
+        });
+    }
 });
 exports.getByID = (req, res) => {
     Collection.findById(req.params.id, (err, response) => {
