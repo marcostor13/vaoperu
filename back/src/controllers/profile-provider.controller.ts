@@ -35,35 +35,33 @@ export const get = async (req: Request, res: Response) => {
 }
 
 const diacriticSensitiveRegex = (text:string) => {
-    return text.replace(/a/g, '[a,á,à,ä]')
-       .replace(/e/g, '[e,é,ë]')
-       .replace(/i/g, '[i,í,ï]')
-       .replace(/o/g, '[o,ó,ö,ò]')
-       .replace(/u/g, '[u,ü,ú,ù]');
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
 }
 
 export const search = async (req: Request, res: Response) => {
     try {
         let { type, keyword } = req.body
-        keyword = keyword.replace(/-/g, ' ')
+        keyword = diacriticSensitiveRegex(keyword)
         let resp: IProfileProvider[] = []
         if(type){
             if(type === 'category'){
-                const categoryId:string = (await Category.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?._id
+                console.log('keyword', diacriticSensitiveRegex(keyword) )
+                const categoryId:string = (await Category.findOne({name: keyword}))?._id
+                console.log('categpry', categoryId)
                 const subcategoriesIds:any = (await Subcategory.find({categoryId: categoryId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subcategoriesIds?.length>0 ? subcategoriesIds: categoryId})).map(c=>{
                     return c.profileProviderId
                 })    
                 resp = await ProfileProvider.find({_id:ids})
             }else if(type === 'item'){
-                const itemId:string = (await ItemSection.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?._id
+                const itemId:string = (await ItemSection.findOne({name: keyword}))?._id
                 const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
                     return c.profileProviderId
                 })      
                 resp = await ProfileProvider.find({_id:ids})
             }else{
-                const ids1 = (await CategorySubcategoryProfile.find({name:{$regex: diacriticSensitiveRegex(keyword), $options:'gi'}, type})).map(c=>{
+                const ids1 = (await CategorySubcategoryProfile.find({name:new RegExp(keyword, "gi"), type})).map(c=>{
                     return c.profileProviderId
                 })
                 const ids2= (await CategorySubcategoryProfile.find({$text:{$search: keyword}, type})).map(c=>{

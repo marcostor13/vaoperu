@@ -13,7 +13,11 @@ exports.del = exports.updateAll = exports.update = exports.getByCategoryId = exp
 const subcategory_1 = require("../models/subcategory");
 const title = 'Subcategoría';
 const Collection = subcategory_1.default;
+const normalize = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+};
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    req.body.name = normalize(req.body.name);
     const newObj = new Collection(req.body);
     return newObj.save().then(_ => {
         return res.status(200).json({

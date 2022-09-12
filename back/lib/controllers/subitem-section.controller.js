@@ -14,6 +14,9 @@ const subitem_section_1 = require("../models/subitem-section");
 const item_section_1 = require("../models/item-section");
 const title = 'Subitem';
 const Collection = subitem_section_1.default;
+const normalize = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+};
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, image } = req.body;
     if (!name || !image) {
@@ -23,6 +26,7 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     else {
+        req.body.name = normalize(name);
         const newObj = new Collection(req.body);
         return newObj.save().then(_ => {
             return res.status(200).json({
@@ -66,18 +70,11 @@ exports.getByID = (req, res) => {
         });
     });
 };
-const diacriticSensitiveRegex = (text) => {
-    return text.replace(/a/g, '[a,á,à,ä]')
-        .replace(/e/g, '[e,é,ë]')
-        .replace(/i/g, '[i,í,ï]')
-        .replace(/o/g, '[o,ó,ö,ò]')
-        .replace(/u/g, '[u,ü,ú,ù]');
-};
 exports.getItemsBySubitemName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const keyword = req.params.id.replace(/-/g, ' ');
+    const keyword = normalize(req.params.id);
     try {
-        const itemId = (_a = (yield Collection.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _a === void 0 ? void 0 : _a.itemId;
+        const itemId = (_a = (yield Collection.findOne({ name: keyword }))) === null || _a === void 0 ? void 0 : _a.itemId;
         const sectionId = (_b = (yield item_section_1.default.findOne({ _id: itemId }))) === null || _b === void 0 ? void 0 : _b.sectionId;
         const resp = yield item_section_1.default.find({ sectionId });
         return res.status(200).json({

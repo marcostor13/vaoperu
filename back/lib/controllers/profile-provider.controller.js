@@ -41,21 +41,19 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 const diacriticSensitiveRegex = (text) => {
-    return text.replace(/a/g, '[a,á,à,ä]')
-        .replace(/e/g, '[e,é,ë]')
-        .replace(/i/g, '[i,í,ï]')
-        .replace(/o/g, '[o,ó,ö,ò]')
-        .replace(/u/g, '[u,ü,ú,ù]');
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
 };
 exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     try {
         let { type, keyword } = req.body;
-        keyword = keyword.replace(/-/g, ' ');
+        keyword = diacriticSensitiveRegex(keyword);
         let resp = [];
         if (type) {
             if (type === 'category') {
-                const categoryId = (_a = (yield category_1.default.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _a === void 0 ? void 0 : _a._id;
+                console.log('keyword', diacriticSensitiveRegex(keyword));
+                const categoryId = (_a = (yield category_1.default.findOne({ name: keyword }))) === null || _a === void 0 ? void 0 : _a._id;
+                console.log('categpry', categoryId);
                 const subcategoriesIds = (yield subcategory_1.default.find({ categoryId: categoryId })).map(s => s._id);
                 const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subcategoriesIds === null || subcategoriesIds === void 0 ? void 0 : subcategoriesIds.length) > 0 ? subcategoriesIds : categoryId })).map(c => {
                     return c.profileProviderId;
@@ -63,7 +61,7 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 resp = yield profile_provider_1.default.find({ _id: ids });
             }
             else if (type === 'item') {
-                const itemId = (_b = (yield item_section_1.default.findOne({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' } }))) === null || _b === void 0 ? void 0 : _b._id;
+                const itemId = (_b = (yield item_section_1.default.findOne({ name: keyword }))) === null || _b === void 0 ? void 0 : _b._id;
                 const subitemsIds = (yield subitem_section_1.default.find({ itemId: itemId })).map(s => s._id);
                 const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subitemsIds === null || subitemsIds === void 0 ? void 0 : subitemsIds.length) > 0 ? subitemsIds : itemId })).map(c => {
                     return c.profileProviderId;
@@ -71,7 +69,7 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 resp = yield profile_provider_1.default.find({ _id: ids });
             }
             else {
-                const ids1 = (yield category_subcategory_profile_1.default.find({ name: { $regex: diacriticSensitiveRegex(keyword), $options: 'gi' }, type })).map(c => {
+                const ids1 = (yield category_subcategory_profile_1.default.find({ name: new RegExp(keyword, "gi"), type })).map(c => {
                     return c.profileProviderId;
                 });
                 const ids2 = (yield category_subcategory_profile_1.default.find({ $text: { $search: keyword }, type })).map(c => {

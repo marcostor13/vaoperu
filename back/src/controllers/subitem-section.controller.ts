@@ -6,6 +6,10 @@ import ItemSection from "../models/item-section";
 const title = 'Subitem'
 const Collection = SubitemSection
 
+const normalize = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+}
+
 export const save = async (req: Request, res: Response): Promise<Response> => {
     
     const { name, image  } = req.body
@@ -16,6 +20,7 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
             data: null
         })
     }else{
+        req.body.name = normalize(name)
         const newObj: ISubitemSection = new Collection(req.body)
         return newObj.save().then(_ => { 
             return res.status(200).json({
@@ -63,18 +68,10 @@ export const getByID = (req: Request, res: Response) => {
     })
 }
 
-const diacriticSensitiveRegex = (text:string) => {
-    return text.replace(/a/g, '[a,á,à,ä]')
-       .replace(/e/g, '[e,é,ë]')
-       .replace(/i/g, '[i,í,ï]')
-       .replace(/o/g, '[o,ó,ö,ò]')
-       .replace(/u/g, '[u,ü,ú,ù]');
-}
-
 export const getItemsBySubitemName = async (req: Request, res: Response) => {
-    const keyword = req.params.id.replace(/-/g, ' ')
+    const keyword = normalize(req.params.id)
     try {
-        const itemId = (await Collection.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?.itemId
+        const itemId = (await Collection.findOne({name: keyword}))?.itemId
         const sectionId = (await ItemSection.findOne({_id:itemId }))?.sectionId
         const resp = await ItemSection.find({sectionId})
         return res.status(200).json({

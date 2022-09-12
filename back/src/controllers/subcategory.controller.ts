@@ -5,7 +5,12 @@ import Subcategory, { ISubcategory } from "../models/subcategory";
 const title = 'Subcategoría'
 const Collection = Subcategory
 
+const normalize = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+}
+
 export const save = async (req: Request, res: Response): Promise<Response> => {
+    req.body.name = normalize(req.body.name)
     const newObj: ISubcategory = new Collection(req.body)
     return newObj.save().then(_ => {
         return res.status(200).json({

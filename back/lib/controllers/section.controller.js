@@ -15,6 +15,9 @@ const item_section_1 = require("../models/item-section");
 const subitem_section_1 = require("../models/subitem-section");
 const title = 'Sección';
 const Collection = section_1.default;
+const normalize = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+};
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name } = req.body;
     if (!name) {
@@ -24,6 +27,7 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     else {
+        req.body.name = normalize(name);
         const newObj = new Collection(req.body);
         return newObj.save().then(_ => {
             return res.status(200).json({

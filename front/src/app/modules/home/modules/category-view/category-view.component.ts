@@ -14,6 +14,7 @@ import { PromotionService } from 'src/app/modules/admin/modules/promotions/servi
 import { MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { SectionService } from './../../../admin/modules/section/services/section.service';
+import { GeneralService } from '@services/general.service';
 
 @Component({
   selector: 'app-category-view',
@@ -53,20 +54,20 @@ export class CategoryViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private categoryService: CategoryService,
-    private subcategoryService: SubcategoryService,
     private messageService: MessageService,
     private profileProviderService: ProfileProviderService,
     private districtService: DistrictService,
     private promotionsService: PromotionService,
     private router: Router,
-    private sectionService: SectionService
+    private sectionService: SectionService,
+    private generalService: GeneralService
   ) {
-    this.category = this.route.snapshot.paramMap.get('category')
-    this.subcategory = this.route.snapshot.paramMap.get('subcategory')
-    this.section = this.route.snapshot.paramMap.get('section')
-    this.item = this.route.snapshot.paramMap.get('item')
-    this.subitem = this.route.snapshot.paramMap.get('subitem')
-    this.id = this.route.snapshot.paramMap.get('id')
+    this.category = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('category'))
+    this.subcategory = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('subcategory'))
+    this.section = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('section'))
+    this.item = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('item'))
+    this.subitem = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('subitem'))
+    this.id = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('id'))
    }
 
   ngOnInit(): void {
@@ -79,6 +80,7 @@ export class CategoryViewComponent implements OnInit {
   getCarrousel(){
     if(this.category){
       this.getByNameCategories()
+      console.log('this.category', this.category)
     }else if(this.subcategory){
       this.getAllCategories()
       this.classCarrousel = true

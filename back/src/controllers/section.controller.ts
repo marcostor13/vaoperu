@@ -7,6 +7,11 @@ import subitemSection from "../models/subitem-section";
 const title = 'Sección'
 const Collection = Section
 
+
+const normalize = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+}
+
 export const save = async (req: Request, res: Response): Promise<Response> => {
     
     const { name  } = req.body
@@ -17,6 +22,7 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
             data: null
         })
     }else{
+        req.body.name = normalize(name)
         const newObj: ISection = new Collection(req.body)
         return newObj.save().then(_ => {
             return res.status(200).json({

@@ -388,6 +388,14 @@ export class GeneralService {
     });
   }
 
+  diacriticSensitiveRegex = (text:string) => {
+    if(text){
+      return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }else{
+      return text
+    }
+  }
+
 
 
 

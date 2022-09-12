@@ -8,7 +8,7 @@ const Collection = Category
 
 export const save = async (req: Request, res: Response): Promise<Response> => {
     
-    const { name, image  } = req.body
+    const { name, image  } = req.body    
 
     if(!name || !image){
         return res.status(501).json({
@@ -16,6 +16,7 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
             data: null
         })
     }else{
+        req.body.name = normalize(name)
         const newObj: ICategory = new Collection(req.body)
         return newObj.save().then(_ => {
             return res.status(200).json({
@@ -48,19 +49,14 @@ export const get = async (req: Request, res: Response) => {
     })
 }
 
-const diacriticSensitiveRegex = (text:string) => {
-    return text.replace(/a/g, '[a,á,à,ä]')
-       .replace(/e/g, '[e,é,ë]')
-       .replace(/i/g, '[i,í,ï]')
-       .replace(/o/g, '[o,ó,ö,ò]')
-       .replace(/u/g, '[u,ü,ú,ù]');
+const normalize = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
 }
 
 export const getByNameSubcategories = async (req: Request, res: Response) => {
-    const keyword = req.params.id.replace(/-/g, ' ')
+    const keyword = normalize(req.params.id)
     try {
-        const categoryId = (await Collection.findOne({name: {$regex: diacriticSensitiveRegex(keyword), $options:'gi'}}))?._id
-        console.log('categoryId', categoryId)
+        const categoryId = (await Collection.findOne({name: new RegExp(keyword, "gi")}))?._id
         const subcategories = await Subcategory.find({categoryId})
         if(subcategories.length>0){
             return res.status(200).json({
