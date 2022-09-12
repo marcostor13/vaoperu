@@ -60,7 +60,7 @@ exports.getByNameSubcategories = (req, res) => __awaiter(void 0, void 0, void 0,
     var _a;
     const keyword = normalize(req.params.id);
     try {
-        const categoryId = (_a = (yield Collection.findOne({ name: new RegExp(keyword, "gi") }))) === null || _a === void 0 ? void 0 : _a._id;
+        const categoryId = (_a = (yield Collection.find({ name: new RegExp(keyword, "gi") }).collation({ locale: "es", strength: 1 }))[0]) === null || _a === void 0 ? void 0 : _a._id;
         const subcategories = yield subcategory_1.default.find({ categoryId });
         if (subcategories.length > 0) {
             return res.status(200).json({

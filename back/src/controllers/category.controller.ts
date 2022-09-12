@@ -56,7 +56,7 @@ const normalize = (text:string) => {
 export const getByNameSubcategories = async (req: Request, res: Response) => {
     const keyword = normalize(req.params.id)
     try {
-        const categoryId = (await Collection.findOne({name: new RegExp(keyword, "gi")}))?._id
+        const categoryId = (await Collection.find({name: new RegExp(keyword, "gi")}).collation({locale: "es", strength: 1}))[0]?._id
         const subcategories = await Subcategory.find({categoryId})
         if(subcategories.length>0){
             return res.status(200).json({

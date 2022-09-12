@@ -6,7 +6,7 @@
             <div class="company company-container shadow mb-3 ml-3 mr-3">
                 <div (click)="gotToViewCompany(company)" class="image-company cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
                 <div class="p-3 d-flex flex-column justify-content-between align-items-start">
-                    <h5 class="title font-400 cursor">{{company.comercialName}}</h5>
+                    <h5 class="title font-400 cursor text-capitalize">{{company.comercialName | lowercase}}</h5>
                     <div class="row align-items-center m-0 justify-content-between w-100">
                         <div>
                             <img *ngIf="aperture(company.openTime, company.closeTime)" width="32" src="assets/img/icons/open.svg" alt="Abierto">
@@ -55,7 +55,7 @@
         <div class="company bg-color11 pb-3 d-flex w-100 pl-4 align-items-start">
             <div (click)="gotToViewCompany(company)" class="card border shadow-sm image-company-responsive cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
             <div class="pl-3 pr-3 d-flex flex-column col justify-content-between align-items-start">
-                <h5 class="f-10 font-400 cursor text-left">{{company.comercialName}}</h5>
+                <h5 class="f-10 font-400 cursor text-left text-capitalize">{{company.comercialName | lowercase}}</h5>
                 <div class="row align-items-center col m-0 p-0 justify-content-between w-100">
                     <div>
                         <img *ngIf="aperture(company.openTime, company.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
