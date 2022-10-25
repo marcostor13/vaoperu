@@ -6,7 +6,7 @@ import { SubSink } from 'SubSink';
 import { SectionService } from './services/section.service';
 import { MessageService } from 'primeng/api';
 import { CImages } from 'src/app/models/images';
-import { CItem, CItemInvalid, CSection, CSectionInvalid, CSubitem, CSubitemInvalid, ISectionsData } from './models/section';
+import { CItem, CItemInvalid, CSection, CSectionInvalid, CSubitem, CSubitemInvalid, IItemsData, ISectionsData } from './models/section';
 
 @Component({
   selector: 'app-section',
@@ -33,6 +33,9 @@ export class SectionComponent implements OnInit {
   currentType: string = ''
   items: ISectionsData[]
   buttonDisabled = false
+  listItems: CItem[]
+  listSubitems: CSubitem[]
+  listItemsData: IItemsData[]
 
   constructor(
     private sectionService: SectionService,
@@ -42,36 +45,25 @@ export class SectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.get()
+    this.getSectionsAndItems()
   }
 
-  get() {
+  getSectionsAndItems() {
     this.subs.add(
-      this.sectionService.get().subscribe((response: IResponseApi) => {
-        this.items = response.data
-        this.getList()
+      this.sectionService.getAllSectionsAndItems().subscribe((response: IResponseApi) => {
+        this.items = [...response.data]
+        this.sectionsList = this.items.map(i=>{return i.section})
+        this.items.map(i=>{
+          this.itemsList = [...this.itemsList, ...i.items.map(i=>{return i.item})]
+        })
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
 
-  getList(){
-    this.sectionsList = [...this.items.map(i=>{
-      return i.section
-    })]
-
-
-    const preItems = [...this.items.map(i=>{
-      return i.items.map(item=>{
-        return item
-      })
-    })]
-    preItems.map(p=>{
-      this.itemsList = [...this.itemsList, ...p.map(pI=>{
-        return pI.item
-      })]
-    })
+  getNameSection(id: string){
+    return this.sectionsList.find(s=>s._id === id).name
   }
 
   resetInvalid(){
@@ -104,6 +96,8 @@ export class SectionComponent implements OnInit {
   reset(){
     this.currentImage = null
     this.uploadPercent = 0
+    this.listItems = undefined
+    this.listSubitems = undefined
     switch (this.currentType) {
       case 'section':
         this.currentSection = {
@@ -184,12 +178,11 @@ export class SectionComponent implements OnInit {
   }
 
   initAdd(type:string){
-    this.currentType = type
-    this.addEdit()
+    this.addEdit(null, type)
   }
 
-  addEdit(item = null) {
-
+  addEdit(item, type:string) {
+    this.currentType = type
     if (item) {
       switch (this.currentType) {
         case 'section':
@@ -230,7 +223,6 @@ export class SectionComponent implements OnInit {
   }
 
   add() {
-
     let payload
     let type
     switch (this.currentType) {
@@ -248,28 +240,59 @@ export class SectionComponent implements OnInit {
           break;
         default:
           break;
-      }
+    }
 
     this.sectionService.save(payload, type).subscribe((response: IResponseApi) => {
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.reset()
-      this.get()
+      this.getSectionsAndItems()
+      this.displayModal = false
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
   }
 
-  updateAll(){
-    // this.subs.add(
-    //   this.sectionService.updateAll(this.sections).subscribe((response: IResponseApi) => {
-    //     this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
-    //     this.reset()
-    //     this.get()
-    //   }, error => {
+  updateAll(type:string){
+    let payload
+    switch (type) {
+        case 'section':
+          payload = this.sectionsList
+          type = 'section'
+          break;
+        case 'item':
+          payload = this.listItems
+          type = 'item-section'
+          break;
+        case 'subitem':
+          payload = this.listSubitems
+          type = 'subitem-section'
+          break;
+        default:
+          break;
+    }
+    this.sectionService.updateAll(payload, type).subscribe((response: IResponseApi) => {
+      this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
+      this.reset()
+      this.getSectionsAndItems()
+      this.displayModal = false
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
 
-    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    //   })
-    // )
+  }
+
+  selectionChangeItem($event){
+    this.listItemsData = undefined
+    this.listItems = undefined
+    const itemsData: IItemsData[] = this.items.find(i=>i.section._id === $event.value[0]._id).items
+    this.listItemsData = itemsData
+    this.listItems = itemsData.map(i=>{return i.item})
+  }
+
+  selectionChangeSubitem($event){
+    this.listSubitems = undefined
+    const itemId = $event.value[0]._id
+    this.listSubitems = this.listItemsData.find(i=>i.item._id === itemId).subitems
   }
 
   delete(item) {
@@ -293,7 +316,7 @@ export class SectionComponent implements OnInit {
         this.sectionService.delete(item._id, type).subscribe((response: IResponseApi) => {
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
           this.reset()
-          this.get()
+          this.getSectionsAndItems()
         }, error => {
 
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -339,7 +362,6 @@ export class SectionComponent implements OnInit {
   }
 
   presave() {
-    console.log('this.this.currentType', this.currentType)
     if (!this.validate()) {
       if (this.deleteImage) {
         this.general.deleteImage(this.deleteImage.url).then(() => {

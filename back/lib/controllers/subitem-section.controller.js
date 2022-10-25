@@ -107,12 +107,12 @@ exports.updateAll = (req, res) => {
     Collection.remove({}, () => {
         Collection.create(req.body, (err, response) => {
             if (err) {
-                res.status(501).json({
+                return res.status(501).json({
                     message: `Error al actualizar ${title}`,
                     data: null
                 });
             }
-            res.status(200).json({
+            return res.status(200).json({
                 message: `${title}s actualizadas`,
                 data: response
             });

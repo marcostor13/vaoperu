@@ -32,14 +32,6 @@ export class MenuComponent implements OnInit {
         label: 'Comercial',
         items: [
           {
-            label: 'Categorias',
-            routerLink: '/admin/categories'
-          },
-          {
-            label: 'Subcategorías',
-            routerLink: '/admin/subcategories'
-          },
-          {
             label: 'Secciones',
             routerLink: '/admin/sections'
           },

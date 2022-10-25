@@ -17,16 +17,17 @@ export class SectionService {
 
   save(element: any, type:string) {
     const data: IDataApi = {
-      service: element._id ? `update-${this.model}/${element._id}` : `save-${type}`,
+      service: element._id ? `update-${type}/${element._id}` : `save-${type}`,
       type: element._id ? 'patch' : 'post',
       data: element
     }
     return this.api.api(data)
   }
 
-  updateAll(items: any) {
+  updateAll(items: any, type) {
+    console.log('items updated', items)
     const data: IDataApi = {
-      service: `update-${this.model}-all` ,
+      service: `update-${type}-all` ,
       type: 'patch',
       data: items
     }
@@ -54,6 +55,15 @@ export class SectionService {
   getItemsBySubitemName(subitemName: string){
     const data: IDataApi = {
       service: `get-items-by-subitem-name/${subitemName}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
+  getAllSectionsAndItems(){
+    const data: IDataApi = {
+      service: `get-sections-and-items-section`,
       type: 'get',
       data: null
     }
