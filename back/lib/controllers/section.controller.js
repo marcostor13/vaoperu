@@ -130,18 +130,24 @@ exports.updateAll = (req, res) => {
         });
     });
 };
-exports.del = (req, res) => {
-    Collection.remove({ _id: req.params.id }, (err) => {
-        if (err) {
-            res.status(501).json({
-                message: `Error al eliminar ${title}`,
-                data: null
-            });
-        }
-        res.status(200).json({
+exports.del = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const sectionId = req.params.id;
+    try {
+        const idsItems = (yield item_section_1.default.find({ sectionId })).map(i => { return i._id; });
+        const idsSubItems = (yield subitem_section_1.default.find({ itemId: idsItems })).map(s => { return s._id; });
+        yield subitem_section_1.default.remove({ _id: idsSubItems });
+        yield item_section_1.default.remove({ _id: idsItems });
+        yield section_1.default.remove({ _id: req.params.id });
+        return res.status(200).json({
             message: `${title} eliminada`,
             data: null
         });
-    });
-};
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al eliminar ${title}`,
+            data: error
+        });
+    }
+});
 //# sourceMappingURL=section.controller.js.map

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Section, { ISection } from "../models/section";
 import ItemSection from "../models/item-section";
-import subitemSection from "../models/subitem-section";
+import SubitemSection from "../models/subitem-section";
 
 
 const title = 'Sección'
@@ -59,7 +59,7 @@ export const getSectionsAndItems = async (req: Request, res: Response) => {
     try{
         const sections =  Collection.find({})
         const items =  ItemSection.find({})
-        const subitems =  subitemSection.find({})
+        const subitems =  SubitemSection.find({})
         const data = await Promise.all([sections, items, subitems]) 
         const response = data[0].map(section=>{
             return{
@@ -132,19 +132,24 @@ export const updateAll = (req: Request, res: Response) => {
     })
 }
 
-export const del = (req: Request, res: Response) => {
-    Collection.remove({ _id: req.params.id }, (err: any) => {
-        if (err) {
-            res.status(501).json({
-                message: `Error al eliminar ${title}`,
-                data: null
-            })
-        }
-        res.status(200).json({
+export const del = async (req: Request, res: Response) => {
+    const sectionId: string = req.params.id
+    try {
+        const idsItems:any = (await ItemSection.find({sectionId})).map(i=>{return i._id})
+        const idsSubItems = (await SubitemSection.find({itemId: idsItems})).map(s=>{return s._id})
+        await SubitemSection.remove({_id: idsSubItems})
+        await ItemSection.remove({_id: idsItems})
+        await Section.remove({ _id: req.params.id })
+        return res.status(200).json({
             message: `${title} eliminada`,
             data: null
         })
-    })
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al eliminar ${title}`,
+            data: error
+        })
+    }
 }
 
 

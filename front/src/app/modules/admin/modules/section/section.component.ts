@@ -52,7 +52,7 @@ export class SectionComponent implements OnInit {
     this.subs.add(
       this.sectionService.getAllSectionsAndItems().subscribe((response: IResponseApi) => {
         this.items = [...response.data]
-        this.sectionsList = this.items.map(i=>{return i.section})
+        this.sectionsList = [...this.items.map(i=>{return i.section})]
         this.items.map(i=>{
           this.itemsList = [...this.itemsList, ...i.items.map(i=>{return i.item})]
         })
@@ -324,6 +324,15 @@ export class SectionComponent implements OnInit {
       }).catch(_ => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
       })
+    }else{
+      this.sectionService.delete(item._id, type).subscribe((response: IResponseApi) => {
+          this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
+          this.reset()
+          this.getSectionsAndItems()
+        }, error => {
+
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        })
     }
   }
 

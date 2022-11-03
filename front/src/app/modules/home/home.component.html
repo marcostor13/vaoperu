@@ -11,14 +11,23 @@
 
   <ng-container *ngFor="let section of sections">
     <h1 *ngIf="section?.items.length > 0" class="text-capitalize title f-20 text-color1 bold mt-5">{{section.section.name}}</h1>
-    <div class="d-flex flex-wrap justify-content-center">
+    <!-- <div class="d-flex flex-wrap justify-content-center">
       <div *ngFor="let item of section.items; let i=index">
-        <div *ngIf="i<5" class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor" (click)="redirectItem(item.item, section.section.name)">
+        <div *ngIf="i<2" class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor" (click)="redirectItem(item.item, section.section.name)">
           <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.item.image+')'}"></div>
           <h6 class="f-8 text-color1 mt-2">{{item.item.name}}</h6>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <p-carousel [value]="section.items" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="3" [showIndicators]="false" [showNavigators]="false">
+        <ng-template let-item pTemplate="item">
+            <div (click)="redirectItem(item.item, section.section.name)" class="p-2 cursor">
+                <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image}"></div>
+                <p class="label-category text-center f-7 mt-1 m-0">{{item.item.name}}</p>
+            </div>
+        </ng-template>
+    </p-carousel>
   </ng-container>
 
 

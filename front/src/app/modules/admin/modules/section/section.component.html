@@ -172,7 +172,7 @@
             </div>
 
             <button [disabled]="buttonDisabled" (click)="presave()" class="btn1 mt-4 mb-5">Guardar</button>
-            <button *ngIf="currentItem._id" (click)="confirm($event, currentItem)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-5">Eliminar</button>
+            <button *ngIf="currentSubitem._id" (click)="confirm($event, currentSubitem)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-5">Eliminar</button>
         </div>
     </div>
 
