@@ -8,10 +8,12 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { ListboxModule } from 'primeng/listbox';
+import { RolePipe } from './pipes/role.pipe';
 
 @NgModule({
   declarations: [
     UserComponent,
+    RolePipe,
   ],
   imports: [
     CommonModule,

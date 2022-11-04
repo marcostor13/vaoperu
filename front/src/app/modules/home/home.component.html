@@ -19,14 +19,13 @@
         </div>
       </div>
     </div> -->
-
-    <p-carousel [value]="section.items" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="3" [showIndicators]="false" [showNavigators]="false">
-        <ng-template let-item pTemplate="item">
-            <div (click)="redirectItem(item.item, section.section.name)" class="p-2 cursor">
-                <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image}"></div>
-                <p class="label-category text-center f-7 mt-1 m-0">{{item.item.name}}</p>
-            </div>
-        </ng-template>
+    <p-carousel [value]="section.items" [style]="{'width': '100vw', 'height': '120px'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="3" [showIndicators]="false" [showNavigators]="false">
+      <ng-template let-item pTemplate="item">
+          <div (click)="redirectItem(item.item, section.section.name)" class="p-2 cursor">
+              <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image}"></div>
+              <p class="label-category text-center f-9 mt-1 m-0 bold">{{item.item.name}}</p>
+          </div>
+      </ng-template>
     </p-carousel>
   </ng-container>
 

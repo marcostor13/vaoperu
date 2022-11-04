@@ -8,6 +8,7 @@ export class CProduct {
         this.isFeatured = false
         this.promotionalPrice = null
         this.categoryId = ''
+        this.categoryName = ''
     }
     _id?:string
     name:string
@@ -18,6 +19,7 @@ export class CProduct {
     isFeatured:boolean
     promotionalPrice?:number
     categoryId?: string
+    categoryName?: string
 }
 
 export class CProductInvalid{

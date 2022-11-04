@@ -40,54 +40,20 @@
     <div class="w-100 d-flex m-0 justify-content-center pb-5">
         <div *ngIf="currentProfileProvider" class="row m-0 p-0 flex-column col-12 col-md-6">
             <h5 class="text-center">{{currentProfileProvider.comercialName}}</h5>
-
-            <ng-container *ngIf="step===1">
-                <div  class="d-flex justify-content-center mt-2">
-                  <button (click)="nextStep('categories')" class="btn1 px-5 py-3">Categorías</button>
-                  <button (click)="nextStep('sections')" class="btn1 px-5 py-3 ml-2">Secciones</button>
+            <select (change)="toogleItems($event)" class="mt-4" [(ngModel)]="currentItemSectionId">
+                <option value="">Seleccione el item</option>
+                <option *ngFor="let item of items" [value]="item.item._id">{{item.item.name}}</option>
+            </select>
+            <select *ngIf="currentSubitems?.length>0" class="mt-2" [(ngModel)]="currentSubitemId">
+                <option value="">Seleccione el subitem</option>
+                <option *ngFor="let subitem of currentSubitems" [value]="subitem?._id">{{subitem?.name}}</option>
+            </select>
+            <button (click)="add2()" [disabled]="!((currentItemSectionId && currentSubitems?.length === 0) || (currentItemSectionId && currentSubitemId))" class="btn1 mt-2">Agregar</button>
+            <div *ngIf="currentList" class="mt-3 d-flex justify-content-center align-items-center flex-wrap border rounded">
+                <div class="m-2 p-2 px-4 rounded" [ngClass]="{'bg-color8': item.type==='subcategory', 'bg-color1': item.type==='category', 'bg-color6': item.type=='item', 'bg-color7': item.type=='subitem'}" *ngFor="let item of currentList">{{item.name}}
+                    <fa-icon (click)="confirm($event, item)" class="f-15 text-color4 cursor" [icon]="faTrash"></fa-icon>
                 </div>
-            </ng-container>
-
-            <ng-container *ngIf="step===2">
-              <div>
-                <button class="btn2 px-3 py-2 mb-3" (click)="backStep()">Atrás</button>
-              </div>
-              <ng-container *ngIf="type === 'categories'">
-                <select (change)="toogleSubcategories()" class="mt-4" [(ngModel)]="currentCategory">
-                    <option value="">Seleccione la categoría</option>
-                    <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
-                </select>
-                <select *ngIf="currentSubcategories?.length>0" class="mt-2" [(ngModel)]="currentSubcategory">
-                    <option value="">Seleccione la subcategoría</option>
-                    <option *ngFor="let subcategory of currentSubcategories" [value]="subcategory._id">{{subcategory.name}}</option>
-                </select>
-                <button (click)="add()" [disabled]="!((currentCategory && currentSubcategories?.length === 0) || (currentCategory && currentSubcategory))" class="btn1 mt-2">Agregar</button>
-                <div *ngIf="currentList" class="mt-3 d-flex justify-content-center align-items-center flex-wrap border rounded">
-                    <div class="m-2 p-2 px-4 rounded" [ngClass]="{'bg-color8': item.type==='subcategory', 'bg-color1': item.type==='category'}" *ngFor="let item of currentList">{{item.name}}
-                        <fa-icon (click)="confirm($event, item)" class="f-15 text-color4 cursor" [icon]="faTrash"></fa-icon>
-                    </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="type==='sections'">
-                <select (change)="toogleItems($event)" class="mt-4" [(ngModel)]="currentItemSectionId">
-                    <option value="">Seleccione el item</option>
-                    <option *ngFor="let item of items" [value]="item.item._id">{{item.item.name}}</option>
-                </select>
-                <select *ngIf="currentSubitems?.length>0" class="mt-2" [(ngModel)]="currentSubitemId">
-                    <option value="">Seleccione el subitem</option>
-                    <option *ngFor="let subitem of currentSubitems" [value]="subitem?._id">{{subitem?.name}}</option>
-                </select>
-                <button (click)="add2()" [disabled]="!((currentItemSectionId && currentSubitems?.length === 0) || (currentItemSectionId && currentSubitemId))" class="btn1 mt-2">Agregar</button>
-                <div *ngIf="currentList" class="mt-3 d-flex justify-content-center align-items-center flex-wrap border rounded">
-                    <div class="m-2 p-2 px-4 rounded" [ngClass]="{'bg-color8': item.type==='subcategory', 'bg-color1': item.type==='category', 'bg-color6': item.type=='item', 'bg-color7': item.type=='subitem'}" *ngFor="let item of currentList">{{item.name}}
-                        <fa-icon (click)="confirm($event, item)" class="f-15 text-color4 cursor" [icon]="faTrash"></fa-icon>
-                    </div>
-                </div>
-              </ng-container>
-            </ng-container>
-
-
+            </div>
         </div>
     </div>
 

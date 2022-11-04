@@ -88,6 +88,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
+    this.getCategories()
+    this.initializeItems()
     this.initializeQuantities()
     if (!this.isProviderPath){
       this.subscriptionCart()
@@ -163,9 +165,9 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   getCategoriesProducts(){
     let data = _.chain(this.items).map((i:CProduct)=>{
-      i.categoryId = i.categoryId ? this.getCategoriesById(i.categoryId).name: 'otros'
+      i.categoryName = i.categoryId ? this.getCategoriesById(i.categoryId)?.name: 'otros'
       return i
-    }).groupBy('categoryId').value()
+    }).groupBy('categoryName').value()
     this.productsFormat = Object.keys(data).map(k=>{
       return {
         category: k,
@@ -270,10 +272,18 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   getDescription(description: string){
-    if(description.length > 40){
-      return `${description.substring(0, 40)}...`
+    if(description.length > 30){
+      return `${description.substring(0, 30)}...`
     }else{
       return description
+    }
+  }
+
+  getTextProduct(name: string){
+    if(name.length > 26){
+      return `${name.substring(0, 26)}...`
+    }else{
+      return name
     }
   }
 

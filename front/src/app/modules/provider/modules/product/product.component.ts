@@ -78,17 +78,15 @@ export class ProductComponent implements OnInit {
   }
 
   getProducts() {
-    this.subs.add(
-      this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
-        this.items = response.data
-        this.getCategories()
-        if (response.data?.length === 0) {
-          this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
-        }
-      }, error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      })
-    )
+    this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
+      this.items = [...response.data]
+      this.getCategories()
+      if (response.data?.length === 0) {
+        this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
+      }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
   }
 
 
@@ -222,6 +220,7 @@ export class ProductComponent implements OnInit {
       if(!this.currentItem?._id){
         this.reset()
       }
+      this.displayModal = false
       this.getProducts()
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
@@ -305,7 +304,7 @@ export class ProductComponent implements OnInit {
             images.push(image.url)
           }
         })
-        const deleteImages = await this.general.deleteImages(images)
+        await this.general.deleteImages(images)
         this.uploadImages()
       }else{
         this.uploadImages()
@@ -348,11 +347,6 @@ export class ProductComponent implements OnInit {
       default:
         break;
     }
-  }
-
-
-  selectCat(category:string){
-
   }
 
   addEditCategories(){

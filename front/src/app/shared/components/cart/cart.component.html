@@ -1,5 +1,5 @@
 
-<h5  *ngIf="cart?.items?.length === 0" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
+<h5  *ngIf="cart?.items?.length === 0 || !cart" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
 
 <ng-container *ngIf="step===1">
     <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">

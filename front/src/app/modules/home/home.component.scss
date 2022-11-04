@@ -134,6 +134,11 @@
 }
 
 $size: 95px;
+
+.items{
+  max-height: $size;
+}
+
 .icon-category{
     min-width: $size;
     min-height: $size;
@@ -153,9 +158,9 @@ $size: 95px;
 }
 
 @media (min-width: 1024px) {
-    .image{
-        min-height: 500px;
-    }
+    // .image{
+    //     min-height: 500px;
+    // }
 }
 
 @media (max-width: 1470px) {

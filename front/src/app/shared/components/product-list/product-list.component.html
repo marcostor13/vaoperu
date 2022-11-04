@@ -1,7 +1,7 @@
 <div class="product-list">
 
     <ng-container *ngFor="let productFormat of productsFormat">
-      <h5 class="text-capitalize text-color1">{{productFormat.category}}</h5>
+      <h5 class="text-capitalize text-color1 bar">{{productFormat.category}}</h5>
       <p-dataView [value]="productFormat.products" [paginator]="productFormat.products?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
           <ng-template *ngIf="rows===0" pTemplate="header">
               <div  class="row justify-content-between m-0">
@@ -54,9 +54,11 @@
                   </p-carousel>
                   <div class="w-100 d-flex flex-column">
                     <div class="row flex-column m-0">
-                      <h5 (click)="openModal(product, i)" class="text-center title cursor mt-2 text-left">{{product.name}}</h5>
+                      <div class="title-product d-flex align-items-center justify-content-center">
+                        <p (click)="openModal(product, i)" class="text-center title cursor text-left f-10 bold m-0">{{getTextProduct(product.name)}}</p>
+                      </div>
                       <div class="parraf d-flex align-items-center justify-content-center">
-                        <p (click)="openModal(product, i)" class="f-9 cursor text-center">{{getDescription(product.description)}}</p>
+                        <p (click)="openModal(product, i)" class="f-9 cursor text-center m-0">{{getDescription(product.description)}}</p>
                       </div>
                       <div class="row m-0 align-items-center justify-content-center">
                         <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>

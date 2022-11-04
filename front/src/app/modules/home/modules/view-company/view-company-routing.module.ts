@@ -4,11 +4,11 @@ import { ViewCompanyComponent } from './view-company.component';
 
 const routes: Routes = [
   {
-    path: 'productos',
+    path: 'productos/0/des/1',
     loadChildren: () => import('./../../modules/view-company/components/all-products/all-products.module').then(m => m.AllProductsModule),
   },
   {
-    path: 'informacion',
+    path: 'informacion/0/des/1',
     loadChildren: () => import('./../../modules/view-company/components/information-products/information-products.module').then(m => m.InformationProductsModule),
   },
   {

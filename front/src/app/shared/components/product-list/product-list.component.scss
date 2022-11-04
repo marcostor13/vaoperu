@@ -143,8 +143,21 @@ $size: 210px;
 }
 
 .parraf{
-  min-height: 60px;
+  min-height: 50px;
   p{
     max-width: 200px;
   }
+}
+
+
+.title-product{
+  min-height: 50px;
+  h5{
+    max-width: 200px;
+  }
+}
+
+.bar{
+  border-top: solid 2px #dddddd;
+  padding-top: 10px;
 }

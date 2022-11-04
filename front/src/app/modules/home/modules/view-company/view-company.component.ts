@@ -175,10 +175,10 @@ export class ViewCompanyComponent implements OnInit {
   }
 
   allproduct(){
-      this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos`])
+      this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos/0/des/1`])
   }
   information(){
-    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/informacion`])
+    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/informacion/0/des/1`])
   }
 
   aperture(start:string, end:string) {

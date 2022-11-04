@@ -32,58 +32,31 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   displayModal: boolean = false
   invalid: CCategorySubcategoryProfileInvalid = new CCategorySubcategoryProfileInvalid
   profileProviders: CProfileProvider[]
-  categories: CCategory[]
-  subcategories: CSubcategory[]
   currentProfileProvider: CProfileProvider
-  currentCategory: string = ''
-  currentSubcategory: string = ''
-  currentSubcategories: CSubcategory[]
   currentItemSectionId: string = ''
   currentSubitemId: string = ''
   currentSubitems: ISubitemSection[]
   faTrash = faTrash
-  step: number = 1
   type: string
   sections: ISectionsData[]
   items: IItemsData[]
 
   constructor(
     private categorySubcategoryProfileService: CategorySubcategoryProfileService,
-    private general: GeneralService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private profileProviderService: ProfileProviderService,
-    private categoryService:CategoryService,
-    private subcategoryService: SubcategoryService,
     private sectionService: SectionService
   ) { }
 
   ngOnInit(): void {
     this.getProfiles()
-    this.getCategories()
-    this.getSubcategories()
     this.getSections()
   }
 
   getProfiles(){
     this.profileProviderService.getAllCompanies().subscribe((response: IResponseApi)=>{
       this.profileProviders = response.data
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-    })
-  }
-
-  getCategories(){
-    this.categoryService.get().subscribe((response: IResponseApi) => {
-      this.categories = response.data
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-    })
-  }
-
-  getSubcategories() {
-    this.subcategoryService.get().subscribe((response: IResponseApi) => {
-      this.subcategories = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
     })
@@ -111,34 +84,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
     this.displayModal = true
   }
 
-  toogleSubcategories() {
-    this.currentSubcategories = null
-    if (this.currentCategory){
-      this.currentSubcategories = this.subcategories.filter(subcategory => subcategory.categoryId === this.currentCategory)
-    }
-  }
-
-  add(){
-    if ((this.currentCategory && this.currentSubcategories.length === 0) || (this.currentCategory&&this.currentSubcategory) ){
-      const payload: ICategorySubcategoryProfile = {
-        profileProviderId: this.currentProfileProvider._id,
-        categorySubcategoryId: this.currentSubcategory ? this.currentSubcategory: this.currentCategory,
-        type: this.currentSubcategory?'subcategory':'category',
-        name: this.currentSubcategory?
-          this.subcategories.filter(subcategory=>subcategory._id === this.currentSubcategory)[0].name :
-          this.categories.filter(category=>category._id === this.currentCategory)[0].name
-      }
-      this.categorySubcategoryProfileService.save(payload).subscribe((response: IResponseApi) => {
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: response.message });
-        this.getCategoriesAndSubcategoriesByProfileProfiderId(this.currentProfileProvider._id)
-      }, error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-      })
-
-    }else{
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos' });
-    }
-  }
 
   add2(){
     if ((this.currentItemSectionId && this.currentSubitems?.length === 0) || (this.currentItemSectionId && this.currentSubitemId) ){
@@ -164,10 +109,8 @@ export class CategorySubcategoryProfileComponent implements OnInit {
   }
 
   reset2(){
-    this.currentCategory = ''
     this.currentItemSectionId = ''
     this.currentSubitemId = ''
-    this.currentSubcategory = ''
   }
 
   confirm(event: Event, item:ICategorySubcategoryProfile) {
@@ -200,15 +143,6 @@ export class CategorySubcategoryProfileComponent implements OnInit {
       this.sections = response.data
       this.items = [].concat.apply([], this.sections.map(s=>s.items));
     })
-  }
-
-  nextStep(type: string){
-    this.type = type
-    this.step = 2
-  }
-
-  backStep(){
-    this.step = 1
   }
 
   toogleItems($event){

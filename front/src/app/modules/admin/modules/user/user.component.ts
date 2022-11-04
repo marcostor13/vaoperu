@@ -20,7 +20,6 @@ export class UserComponent implements OnInit {
   invalid: CUserInvalid = new CUserInvalid
   currentItem: CUser = new CUser
   roles: IRole[]
-  sections: ISectionsData[]
 
   constructor(
     private sectionsService: SectionService,
@@ -37,21 +36,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.get()
-    this.getSections()
   }
-
-  getSections(){
-    this.sectionsService.get().subscribe((response: IResponseApi)=>{
-      this.sections = response.data
-      this.roles = [...this.roles, ...this.sections.map(s=>{
-        return {
-          name: s.section.name,
-          key: s.section.name.toLowerCase()
-        }
-      })]
-    })
-  }
-
 
   get() {
     this.userService.get().subscribe((response: IResponseApi) => {
