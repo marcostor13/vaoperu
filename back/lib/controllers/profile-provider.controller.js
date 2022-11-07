@@ -51,9 +51,7 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let resp = [];
         if (type) {
             if (type === 'category') {
-                console.log('keyword', diacriticSensitiveRegex(keyword));
                 const categoryId = (_a = (yield category_1.default.find({ name: keyword }).collation({ locale: "es", strength: 1 }))[0]) === null || _a === void 0 ? void 0 : _a._id;
-                console.log('categpry', categoryId);
                 const subcategoriesIds = (yield subcategory_1.default.find({ categoryId: categoryId })).map(s => s._id);
                 const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subcategoriesIds === null || subcategoriesIds === void 0 ? void 0 : subcategoriesIds.length) > 0 ? subcategoriesIds : categoryId })).map(c => {
                     return c.profileProviderId;

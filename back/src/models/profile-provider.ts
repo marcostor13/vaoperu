@@ -2,36 +2,37 @@ import { model, Schema, Document } from 'mongoose'
 
 
 export interface IProfileProvider extends Document {
-    userid: string,
+    userid: string
     legalName: string
     comercialName: string
     whatsapp: string
     phone: string
     addressText: string
     addressMaps: string
-    ruc: string, 
-    description: string,
-    image: string,
-    video: string,
-    facebook: string, 
-    twitter: string,
-    instagram: string,
-    tiktok: string, 
-    email:string, 
-    districtId: string,
-    distrinctName: string,
-    lat: number, 
-    lng: number,
-    siteWeb: string,
-    delivery: boolean,
-    onMarket: boolean,
-    enabledProducts: boolean,
-    enabledProductsFeatured: boolean,
-    enabledOffers: boolean,
-    createAt: Date,
-    openTime: string,
+    ruc: string 
+    description: string
+    image: string
+    video: string
+    facebook: string 
+    twitter: string
+    instagram: string
+    tiktok: string 
+    email:string 
+    districtId: string
+    distrinctName: string
+    lat: number 
+    lng: number
+    siteWeb: string
+    delivery: boolean
+    onMarket: boolean
+    enabledProducts: boolean
+    enabledProductsFeatured: boolean
+    enabledOffers: boolean
+    createAt: Date
+    openTime: string
     closeTime: string
     role: string
+    url: string
 }
 
 const userSchema = new Schema({

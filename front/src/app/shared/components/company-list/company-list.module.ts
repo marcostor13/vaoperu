@@ -10,15 +10,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
-    CompanyListComponent    
+    CompanyListComponent
   ],
-  imports: [  
+  imports: [
     CommonModule,
     DataViewModule,
-    CarouselModule, 
+    CarouselModule,
     DialogModule,
     FontAwesomeModule,
-    WhastappModule, 
+    WhastappModule,
     ConfirmDialogModule
   ],
   exports: [CompanyListComponent],

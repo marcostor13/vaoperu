@@ -14,7 +14,7 @@
                             <span class="ml-2 f-10 text-color5 font-500">{{company.openTime}} - {{company.closeTime}}</span>
                         </div>
                         <div>
-                            <fa-icon (click)="shared(company.url, company.comercialName)" class="cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon>
+                            <fa-icon (click)="shared(company._id, company.comercialName)" class="cursor f-13 text-color2 mr-2" [icon]="faShare"></fa-icon>
                             <fa-icon *ngIf="company.delivery" class="f-13 text-color1" [icon]="faStore" [title]="'Recojo en tienda'"></fa-icon>
                             <fa-icon *ngIf="company.onMarket" class="f-13 text-color1 ml-2" [icon]="faMotorcycle" [title]="'Delivery'"></fa-icon>
                         </div>

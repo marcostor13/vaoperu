@@ -11,6 +11,7 @@ import { ProfileProviderService } from 'src/app/modules/provider/modules/profile
 import { IResponseApi } from 'src/app/models/responses';
 import { FavoriteService } from './../../services/favorite/favorite.service';
 import { IFavorite } from './../../interfaces/favorites.interface';
+import { UrlService } from 'src/app/modules/admin/modules/url/services/url.service';
 
 @Component({
   selector: 'app-company-list',
@@ -47,7 +48,8 @@ export class CompanyListComponent implements OnInit, OnChanges {
     private profileProviderService: ProfileProviderService,
     private messageService: MessageService,
     private favoriteService:FavoriteService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private urlService: UrlService
   ) {
     this.responsiveOptions = [
       {
@@ -214,9 +216,20 @@ export class CompanyListComponent implements OnInit, OnChanges {
     })
   }
 
-  shared(url: string, name: string){
-    const urlShare = `https://vaoperu.com/${url}`
-    window.navigator.share({ url: urlShare, title: `Vao Perú - ${name}`})
+  shared(profileProviderId: string, name: string){
+    this.profileProviderService.getUrlByProfileProviderId(profileProviderId).subscribe((response:IResponseApi)=>{
+      if (response?.data[0]){
+        const url = response.data[0].url.trim()
+        const urlShare = `https://vaoperu.com/${url}`
+        try {
+          window.navigator.share({ url: urlShare, title: `Vao Perú - ${name}`})
+        } catch (error) {
+          this.messageService.add({detail: 'Su navegador no soporta la funcionalidad de compartir', summary: 'Error', severity:'error'})
+        }
+      }else{
+        this.messageService.add({detail: 'Url no configurada, contactate con el administrador', summary: 'Error', severity:'error'})
+      }
+    })
   }
 
   rad(x) {

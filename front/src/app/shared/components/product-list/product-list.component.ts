@@ -228,7 +228,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   openModal(item: any, i: number){
-    if(this.role.indexOf('provider')>-1){
+    if(this.role?.indexOf('provider')>-1){
       item.categoryId = !item.categoryId || item.categoryId === 'otros'? '': this.getCategoriesByName(item.categoryId)? this.getCategoriesByName(item.categoryId)._id: item.categoryId
       this.productsEvent.emit({
         function: 'edit',

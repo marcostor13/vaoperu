@@ -45,9 +45,7 @@ export const search = async (req: Request, res: Response) => {
         let resp: IProfileProvider[] = []
         if(type){
             if(type === 'category'){
-                console.log('keyword', diacriticSensitiveRegex(keyword) )
                 const categoryId:string = (await Category.find({name: keyword}).collation({locale: "es", strength: 1}))[0]?._id
-                console.log('categpry', categoryId)
                 const subcategoriesIds:any = (await Subcategory.find({categoryId: categoryId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subcategoriesIds?.length>0 ? subcategoriesIds: categoryId})).map(c=>{
                     return c.profileProviderId

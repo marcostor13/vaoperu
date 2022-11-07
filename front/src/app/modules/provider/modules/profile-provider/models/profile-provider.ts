@@ -1,24 +1,24 @@
 export class CProfileProvider{
     constructor(){
-        this.userid = '' 
-        this.legalName = '' 
-        this.comercialName = '' 
-        this.whatsapp = '' 
-        this.phone = '' 
-        this.addressText = '' 
-        this.addressMaps = '' 
-        this.ruc = ''  
-        this.description = '' 
-        this.image = '' 
-        this.video = '' 
-        this.facebook = ''  
-        this.twitter = '' 
-        this.instagram = '' 
-        this.tiktok = ''  
-        this.email = '' 
-        this.districtId = '' 
-        this.distrinctName = '' 
-        this.lat = null  
+        this.userid = ''
+        this.legalName = ''
+        this.comercialName = ''
+        this.whatsapp = ''
+        this.phone = ''
+        this.addressText = ''
+        this.addressMaps = ''
+        this.ruc = ''
+        this.description = ''
+        this.image = ''
+        this.video = ''
+        this.facebook = ''
+        this.twitter = ''
+        this.instagram = ''
+        this.tiktok = ''
+        this.email = ''
+        this.districtId = ''
+        this.distrinctName = ''
+        this.lat = null
         this.lng = null
         this.siteWeb = ''
         this.delivery = false
@@ -29,10 +29,11 @@ export class CProfileProvider{
         this.createAt = null
         this.openTime = ''
         this.closeTime = ''
-        this.role = ''       
+        this.role = ''
         this.distance = null
-    }   
-    _id: string 
+        this.url = ''
+    }
+    _id: string
     userid: string
     legalName: string
     comercialName: string
@@ -64,4 +65,5 @@ export class CProfileProvider{
     closeTime: string
     role: string
     distance: number
+    url: string
 }

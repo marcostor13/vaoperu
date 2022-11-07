@@ -155,6 +155,41 @@ export class CartComponent implements OnInit {
     }
   }
 
+  getItemsData(){
+    let res = ''
+    this.cart?.items?.map(item=>{
+        let price = this.getProductById(item.productId).promotionalPrice ? this.getProductById(item.productId).promotionalPrice : this.getProductById(item.productId).price
+        res += '- '+ item.quantity + ' ' + item.productData.name + ' S/. ' + price + '\n'
+      })
+    return res
+
+  }
+
+  createMessage(id: string){
+    return `👋 Hola, vengo de ${this.profileProvider.comercialName}
+
+  ID: ${id}
+  🗓️ ${this.form.date} ⏰ 03:02 pm
+
+  Medio de pago: ${this.form.typePaymment}
+  ${this.form.typePaymment === 'Efectivo'? this.form.cash: ''}
+
+  Nombre: ${this.form.name}
+  Teléfono: ${this.form.phone}
+  Dirección: ${this.form.address}
+
+  💲 Costos
+  Total a pagar: S/. ${this.getTotal()}
+
+  📝 Pedido
+  ${this.getItemsData()}
+
+  Observaciones: S/. ${this.form.details}
+
+  👆 Envía este mensaje. Te atenderemos enseguida.`
+  }
+
+
   finishedShop(){
     if(this.validateForm()){
       if (this.authService.getRole()?.indexOf('user')>-1){
@@ -167,7 +202,7 @@ export class CartComponent implements OnInit {
           this.events.emit('close-modal')
           if (this.profileProvider.whatsapp){
             const whatsapp = this.profileProvider.whatsapp.length === 11 ? this.profileProvider.whatsapp : `51${this.profileProvider.whatsapp.replace('+', '')}`
-            const url = `https://wa.me/${whatsapp}?text=Hola!%20tengo%20un%20pedido%20:%20${response.data._id}`
+            const url = `https://api.whatsapp.com/send/?phone=${whatsapp}&text=${encodeURI(this.createMessage(response.data._id))}&type=phone_number&app_absent=0`
             window.open(url, "_blank");
           }else{
             this.messageService.add({ severity: 'Error', detail: 'El negocio no tiene whastapp configurado', summary: 'Error' })
@@ -178,6 +213,7 @@ export class CartComponent implements OnInit {
       }
     }
   }
+
 
 
 
