@@ -7,13 +7,13 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiService {
 
-  private baseUrl = window.location.hostname.indexOf('vaoperu') > -1 ? environment.apiProd : environment.apiLocal
+  private baseUrl = environment.apiProd
 
   constructor(private http: HttpClient) {}
 
-  api(data:any) {    
+  api(data:any) {
     if(data.type == 'get'){
-      return this.http.get(`${this.baseUrl + data.service}`)      
+      return this.http.get(`${this.baseUrl + data.service}`)
     }else if(data.type == 'post'){
       return this.http.post(`${this.baseUrl + data.service}`, data.data)
     } else if (data.type == 'patch') {
@@ -22,6 +22,6 @@ export class ApiService {
       return this.http.delete(`${this.baseUrl + data.service}`)
     }
   }
- 
+
 
 }

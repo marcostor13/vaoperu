@@ -22,13 +22,13 @@ export class HttpRequestInterceptor  implements HttpInterceptor {
         this.general.isLoad(true)
         return next.handle(request)
             .pipe(
-                catchError((error: HttpErrorResponse) => {                    
+                catchError((error: HttpErrorResponse) => {
                     this.general.isLoad(false)
                     if (error.status === 401) {
                         this.authService.logout()
                     } else {
                         this.general.c('Error HTTP', error)
-                        this.messageService.add({ severity: 'Error', summary: `Error ${error.status}`, detail: error?.error?.message ? error.error.message : error.error })
+                        this.messageService.add({ severity: 'Error', summary: `Error ${error.status}`, detail: JSON.stringify(error) })
                     }
                     return throwError(error);
                 })
@@ -39,7 +39,7 @@ export class HttpRequestInterceptor  implements HttpInterceptor {
                 }
                 return evt;
             }));
-            
+
     }
 }
 
