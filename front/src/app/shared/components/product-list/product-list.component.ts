@@ -15,6 +15,9 @@ import { COffer } from 'src/app/modules/provider/modules/offer/models/offer';
 import { ProductService } from 'src/app/modules/provider/modules/product/services/product.service';
 import { IResponseApi } from 'src/app/models/responses';
 import * as _ from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
+import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
 
 @Component({
   selector: 'app-product-list',
@@ -29,6 +32,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   @Input() profileProviderId: string
   @Output() productsEvent: EventEmitter<any> =  new EventEmitter()
 
+  companyUrl: string
   responsiveOptions: Array<any>
   sortOptions: SelectItem[]
   sortOrder: number
@@ -49,6 +53,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   productsFormat: IFormatProduct[]
   productsFormatOthers: IFormatProduct[]
   categories: ICategoryProduct[]
+  profileProvider: CProfileProvider
+
 
   private subs = new SubSink()
 
@@ -57,7 +63,11 @@ export class ProductListComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private cartService: CartService,
     private store: Store<any>,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router,
+    private profileProviderService: ProfileProviderService,
+    private route: ActivatedRoute
+
   ) {
     this.responsiveOptions = [
       {
@@ -79,12 +89,15 @@ export class ProductListComponent implements OnInit, OnChanges {
 
     this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
 
+    this.companyUrl = this.route.snapshot.paramMap.get('id')
+
   }
 
   ngOnInit(): void {
     this.role = this.authService.getRole()
     this.getCategories()
     this.initializeItems()
+    this.getUrlData()
   }
 
   ngOnChanges(){
@@ -291,6 +304,22 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.subs.unsubscribe()
   }
 
+  getUrlData(){
+    this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
+      this.getProfileProvider(response?.data[0]?.profileProviderId)
+    })
+  }
 
+  getProfileProvider(profileProviderId:string){
+    this.profileProviderService.getById(profileProviderId).subscribe((response: IResponseApi) => {
+      this.profileProvider = response.data
+    })
+  }
+
+
+  allproduct(){
+    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos/0/des/1`])
+    console.log('pagina', this.profileProvider.comercialName)
+  }
 
 }

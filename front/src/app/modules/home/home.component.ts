@@ -62,6 +62,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     faSearch = faSearch
     key:string
     sections: ISectionsData[]
+    displayCategories: boolean = false
+    category: any;
 
     constructor(
       private general: GeneralService,
@@ -77,17 +79,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
-        numVisible: 3,
+        numVisible: this.items.length,
         numScroll: 1
       },
       {
         breakpoint: '768px',
-        numVisible: 2,
+        numVisible: 5,
         numScroll: 1
       },
       {
         breakpoint: '560px',
-        numVisible: 1,
+        numVisible: 4,
         numScroll: 1
       }
     ];
@@ -294,6 +296,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   urlCategories(){
     this.router.navigate([ '/categorias' ])
+  }
+
+  openCategoriesModal(category: any){
+    this.displayCategories = true
+    this.category = category
   }
 
 
