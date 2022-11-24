@@ -36,6 +36,7 @@ export class SectionComponent implements OnInit {
   listItems: CItem[]
   listSubitems: CSubitem[]
   listItemsData: IItemsData[]
+  currentItemsList: CItem[]
 
   constructor(
     private sectionService: SectionService,
@@ -70,7 +71,8 @@ export class SectionComponent implements OnInit {
     switch (this.currentType) {
       case 'section':
         this.invalidSection = {
-          name: false
+          name: false,
+          primaryItemId: false
         }
         break;
       case 'item':
@@ -101,7 +103,8 @@ export class SectionComponent implements OnInit {
     switch (this.currentType) {
       case 'section':
         this.currentSection = {
-          name: ''
+          name: '',
+          primaryItemId: ''
         }
         break;
       case 'item':
@@ -187,6 +190,7 @@ export class SectionComponent implements OnInit {
       switch (this.currentType) {
         case 'section':
           this.currentSection = item
+          this.currentItemsList = [...this.itemsList.filter(i=>i.sectionId === item._id)]
           break;
         case 'item':
           this.currentItem = item

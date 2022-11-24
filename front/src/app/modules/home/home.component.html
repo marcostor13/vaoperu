@@ -10,29 +10,36 @@
 <div class="pl-3 mb-5">
 
   <ng-container *ngFor="let section of sections">
-    <div class="d-flex justify-content-between">
-      <h1 *ngIf="section?.items.length > 0" class="text-capitalize title f-20 text-color1 bold mt-5">{{section.section.name}}</h1>
-      <div *ngIf="section?.items.length > 0" class="cursor f-10 text-color1 bold mt-5 pt-1 pr-3" (click)="openCategoriesModal(section.section.name)">VER TODOS</div>
-    </div>
-    <!-- <div class="d-flex flex-wrap justify-content-center">
-      <div *ngFor="let item of section.items; let i=index">
-        <div *ngIf="i<2" class="card-categories align-items-center justify-content-center text-center py-1 mt-3 mr-3 radius-5 shadow card cursor" (click)="redirectItem(item.item, section.section.name)">
-          <div class="image-categories" [ngStyle]="{ 'background-image': 'url('+item.item.image+')'}"></div>
-          <h6 class="f-8 text-color1 mt-2">{{item.item.name}}</h6>
-        </div>
+    <ng-container *ngIf="section.items.length>0">
+      <div *ngIf="section?.items.length > 0" class="d-flex justify-content-between">
+        <h1  class="text-capitalize title f-20 text-color1 bold mt-5">{{section.section.name}}</h1>
+        <div class="cursor f-10 text-color1 bold mt-5 pt-1 pr-3" (click)="openCategoriesModal(section.section.name)">VER TODOS</div>
       </div>
-    </div> -->
-    <p-carousel [value]="section.items" [style]="{'width': '100vw', 'height': '120px'}" [autoplayInterval]="7000" [numScroll]="1" [numVisible]="section.items.length" [circular]="true" [showIndicators]="false" [showNavigators]="false" [responsiveOptions]="responsiveOptions">
-      <ng-template let-item pTemplate="item">
-          <div (click)="redirectItem(item.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image}"></div>
-              <p class="label-category text-center f-9 mt-1 m-0 bold">{{item.item.name}}</p>
+      <p-carousel [value]="getListItemsWithPrimaryItem(section)" [style]="{'width': '100vw', 'height': '205px'}" [autoplayInterval]="7000" [numScroll]="1" [numVisible]="section.items.length" [circular]="false" [showIndicators]="false" [showNavigators]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template let-item pTemplate="item">
+          <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+              <div class="icon-category image bg-white d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                <p class="label-category text-center f-11 mb-2 m-0 bold text-color1 text-capitalize">{{item.item1.item.name}}</p>
+              </div>
           </div>
-      </ng-template>
-    </p-carousel>
+          <div *ngIf="!item.isPrimary" class="d-flex flex-column">
+            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                  <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item1.item.name}}</p>
+                </div>
+            </div>
+            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
+                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
+                  <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item2.item.name}}</p>
+                </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </ng-container>
   </ng-container>
 
-
+</div>
 <!--
 <div class="d-block d-md-none p-3">
     <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>

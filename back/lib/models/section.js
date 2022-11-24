@@ -7,6 +7,10 @@ const userSchema = new mongoose_1.Schema({
         unique: true,
         required: true
     },
+    primaryItemId: {
+        type: String,
+        default: ''
+    },
     createAt: {
         type: Date,
         default: new Date()

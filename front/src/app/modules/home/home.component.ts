@@ -17,8 +17,8 @@ import { CategorySubcategoryProfileService } from '../admin/modules/category-sub
 import { ICategorySubcategoryProfile } from '../admin/modules/category-subcategory-profile/interfaces/category-subcategory-profile.interfaces';
 import { faSearch, faChevronDown, faSignOutAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { SectionService } from './../admin/modules/section/services/section.service';
-import { CItem, ISectionsData } from '../admin/modules/section/models/section';
-import { CSubitem } from './../admin/modules/section/models/section';
+import { CItem, IItemsData, ISectionsData } from '../admin/modules/section/models/section';
+import { CSubitem, CSection } from './../admin/modules/section/models/section';
 
 @Component({
   selector: 'app-home',
@@ -31,44 +31,39 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   subs = new SubSink()
   isMobile: boolean = (window.innerWidth > 768) ? false : true
-    categories: CCategory[]
-    subcategories: CSubcategory[]
-    currentSubcategories: CSubcategory[]
-    switch: string = 'companies'
-
-    itemsCarousel = [
-      {
-        imageDesktop: 'assets/img/photos/photo1-d.jpg',
-        imageMobile: 'assets/img/photos/photo1.jpg'
-      },
-      {
-        imageDesktop: 'assets/img/photos/photo2-d.jpg',
-        imageMobile: 'assets/img/photos/photo2.jpg'
-      },
-      {
-        imageDesktop: 'assets/img/photos/photo3-d.jpg',
-        imageMobile: 'assets/img/photos/photo2.jpg'
-      }
-    ]
-
-    items: MenuItem[] = []
-    responsiveOptions: any
-    eventHeader: any
-    displaySubcategories: boolean = false
-    promotions: CPromotion[]
-    profileProviders: CProfileProvider[]
-    currentProfileProviders: CProfileProvider[]
-    currentPromotions: CPromotion[]
-    faSearch = faSearch
-    key:string
-    sections: ISectionsData[]
-    displayCategories: boolean = false
-    category: any;
+  categories: CCategory[]
+  subcategories: CSubcategory[]
+  currentSubcategories: CSubcategory[]
+  switch: string = 'companies'
+  itemsCarousel = [
+    {
+      imageDesktop: 'assets/img/photos/photo1-d.jpg',
+      imageMobile: 'assets/img/photos/photo1.jpg'
+    },
+    {
+      imageDesktop: 'assets/img/photos/photo2-d.jpg',
+      imageMobile: 'assets/img/photos/photo2.jpg'
+    },
+    {
+      imageDesktop: 'assets/img/photos/photo3-d.jpg',
+      imageMobile: 'assets/img/photos/photo2.jpg'
+    }
+  ]
+  items: MenuItem[] = []
+  responsiveOptions: any
+  eventHeader: any
+  displaySubcategories: boolean = false
+  promotions: CPromotion[]
+  profileProviders: CProfileProvider[]
+  currentProfileProviders: CProfileProvider[]
+  currentPromotions: CPromotion[]
+  faSearch = faSearch
+  key:string
+  sections: ISectionsData[]
+  displayCategories: boolean = false
+  category: any;
 
     constructor(
-      private general: GeneralService,
-      private categoryService: CategoryService,
-      private subcategoryService: SubcategoryService,
       private messageService: MessageService,
       private profileProviderService: ProfileProviderService,
       private router: Router,
@@ -96,7 +91,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
    }
 
   ngAfterViewInit(){
-    this.getCategories()
     this.getPromotions()
     this.getSections()
   }
@@ -151,7 +145,33 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
 
+  getListItemsWithPrimaryItem(section: ISectionsData){
+    if(section.items.length>0){
+      const primaryItemId = section.section.primaryItemId
+      let primaryItem = section.items.find(i=>i.item._id === primaryItemId)
+      if(!primaryItem){
+        primaryItem = section.items[0]
+      }
+      let res = []
+      res = [...res, {
+        isPrimary: true,
+        item1: primaryItem,
+        item2: null
+      }]
 
+      for (let index = 0; index < section.items.length / 2; index++) {
+        res = [...res, {
+          isPrimary: false,
+          item1: section.items[index*2],
+          item2: section.items[index*2+1],
+        }]
+      }
+      console.log('Res', res)
+      return res
+    }else{
+      return []
+    }
+  }
 
   getMenu(){
     this.categories?.map((cat: CCategory) => {
@@ -207,28 +227,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getImageType(item){
     return this.isMobile? item.imageMobile: item.imageDesktop
-  }
-
-  getCategories(){
-    this.subs.add(
-      this.categoryService.get().subscribe((response: IResponseApi) => {
-        this.categories = response.data
-        this.getSubcategories()
-      }, error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      })
-    )
-  }
-
-  getSubcategories(){
-    this.subs.add(
-      this.subcategoryService.get().subscribe((response: IResponseApi) => {
-        this.subcategories = response.data
-        this.getMenu()
-      }, error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      })
-    )
   }
 
   companyListEvent($event:any) {

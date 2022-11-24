@@ -11,6 +11,7 @@ export interface IItemsData{
 export class CSection{
   _id?: string
   name: string = ''
+  primaryItemId: string = ''
 }
 
 export class CItem{
@@ -29,6 +30,7 @@ export class CSubitem{
 
 export class CSectionInvalid{
   name: boolean = false
+  primaryItemId: boolean = false
 }
 
 export class CItemInvalid{

@@ -95,15 +95,18 @@
     [autoZIndex]="false"
     [draggable]="false"
     [resizable]="false">
-
-
     <div [ngSwitch]="currentType" class="col-12 row m-0 justify-content-center">
         <!-- SECTION -->
         <div *ngSwitchCase="'section'" class="row m-0 p-0 flex-column col-12 col-md-6">
             <input type="text" (keyup.enter)="add()" [(ngModel)]="currentSection.name" (keyup)="invalidSection.name=false" [ngClass]="{'invalid': invalidSection.name}" [placeholder]="'Sección'">
+            <select class="mt-2" [ngClass]="{'invalid': invalidSection.primaryItemId}" [(ngModel)]="currentSection.primaryItemId">
+              <option value="">Selecione el item destacado</option>
+              <option *ngFor="let item of currentItemsList" [value]="item._id">{{item.name}}</option>
+            </select>
             <button (click)="presave()" class="btn1 mt-4  mb-5">Guardar</button>
             <button *ngIf="currentSection._id" (click)="confirm($event, currentSection)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-5">Eliminar</button>
         </div>
+        <!-- ITEM -->
         <div *ngSwitchCase="'item'" class="row m-0 p-0 flex-column col-12 col-md-6">
             <input type="text" (keyup.enter)="add()" [(ngModel)]="currentItem.name" (keyup)="invalidItem.name=false" [ngClass]="{'invalid': invalidItem.name}" [placeholder]="'Item'">
             <div class="mt-2" [ngClass]="{'invalid': invalidItem.image}">
@@ -170,7 +173,6 @@
                     </div>
                 </div>
             </div>
-
             <button [disabled]="buttonDisabled" (click)="presave()" class="btn1 mt-4 mb-5">Guardar</button>
             <button *ngIf="currentSubitem._id" (click)="confirm($event, currentSubitem)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-5">Eliminar</button>
         </div>
