@@ -46,7 +46,7 @@
             </select>
             <input *ngIf="form.address === 'custom'" class="mt-2" type="text" placeholder="Ingrese una dirección" [(ngModel)]="form.address2">
             <div class="d-flex align-items-center mt-2">
-                <input type="date" [(ngModel)]="form.date">
+                <input type="datetime-local" [(ngModel)]="form.date">
                 <button (click)="setActual()" class="btn2 ml-2">Actual</button>
             </div>
             <select class="mt-2" [(ngModel)]="form.typePaymment">
@@ -65,7 +65,7 @@
             <input type="text" class="input" placeholder="Nombre" [(ngModel)]="form.name">
             <input type="text" class="input mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
             <div class="d-flex align-items-center mt-2">
-                <input type="date" [(ngModel)]="form.date">
+                <input type="datetime-local" [(ngModel)]="form.date">
                 <button (click)="setActual()" class="btn2 ml-2">Actual</button>
             </div>
             <select class="mt-2" [(ngModel)]="form.typePaymment">

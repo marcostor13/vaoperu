@@ -19,7 +19,7 @@ const userSchema = new mongoose_1.Schema({
     price: {
         type: Number,
     },
-    idFeatured: {
+    isFeatured: {
         type: Boolean,
     },
     categoryId: {

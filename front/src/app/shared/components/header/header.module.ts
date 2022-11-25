@@ -14,6 +14,7 @@ import { BadgeModule } from 'primeng/badge';
 import { CartComponent } from './../cart/cart.component';
 import { FormsModule } from '@angular/forms';
 import { TabViewModule } from 'primeng/tabview';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { TabViewModule } from 'primeng/tabview';
     CartComponent
   ],
   imports: [
-  CommonModule,    
+  CommonModule,
     MenuModule,
     MenubarModule,
     SharedModule,
@@ -29,11 +30,12 @@ import { TabViewModule } from 'primeng/tabview';
     PanelMenuModule,
     MegaMenuModule,
     AuthloginModule,
-    DialogModule,    
+    DialogModule,
     SidebarModule,
     BadgeModule,
     FormsModule,
-    TabViewModule
+    TabViewModule,
+    CalendarModule
   ],
   exports: [
     HeaderComponent

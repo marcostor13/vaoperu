@@ -11,6 +11,10 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    isIndividual: {
+        type: Boolean,
+        default: false
+    },
     createAt: {
         type: Date,
         default: new Date()

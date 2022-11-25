@@ -1,7 +1,7 @@
-<app-header [eventHeader]="eventHeader"></app-header>
+<app-header [eventHeader]="eventHeader" (eventSearch)="eventSearch($event)"></app-header>
 
 <div  class="w-100 mt-2 mb-3 px-3 d-flex justify-content-start">
-  <button (click)="back()" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
+  <button *ngIf="!url?.isIndividual" (click)="back()" class="mt-4 bg-transparent px-2 f-14 font-500 border-0 d-flex align-items-center justify-content-center rounded-pill text-color5">
       <fa-icon class="f-14 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
       Atrás
   </button>
@@ -18,9 +18,9 @@
               <div class="image image-profile" [ngStyle]="{'background-image': 'url('+profileProvider.image+')'}"></div>
             </div>
             <div class="ml-4">
-                <!-- <p class="text-left text-break parraf mt-0 f-9">
+                <p class="d-none d-md-block text-left text-break parraf mt-0 f-9 text-capitalize">
                   {{profileProvider.description}}
-                </p> -->
+                </p>
                 <div class="d-flex align-items-center my-2">
                   <img *ngIf="aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
                   <img *ngIf="!aperture(profileProvider.openTime, profileProvider.closeTime)" width="23" src="assets/img/icons/close.svg" alt="Cerrado">
@@ -45,11 +45,11 @@
             </div>
           </div>
           <div class="mt-2 d-flex col m-0 p-0 flex-column justify-content-center align-items-start">
-            <div class="f-9 d-flex justify-content-center align-items-center">
+            <div class="f-9 d-flex justify-content-center align-items-center text-capitalize">
               {{profileProvider.addressText}},
             </div>
             <div class="w-100 m-0 d-flex align-items-center justify-content-between">
-              <label class="f-9 m-0">{{profileProvider.distrinctName}}</label>
+              <label class="f-9 m-0 text-capitalize">{{profileProvider.distrinctName}}</label>
               <label class="bold text-color1 m-0 pl-2" *ngIf="profileProvider.distance">{{profileProvider.distance}} km</label>
             </div>
           </div>

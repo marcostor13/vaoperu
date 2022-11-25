@@ -7,7 +7,7 @@ export interface IProduct extends Document {
     description: string,
     images:Array<string>,
     price: number,
-    idFeatured: boolean,
+    isFeatured: boolean,
     promotionalPrice: number,
     categoryId: string,
     createAt: Date
@@ -31,7 +31,7 @@ const userSchema = new Schema({
     price:{
         type:Number,
     },
-    idFeatured:{
+    isFeatured:{
         type:Boolean,
     },
     categoryId:{

@@ -19,6 +19,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import {Location} from '@angular/common';
+import { IUrl } from './../../../../../../../back/src/models/url';
 
 @Component({
   selector: 'app-view-company',
@@ -33,6 +34,7 @@ export class ViewCompanyComponent implements OnInit {
   faWhatsapp = faWhatsapp
   faPhone = faPhone
   products: CProduct[]
+  productsTmp: CProduct[]
   offers: COffer[]
   tabs: ITabList[] = []
   role: string[]
@@ -40,6 +42,7 @@ export class ViewCompanyComponent implements OnInit {
   faShare = faShare
   faStar = faStar
   faArrowLeft = faArrowLeft
+  url: IUrl
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +67,7 @@ export class ViewCompanyComponent implements OnInit {
 
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
+      this.url = response.data[0]
       this.getProfileProvider(response?.data[0]?.profileProviderId)
     })
   }
@@ -79,6 +83,7 @@ export class ViewCompanyComponent implements OnInit {
   getProducts(){
     this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
       this.products = response.data
+      this.productsTmp = response.data
       this.getOffers()
     })
   }
@@ -91,8 +96,8 @@ export class ViewCompanyComponent implements OnInit {
   }
 
   formatTabs(){
+    this.tabs = []
     let prods = [...this.products.filter(product => product.isFeatured)]
-
     if (this.products.length > 0){
       this.tabs = [...this.tabs, {
         title: 'Productos',
@@ -175,10 +180,10 @@ export class ViewCompanyComponent implements OnInit {
   }
 
   allproduct(){
-      this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos/0/des/1`])
+      this.router.navigate([ this.url.url + `/productos/0/des/1`])
   }
   information(){
-    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/informacion/0/des/1`])
+    this.router.navigate([ this.url.url + `/informacion/0/des/1`])
   }
 
   aperture(start:string, end:string) {
@@ -196,6 +201,15 @@ export class ViewCompanyComponent implements OnInit {
 
   rad(x) {
     return x * Math.PI / 180;
+  }
+
+  eventSearch(key:string){
+    if(key){
+      this.products = [...this.productsTmp.filter(p=>p.name.toLowerCase().indexOf(key.toLowerCase())>-1)]
+    }else{
+      this.products = [...this.productsTmp]
+    }
+    this.formatTabs()
   }
 
   getKilometros(lat1, lon1, lat2, lon2) {
@@ -222,6 +236,11 @@ export class ViewCompanyComponent implements OnInit {
   }
 
   back(){
-    this._location.back();
+    console.log('back')
+    if(this.router.url.indexOf('0/des/1')>-1){
+      this.router.navigate([ this.url.url ])
+    }else{
+      this.router.navigate([ '/'])
+    }
   }
 }

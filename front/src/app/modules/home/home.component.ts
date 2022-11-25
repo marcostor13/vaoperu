@@ -166,7 +166,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           item2: section.items[index*2+1],
         }]
       }
-      console.log('Res', res)
       return res
     }else{
       return []

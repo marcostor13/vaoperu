@@ -26,7 +26,7 @@ import { ProfileProviderService } from 'src/app/modules/provider/modules/profile
 })
 export class ProductListComponent implements OnInit, OnChanges {
 
-  @Input() items: Array<CProduct> | Array<COffer>
+  @Input() items: any
   @Input() rows: number
   @Input() type: string
   @Input() profileProviderId: string
@@ -59,7 +59,6 @@ export class ProductListComponent implements OnInit, OnChanges {
   private subs = new SubSink()
 
   constructor(
-    private general: GeneralService,
     private authService: AuthService,
     private cartService: CartService,
     private store: Store<any>,
@@ -97,7 +96,9 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.role = this.authService.getRole()
     this.getCategories()
     this.initializeItems()
-    this.getUrlData()
+    if(this.companyUrl){
+      this.getUrlData()
+    }
   }
 
   ngOnChanges(){
@@ -156,6 +157,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   initializeItems(){
+    this.items = [...this.items]
     if (this.items) {
       this.itemsTmp = [...this.items]
     }

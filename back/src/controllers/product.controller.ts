@@ -22,7 +22,6 @@ export const save = async (req: Request, res: Response): Promise<Response> => {
                 data: newObj
             })
         }).catch(error => {
-            console.log('ERROR', error)
             return res.status(501).json({
                 message: (error.code === 11000) ? `El ${title} ya existe, por favor elija otra` : `Error al crear ${title}`,
                 data: error
@@ -93,6 +92,7 @@ export const getByIds = (req: Request, res: Response) => {
 }
 
 export const update = (req: Request, res: Response) => {
+            console.log('req', req.body)
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err: any, response: any) => {
         if (err) {
             res.status(501).json({

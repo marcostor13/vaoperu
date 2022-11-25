@@ -12,7 +12,10 @@ header{
     top: 0;
     left: 0;
     z-index: 1;
-    width: 100vw;
+    min-width: 100vw;
+    .inputS2{
+      min-width: 400px;
+    }
     .input-search{
         position: relative;
         .icon-search{

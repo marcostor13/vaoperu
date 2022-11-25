@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './../../../modules/auth/services/auth.service';
 import { faSearch, faChevronDown, faSignOutAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { CUser } from './../../../models/user';
@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   faSignOutAlt = faSignOutAlt
   faShoppingCart = faShoppingCart
   key:string
-
   menuHeader: boolean = false
   isShowInputSearch: boolean = false
   isCrossMenu: boolean = false
@@ -39,19 +38,22 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   public latitude;
   public longitude;
   public address;
+  companyUrl: string
 
   private subs = new SubSink()
   @Input() eventHeader: any
+  @Output() eventSearch: EventEmitter<string> = new EventEmitter()
 
   constructor(
     public router: Router,
     private authService: AuthService,
-    private general: GeneralService,
+    private route: ActivatedRoute,
     private store: Store<any>,
     private productsService: ProductService,
     private messageService: MessageService,
     ) {
     this.subscriptionCart()
+    this.companyUrl = this.route.snapshot.paramMap.get('id')
   }
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     this.getLocation();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.eventHeader?.event === 'open-login') {
       this.openLogin()
     }
@@ -171,15 +173,17 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   search(){
-    console.log('Search', this.key)
-    if (this.key){
-      this.router.navigate([`/resultados/${this.key}`]).then(() => {
-        window.location.reload();
-      });
+    if(this.companyUrl){
+      this.eventSearch.emit(this.key)
+    }else{
+      if (this.key){
+        this.router.navigate([`/resultados/${this.key}`]).then(() => {
+          window.location.reload();
+        })
+      }
     }
+
   }
-
-
 
   getPosition(): Promise<any> {
     return new Promise((resolve, reject) => {

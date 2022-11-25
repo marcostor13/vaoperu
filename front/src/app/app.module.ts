@@ -24,9 +24,9 @@ import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
-    AppComponent       
+    AppComponent
   ],
-  imports: [  
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -46,7 +46,7 @@ import { ToastModule } from 'primeng/toast';
   providers: [
     AuthTokenHttpInterceptorProvider,
     HttpErrorHttpInterceptorProvider,
-    MessageService,    
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })

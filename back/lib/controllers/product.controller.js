@@ -29,7 +29,6 @@ exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 data: newObj
             });
         }).catch(error => {
-            console.log('ERROR', error);
             return res.status(501).json({
                 message: (error.code === 11000) ? `El ${title} ya existe, por favor elija otra` : `Error al crear ${title}`,
                 data: error
@@ -94,6 +93,7 @@ exports.getByIds = (req, res) => {
     });
 };
 exports.update = (req, res) => {
+    console.log('req', req.body);
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {
             res.status(501).json({

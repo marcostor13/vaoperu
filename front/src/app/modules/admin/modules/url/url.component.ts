@@ -22,7 +22,6 @@ export class UrlComponent implements OnInit {
   profileProviders: CProfileProvider[]
 
   constructor(
-    private general: GeneralService,
     private urlService: UrlService,
     private profileProviderService: ProfileProviderService,
     private messageService: MessageService,
@@ -41,7 +40,7 @@ export class UrlComponent implements OnInit {
       this.items = response.data
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })    
+    })
   }
 
   getProfileProviders() {
@@ -64,7 +63,7 @@ export class UrlComponent implements OnInit {
       invalid = true
       this.invalid.profileProviderId = true
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos requeridos' });
-    } 
+    }
     return invalid
   }
 
@@ -97,7 +96,7 @@ export class UrlComponent implements OnInit {
     });
   }
 
-  add(){    
+  add(){
     if (!this.validate(this.currentItem)) {
       this.urlService.save(this.currentItem).subscribe((response: IResponseApi) => {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message ? response.message: 'Usuario registrado' });
@@ -108,19 +107,19 @@ export class UrlComponent implements OnInit {
       }, error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
-      
+
     }
   }
 
   delete(item: CUrl) {
-    
+
     this.urlService.delete(item._id).subscribe((response: IResponseApi) => {
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUrl
       this.get()
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-    })    
+    })
   }
 
   getElementByID(id: string) {

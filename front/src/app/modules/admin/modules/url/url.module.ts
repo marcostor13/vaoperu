@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { ListboxModule } from 'primeng/listbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ListboxModule } from 'primeng/listbox';
     OrderListModule,
     DialogModule,
     FormsModule,
-    ListboxModule
+    ListboxModule,
+    InputSwitchModule
   ],
   providers: [ConfirmationService]
 })

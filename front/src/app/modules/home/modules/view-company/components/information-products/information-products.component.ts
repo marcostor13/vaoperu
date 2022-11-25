@@ -18,6 +18,7 @@ import { IFavorite } from '@shared/interfaces/favorites.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { InformationComponent } from './../../components/information/information.component'
+import { IUrl } from './../../../../../../../../../back/src/models/url';
 
 @Component({
   selector: 'app-information-products',
@@ -30,6 +31,7 @@ export class InformationProductsComponent implements OnInit {
   profileProvider: CProfileProvider
   products: CProduct[]
   companyUrl: string
+  url: IUrl
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +53,7 @@ export class InformationProductsComponent implements OnInit {
   }
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
+      this.url = response.data[0]
       this.getProfileProvider(response?.data[0].profileProviderId)
     })
   }
@@ -69,7 +72,7 @@ export class InformationProductsComponent implements OnInit {
   }
 
   allproduct(){
-    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-')])
+    this.router.navigate([ this.url.url])
   }
 
 }
