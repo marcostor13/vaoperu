@@ -31,6 +31,7 @@ const category_product_routes_1 = require("./routes/category-product.routes");
 const section_routes_1 = require("./routes/section.routes");
 const item_section_routes_1 = require("./routes/item-section.routes");
 const subitem_section_routes_1 = require("./routes/subitem-section.routes");
+const migration_routes_1 = require("./routes/migration.routes");
 require("./database");
 const passport_1 = require("./middlewares/auth/passport");
 const passport = require("passport");
@@ -64,6 +65,7 @@ app.use(category_product_routes_1.default);
 app.use(section_routes_1.default);
 app.use(item_section_routes_1.default);
 app.use(subitem_section_routes_1.default);
+app.use(migration_routes_1.default);
 app.use(passport.initialize());
 passport.use(passport_1.default);
 //LOCAL
