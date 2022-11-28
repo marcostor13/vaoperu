@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { IResponseApi, IResponseFront } from 'src/app/models/responses';
-import { SubSink } from 'SubSink';
+import { SubSink } from 'subsink';
 import { CDistrict, CDistrictInvalid } from './models/district'
 import { DistrictService } from './services/district.service';
 
@@ -35,9 +35,9 @@ export class DistrictComponent implements OnInit {
     this.subs.add(
       this.districtService.get().subscribe((response: IResponseApi) => {
         this.items = response.data
-        
+
       }, error => {
-        
+
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
@@ -54,7 +54,7 @@ export class DistrictComponent implements OnInit {
     return invalid
   }
 
-  reset() {    
+  reset() {
     this.currentItem = new CDistrict
   }
 
@@ -91,8 +91,8 @@ export class DistrictComponent implements OnInit {
           this.currentItem = new CDistrict
           this.get()
         }, error => {
-          
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
+
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
         })
       )
     }
@@ -105,8 +105,8 @@ export class DistrictComponent implements OnInit {
         this.currentItem = new CDistrict
         this.get()
       }, error => {
-        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
@@ -118,8 +118,8 @@ export class DistrictComponent implements OnInit {
         this.currentItem = new CDistrict
         this.get()
       }, error => {
-        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message }); 
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }

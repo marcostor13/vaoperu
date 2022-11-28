@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
-import { SubSink } from 'SubSink';
+import { SubSink } from 'subsink';
 import { SectionService } from './services/section.service';
 import { MessageService } from 'primeng/api';
 import { CImages } from 'src/app/models/images';

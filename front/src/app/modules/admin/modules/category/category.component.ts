@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
-import { SubSink } from 'SubSink';
+import { SubSink } from 'subsink';
 import { CCategory, CCategoryInvalid } from './models/category'
 import { CategoryService } from './services/category.service';
 import { MessageService } from 'primeng/api';
@@ -42,9 +42,9 @@ export class CategoryComponent implements OnInit {
   get() {
     this.subs.add(
       this.categoryService.get().subscribe((response: IResponseApi) => {
-        this.items = response.data                
-      }, error => {        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });       
+        this.items = response.data
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
@@ -54,7 +54,7 @@ export class CategoryComponent implements OnInit {
     let invalid = false
     if (!this.currentItem.name) {
       invalid = true
-      this.invalid.name = true      
+      this.invalid.name = true
     }
     if (!this.currentImage) {
       invalid = true
@@ -66,15 +66,15 @@ export class CategoryComponent implements OnInit {
     return invalid
   }
 
-  reset() {    
-    this.currentItem = new CCategory    
+  reset() {
+    this.currentItem = new CCategory
     this.currentImage = null
     this.uploadPercent = 0
   }
 
   addEdit(item: CCategory = null) {
     if (item) {
-      this.currentItem = item  
+      this.currentItem = item
       if (item.image){
         this.currentImage = { file: null, blob: null, url: item.image  }
       }
@@ -100,17 +100,17 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  add() {    
+  add() {
     this.subs.add(
       this.categoryService.save(this.currentItem).subscribe((response: IResponseApi) => {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CCategory
         this.get()
         this.reset()
-      }, error => {        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
-    )    
+    )
   }
 
   updateAll(){
@@ -120,8 +120,8 @@ export class CategoryComponent implements OnInit {
         this.currentItem = new CCategory
         this.get()
       }, error => {
-        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
@@ -136,14 +136,14 @@ export class CategoryComponent implements OnInit {
             this.currentItem = new CCategory
             this.get()
           }, error => {
-            
+
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           })
         )
       }).catch(_ => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
       })
-    }    
+    }
   }
 
   //IMAGE
@@ -175,7 +175,7 @@ export class CategoryComponent implements OnInit {
         }).catch(_ => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
         })
-      }  
+      }
       if (this.currentImage?.file) {
         this.general.uploadImage(this.currentImage.file, 'categories/').subscribe((res: any) => {
           if (typeof res === 'number') {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralService } from '@services/general.service';
 import { ConfirmationService } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
-import { SubSink } from 'SubSink';
+import { SubSink } from 'subsink';
 import { CSubcategory, CSubcategoryInvalid } from './models/subcategory'
 import { SubcategoryService } from './services/subcategory.service';
 import { MessageService } from 'primeng/api';
@@ -48,9 +48,9 @@ export class SubcategoryComponent implements OnInit {
     this.subs.add(
       this.subcategoryService.get().subscribe((response: IResponseApi) => {
         this.items = response.data
-                
-      }, error => {        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });       
+
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
@@ -70,7 +70,7 @@ export class SubcategoryComponent implements OnInit {
     let invalid = false
     if (!this.currentItem.name) {
       invalid = true
-      this.invalid.name = true      
+      this.invalid.name = true
     }
     if (!this.currentImage) {
       invalid = true
@@ -82,15 +82,15 @@ export class SubcategoryComponent implements OnInit {
     return invalid
   }
 
-  reset() {    
-    this.currentItem = new CSubcategory    
+  reset() {
+    this.currentItem = new CSubcategory
     this.currentImage = null
     this.uploadPercent = 0
   }
 
   addEdit(item: CSubcategory = null) {
     if (item) {
-      this.currentItem = item  
+      this.currentItem = item
       if (item.image){
         this.currentImage = { file: null, blob: null, url: item.image  }
       }
@@ -116,9 +116,9 @@ export class SubcategoryComponent implements OnInit {
     });
   }
 
-  add() {    
+  add() {
     this.subs.add(
-      this.subcategoryService.save(this.currentItem).subscribe((response: IResponseApi) => {   
+      this.subcategoryService.save(this.currentItem).subscribe((response: IResponseApi) => {
         this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
         this.currentItem = new CSubcategory
         if(!this.currentItem._id){
@@ -126,10 +126,10 @@ export class SubcategoryComponent implements OnInit {
         }
         this.get()
       }, error => {
-        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
-    )    
+    )
   }
 
   updateAll(){
@@ -139,8 +139,8 @@ export class SubcategoryComponent implements OnInit {
         this.currentItem = new CSubcategory
         this.get()
       }, error => {
-        
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });   
+
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
     )
   }
@@ -155,7 +155,7 @@ export class SubcategoryComponent implements OnInit {
             this.currentItem = new CSubcategory
             this.get()
           }, error => {
-            
+
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           })
         )
@@ -163,7 +163,7 @@ export class SubcategoryComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
       })
     }
-    
+
   }
 
   //IMAGE
@@ -196,7 +196,7 @@ export class SubcategoryComponent implements OnInit {
         }).catch(_ => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar la imagen' });
         })
-      }  
+      }
       if (this.currentImage?.file) {
         this.general.uploadImage(this.currentImage.file, 'subcategories/').subscribe((res: any) => {
           if (typeof res === 'number') {
