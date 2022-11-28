@@ -159,17 +159,20 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         item2: null
       }]
 
-      for (let index = 0; index < section.items.length / 2; index++) {
+      const itemsWithoutPrimary = [...section.items.filter(i=>i.item._id !== primaryItem.item._id)]
+
+      for (let index = 0; index < itemsWithoutPrimary.length / 2; index++) {
         res = [...res, {
           isPrimary: false,
-          item1: section.items[index*2],
-          item2: section.items[index*2+1],
+          item1: itemsWithoutPrimary[index*2],
+          item2: itemsWithoutPrimary[index*2+1],
         }]
       }
       return res
     }else{
       return []
     }
+
   }
 
   getMenu(){
