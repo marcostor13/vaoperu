@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MessageModule } from 'primeng/message';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { HammerConfig } from './hammer.config';
 
 @NgModule({
   declarations: [
@@ -42,11 +43,16 @@ import { ToastModule } from 'primeng/toast';
     AngularFireStorageModule,
     MessageModule,
     ToastModule,
+    HammerModule
   ],
   providers: [
     AuthTokenHttpInterceptorProvider,
     HttpErrorHttpInterceptorProvider,
     MessageService,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass:HammerConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

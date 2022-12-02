@@ -1,10 +1,7 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnChanges } from '@angular/core';
-import { GeneralService } from '@services/general.service';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild, ElementRef,  AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
 import { SubSink } from 'subsink';
-import { CategoryService } from '../admin/modules/category/services/category.service';
-import { SubcategoryService } from '../admin/modules/subcategory/services/subcategory.service';
 import { MessageService } from 'primeng/api';
 import { CSubcategory } from '../admin/modules/subcategory/models/subcategory';
 import { CCategory } from '../admin/modules/category/models/category';
@@ -15,10 +12,9 @@ import { CPromotion } from '../admin/modules/promotions/interfaces/promotion.int
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 import { CategorySubcategoryProfileService } from '../admin/modules/category-subcategory-profile/services/category-subcategory-profile.service';
 import { ICategorySubcategoryProfile } from '../admin/modules/category-subcategory-profile/interfaces/category-subcategory-profile.interfaces';
-import { faSearch, faChevronDown, faSignOutAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { SectionService } from './../admin/modules/section/services/section.service';
-import { CItem, IItemsData, ISectionsData } from '../admin/modules/section/models/section';
-import { CSubitem, CSection } from './../admin/modules/section/models/section';
+import { CItem, ISectionsData } from '../admin/modules/section/models/section';
 
 @Component({
   selector: 'app-home',
@@ -61,7 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   key:string
   sections: ISectionsData[]
   displayCategories: boolean = false
-  category: any;
+  category: any
 
     constructor(
       private messageService: MessageService,

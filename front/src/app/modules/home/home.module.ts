@@ -12,11 +12,12 @@ import { DialogModule } from 'primeng/dialog';
 import { PromotionListModule } from './../../shared/components/promotion-list/promotion-list.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
+import { SliderModule } from './../../shared/components/slider/slider.module';
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [
-  CommonModule,
+CommonModule,
     HomeRoutingModule,
     HeaderModule,
     CarouselModule,
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     DialogModule,
     PromotionListModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    SliderModule
   ]
 })
 export class HomeModule { }
