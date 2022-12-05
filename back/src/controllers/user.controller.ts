@@ -24,12 +24,12 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
         return res.status(400).json({message: 'El usuario ya existe'})
     }
     const newUser:Iuser = new User(req.body)
-    await newUser.save()
+    const userNew = await newUser.save()
 
     if(newUser.role.indexOf('provider')>-1){
         const data = {
-            comercialName: newUser.name,
-            userid: newUser._id
+            comercialName: userNew.name,
+            userid: userNew._id
         }
         const newProfile:IProfileProvider = new ProfileProvider(data)
         await newProfile.save()

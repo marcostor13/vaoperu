@@ -32,11 +32,11 @@ exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).json({ message: 'El usuario ya existe' });
     }
     const newUser = new user_1.default(req.body);
-    yield newUser.save();
+    const userNew = yield newUser.save();
     if (newUser.role.indexOf('provider') > -1) {
         const data = {
-            comercialName: newUser.name,
-            userid: newUser._id
+            comercialName: userNew.name,
+            userid: userNew._id
         };
         const newProfile = new profile_provider_1.default(data);
         yield newProfile.save();
