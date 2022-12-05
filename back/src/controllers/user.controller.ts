@@ -28,17 +28,21 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
 
     console.log('userNew', userNew)
 
-    if(userNew?.role.indexOf('provider')>-1){
-        const data = {
-            comercialName: userNew.name,
-            userid: userNew._id
+    const user2 = await User.findOne({email: userNew.email})
+
+    if(user2){
+        if(user2.role.indexOf('provider')>-1){
+            const data = {
+                comercialName: user2.name,
+                userid: user2._id
+            }
+            console.log('data', data)
+            const newProfile:IProfileProvider = new ProfileProvider(data)
+            await newProfile.save()
+            console.log('newProfile', newProfile)
+        }else{        
+            console.log('newUser', newUser)
         }
-        console.log('data', data)
-        const newProfile:IProfileProvider = new ProfileProvider(data)
-        await newProfile.save()
-        console.log('newProfile', newProfile)
-    }else{        
-        console.log('newUser', newUser)
     }
 
     return res.status(200).json(newUser)

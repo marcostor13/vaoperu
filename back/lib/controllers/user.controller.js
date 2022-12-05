@@ -34,18 +34,21 @@ exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = new user_1.default(req.body);
     const userNew = yield newUser.save();
     console.log('userNew', userNew);
-    if ((userNew === null || userNew === void 0 ? void 0 : userNew.role.indexOf('provider')) > -1) {
-        const data = {
-            comercialName: userNew.name,
-            userid: userNew._id
-        };
-        console.log('data', data);
-        const newProfile = new profile_provider_1.default(data);
-        yield newProfile.save();
-        console.log('newProfile', newProfile);
-    }
-    else {
-        console.log('newUser', newUser);
+    const user2 = yield user_1.default.findOne({ email: userNew.email });
+    if (user2) {
+        if (user2.role.indexOf('provider') > -1) {
+            const data = {
+                comercialName: user2.name,
+                userid: user2._id
+            };
+            console.log('data', data);
+            const newProfile = new profile_provider_1.default(data);
+            yield newProfile.save();
+            console.log('newProfile', newProfile);
+        }
+        else {
+            console.log('newUser', newUser);
+        }
     }
     return res.status(200).json(newUser);
 });
