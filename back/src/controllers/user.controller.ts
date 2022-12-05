@@ -26,7 +26,9 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
     const newUser:Iuser = new User(req.body)
     const userNew = await newUser.save()
 
-    if(newUser.role.indexOf('provider')>-1){
+    console.log('userNew', userNew)
+
+    if(userNew?.role.indexOf('provider')>-1){
         const data = {
             comercialName: userNew.name,
             userid: userNew._id

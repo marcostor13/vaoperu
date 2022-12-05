@@ -33,7 +33,8 @@ exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const newUser = new user_1.default(req.body);
     const userNew = yield newUser.save();
-    if (newUser.role.indexOf('provider') > -1) {
+    console.log('userNew', userNew);
+    if ((userNew === null || userNew === void 0 ? void 0 : userNew.role.indexOf('provider')) > -1) {
         const data = {
             comercialName: userNew.name,
             userid: userNew._id
