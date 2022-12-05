@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.del = exports.update = exports.getByIds = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = void 0;
 const user_1 = require("../models/user");
+const profile_provider_1 = require("../models/profile-provider");
 const jwt = require("jsonwebtoken");
 const keys = require("../keys");
 const title = 'Usuario';
@@ -21,6 +22,7 @@ function createToken(user) {
     });
 }
 exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('singUp');
     const { name, role, email, password } = req.body;
     if (!name || !role || !email || !password) {
         return res.status(400).json({ message: 'Debe completar todos los datos' });
@@ -31,6 +33,18 @@ exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const newUser = new user_1.default(req.body);
     yield newUser.save();
+    if (newUser.role.indexOf('provider') > -1) {
+        const data = {
+            comercialName: newUser.name,
+            userid: newUser._id
+        };
+        const newProfile = new profile_provider_1.default(data);
+        yield newProfile.save();
+        console.log('newProfile', newProfile);
+    }
+    else {
+        console.log('newUser', newUser);
+    }
     return res.status(200).json(newUser);
 });
 exports.singIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

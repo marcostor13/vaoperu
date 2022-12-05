@@ -192,10 +192,10 @@ export class CartComponent implements OnInit {
 
   finishedShop(){
     if(this.validateForm()){
-      if (this.authService.getRole()?.indexOf('user')>-1){
+      // if (this.authService.getRole()?.indexOf('user')>-1){
         let cart = cloneDeep(this.cart)
         cart.orderData = this.form
-        cart.userId = this.authService.getUserID()
+        cart.userId = this.authService?.getUserID() || ''
         this.cartService.saveOrder(cart).subscribe((response:IResponseApi)=>{
           this.messageService.add({ severity: 'Success', detail: 'Orden Guardada', summary: 'Éxito' })
           this.cartService.resetCart()
@@ -208,9 +208,9 @@ export class CartComponent implements OnInit {
             this.messageService.add({ severity: 'Error', detail: 'El negocio no tiene whastapp configurado', summary: 'Error' })
           }
         }, _ => this.messageService.add({severity:'Error', detail: 'Error al guardar el pedido', summary: 'Error'}))
-      }else{
-        this.events.emit('open-login')
-      }
+      // }else{
+      //   this.events.emit('open-login')
+      // }
     }
   }
 

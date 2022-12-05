@@ -5,7 +5,7 @@ const order_controller_1 = require("../controllers/order.controller");
 const passport = require("passport");
 const model = 'order';
 const router = express_1.Router();
-router.post(`/save-${model}`, passport.authenticate('jwt', { session: false }), order_controller_1.save);
+router.post(`/save-${model}`, order_controller_1.save);
 router.get(`/get-${model}`, passport.authenticate('jwt', { session: false }), order_controller_1.get);
 router.get(`/get-${model}-by-id/:id`, passport.authenticate('jwt', { session: false }), order_controller_1.getByID);
 router.get(`/get-${model}-by-profile-provider-id/:id`, passport.authenticate('jwt', { session: false }), order_controller_1.getByProfileProviderId);

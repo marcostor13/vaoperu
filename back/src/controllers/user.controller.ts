@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User, { Iuser } from "../models/user";
+import ProfileProvider, { IProfileProvider } from "../models/profile-provider";
 import * as jwt from "jsonwebtoken";
 import * as keys from '../keys'
 
@@ -13,6 +14,7 @@ function createToken(user: Iuser){
 }
 
 export const singUp = async (req:Request, res:Response):Promise<Response> => {
+    console.log('singUp')
     const {name, role, email, password} = req.body
     if (!name || !role || !email || !password){
         return res.status(400).json({message: 'Debe completar todos los datos'})        
@@ -23,6 +25,19 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
     }
     const newUser:Iuser = new User(req.body)
     await newUser.save()
+
+    if(newUser.role.indexOf('provider')>-1){
+        const data = {
+            comercialName: newUser.name,
+            userid: newUser._id
+        }
+        const newProfile:IProfileProvider = new ProfileProvider(data)
+        await newProfile.save()
+        console.log('newProfile', newProfile)
+    }else{        
+        console.log('newUser', newUser)
+    }
+
     return res.status(200).json(newUser)
 }
 

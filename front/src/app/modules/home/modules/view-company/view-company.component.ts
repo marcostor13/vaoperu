@@ -196,7 +196,7 @@ export class ViewCompanyComponent implements OnInit {
 
   shared(url: string, name: string){
     const urlShare = `https://vaoperu.com/${url}`.replace(' ', '-')
-    window.navigator.share({ url: urlShare, title: `Vao Perú - ${name}`})
+    window.navigator.share({ url: urlShare, title: `${name}`})
   }
 
   rad(x) {
