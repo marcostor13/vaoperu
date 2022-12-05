@@ -33,6 +33,7 @@ export const singUp = async (req:Request, res:Response):Promise<Response> => {
             comercialName: userNew.name,
             userid: userNew._id
         }
+        console.log('data', data)
         const newProfile:IProfileProvider = new ProfileProvider(data)
         await newProfile.save()
         console.log('newProfile', newProfile)

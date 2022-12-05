@@ -39,6 +39,7 @@ exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             comercialName: userNew.name,
             userid: userNew._id
         };
+        console.log('data', data);
         const newProfile = new profile_provider_1.default(data);
         yield newProfile.save();
         console.log('newProfile', newProfile);
