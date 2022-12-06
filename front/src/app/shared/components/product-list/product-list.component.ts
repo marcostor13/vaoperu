@@ -54,7 +54,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   productsFormatOthers: IFormatProduct[]
   categories: ICategoryProduct[]
   profileProvider: CProfileProvider
-
+  displayAllProducts: boolean = false
+  currentProducts: IFormatProduct
 
   private subs = new SubSink()
 
@@ -319,9 +320,10 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
 
-  allproduct(){
-    this.router.navigate([ this.profileProvider.comercialName.toLowerCase().replace(' ', '-') + `/productos/0/des/1`])
-    console.log('pagina', this.profileProvider.comercialName)
+  allproduct(productFormat: IFormatProduct){
+    this.currentProducts = productFormat
+    this.displayAllProducts = true
+    // this.router.navigate([ this.companyUrl + `/productos/0/des/1`])
   }
 
 }
