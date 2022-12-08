@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
-import { GeneralService } from '@services/general.service';
 import { SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { CartService } from './../../services/cart/cart.service';
@@ -7,17 +6,17 @@ import { CProduct, ICategoryProduct } from 'src/app/modules/provider/modules/pro
 import { SubSink } from 'subsink';
 import { ICart } from '@shared/interfaces/cart.interfaces';
 import { Store } from '@ngrx/store';
-import { delay } from 'rxjs/operators';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { IFormatProduct } from './../../interfaces/product.interface';
-import { COffer } from 'src/app/modules/provider/modules/offer/models/offer';
 import { ProductService } from 'src/app/modules/provider/modules/product/services/product.service';
 import { IResponseApi } from 'src/app/models/responses';
 import * as _ from 'lodash';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
+import { IUrl } from './../../../../../../back/src/models/url';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -29,6 +28,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   @Input() items: any
   @Input() rows: number
   @Input() type: string
+  @Input() url?: IUrl
   @Input() profileProviderId: string
   @Output() productsEvent: EventEmitter<any> =  new EventEmitter()
 
@@ -62,11 +62,11 @@ export class ProductListComponent implements OnInit, OnChanges {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
-    private store: Store<any>,
     private productService: ProductService,
-    private router: Router,
     private profileProviderService: ProfileProviderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store<any>
 
   ) {
     this.responsiveOptions = [
@@ -88,27 +88,21 @@ export class ProductListComponent implements OnInit, OnChanges {
     ];
 
     this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
-
     this.companyUrl = this.route.snapshot.paramMap.get('id')
-
+    this.detectEventRoute()
+    this.subscriptionCart()
   }
 
-  ngOnInit(): void {
-    this.role = this.authService.getRole()
-    this.getCategories()
-    this.initializeItems()
-    if(this.companyUrl){
-      this.getUrlData()
-    }
-  }
-
-  ngOnChanges(){
-    this.getCategories()
-    this.initializeItems()
-    this.initializeQuantities()
-    if (!this.isProviderPath){
-      this.subscriptionCart()
-    }
+  detectEventRoute(){
+    this.router.events
+      .subscribe((event: NavigationStart) => {
+        if (event.navigationTrigger === 'popstate') {
+          if(this.displayModal){
+            this.displayModal = false
+            this.router.navigate([`/${this.url.url}`])
+          }
+        }
+      });
   }
 
   subscriptionCart() {
@@ -125,9 +119,23 @@ export class ProductListComponent implements OnInit, OnChanges {
               this.cart = cart;
             }
           }
-          this.setQuantities()
         })
     )
+  }
+
+  ngOnInit(): void {
+    this.role = this.authService.getRole()
+    this.getCategories()
+    this.initializeItems()
+    if(this.companyUrl){
+      this.getUrlData()
+    }
+  }
+
+  ngOnChanges(){
+    this.getCategories()
+    this.initializeItems()
+    this.initializeQuantities()
   }
 
   resetCart(){
@@ -136,25 +144,6 @@ export class ProductListComponent implements OnInit, OnChanges {
       userId: '',
       items: []
     })
-  }
-
-  setQuantities() {
-    this.items?.map((prod, index) => {
-      this.quantity[index] = 0
-    })
-    if (this.cart?.items?.length>0){
-      this.cart.items.map((item, i) => {
-        this.items?.map((prod, index) => {
-          if (prod._id === item.productId) {
-            this.quantity[index] = item.quantity
-          }
-        })
-      })
-    }else{
-      this.items?.map((prod, index) => {
-        this.quantity[index] = 0
-      })
-    }
   }
 
   initializeItems(){
@@ -263,10 +252,9 @@ export class ProductListComponent implements OnInit, OnChanges {
     let quantity:number
     switch (type) {
       case 'increase':
-        quantity = this.quantity[i]+1
         const itemCart = {
           productId: product._id,
-          quantity,
+          quantity: 1,
           productData: {
             name: product.name,
             price: product.price,
@@ -276,7 +264,6 @@ export class ProductListComponent implements OnInit, OnChanges {
         this.cartService.addToCart(itemCart, this.profileProviderId)
         break;
       case 'subtract':
-        quantity = this.quantity[i]-1
         if (quantity>0){
           this.cartService.substractToCart(product._id, this.profileProviderId)
         }else{
@@ -284,7 +271,6 @@ export class ProductListComponent implements OnInit, OnChanges {
         }
         break;
     }
-    this.setQuantities()
   }
 
   getDescription(description: string){

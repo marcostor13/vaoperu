@@ -54,12 +54,13 @@ export class CartService {
   }
 
   addToCart(itemCart: IItemCart, profileProviderId:string) {
-    let cart = cloneDeep(this.cart)
-    if(cart.items.length>0){   
-      if(cart.items.some(item=>item.productId===itemCart.productId)){
+    let cart: ICart = cloneDeep(this.cart)
+    if(cart.items.length>0){
+      const find = cart.items.find(item=>item.productId === itemCart.productId)
+      if(find){
         cart.items = cart.items.map((item: IItemCart) => {
           if (item.productId === itemCart.productId){
-            item = itemCart
+            item.quantity++
           }
           return item
         })
@@ -96,8 +97,8 @@ export class CartService {
   }
 
   removeToCart(productId: string, profileProviderId: string){
-    let cart = cloneDeep(this.cart)    
-    cart.items = cart.items.filter(item => item.productId !== productId)   
+    let cart = cloneDeep(this.cart)
+    cart.items = cart.items.filter(item => item.productId !== productId)
     cart.profileProviderId = profileProviderId
     cart.userId = this.authService.getUserID()
     this.setDataCart(cart)

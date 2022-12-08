@@ -7,9 +7,9 @@ const Collection = Order
 
 export const save = async (req: Request, res: Response): Promise<Response> => {
     
-    const { profileProviderId ,userId , items  } = req.body
+    const { profileProviderId , items  } = req.body
 
-    if (!userId || !profileProviderId || !items){
+    if (!profileProviderId || !items){
         return res.status(501).json({
             message: `Debe completar todos los campos requeridos`,
             data: null

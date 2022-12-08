@@ -222,7 +222,7 @@ export class CompanyListComponent implements OnInit, OnChanges {
         const url = response.data[0].url.trim()
         const urlShare = `https://vaoperu.com/${url}`
         try {
-          window.navigator.share({ url: urlShare, title: `${name}`})
+          window.navigator.share({ url: urlShare, title: `${name}`, text: `${name}`})
         } catch (error) {
           this.messageService.add({detail: 'Su navegador no soporta la funcionalidad de compartir', summary: 'Error', severity:'error'})
         }

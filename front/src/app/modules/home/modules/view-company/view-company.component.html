@@ -67,7 +67,7 @@
                   <ng-template pTemplate = "header" headerStyleClass = "w-100">
                       <span class="f-10 font-500 font-300">{{tab.title}}</span>
                   </ng-template>
-                  <app-product-list *ngIf="tab.title!=='Información'" [type]="tab.title" [profileProviderId]="profileProvider._id" [items]="tab.data" [rows]="3"></app-product-list>
+                  <app-product-list *ngIf="tab.title!=='Información'" [type]="tab.title" [profileProviderId]="profileProvider._id" [items]="tab.data" [rows]="3" [url]="url"></app-product-list>
               </p-tabPanel>
 
           </p-tabView>

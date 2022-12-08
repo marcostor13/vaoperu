@@ -2,22 +2,20 @@
 <h5  *ngIf="cart?.items?.length === 0 || !cart" class="text-center mt-5 text-color1">No hay productos disponibles</h5>
 
 <ng-container *ngIf="step===1">
-    <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center">
-        <li class="py-3 col d-flex justify-content-between align-items-center" *ngFor="let item of cart?.items; let i=index">
+    <ul class="list-unstyled w-100 d-flex flex-column align-items-center justify-content-center px-2">
+        <li class="py-3 col d-flex justify-content-between align-items-center p-0" *ngFor="let item of cart?.items; let i=index">
             <div class="image-local image" [ngStyle]="{'background-image': 'url('+getProductById(item.productId)?.images[0]+')'}"></div>
-            <div class="m-2">
-                <h5 class="title m-0">{{getProductById(item.productId)?.name}}</h5>
+            <div class="m-2 col-md-5 col-4 p-0">
+                <p class="title m-0 f-11 text-capitalize">{{getProductById(item.productId)?.name | lowercase}}</p>
             </div>
 
-            <div class="m-2">
-                <div class="controls d-flex align-items-center">
-                    <button (click)="changeProduct(i, 'subtract', getProductById(item.productId))">-</button>
-                    <input disabled="true" type="text" [(ngModel)]="cart.items[i].quantity">
-                    <button (click)="changeProduct(i, 'increase', getProductById(item.productId))" class="cursor">+</button>
-                </div>
+            <div class="controls d-flex align-items-center">
+                <button (click)="changeProduct(i, 'subtract', getProductById(item.productId))">-</button>
+                <input class="text-center text-black p-0" disabled="true" type="text" [(ngModel)]="cart.items[i].quantity">
+                <button (click)="changeProduct(i, 'increase', getProductById(item.productId))" class="cursor">+</button>
             </div>
-            <div>
-                <p class="m-0">S/ {{getProductById(item.productId).promotionalPrice ? getProductById(item.productId).promotionalPrice: getProductById(item.productId).price}}</p>
+            <div class="pl-2">
+                <p class="m-0 price">S/ {{getProductById(item?.productId)?.promotionalPrice ? getProductById(item?.productId)?.promotionalPrice: getProductById(item?.productId)?.price}}</p>
             </div>
         </li>
     </ul>

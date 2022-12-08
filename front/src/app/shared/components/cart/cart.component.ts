@@ -59,7 +59,9 @@ export class CartComponent implements OnInit {
       this.store.select((state) => state.Reducer.cart)
         .pipe(delay(0))
         .subscribe((cart: ICart) => {
-          this.cart = cart
+          const cartTmp = cloneDeep(cart)
+          cartTmp.items = [...cartTmp.items.filter(i=>this.products.find(p=>p._id === i.productId))]
+          this.cart = cartTmp
         })
     )
   }
@@ -102,9 +104,9 @@ export class CartComponent implements OnInit {
         break;
       case 'subtract':
         if (this.cart.items[i].quantity > 1) {
-          this.cartService.substractToCart(product._id, this.cart.profileProviderId)
+          this.cartService.substractToCart(product?._id, this.cart.profileProviderId)
         } else {
-          this.cartService.removeToCart(product._id, this.cart.profileProviderId)
+          this.cartService.removeToCart(product?._id, this.cart.profileProviderId)
         }
         break;
     }
@@ -113,7 +115,7 @@ export class CartComponent implements OnInit {
   getTotal(){
     let total = 0
     this.cart?.items?.map(item=>{
-      let price = this.getProductById(item.productId).promotionalPrice ? this.getProductById(item.productId).promotionalPrice : this.getProductById(item.productId).price
+      let price = this.getProductById(item?.productId)?.promotionalPrice ? this.getProductById(item?.productId)?.promotionalPrice : this.getProductById(item?.productId)?.price
       total = total + price * item.quantity
     })
     return total

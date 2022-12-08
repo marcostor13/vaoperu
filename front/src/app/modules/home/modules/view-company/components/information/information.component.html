@@ -1,9 +1,34 @@
 <div class="d-flex flex-column" *ngIf="profileProviderFormat">
     <div>
-        <div class="d-flex mt-3 ml-4 mb-4" *ngFor="let profileProviderFormat of profileProviderFormat">
+        <div class="d-flex mt-3 ml-4 mb-4" *ngFor="let p of profileProviderFormat">
             <div class="d-flex flex-column justify-content-center ml-2">
-                <h6 class="text-color1 text-capitalize bold">{{format(profileProviderFormat.key)}}</h6>
-                <p class="text-value">{{profileProviderFormat.value}}</p>
+                <h6 class="text-color1 text-capitalize bold">{{format(p.key)}}</h6>
+                <ng-container [ngSwitch]="p.key.trim()">
+
+                  <ng-container *ngSwitchCase="'Whatsapp'">
+                    <a [href]="'https://api.whatsapp.com/send/?phone=51'+p.value+'&text=Hola! quiero información'"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Teléfono'">
+                    <a [href]="'tel:'+p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Instagram'">
+                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Facebook'">
+                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Twitter'">
+                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Tiktok'">
+                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'Sitio Web'">
+                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>{{p.value}}</ng-container>
+                </ng-container>
+
             </div>
         </div>
     </div>

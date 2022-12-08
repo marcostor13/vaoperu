@@ -14,8 +14,8 @@ const order_1 = require("../models/order");
 const title = 'Orden';
 const Collection = order_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { profileProviderId, userId, items } = req.body;
-    if (!userId || !profileProviderId || !items) {
+    const { profileProviderId, items } = req.body;
+    if (!profileProviderId || !items) {
         return res.status(501).json({
             message: `Debe completar todos los campos requeridos`,
             data: null

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RoleAdminGuard } from './modules/auth/guards/role-admin.guard';
 import { RoleProviderGuard } from './modules/auth/guards/role-provider.guard';
+  import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+
 
 const routes: Routes = [
   {
@@ -17,6 +19,10 @@ const routes: Routes = [
     path: 'provider',
     loadChildren: () => import('./modules/provider/provider.module').then(m => m.ProviderModule),
     canActivate: [RoleProviderGuard]
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
   },
   {
     path: '',

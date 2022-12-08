@@ -19,7 +19,6 @@ export class InformationComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.formatData()
-    console.log('profileProvider', this.profileProvider)
   }
 
   ngAfterViewInit(): void {

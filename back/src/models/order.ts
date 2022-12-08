@@ -37,8 +37,7 @@ const userSchema = new Schema({
         required: true
     },
     userId:{
-        type:String,
-        required: true
+        type:String
     },
     items:{
         type: Array,

@@ -7,8 +7,7 @@ const userSchema = new mongoose_1.Schema({
         required: true
     },
     userId: {
-        type: String,
-        required: true
+        type: String
     },
     items: {
         type: Array,

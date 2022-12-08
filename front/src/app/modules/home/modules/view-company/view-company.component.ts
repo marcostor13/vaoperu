@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faStar, faShare } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,6 @@ import { IFavorite } from '@shared/interfaces/favorites.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
-import {Location} from '@angular/common';
 import { IUrl } from './../../../../../../../back/src/models/url';
 
 @Component({
@@ -54,8 +53,7 @@ export class ViewCompanyComponent implements OnInit {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router,
-    private _location: Location
+    private router: Router
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
   }
@@ -68,7 +66,11 @@ export class ViewCompanyComponent implements OnInit {
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
       this.url = response.data[0]
-      this.getProfileProvider(response?.data[0]?.profileProviderId)
+      if(response?.data[0]?.profileProviderId){
+        this.getProfileProvider(response?.data[0]?.profileProviderId)
+      }else{
+        this.router.navigate(['/404'])
+      }
     })
   }
 
@@ -196,7 +198,7 @@ export class ViewCompanyComponent implements OnInit {
 
   shared(url: string, name: string){
     const urlShare = `https://vaoperu.com/${this.url.url}`.replace(' ', '-')
-    window.navigator.share({ url: urlShare, title: `${name}`})
+    window.navigator.share({ url: urlShare, title: `${name}`, text: `${name}`})
   }
 
   rad(x) {
