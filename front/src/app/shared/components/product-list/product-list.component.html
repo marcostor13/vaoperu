@@ -7,7 +7,7 @@
           Ver todos
         </button>
       </div>
-      <p-dataView [value]="productFormat.products" [paginator]="productFormat.products?.length>10" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'">
+      <p-dataView [value]="productFormat.products" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'"> <!--[paginator]="productFormat.products?.length>10"-->
           <ng-template *ngIf="rows===0" pTemplate="header">
               <div  class="row justify-content-between m-0">
                   <div class="input-search">
