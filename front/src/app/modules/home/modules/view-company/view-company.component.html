@@ -30,7 +30,7 @@
                     <a href="tel:{{profileProvider.phone}}" target="_blank" title="Llamar" class="link-unstyled p-1 bg-color2 rounded-circle icon d-flex justify-content-center align-items-center">
                         <fa-icon class="f-14 text-white fa-rotate-90" [icon]="faPhone"></fa-icon>
                     </a>
-                    <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" title="Whatsapp" class="ml-2 p-1 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
+                    <a href="https://wa.me/{{profileProvider.whatsapp | whatsapp}}?text=Hola! {{profileProvider.comercialName}}" target="_blank" title="Whatsapp" class="ml-2 p-1 bg-color1 rounded-circle icon d-flex justify-content-center align-items-center">
                         <fa-icon class="f-16 text-white" [icon]="faWhatsapp"></fa-icon>
                     </a>
                     <fa-icon (click)="shared(profileProvider.comercialName, profileProvider.comercialName)" class="ml-2 cursor f-16 text-color2 mr-2" [icon]="faShare"></fa-icon>

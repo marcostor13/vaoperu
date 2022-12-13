@@ -6,25 +6,25 @@
                 <ng-container [ngSwitch]="p.key.trim()">
 
                   <ng-container *ngSwitchCase="'Whatsapp'">
-                    <a [href]="'https://api.whatsapp.com/send/?phone=51'+p.value+'&text=Hola! quiero información'"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="'https://api.whatsapp.com/send/?phone=51'+p.value+'&text=Hola! quiero información'" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Teléfono'">
                     <a [href]="'tel:'+p.value"></a><p class="text-value">{{p.value}}</p>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Instagram'">
-                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="p.value" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Facebook'">
-                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="p.value" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Twitter'">
-                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="p.value" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Tiktok'">
-                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="p.value" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchCase="'Sitio Web'">
-                    <a [href]="p.value"></a><p class="text-value">{{p.value}}</p>
+                    <a class="text-decoration-none hover" [href]="p.value" target="_blank"><p class="text-value text-color3">{{p.value}}</p></a>
                   </ng-container>
                   <ng-container *ngSwitchDefault>{{p.value}}</ng-container>
                 </ng-container>
