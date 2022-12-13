@@ -23,6 +23,7 @@ $size: 210px;
       background-size: cover;
       min-height: 300px;
       min-width: 100%;
+      text-align: -webkit-center;
   }
 }
 
@@ -164,4 +165,8 @@ $size: 210px;
 
 .p-tabview-panels{
   padding: 0!important;
+}
+
+.image-modal{
+  text-align: -webkit-center;
 }

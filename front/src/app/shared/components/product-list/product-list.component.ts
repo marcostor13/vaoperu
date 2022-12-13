@@ -56,6 +56,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   profileProvider: CProfileProvider
   displayAllProducts: boolean = false
   currentProducts: IFormatProduct
+  sectionButton = []
 
   private subs = new SubSink()
 
@@ -91,6 +92,12 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
     this.detectEventRoute()
     this.subscriptionCart()
+  }
+
+  getSectionButton() {
+    this.sectionButton = this.productsFormat.map(p => {
+      return 2
+    })
   }
 
   detectEventRoute(){
@@ -181,6 +188,8 @@ export class ProductListComponent implements OnInit, OnChanges {
     }).sort((a:any,b:any)=>{
       return a.category - b.category
     })
+
+    this.getSectionButton()
   }
 
   initializeQuantities(){
@@ -305,11 +314,14 @@ export class ProductListComponent implements OnInit, OnChanges {
     })
   }
 
-
   allproduct(productFormat: IFormatProduct){
     this.currentProducts = productFormat
     this.displayAllProducts = true
     // this.router.navigate([ this.companyUrl + `/productos/0/des/1`])
+  }
+
+  toggleButton(j){
+    this.sectionButton[j] = this.sectionButton[j] === 2 ? this.productsFormat[j].products.length : 2
   }
 
 }

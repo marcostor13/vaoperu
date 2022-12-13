@@ -1,11 +1,11 @@
 <div class="product-list">
 
-    <ng-container *ngFor="let productFormat of productsFormat">
+    <ng-container *ngFor="let productFormat of productsFormat; let j = index">
       <div class="d-flex justify-content-between bar mt-2">
         <h5 class="text-capitalize text-color1 f-11">{{productFormat.category}}</h5>
-        <button (click)="allproduct(productFormat)" class="bg-transparent f-11 border-0 p-0 text-color5">
+        <!-- <button (click)="allproduct(productFormat)" class="bg-transparent f-11 border-0 p-0 text-color5">
           Ver todos
-        </button>
+        </button> -->
       </div>
       <p-dataView [value]="productFormat.products" [rows]="rows ? rows: null" filterBy="name" layout="grid" [emptyMessage]="'No se encontraron resultados'"> <!--[paginator]="productFormat.products?.length>10"-->
           <ng-template *ngIf="rows===0" pTemplate="header">
@@ -50,39 +50,48 @@
           </ng-template>
 
           <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
-              <div *ngIf="i === 0 || i===1" class="product col justify-content-center d-flex p-0 mt-3 m-0 m-md-3 py-2">
-                <div class="d-flex flex-column justify-content-start align-items-center">
-                  <div (click)="openModal(product, i)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+product?.images[0]+')'}"></div>
-                  <!-- <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
-                      <ng-template let-image pTemplate="item">
-                      </ng-template>
-                  </p-carousel> -->
-                  <div class="w-100 d-flex flex-column">
-                    <div class="row flex-column m-0">
-                      <div class="title-product d-flex align-items-center justify-content-center">
-                        <p (click)="openModal(product, i)" class="text-center title cursor text-left f-10 bold m-0">{{getTextProduct(product.name)}}</p>
-                      </div>
-                      <!-- <div class="parraf d-flex align-items-center justify-content-center">
-                        <p (click)="openModal(product, i)" class="f-9 cursor text-center m-0">{{getDescription(product.description)}}</p>
-                      </div> -->
-                      <div class="row m-0 align-items-center justify-content-center">
-                        <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
-                        <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
-                      </div>
-                      <div *ngIf="!isProviderPath" class="mt-1 d-flex justify-content-center">
-                        <button  (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
-                          Agregar</button>
-                      </div>
-                      <div>
-                        <button *ngIf="isProviderPath" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
-                      </div>
+              <div *ngIf="i < sectionButton[j]" class="product col justify-content-center d-flex p-0 mt-3 m-0 m-md-3 py-2">
+                  <div class="d-flex flex-column justify-content-start align-items-center">
+                    <div (click)="openModal(product, i)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+product?.images[0]+')'}"></div>
+                    <!-- <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
+                        <ng-template let-image pTemplate="item">
+                        </ng-template>
+                    </p-carousel> -->
+                    <div class="w-100 d-flex flex-column">
+                      <div class="row flex-column m-0">
+                        <div class="title-product d-flex align-items-center justify-content-center">
+                          <p (click)="openModal(product, i)" class="text-center title cursor text-left f-10 bold m-0">{{getTextProduct(product.name)}}</p>
+                        </div>
+                        <!-- <div class="parraf d-flex align-items-center justify-content-center">
+                          <p (click)="openModal(product, i)" class="f-9 cursor text-center m-0">{{getDescription(product.description)}}</p>
+                        </div> -->
+                        <div class="row m-0 align-items-center justify-content-center">
+                          <h5 (click)="openModal(product, i)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor">{{getPrice(product.promotionalPrice)}}</h5>
+                          <h5 (click)="openModal(product, i)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor">{{getPrice(product.price)}}</h5>
+                        </div>
+                        <div *ngIf="!isProviderPath" class="mt-1 d-flex justify-content-center">
+                          <button  (click)="changeProduct(i, 'increase', product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
+                            Agregar</button>
+                        </div>
+                        <div>
+                          <button *ngIf="isProviderPath" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
+                        </div>
 
+                      </div>
                     </div>
                   </div>
-                </div>
+
               </div>
           </ng-template>
       </p-dataView>
+      <div class="d-flex justify-content-center mt-3 mt-md-0 mb-3 ">
+        <button *ngIf="sectionButton[j] === 2 && j < 1" (click)="toggleButton(j)" class="btn bg-color2 f-11 border-0 text-white px-3 rounded-pill">
+          Ver todos
+        </button>
+        <button *ngIf="sectionButton[j] !== 2" (click)="toggleButton(j)" class="btn bg-color2 f-11 border-0 text-white px-3 rounded-pill">
+          Ver menos
+        </button>
+      </div>
     </ng-container>
 
 </div>
@@ -185,7 +194,7 @@
 
           <ng-template let-product let-i="rowIndex" pTemplate="gridItem">
               <div class="product col justify-content-center d-flex p-0 mt-3 m-0 m-md-3 py-2">
-                <div class="d-flex flex-column justify-content-start align-items-center">
+                <div class="d-flex flex-column justify-content-start align-items-center image-modal">
                   <p-carousel [value]="product?.images" [numVisible]="1" [numScroll]="1" [showNavigators]="false" [styleClass]="'carousel'">
                       <ng-template let-image pTemplate="item">
                           <div (click)="openModal(product, i)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+image+')'}"></div>
