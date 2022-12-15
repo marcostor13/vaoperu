@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener, OnChanges, OnDestroy } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { CartService } from './../../services/cart/cart.service';
@@ -16,14 +16,15 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { CProfileProvider } from 'src/app/modules/provider/modules/profile-provider/models/profile-provider';
 import { ProfileProviderService } from 'src/app/modules/provider/modules/profile-provider/services/profile-provider.service';
 import { IUrl } from './../../../../../../back/src/models/url';
-import { delay } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit, OnChanges {
+export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() items: any
   @Input() rows: number
@@ -59,6 +60,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   sectionButton = []
 
   private subs = new SubSink()
+  private unsubscriber : Subject<void> = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -101,15 +103,20 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   detectEventRoute(){
-    this.router.events
-      .subscribe((event: NavigationStart) => {
-        if (event.navigationTrigger === 'popstate') {
-          if(this.displayModal){
+    history.pushState(null, '');
+    fromEvent(window, 'popstate').pipe(
+      takeUntil(this.unsubscriber)
+    ).subscribe((_) => {
+      history.pushState(null, '');
+      if(this.displayModal){
             this.displayModal = false
             this.router.navigate([`/${this.url.url}`])
-          }
+      }else{
+        if(!this.url.isIndividual){
+          this.router.navigate([`/`])
         }
-      });
+      }
+    });
   }
 
   subscriptionCart() {
@@ -241,7 +248,7 @@ export class ProductListComponent implements OnInit, OnChanges {
     }
   }
 
-  openModal(item: any, i: number){
+  openModal(item: any){
     if(this.role?.indexOf('provider')>-1){
       item.categoryId = !item.categoryId || item.categoryId === 'otros'? '': this.getCategoriesByName(item.categoryId)? this.getCategoriesByName(item.categoryId)._id: item.categoryId
       this.productsEvent.emit({
@@ -249,12 +256,9 @@ export class ProductListComponent implements OnInit, OnChanges {
         data:item
       })
     }else{
-      this.currentIndex = i
       this.currentItem = item
       this.displayModal = true
     }
-
-
   }
 
   changeProduct(i:number, type:string, product: CProduct){
@@ -300,6 +304,8 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   ngOnDestroy() {
     this.subs.unsubscribe()
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
   }
 
   getUrlData(){
@@ -322,6 +328,20 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   toggleButton(j){
     this.sectionButton[j] = this.sectionButton[j] === 2 ? this.productsFormat[j].products.length : 2
+  }
+
+  productRowEvents(event){
+    switch (event.type) {
+      case 'edit':
+        this.edit(event.product)
+        break;
+      case 'openModal':
+        this.openModal(event.product)
+        break;
+
+      default:
+        break;
+    }
   }
 
 }

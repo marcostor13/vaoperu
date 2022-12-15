@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -19,13 +19,15 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { IUrl } from './../../../../../../../back/src/models/url';
+import { fromEvent, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-company',
   templateUrl: './view-company.component.html',
   styleUrls: ['./view-company.component.scss']
 })
-export class ViewCompanyComponent implements OnInit {
+export class ViewCompanyComponent implements OnInit, OnDestroy {
 
   companyUrl: string
   profileProvider: CProfileProvider
@@ -42,6 +44,7 @@ export class ViewCompanyComponent implements OnInit {
   faStar = faStar
   faArrowLeft = faArrowLeft
   url: IUrl
+  private unsubscriber : Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +64,19 @@ export class ViewCompanyComponent implements OnInit {
   ngOnInit(): void {
     this.getUrlData()
     this.getFavorites()
+    history.pushState(null, '');
+    fromEvent(window, 'popstate').pipe(
+      takeUntil(this.unsubscriber)
+    ).subscribe((_) => {
+      history.pushState(null, '');
+    });
   }
+
+  ngOnDestroy(): void {
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
+  }
+
 
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{

@@ -1,9 +1,9 @@
 @import '../../../../styles/variables';
+$size: 120px;
 
-$size: 210px;
-
-*{
-  transition: all .3s !important;
+.cont{
+    max-width: 100%;
+    flex-wrap: wrap;
 }
 
 .product{

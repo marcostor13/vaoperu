@@ -7,11 +7,15 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeaderModule } from './../../../shared/components/header/header.module';
+import { ProductRowComponent } from './../product-row/product-row.component';
 
 @NgModule({
-  declarations: [ProductListComponent],
+  declarations: [
+    ProductListComponent,
+    ProductRowComponent
+  ],
   imports: [
-    CommonModule,
+  CommonModule,
     DataViewModule,
     CarouselModule,
     DialogModule,

@@ -15,8 +15,8 @@ export class AppComponent {
 
   constructor(private store: Store<any>,
               private general: GeneralService){
-      this.subscriptionLoading()        
-    }    
+      this.subscriptionLoading()
+    }
     title = 'front'
     isLoading:boolean = false
 
@@ -24,10 +24,10 @@ export class AppComponent {
       this.subs.add(
         this.store.select((state) => state.Reducer.isLoading)
         .pipe(delay(0))
-        .subscribe((isLoading: boolean) => {        
+        .subscribe((isLoading: boolean) => {
           this.isLoading = isLoading;
         })
-      ) 
+      )
   }
 
   ngOnDestroy() {

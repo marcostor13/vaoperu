@@ -1,0 +1,37 @@
+<div class="d-flex align-items-center flew-wrap justify-content-center cont">
+  <div *ngFor="let product of products" class="product col justify-content-center p-0 mt-3">
+      <ng-container *ngIf="product">
+        <div class="d-flex flex-column justify-content-start align-items-center">
+        <div (click)="openModal(product)" class="image-product cursor" [ngStyle]="{'background-image': 'url('+product?.images[0]+')'}"></div>
+
+        <div class="w-100 d-flex flex-column">
+            <div class="row flex-column m-0">
+              <div class="title-product d-flex align-items-start justify-content-center">
+                  <p (click)="openModal(product)" class="text-center title cursor text-left f-9 bold m-0 text-capitalize">{{getTextProduct(product.name) | lowercase}}</p>
+              </div>
+              <!-- <div class="parraf d-flex align-items-center justify-content-center">
+                  <p (click)="openModal(product, i)" class="f-9 cursor text-center m-0">{{getDescription(product.description)}}</p>
+              </div> -->
+              <div class="row m-0 align-items-center justify-content-center">
+                  <h5 (click)="openModal(product)" *ngIf="product.promotionalPrice" class="primary-price text-color1 cursor f-12">{{getPrice(product.promotionalPrice)}}</h5>
+                  <h5 (click)="openModal(product)" [ngClass]="{'price-sub ml-2': product.promotionalPrice}" class="text-color1 cursor f-12">{{getPrice(product.price)}}</h5>
+              </div>
+              <div *ngIf="!isProviderPath" class="mt-1 d-flex justify-content-center">
+                  <button  (click)="changeProduct(product)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white f-9"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>
+                  Agregar</button>
+              </div>
+              <div>
+                  <button *ngIf="isProviderPath" (click)="edit(product)" class="border-0 text-white p-1 pl-2 pr-2 rounded bg-color2"><i class="pi pi-pencil"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+  </div>
+</div>
+
+<div *ngIf="productsTmp.length > 2" class="d-flex justify-content-center mt-3 mt-md-0 mb-3 ">
+    <button (click)="toggleButton()" class="btn bg-color2 border-0 px-3 rounded-pill f-9">
+        {{products.length > 2 ? 'Ver menos': 'Ver todos' }}
+    </button>
+</div>
