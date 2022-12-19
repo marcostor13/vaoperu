@@ -92,11 +92,11 @@ export class AuthloginComponent implements OnInit {
       }
       valid = false
     }
-    if (this.form.password === '' || this.form.password.length < 8) {
+    if (this.form.password === '') {
       this.invalid.password = true
       this.response = {
         class: 'text-danger',
-        message: 'Revise su contraseña, debe tener al menos 8 dígitos'
+        message: 'Revise su contraseña'
       }
       valid = false
     }
