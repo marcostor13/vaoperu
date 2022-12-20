@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByIds = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = void 0;
+exports.del = exports.update = exports.getByIds = exports.getByID = exports.get = exports.issetEmail = exports.singIn = exports.singUp = exports.changePassword = void 0;
 const user_1 = require("../models/user");
 const profile_provider_1 = require("../models/profile-provider");
 const jwt = require("jsonwebtoken");
 const keys = require("../keys");
+const bcrypt = require("bcrypt");
 const title = 'Usuario';
 const Collection = user_1.default;
 function createToken(user) {
@@ -21,6 +22,21 @@ function createToken(user) {
         expiresIn: 86400
     });
 }
+exports.changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Debe completar todos los datos' });
+    }
+    try {
+        const salt = yield bcrypt.genSalt(10);
+        const hash = yield bcrypt.hash(password, salt);
+        yield Collection.findOneAndUpdate({ email: email }, { password: hash });
+        return res.status(200).json({ message: 'Contraseña cambiada', data: null });
+    }
+    catch (error) {
+        return res.status(400).json({ message: 'Error al cambiar la contraseña', data: error });
+    }
+});
 exports.singUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('singUp');
     const { name, role, email, password } = req.body;

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GeneralService } from '@services/general.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { IResponseApi } from 'src/app/models/responses';
 import { CUser, CUserInvalid } from 'src/app/models/user';
 import { UserService } from './services/user.service';
 import { IRole } from './interfaces/user.interface';
-import { SectionService } from '../section/services/section.service';
-import { ISectionsData } from './../section/models/section';
 
 @Component({
   selector: 'app-user',
@@ -22,7 +19,6 @@ export class UserComponent implements OnInit {
   roles: IRole[]
 
   constructor(
-    private sectionsService: SectionService,
     private userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -105,6 +101,12 @@ export class UserComponent implements OnInit {
     });
   }
 
+  changePassword(){
+    this.userService.changePassword(this.currentItem.email, this.currentItem.password).subscribe((response: IResponseApi)=>{
+      this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
+    })
+  }
+
   add(){
     if (!this.validate(this.currentItem)) {
       if(this.currentItem._id){
@@ -122,7 +124,6 @@ export class UserComponent implements OnInit {
   }
 
   delete(item: CUser) {
-
     this.userService.delete(item._id).subscribe((response: IResponseApi) => {
       this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: response.message });
       this.currentItem = new CUser

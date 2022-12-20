@@ -3,6 +3,7 @@ import User, { Iuser } from "../models/user";
 import ProfileProvider, { IProfileProvider } from "../models/profile-provider";
 import * as jwt from "jsonwebtoken";
 import * as keys from '../keys'
+import * as bcrypt from 'bcrypt'
 
 const title = 'Usuario'
 const Collection = User
@@ -11,6 +12,24 @@ function createToken(user: Iuser){
     return jwt.sign({ id: user.id, email: user.email }, keys.mongodb.jwtSecret,{
         expiresIn: 86400
     })
+}
+
+export const changePassword = async (req:Request, res:Response):Promise<Response> => {
+
+    const {email, password} = req.body
+    if (!email || !password){
+        return res.status(400).json({message: 'Debe completar todos los datos'})        
+    }
+    
+    try {
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+        await Collection.findOneAndUpdate({ email: email }, {password: hash})
+        return res.status(200).json({ message: 'Contraseña cambiada' , data: null})                 
+    } catch (error) {
+        return res.status(400).json({ message: 'Error al cambiar la contraseña' , data: error})
+    }
+
 }
 
 export const singUp = async (req:Request, res:Response):Promise<Response> => {

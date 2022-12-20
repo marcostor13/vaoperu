@@ -10,6 +10,7 @@ router.get(`/get-${model}`, passport.authenticate('jwt', { session: false }), us
 router.get(`/get-${model}-by-id/:id`, passport.authenticate('jwt', { session: false }), user_controller_1.getByID);
 router.post(`/get-${model}-by-ids`, passport.authenticate('jwt', { session: false }), user_controller_1.getByIds);
 router.patch(`/update-${model}/:id`, passport.authenticate('jwt', { session: false }), user_controller_1.update);
+router.patch(`/change-password-${model}`, passport.authenticate('jwt', { session: false }), user_controller_1.changePassword);
 router.delete(`/delete-${model}/:id`, passport.authenticate('jwt', { session: false }), user_controller_1.del);
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map

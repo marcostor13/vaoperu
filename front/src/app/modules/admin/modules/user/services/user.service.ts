@@ -40,7 +40,7 @@ export class UserService {
     }
     return this.api.api(data)
   }
-  
+
   getByIds(ids: string[]) {
     const data: IDataApi = {
       service: `get-${this.model}-by-ids`,
@@ -58,6 +58,17 @@ export class UserService {
     }
     return this.api.api(data)
   }
+
+  changePassword(email: string, password: string) {
+    const data: IDataApi = {
+      service: `change-password-${this.model}`,
+      type: 'patch',
+      data: {email, password}
+    }
+    return this.api.api(data)
+  }
+
+
 
 
 
