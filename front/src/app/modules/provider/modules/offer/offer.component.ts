@@ -259,6 +259,7 @@ export class OfferComponent implements OnInit {
 
   //PRODUCT LIST COMPONENT
   offerListEvent($event){
+    console.log('Event Edit', $event)
     switch ($event.function) {
       case 'edit':
         this.addEdit($event.data)

@@ -51,6 +51,7 @@ export class ProductRowComponent implements OnChanges {
   }
 
   edit(product: CProduct){
+    console.log('Edit, log', product)
     this.events.emit({
       type: 'edit',
       product
