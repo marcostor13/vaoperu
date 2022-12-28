@@ -42,7 +42,9 @@ export const search = async (req: Request, res: Response) => {
         let resp: IProfileProvider[] = []
         if(type){
             if(type === 'item'){
-                const itemId:string = (await ItemSection.findOne({name:new RegExp(keyword, "gi")}))?._id
+                const items = await ItemSection.find({})
+
+                const itemId:string = items.find(i=>diacriticSensitiveRegex(i.name) === diacriticSensitiveRegex(keyword.trim()))?._id
                 console.log('itemId', itemId)
                 const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
