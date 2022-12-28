@@ -44,6 +44,7 @@ export const search = async (req: Request, res: Response) => {
             if(type === 'item'){
                 const items = await ItemSection.find({})
                 console.log('diacriticSensitiveRegex(i.name)',diacriticSensitiveRegex(keyword))
+                console.log('items',items)
 
                 const itemId:string = items.find(i=>diacriticSensitiveRegex(i.name) === diacriticSensitiveRegex(keyword))?._id
                 console.log('itemId', itemId)
