@@ -49,7 +49,7 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (type) {
             if (type === 'item') {
                 const items = yield item_section_1.default.find({});
-                console.log('diacriticSensitiveRegex(i.name)', diacriticSensitiveRegex(keyword));
+                console.log('diacriticSensitiveRegex(i.name)', diacriticSensitiveRegex('Licorerías'));
                 console.log('items', items);
                 const itemId = (_a = items.find(i => diacriticSensitiveRegex(i.name) === diacriticSensitiveRegex(keyword))) === null || _a === void 0 ? void 0 : _a._id;
                 console.log('itemId', itemId);
