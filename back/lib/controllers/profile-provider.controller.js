@@ -45,7 +45,6 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         let { type, keyword } = req.body;
-        keyword = diacriticSensitiveRegex(keyword);
         let resp = [];
         if (type) {
             if (type === 'item') {
@@ -58,17 +57,17 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 resp = yield profile_provider_1.default.find({ _id: ids });
             }
             else {
-                const ids1 = (yield category_subcategory_profile_1.default.find({ name: new RegExp(keyword, "gi"), type })).map(c => {
+                const ids1 = (yield category_subcategory_profile_1.default.find({ name: new RegExp(diacriticSensitiveRegex(keyword), "gi"), type })).map(c => {
                     return c.profileProviderId;
                 });
-                const ids2 = (yield category_subcategory_profile_1.default.find({ $text: { $search: keyword }, type })).map(c => {
+                const ids2 = (yield category_subcategory_profile_1.default.find({ $text: { $search: diacriticSensitiveRegex(keyword) }, type })).map(c => {
                     return c.profileProviderId;
                 });
                 resp = yield profile_provider_1.default.find({ _id: [...new Set([...ids1, ...ids2])] });
             }
         }
         else {
-            resp = yield profile_provider_1.default.find({ comercialName: new RegExp(keyword, "gi") });
+            resp = yield profile_provider_1.default.find({ comercialName: new RegExp(diacriticSensitiveRegex(keyword), "gi") });
         }
         return res.status(200).json({
             message: ``,

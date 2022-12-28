@@ -39,7 +39,6 @@ const diacriticSensitiveRegex = (text:string) => {
 export const search = async (req: Request, res: Response) => {
     try {
         let { type, keyword } = req.body
-        keyword = diacriticSensitiveRegex(keyword)
         let resp: IProfileProvider[] = []
         if(type){
             if(type === 'item'){
@@ -51,16 +50,16 @@ export const search = async (req: Request, res: Response) => {
                 }) 
                 resp = await ProfileProvider.find({_id:ids})
             }else{
-                const ids1 = (await CategorySubcategoryProfile.find({name:new RegExp(keyword, "gi"), type})).map(c=>{
+                const ids1 = (await CategorySubcategoryProfile.find({name:new RegExp(diacriticSensitiveRegex(keyword), "gi"), type})).map(c=>{
                     return c.profileProviderId
                 })
-                const ids2= (await CategorySubcategoryProfile.find({$text:{$search: keyword}, type})).map(c=>{
+                const ids2= (await CategorySubcategoryProfile.find({$text:{$search: diacriticSensitiveRegex(keyword)}, type})).map(c=>{
                     return c.profileProviderId
                 })
                 resp = await ProfileProvider.find({_id:[...new Set([...ids1, ...ids2])]})
             }   
         }else{
-            resp = await ProfileProvider.find({comercialName:new RegExp(keyword, "gi")})
+            resp = await ProfileProvider.find({comercialName:new RegExp(diacriticSensitiveRegex(keyword), "gi")})
         }       
         return res.status(200).json({
                 message: ``,
