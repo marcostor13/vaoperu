@@ -173,16 +173,13 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   search(){
-    if(this.companyUrl){
-      this.eventSearch.emit(this.key)
-    }else{
-      if (this.key){
-        this.router.navigate([`/resultados/${this.key}`]).then(() => {
+    if(this.key){
+      this.router.navigate([`/resultados/${this.key}`]).then(() => {
           window.location.reload();
         })
-      }
+    }else if(this.companyUrl){
+      this.eventSearch.emit(this.key)
     }
-
   }
 
   getPosition(): Promise<any> {

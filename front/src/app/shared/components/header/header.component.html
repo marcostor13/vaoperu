@@ -7,12 +7,12 @@
           <label></label>
       </div>
         <div *ngIf="router.url != '/' " class="mt-3 input-search mb-3 d-flex align-items-center">
-            <input (keydown.enter)="search()" (click)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Buscar...">
-            <fa-icon class="icon-search cursor" [icon]="faSearch"></fa-icon>
+            <input (keydown.enter)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Buscar...">
+            <fa-icon class="icon-search cursor" (click)="search()" [icon]="faSearch"></fa-icon>
         </div>
         <div *ngIf="router.url === '/' " class="mt-3 input-search inputS2 mb-3 d-none d-md-flex align-items-center">
-          <input (keydown.enter)="search()" (click)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Busca lo que necesites">
-          <fa-icon class="icon-search cursor" [icon]="faSearch"></fa-icon>
+          <input (keydown.enter)="search()"  class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Busca lo que necesites">
+          <fa-icon class="icon-search cursor" (click)="search()"[icon]="faSearch"></fa-icon>
         </div>
         <div *ngIf="router.url === '/'" class="mt-3 mb-3 d-flex d-md-none align-items-center">
           <div class="text-color1"><img *ngIf="!getAddress(address)" class="mr-2" width="20" src="/assets/img/partials/load.svg" alt=""> <span class="f-10">{{getAddress(address)}}</span></div>

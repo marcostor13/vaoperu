@@ -26,7 +26,7 @@
         </div>
     </div> -->
 
-    <div class="d-flex d-md-none justify-content-start flex-wrap px-3">
+    <div class="d-flex justify-content-start flex-wrap px-3">
         <p-carousel [value]="itemsCarousel" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="5" [showIndicators]="false" [showNavigators]="false">
             <ng-template let-item pTemplate="item">
                 <div (click)="redirectCarousel(item)" class="p-2 cursor">

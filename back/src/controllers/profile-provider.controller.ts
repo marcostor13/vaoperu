@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import ProfileProvider, { IProfileProvider } from "../models/profile-provider";
 import CategorySubcategoryProfile from "../models/category-subcategory-profile";
-import Category from "../models/category";
 import ItemSection from "../models/item-section";
 import SubitemSection from "../models/subitem-section";
-import Subcategory from "../models/subcategory";
 
 
 const title = 'Perfil de proveedor'
@@ -44,19 +42,13 @@ export const search = async (req: Request, res: Response) => {
         keyword = diacriticSensitiveRegex(keyword)
         let resp: IProfileProvider[] = []
         if(type){
-            if(type === 'category'){
-                const categoryId:string = (await Category.find({name: keyword}).collation({locale: "es", strength: 1}))[0]?._id
-                const subcategoriesIds:any = (await Subcategory.find({categoryId: categoryId})).map(s=>s._id)
-                const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subcategoriesIds?.length>0 ? subcategoriesIds: categoryId})).map(c=>{
-                    return c.profileProviderId
-                })    
-                resp = await ProfileProvider.find({_id:ids})
-            }else if(type === 'item'){
+            if(type === 'item'){
                 const itemId:string = (await ItemSection.findOne({name: keyword}))?._id
+                console.log('itemId', itemId)
                 const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
                     return c.profileProviderId
-                })      
+                }) 
                 resp = await ProfileProvider.find({_id:ids})
             }else{
                 const ids1 = (await CategorySubcategoryProfile.find({name:new RegExp(keyword, "gi"), type})).map(c=>{
@@ -68,7 +60,7 @@ export const search = async (req: Request, res: Response) => {
                 resp = await ProfileProvider.find({_id:[...new Set([...ids1, ...ids2])]})
             }   
         }else{
-            resp = await ProfileProvider.find({$text:{$search: keyword}})
+            resp = await ProfileProvider.find({comercialName:new RegExp(keyword, "gi")})
         }       
         return res.status(200).json({
                 message: ``,
