@@ -38,9 +38,6 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     });
 });
-const diacriticSensitiveRegex = (text) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
-};
 exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {

@@ -32,10 +32,6 @@ export const get = async (req: Request, res: Response) => {
     })
 }
 
-const diacriticSensitiveRegex = (text:string) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
-}
-
 export const search = async (req: Request, res: Response) => {
     try {
         let { type, keyword } = req.body

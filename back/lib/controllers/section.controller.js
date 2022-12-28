@@ -62,9 +62,7 @@ exports.getSectionsAndItems = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const sections = Collection.find({});
         const items = item_section_1.default.find({});
         const subitems = subitem_section_1.default.find({});
-        console.log('subitems', subitems);
         const data = yield Promise.all([sections, items, subitems]);
-        console.log('Data', data);
         const response = data[0].map(section => {
             return {
                 section,

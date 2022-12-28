@@ -60,11 +60,7 @@ export const getSectionsAndItems = async (req: Request, res: Response) => {
         const sections =  Collection.find({})
         const items =  ItemSection.find({})
         const subitems =  SubitemSection.find({})
-        console.log('subitems', subitems)
-
         const data = await Promise.all([sections, items, subitems]) 
-
-        console.log('Data', data)
         const response = data[0].map(section=>{
             return{
                 section,

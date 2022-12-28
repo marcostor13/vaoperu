@@ -69,11 +69,15 @@ export const getByID = (req: Request, res: Response) => {
     })
 }
 
+const diacriticSensitiveRegex = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+}
+
 export const getSectionAndItems = async (req: Request, res: Response) => {
     const keyword = normalize(req.params.id)
     try {
-
-        const item = await Collection.findOne({name: keyword})
+        const items = await ItemSection.find({})
+        const item = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())
         const subitems = await SubitemSection.find({itemId: item?._id})
 
         if(subitems?.length > 0){

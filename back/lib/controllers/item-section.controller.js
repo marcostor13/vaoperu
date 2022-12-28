@@ -71,11 +71,15 @@ exports.getByID = (req, res) => {
         });
     });
 };
+const diacriticSensitiveRegex = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+};
 exports.getSectionAndItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const keyword = normalize(req.params.id);
     try {
-        const item = yield Collection.findOne({ name: keyword });
+        const items = yield item_section_1.default.find({});
+        const item = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase());
         const subitems = yield subitem_section_1.default.find({ itemId: item === null || item === void 0 ? void 0 : item._id });
         if ((subitems === null || subitems === void 0 ? void 0 : subitems.length) > 0) {
             return res.status(200).json({
