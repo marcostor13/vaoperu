@@ -49,9 +49,7 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (type) {
             if (type === 'item') {
                 const items = yield item_section_1.default.find({});
-                console.log('diacriticSensitiveRegex(i.name)', diacriticSensitiveRegex('Licorerías'));
-                console.log('items', items);
-                const itemId = (_a = items.find(i => diacriticSensitiveRegex(i.name) === diacriticSensitiveRegex(keyword))) === null || _a === void 0 ? void 0 : _a._id;
+                const itemId = (_a = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())) === null || _a === void 0 ? void 0 : _a._id;
                 console.log('itemId', itemId);
                 const subitemsIds = (yield subitem_section_1.default.find({ itemId: itemId })).map(s => s._id);
                 const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subitemsIds === null || subitemsIds === void 0 ? void 0 : subitemsIds.length) > 0 ? subitemsIds : itemId })).map(c => {

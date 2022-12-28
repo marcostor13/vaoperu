@@ -43,10 +43,7 @@ export const search = async (req: Request, res: Response) => {
         if(type){
             if(type === 'item'){
                 const items = await ItemSection.find({})
-                console.log('diacriticSensitiveRegex(i.name)',diacriticSensitiveRegex('Licorerías'))
-                console.log('items',items)
-
-                const itemId:string = items.find(i=>diacriticSensitiveRegex(i.name) === diacriticSensitiveRegex(keyword))?._id
+                const itemId:string = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())?._id
                 console.log('itemId', itemId)
                 const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
