@@ -38,6 +38,9 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     });
 });
+const diacriticSensitiveRegex = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+};
 exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -47,7 +50,6 @@ exports.search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             if (type === 'item') {
                 const items = yield item_section_1.default.find({});
                 const itemId = (_a = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())) === null || _a === void 0 ? void 0 : _a._id;
-                console.log('itemId', itemId);
                 const subitemsIds = (yield subitem_section_1.default.find({ itemId: itemId })).map(s => s._id);
                 const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subitemsIds === null || subitemsIds === void 0 ? void 0 : subitemsIds.length) > 0 ? subitemsIds : itemId })).map(c => {
                     return c.profileProviderId;

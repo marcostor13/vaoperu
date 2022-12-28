@@ -32,6 +32,10 @@ export const get = async (req: Request, res: Response) => {
     })
 }
 
+const diacriticSensitiveRegex = (text:string) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+}
+
 export const search = async (req: Request, res: Response) => {
     try {
         let { type, keyword } = req.body
@@ -40,7 +44,6 @@ export const search = async (req: Request, res: Response) => {
             if(type === 'item'){
                 const items = await ItemSection.find({})
                 const itemId:string = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())?._id
-                console.log('itemId', itemId)
                 const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
                 const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
                     return c.profileProviderId
