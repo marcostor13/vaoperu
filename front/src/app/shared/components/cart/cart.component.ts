@@ -63,6 +63,7 @@ export class CartComponent implements OnInit {
           const cartTmp = cloneDeep(cart)
           cartTmp.items = [...cartTmp.items.filter(i=>this.products.find(p=>p._id === i.productId))]
           this.cart = cartTmp
+          console.log('this.car', this.cart)
         })
     )
   }

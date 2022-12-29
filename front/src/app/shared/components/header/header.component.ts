@@ -12,6 +12,7 @@ import { ProductService } from 'src/app/modules/provider/modules/product/service
 import { IResponseApi } from './../../../models/responses';
 import { MessageService } from 'primeng/api';
 import { CProduct } from 'src/app/modules/provider/modules/product/models/product';
+import { OfferService } from 'src/app/modules/provider/modules/offer/services/offer.service';
 
 @Component({
   selector: 'app-header',
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private route: ActivatedRoute,
     private store: Store<any>,
     private productsService: ProductService,
+    private offersService: OfferService,
     private messageService: MessageService,
     ) {
     this.subscriptionCart()
@@ -89,6 +91,19 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     if (this.cart?.profileProviderId){
       this.productsService.getByProfileProviderId(this.cart.profileProviderId).subscribe((response: IResponseApi)=>{
         this.products = response.data
+        this.getOffers()
+      }, _=>{
+        this.messageService.add({ detail: 'Error al obtener productos', severity: 'error', summary: 'Error'})
+      })
+    }
+  }
+
+  getOffers(){
+    if (this.cart?.profileProviderId){
+      this.offersService.getByProfileProviderId(this.cart.profileProviderId).subscribe((response: IResponseApi)=>{
+        this.products = [...this.products, ...response.data]
+        console.log('response', response.data)
+        console.log('productr', this.products)
       }, _=>{
         this.messageService.add({ detail: 'Error al obtener productos', severity: 'error', summary: 'Error'})
       })
