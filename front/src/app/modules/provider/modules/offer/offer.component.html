@@ -85,7 +85,7 @@
     [autoZIndex]="true"
     [draggable]="false"
     [resizable]="false">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center flex-column align-items-center flex-md-row">
         <div class="container-cropper p-3">
             <angular-cropper #angularCropper (cropmove)="moveCropper()" [cropperOptions]="config" [imageUrl]="imageUrl"></angular-cropper>
         </div>
