@@ -209,6 +209,8 @@ export class CompanyListComponent implements OnInit, OnChanges {
   gotToViewCompany(item: CProfileProvider){
     this.profileProviderService.getUrlByProfileProviderId(item._id).subscribe((response:IResponseApi)=>{
       if (response?.data[0]){
+        console.log('window.location.pathname', window.location.pathname)
+        this.general.setUrlBack(window.location.pathname)
         this.router.navigate([`/${response.data[0].url.trim()}`])
       }else{
         this.messageService.add({detail: 'Url no configurada, contactate con el administrador', summary: 'Error', severity:'error'})

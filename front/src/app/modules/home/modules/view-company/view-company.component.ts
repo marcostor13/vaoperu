@@ -20,7 +20,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { IUrl } from './../../../../../../../back/src/models/url';
 import { fromEvent, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-view-company',
@@ -45,6 +47,8 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   faArrowLeft = faArrowLeft
   url: IUrl
   private unsubscriber : Subject<void> = new Subject<void>();
+  urlBack: string
+  private subs = new SubSink()
 
   constructor(
     private route: ActivatedRoute,
@@ -56,9 +60,11 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
     private favoriteService: FavoriteService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private store: Store<any>
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
+    this.subscriptionUrlBack()
   }
 
   ngOnInit(): void {
@@ -68,13 +74,31 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
     fromEvent(window, 'popstate').pipe(
       takeUntil(this.unsubscriber)
     ).subscribe((_) => {
-      history.pushState(null, '');
+      if(this.url.isIndividual){
+        history.pushState(null, '');
+      }else{
+         if(this.urlBack){
+           this.router.navigate([this.urlBack])
+        }
+      }
     });
+
+  }
+
+  subscriptionUrlBack(){
+      this.subs.add(
+        this.store.select((state) => state.Reducer.urlBack)
+        .pipe(delay(0))
+        .subscribe((urlBack: string) => {
+          this.urlBack = urlBack;
+        })
+      )
   }
 
   ngOnDestroy(): void {
-    this.unsubscriber.next();
-    this.unsubscriber.complete();
+    this.unsubscriber.next()
+    this.unsubscriber.complete()
+    this.subs.unsubscribe()
   }
 
 
@@ -253,11 +277,14 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   }
 
   back(){
-    console.log('back')
     if(this.router.url.indexOf('0/des/1')>-1){
       this.router.navigate([ this.url.url ])
     }else{
-      this.router.navigate([ '/'])
+      if(this.urlBack){
+        this.router.navigate([this.urlBack])
+      }else{
+        window.history.back()
+      }
     }
   }
 }

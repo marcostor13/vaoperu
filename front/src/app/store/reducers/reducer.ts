@@ -50,6 +50,15 @@ const reducer = createReducer(
             }
         }
     ),
+    on(
+        states.setUrlBack,
+        (state: globalState.IStoreState, action: { urlBack: string }): globalState.IStoreState => {
+            return {
+                ...state,
+                urlBack: action.urlBack
+            }
+        }
+    ),
 
 )
 

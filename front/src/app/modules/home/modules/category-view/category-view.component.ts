@@ -62,8 +62,6 @@ export class CategoryViewComponent implements OnInit {
     private sectionService: SectionService,
     private generalService: GeneralService
   ) {
-    this.category = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('category'))
-    this.subcategory = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('subcategory'))
     this.section = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('section'))
     this.item = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('item'))
     this.subitem = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('subitem'))
@@ -206,73 +204,17 @@ export class CategoryViewComponent implements OnInit {
     this.switch = type
   }
 
-  redirectCarousel(item){
-    this.resetIds()
-    let newName = item.name.toLowerCase().replace(/\s/g, '-')
-    if(item.itemId){
-      this.subitem = newName
-    }else if(item.categoryId){
-      this.subcategory = newName
-    }else if(item.sectionId){
-      this.item = newName
-    }else{
-      this.category = newName
-    }
-    this.getCarrousel()
-    this.search()
+  redirectCarousel(subitem){
+    console.log(`${this.section}/${this.item}/${subitem.name}`)
+    this.router.navigate([`/${this.section}/${this.item}/${subitem.name}`])
   }
 
   returnCaterogies(){
-    // this.router.navigate([`/`])
     if(this.router.url.indexOf('0/des/1')>-1){
       history.go(-1)
     }else{
       this.router.navigate([ '/'])
     }
-    // history.go(-1)
-    // this.currentProfileProviders = this.profileProviders
-    // this.currentProfileProvidersTmp = this.profileProviders
-    // this.currentPromotions = this.currentPromotions
-    // this.currentPromotionsTmp = this.currentPromotions
   }
-
-  // async filter(){
-  //   let providers: CProfileProvider[] = []
-  //   let promotions: CPromotion[] = []
-  //   this.currentProfileProviders = [...this.currentProfileProvidersTmp]
-  //   this.currentPromotions = [...this.currentPromotionsTmp]
-
-  //   if (this.selectedDistricts?.length > 0){
-  //     providers = [...providers, ...this.currentProfileProvidersTmp.filter(profile => this.selectedDistricts.includes(profile.districtId))]
-  //     promotions = [...promotions, ...this.currentPromotionsTmp.filter(promotion => this.selectedDistricts.includes(this.profileProviders.find(profile => profile._id === promotion.profileProviderId).districtId))]
-  //   }
-
-  //   if (this.selectedCategories?.length > 0){
-  //     this.subcategoriesFilter = [...this.subcategoriesTmp.filter(subcategory => subcategory.categoryId === this.selectedCategories[0])]
-  //     let categoryIds:string[]
-  //     if (this.subcategories.length > 0) {
-  //       categoryIds = this.subcategoriesFilter.map(s => { return s._id })
-  //     } else {
-  //       categoryIds = this.selectedCategories
-  //     }
-  //     const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(categoryIds).toPromise()
-  //     const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
-
-  //     providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-  //     promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-  //   }
-
-  //   if (this.selectedSubcategories?.length > 0) {
-  //     const catSubProRes: any = await this.categorySubcategoryProfileService.getByCategorySubcategoryIds(this.selectedSubcategories).toPromise()
-  //     const catSubPro: ICategorySubcategoryProfile[] = catSubProRes.data
-  //     providers = [...providers, ...this.profileProviders.filter(profileProvider => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(profileProvider._id))]
-  //     promotions = [...promotions, ...this.currentPromotions = this.promotions.filter(promotion => catSubPro.map(catSub => { return catSub.profileProviderId }).includes(promotion.profileProviderId))]
-  //   }
-
-  //   this.currentProfileProviders = [...new Set(providers)]
-  //   this.currentPromotions = [...new Set(promotions)]
-  // }
-
-
 
 }

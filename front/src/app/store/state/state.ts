@@ -7,6 +7,7 @@ export interface IStoreState {
     currentRole: string
     cart: ICart
     platform: string
+    urlBack: string
 }
 
 const initialCart = {
@@ -24,5 +25,6 @@ export const initialState: IStoreState = {
         userId: '',
         items: []
     },
-    platform: ''
+    platform: '',
+    urlBack: ''
 }

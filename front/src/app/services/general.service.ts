@@ -175,6 +175,10 @@ export class GeneralService {
     this.store.dispatch(action.setPlatform({ platform }))
   }
 
+  setUrlBack(urlBack: string) {
+    this.store.dispatch(action.setUrlBack({ urlBack }))
+  }
+
   styles(): string {
     return 'red'
   }
