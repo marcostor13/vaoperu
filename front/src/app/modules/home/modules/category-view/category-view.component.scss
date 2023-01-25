@@ -1,5 +1,5 @@
 
-$size: 65px;
+$size: 90px;
 .icon-category{
     min-width: $size;
     min-height: $size;
@@ -7,13 +7,21 @@ $size: 65px;
     max-height: $size;
     border-radius: 8px;
     background-position: center;
-    background-size: 50%;
+    background-size: 80%;
     box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
     -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
     -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
 }
 .label-category{
     width: $size;
-    overflow: hidden;   
+    overflow: hidden;
     overflow-wrap: break-word;
+}
+
+.list-subcategory {
+  width: 33.3333%;
+}
+
+.title-label {
+  margin-bottom: 0;
 }

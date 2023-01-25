@@ -147,7 +147,7 @@ export class CartComponent implements OnInit {
       !this.form.name ||
       !this.form.phone ||
       !this.form.address ||
-      (this.form.address === 'custom '&& !this.form.address2) ||
+      (this.form.address === 'custom' && !this.form.address2) ||
       !this.form.date ||
       !this.form.typePaymment ||
       (this.form.typePaymment === 'Efectivo' && !this.form.cash)

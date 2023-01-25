@@ -18,6 +18,7 @@ import { ProfileProviderService } from 'src/app/modules/provider/modules/profile
 import { IUrl } from './../../../../../../back/src/models/url';
 import { delay, takeUntil } from 'rxjs/operators';
 import { fromEvent, Subject } from 'rxjs';
+import { Carousel } from 'primeng/carousel';
 
 @Component({
   selector: 'app-product-list',
@@ -94,6 +95,8 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
     this.detectEventRoute()
     this.subscriptionCart()
+
+    Carousel.prototype.onTouchMove = () => { };
   }
 
   getSectionButton() {
@@ -291,6 +294,13 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
       return `${description.substring(0, 30)}...`
     }else{
       return description
+    }
+  }
+
+  getDescriptionModal(description: string){
+    const rep = '<br />'
+    if(description){
+      return `${description.replace(/<br\s*\/?>/gi, '\r\n')}`
     }
   }
 

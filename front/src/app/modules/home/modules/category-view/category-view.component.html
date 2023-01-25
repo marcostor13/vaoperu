@@ -7,7 +7,7 @@
           <fa-icon class="f-12 icon-search mr-2 text-color5" [icon]="faArrowLeft"></fa-icon>
           Inicio
       </button>
-      <label class="bold text-capitalize">{{getTitle(keyword)}}</label>
+      <label class="bold text-capitalize title-label">{{getTitle(keyword)}}</label>
   </div>
 
     <!-- <div class="d-none d-md-flex px-5 w-100">
@@ -27,17 +27,25 @@
     </div> -->
 
     <div class="d-flex justify-content-start flex-wrap px-3">
-        <p-carousel [value]="itemsCarousel" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="5" [showIndicators]="false" [showNavigators]="false">
+      <!--Correcion1-->
+        <!-- <p-carousel [value]="itemsCarousel" [style]="{'width': '100vw'}" [autoplayInterval]="7000" [numScroll]="2" [numVisible]="5" [showIndicators]="false" [showNavigators]="false">
             <ng-template let-item pTemplate="item">
                 <div (click)="redirectCarousel(item)" class="p-2 cursor">
                     <div [ngClass]="{'bg-color1': classCarrousel && item, 'bg-white': !classCarrousel}" class="icon-category image" [ngStyle]="{'background-image': 'url('+item.image}"></div>
                     <p class="label-category text-center f-7 mt-1 m-0">{{item.name}}</p>
                 </div>
             </ng-template>
-        </p-carousel>
+        </p-carousel> -->
+      <div class="list-subcategory" [ngClass]="{'d-none': classCarrousel && item, 'mb-1': !classCarrousel}" *ngFor="let item of itemsCarousel">
+        <div (click)="redirectCarousel(item)" class="p-2 cursor">
+          <div [ngClass]="{'d-none': classCarrousel && item, 'bg-white': !classCarrousel}" class="icon-category image" [ngStyle]="{'background-image': 'url('+item.image}"></div>
+          <p class="label-category text-capitalize text-center f-7 mt-1 m-0">{{item.name}}</p>
+        </div>
+      </div>
+
     </div>
 
-    <div class="mt-2 mt-md-5 text-center">
+    <div class="text-center">
         <h5 *ngIf="title" class="mt-3 text-color1 pl-4 pl-md-5 text-left text-capitalize">{{title}}</h5>
         <div class="d-flex justify-content-center mt-3">
             <!-- <button class="mx-2 px-5 rounded-pill button-switch" (click)="toogleSwitch('companies')" [ngClass]="{'btn2': switch==='companies', 'btn-disabled': switch==='promotions'}" >Negocios</button> -->
