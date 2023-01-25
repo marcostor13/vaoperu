@@ -223,7 +223,13 @@ export class CategoryViewComponent implements OnInit {
   }
 
   returnCaterogies(){
-    this.router.navigate([`/`])
+    // this.router.navigate([`/`])
+    if(this.router.url.indexOf('0/des/1')>-1){
+      history.go(-1)
+    }else{
+      this.router.navigate([ '/'])
+    }
+    // history.go(-1)
     // this.currentProfileProviders = this.profileProviders
     // this.currentProfileProvidersTmp = this.profileProviders
     // this.currentPromotions = this.currentPromotions

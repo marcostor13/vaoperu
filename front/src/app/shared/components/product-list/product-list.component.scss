@@ -22,6 +22,7 @@ $size: 210px;
 
 .product-list2{
   // position: absolute!important;
+  margin-top: -60px;
   .image-product{
       background-repeat: no-repeat;
       background-size: cover;
@@ -62,6 +63,11 @@ $size: 210px;
         white-space: pre-wrap;
     }
 }
+
+.description-modal {
+  width: 300px;
+}
+
 
 .controls{
     input{

@@ -56,7 +56,7 @@
             <div (click)="gotToViewCompany(company)" class="card border shadow-sm image-company-responsive cursor" [ngStyle]="{'background-image': 'url('+company.image+')'}"></div>
             <div class="pl-3 pr-3 d-flex flex-column col justify-content-between align-items-start">
                 <h5 class="f-10 font-400 cursor text-left text-capitalize">{{company.comercialName | lowercase}}</h5>
-                <div class="row align-items-center col m-0 p-0 justify-content-between w-100">
+                <div (click)="gotToViewCompany(company)" class="row align-items-center col m-0 p-0 justify-content-between w-100">
                     <div>
                         <img *ngIf="aperture(company.openTime, company.closeTime)" width="23" src="assets/img/icons/open.svg" alt="Abierto">
                         <img *ngIf="!aperture(company.openTime, company.closeTime)" width="23" src="assets/img/icons/close.svg" alt="Cerrado">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="w-100 mt-2 d-flex col m-0 p-0 justify-content-between align-items-end">
-                    <div class="d-flex flex-column align-items-start">
+                    <div (click)="gotToViewCompany(company)" class="d-flex flex-column align-items-start">
                       <label class="f-9 font-300 m-0 address text-left">{{company.addressText}}</label>
                       <div class="d-flex flex-wrap justify-content-start">
                         <label class="f-9 mr-3 font-300 m-0 address">{{company.distrinctName}}</label>

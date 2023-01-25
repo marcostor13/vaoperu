@@ -21,9 +21,9 @@
     [resizable]="false"
     [style]="{'min-width': '100vw', 'min-height':'100vh'}"
     >
-    <app-header [eventHeader]="eventHeader"></app-header>
+    <app-header [eventHeader]="eventHeader" class="cont-header"></app-header>
 
-    <div *ngIf="currentItem" class="fixed-top mt-5 pt-4 pt-sm-5 product-list2 d-flex flex-column align-items-center">
+    <div *ngIf="currentItem" class="product-list2 d-flex flex-column align-items-center">
       <div class="product product2">
         <div class="sub-product">
           <div class="slider-image position-relative">
@@ -37,10 +37,10 @@
                   Atrás
               </button>
               </div>
-              <div class="pl-5">
+              <div class="pl-5 description-modal">
                 <h5 class="title">{{currentItem.name}}</h5>
-                  <div class="mt-3 description-content">
-                      <pre class="description font-p font-400 f-10">{{currentItem.description}}</pre>
+                  <div class="mt-3">
+                      <pre class="description text-wrap font-p font-400 f-10">{{getDescriptionModal(currentItem.description)}}</pre>
                   </div>
                 <div class="row align-items-center m-0">
                     <h5 *ngIf="currentItem.promotionalPrice" class="primary-price text-color1">{{getPrice(currentItem.promotionalPrice)}}</h5>
