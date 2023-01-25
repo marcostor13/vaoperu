@@ -1,6 +1,6 @@
 {
   "name": "vaoperu",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^13.3.0",
     "@angular/router": "~13.3.0",
     "@capacitor/android": "^4.4.0",
+    "@capacitor/app": "^4.1.1",
     "@capacitor/cli": "^4.4.0",
     "@capacitor/core": "^4.4.0",
     "@capacitor/geolocation": "^4.1.0",

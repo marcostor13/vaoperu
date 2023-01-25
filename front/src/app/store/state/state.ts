@@ -6,7 +6,7 @@ export interface IStoreState {
     isLoading: boolean
     currentRole: string
     cart: ICart
-    
+    platform: string
 }
 
 const initialCart = {
@@ -16,12 +16,13 @@ const initialCart = {
 }
 
 export const initialState: IStoreState = {
-    data: {}, 
-    isLoading: false,    
+    data: {},
+    isLoading: false,
     currentRole: '1',
     cart: {
         profileProviderId: '',
         userId: '',
         items: []
-    }
+    },
+    platform: ''
 }

@@ -171,6 +171,10 @@ export class GeneralService {
     this.store.dispatch(action.setCurrentRole({ currentRole: role }))
   }
 
+  setPlatform(platform: string) {
+    this.store.dispatch(action.setPlatform({ platform }))
+  }
+
   styles(): string {
     return 'red'
   }
@@ -323,7 +327,7 @@ export class GeneralService {
   //excel
 
   importFromFile(data: any) {
-    let workbook = XLSX.read(data, {
+  let workbook = XLSX.read(data, {
       type: 'binary'
     })
     let res: any

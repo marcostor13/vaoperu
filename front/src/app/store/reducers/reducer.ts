@@ -6,8 +6,8 @@ import { ICart } from '@shared/interfaces/cart.interfaces';
 const reducer = createReducer(
     globalState.initialState,
     on(
-        states.setdata, 
-        (state: globalState.IStoreState, action: { data: any }): globalState.IStoreState => {            
+        states.setdata,
+        (state: globalState.IStoreState, action: { data: any }): globalState.IStoreState => {
             return {
                 ...state,
                 data: state.data
@@ -16,7 +16,7 @@ const reducer = createReducer(
     ),
     on(
         states.setLoading,
-        (state: globalState.IStoreState, action: { isLoading: boolean }): globalState.IStoreState => {            
+        (state: globalState.IStoreState, action: { isLoading: boolean }): globalState.IStoreState => {
             return {
                 ...state,
                 isLoading: action.isLoading
@@ -31,7 +31,7 @@ const reducer = createReducer(
                 currentRole: action.currentRole
             }
         }
-    ), 
+    ),
     on(
         states.setCart,
         (state: globalState.IStoreState, action: { cart: ICart }): globalState.IStoreState => {
@@ -41,7 +41,16 @@ const reducer = createReducer(
             }
         }
     ),
-        
+    on(
+        states.setPlatform,
+        (state: globalState.IStoreState, action: { platform: string }): globalState.IStoreState => {
+            return {
+                ...state,
+                platform: action.platform
+            }
+        }
+    ),
+
 )
 
 export function Reducer(state: globalState.IStoreState = globalState.initialState, action: Action) {
