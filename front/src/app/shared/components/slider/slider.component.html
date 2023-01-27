@@ -1,22 +1,22 @@
 <div class="cont" (swipeleft)="swipeLeft()" (swiperight)="swipeRight()">
   <div #slide [@swipe]="{value: direction, params: {left_indent: left_indent}}" class="swipe-cont d-flex align-items-center">
     <div *ngFor="let item of items; let i = index">
-      <ng-container>
+      <ng-container >
 
         <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
             <div class="icon-category image bg-white d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-              <p class="label-category text-center f-11 mb-2 m-0 bold text-color1 text-capitalize">{{item.item1.item.name}}</p>
+              <p class="label-category text-center f-11 mb-2 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
             </div>
         </div>
         <div *ngIf="!item.isPrimary" class="d-flex flex-column">
           <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item1.item.name}}</p>
+                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item1.item.name}}</p>
               </div>
           </div>
           <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item2.item.name}}</p>
+                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item2.item.name}}</p>
               </div>
           </div>
         </div>
