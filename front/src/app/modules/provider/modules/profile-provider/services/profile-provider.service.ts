@@ -53,6 +53,15 @@ export class ProfileProviderService {
     return this.api.api(data)
   }
 
+  getAllById(id: string) {
+    const data: IDataApi = {
+      service: `get-all-${this.model}-by-id/${id}`,
+      type: 'get',
+      data: null
+    }
+    return this.api.api(data)
+  }
+
   getByUserId(id: string) {
     const data: IDataApi = {
       service: `get-${this.model}-by-user-id/${id}`,

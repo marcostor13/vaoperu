@@ -70,6 +70,11 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getUrlData()
     this.getFavorites()
+    // this.setHistory()
+
+  }
+
+  setHistory(){
     history.pushState(null, '');
     fromEvent(window, 'popstate').pipe(
       takeUntil(this.unsubscriber)
@@ -82,7 +87,6 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
         }
       }
     });
-
   }
 
   subscriptionUrlBack(){
@@ -114,25 +118,13 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   }
 
   getProfileProvider(profileProviderId:string){
-    this.profileProviderService.getById(profileProviderId).subscribe((response: IResponseApi) => {
-      this.profileProvider = response.data
-      this.getCurrentPosition()
-      this.getProducts()
-    })
-  }
-
-  getProducts(){
-    this.productService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
-      this.products = response.data
-      this.productsTmp = response.data
-      this.getOffers()
-    })
-  }
-
-  getOffers() {
-    this.offersService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
-      this.offers = response.data
+    this.profileProviderService.getAllById(profileProviderId).subscribe((response: IResponseApi) => {
+      this.profileProvider = response.data.profileProvider
+      this.products = response.data.products
+      this.productsTmp = response.data.products
+      this.offers = response.data.offers
       this.formatTabs()
+      this.getCurrentPosition()
     })
   }
 

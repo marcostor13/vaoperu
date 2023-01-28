@@ -25,7 +25,6 @@ export class SectionService {
   }
 
   updateAll(items: any, type) {
-    console.log('items updated', items)
     const data: IDataApi = {
       service: `update-${type}-all` ,
       type: 'patch',

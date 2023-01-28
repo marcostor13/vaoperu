@@ -53,6 +53,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private productsService: ProductService,
     private offersService: OfferService,
     private messageService: MessageService,
+    private generalService: GeneralService
     ) {
     this.subscriptionCart()
     this.companyUrl = this.route.snapshot.paramMap.get('id')
@@ -102,8 +103,6 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     if (this.cart?.profileProviderId){
       this.offersService.getByProfileProviderId(this.cart.profileProviderId).subscribe((response: IResponseApi)=>{
         this.products = [...this.products, ...response.data]
-        console.log('response', response.data)
-        console.log('productr', this.products)
       }, _=>{
         this.messageService.add({ detail: 'Error al obtener productos', severity: 'error', summary: 'Error'})
       })
@@ -197,32 +196,20 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  getPosition(): Promise<any> {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resp => {
-                resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
-            },
-            err => {
-                reject(err);
-          });
-    });
-  }
   getLocation() {
-    this.getPosition().then(pos => {
+    this.generalService.getPosition().then(pos => {
       this.latitude = pos.lat;
       this.longitude = pos.lng;
       var latlng = new google.maps.LatLng(this.latitude, this.longitude);
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({ 'location': latlng },  (results, status) =>{
-        if (status !== google.maps.GeocoderStatus.OK) {
-            alert(status);
-        }
         if (status == google.maps.GeocoderStatus.OK) {
             this.address = (results[0].formatted_address);
         }
       });
     });
   }
+
   getAddress(address: string){
     if(address?.length > 30) {
       return `${address.substring(0, 30)}...`

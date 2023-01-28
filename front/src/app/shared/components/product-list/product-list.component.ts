@@ -341,7 +341,6 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   productRowEvents(event){
-    console.log('Edit on productlisyt', event)
     switch (event.type) {
       case 'edit':
         this.edit(event.product)

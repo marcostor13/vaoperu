@@ -9,8 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByArray = exports.getByUserID = exports.getByID = exports.search = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getByArray = exports.getByUserID = exports.getAllByID = exports.getByID = exports.search = exports.get = exports.save = void 0;
 const profile_provider_1 = require("../models/profile-provider");
+const product_1 = require("../models/product");
+const offer_1 = require("../models/offer");
 const category_subcategory_profile_1 = require("../models/category-subcategory-profile");
 const item_section_1 = require("../models/item-section");
 const subitem_section_1 = require("../models/subitem-section");
@@ -95,6 +97,33 @@ exports.getByID = (req, res) => {
         });
     });
 };
+exports.getAllByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const profileProvider = yield Collection.findById(req.params.id);
+        if (!profileProvider) {
+            return res.status(501).json({
+                message: `Error al obtener ${title}, no existe el perfil del proveedor`,
+                data: null
+            });
+        }
+        const products = yield product_1.default.find({ profileProviderId: profileProvider._id });
+        const offers = yield offer_1.default.find({ profileProviderId: profileProvider._id });
+        return res.status(200).json({
+            message: '',
+            data: {
+                profileProvider,
+                products,
+                offers
+            }
+        });
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
+});
 exports.getByUserID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     Collection.find({ userid: req.params.userid }, (err, response) => {
         if (err) {
