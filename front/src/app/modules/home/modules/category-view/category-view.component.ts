@@ -205,8 +205,9 @@ export class CategoryViewComponent implements OnInit {
   }
 
   redirectCarousel(subitem){
-    console.log(`${this.section}/${this.item}/${subitem.name}`)
-    this.router.navigate([`/${this.section}/${this.item}/${subitem.name}`])
+    const redirect = subitem.name.toLowerCase().replace(/\s/g, '-')
+    console.log(`${this.section}/${this.item}/${redirect}`)
+    this.router.navigate([`/${this.section}/${this.item}/${redirect}`])
   }
 
   returnCaterogies(){

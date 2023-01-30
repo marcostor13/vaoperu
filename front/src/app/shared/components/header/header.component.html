@@ -1,34 +1,35 @@
 <div class="cont-header">
-    <header class="row m-0 justify-content-between align-items-center bg-white p-0">
+    <header class="row flex-nowrap m-0 justify-content-between align-items-center bg-white p-0">
 
       <div (click)="toogleMenu()" class="menu d-flex flex-column cursor ml-3 pt-2">
           <label></label>
           <label></label>
           <label></label>
       </div>
-        <div *ngIf="router.url != '/' " class="mt-3 input-search mb-3 d-flex align-items-center">
-            <input (keydown.enter)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Buscar...">
-            <fa-icon class="icon-search cursor" (click)="search()" [icon]="faSearch"></fa-icon>
-        </div>
-        <div *ngIf="router.url === '/' " class="mt-3 input-search inputS2 mb-3 d-none d-md-flex align-items-center">
-          <input (keydown.enter)="search()"  class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Busca lo que necesites">
-          <fa-icon class="icon-search cursor" (click)="search()"[icon]="faSearch"></fa-icon>
-        </div>
-        <div *ngIf="router.url === '/'" class="mt-3 mb-3 d-flex d-md-none align-items-center">
-          <div class="text-color1"><img *ngIf="!getAddress(address)" class="mr-2" width="20" src="/assets/img/partials/load.svg" alt=""> <span class="f-10">{{getAddress(address)}}</span></div>
-        </div>
-        <div class="row mt-3 mb-3 mr-1 align-items-center">
-            <ul class="list-unstyled row m-0">
-                <li class="mr-4">
-                    <div (click)="openModalCart()" class="shopping-cart cursor rounded-circle p-2 d-flex justify-content-center align-items-center bg-white shadow">
-                        <div class="badge">
-                            <p-badge *ngIf="cart?.items?.length > 0" [value]="cart.items.length.toString()" severity="danger"></p-badge>
-                        </div>
-                        <fa-icon class="text-color1" [icon]="faShoppingCart"></fa-icon>
-                    </div>
-                </li>
-              </ul>
-        </div>
+      <div *ngIf="router.url != '/' " class="mt-3 input-search mb-3 d-flex align-items-center">
+          <input (keydown.enter)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Buscar...">
+          <fa-icon class="icon-search cursor" (click)="search()" [icon]="faSearch"></fa-icon>
+      </div>
+      <div *ngIf="router.url === '/' " class="mt-3 input-search inputS2 mb-3 d-none d-md-flex align-items-center">
+        <input (keydown.enter)="search()" class="search f-10 pt-2 border text-left" [(ngModel)]="key" type="search" placeholder="Busca lo que necesites">
+        <fa-icon class="icon-search cursor" (click)="search()"[icon]="faSearch"></fa-icon>
+      </div>
+      <div *ngIf="router.url === '/'" class="mt-3 mb-3 d-flex d-md-none align-items-center">
+        <div class="text-color1 text-nowrap"><img *ngIf="!getAddress(address)" class="mr-sm-2" width="20" src="/assets/img/partials/load.svg" alt=""> <span class="f-10">{{getAddress(address)}}</span></div>
+      </div>
+      <div class="col3"></div>
+      <div class="row m-0 align-items-center position-absolute position-cart">
+          <ul class="list-unstyled row m-0">
+              <li class="mr-3 mr-md-4">
+                  <div (click)="openModalCart()" class="shopping-cart cursor rounded-circle p-2 d-flex justify-content-center align-items-center bg-white shadow">
+                      <div class="badge">
+                          <p-badge *ngIf="cart?.items?.length > 0" [value]="cart.items.length.toString()" severity="danger"></p-badge>
+                      </div>
+                      <fa-icon class="text-color1" [icon]="faShoppingCart"></fa-icon>
+                  </div>
+              </li>
+            </ul>
+      </div>
       </header>
 </div>
 
