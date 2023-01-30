@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import ProfileProvider, { IProfileProvider } from "../models/profile-provider";
+import Product, { IProduct } from "../models/product";
+import Offer, { IOffer } from "../models/offer";
 import CategorySubcategoryProfile from "../models/category-subcategory-profile";
 import ItemSection from "../models/item-section";
 import SubitemSection from "../models/subitem-section";
@@ -86,6 +88,36 @@ export const getByID = (req: Request, res: Response) => {
             data: response
         })
     })
+}
+
+export const getAllByID = async (req: Request, res: Response) => {
+
+    try {
+        const profileProvider = await Collection.findById(req.params.id)      
+        if(!profileProvider){
+            return res.status(501).json({
+                message: `Error al obtener ${title}, no existe el perfil del proveedor`,
+                data: null
+            })
+        }
+        const products = await Product.find({profileProviderId: profileProvider._id })
+        const offers = await Offer.find({profileProviderId: profileProvider._id })
+
+        return res.status(200).json({
+            message: '',
+            data: {
+                profileProvider,
+                products,
+                offers
+            }
+        })
+        
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        })
+    }
 }
 
 export const getByUserID = async (req: Request, res: Response) => {

@@ -76,7 +76,6 @@ export class CategoryViewComponent implements OnInit {
   }
 
   getCarrousel(){
-    console.log('Get Crouser')
     if(this.category){
       this.getByNameCategories()
     }else if(this.subcategory){
@@ -90,7 +89,6 @@ export class CategoryViewComponent implements OnInit {
   }
 
   getByNameCategories() {
-    console.log('itemsCarousel', this.itemsCarousel)
     this.categoryService.getByNameCategories(this.category).subscribe((response: IResponseApi) => {
       this.itemsCarousel = response.data
       if(this.itemsCarousel[0]?.categoryId){
@@ -98,7 +96,6 @@ export class CategoryViewComponent implements OnInit {
       }else{
         this.classCarrousel = true
       }
-      console.log('itemsCarousel', this.itemsCarousel)
     })
   }
 
@@ -117,7 +114,6 @@ export class CategoryViewComponent implements OnInit {
   getItemsBySubitemName(){
     this.sectionService.getItemsBySubitemName(this.subitem).subscribe((response: IResponseApi) => {
       this.itemsCarousel = response.data
-      console.log('getItemsBySubitemName', this.itemsCarousel)
       if(this.itemsCarousel[0]?.itemId){
         this.classCarrousel = false
       }else{
@@ -129,7 +125,6 @@ export class CategoryViewComponent implements OnInit {
   getSectionsAndItems(){
     this.sectionService.getSectionsAndItems(this.item).subscribe((response: IResponseApi) => {
       this.itemsCarousel = response.data
-      console.log('getSectionsAndItems', this.itemsCarousel)
       if(this.itemsCarousel[0]?.itemId){
         this.classCarrousel = false
       }else{
@@ -205,9 +200,7 @@ export class CategoryViewComponent implements OnInit {
   }
 
   redirectCarousel(subitem){
-    const redirect = subitem.name.toLowerCase().replace(/\s/g, '-')
-    console.log(`${this.section}/${this.item}/${redirect}`)
-    this.router.navigate([`/${this.section}/${this.item}/${redirect}`])
+    this.router.navigate([`/${this.section}/${this.item}/${subitem.name}`])
   }
 
   returnCaterogies(){

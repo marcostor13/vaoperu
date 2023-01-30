@@ -59,11 +59,9 @@ export class CartComponent implements OnInit {
       this.store.select((state) => state.Reducer.cart)
         .pipe(delay(0))
         .subscribe((cart: ICart) => {
-          console.log('Cart', cart)
           const cartTmp = cloneDeep(cart)
           cartTmp.items = [...cartTmp.items.filter(i=>this.products.find(p=>p._id === i.productId))]
           this.cart = cartTmp
-          console.log('this.car', this.cart)
         })
     )
   }
