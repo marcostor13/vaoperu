@@ -178,7 +178,7 @@ export class CartComponent implements OnInit {
 
   Nombre: ${this.form.name}
   Teléfono: ${this.form.phone}
-  Dirección: ${this.form.address}
+  Dirección: ${this.form.address2}
 
   💲 Costos
   Total a pagar: S/. ${this.getTotal()}

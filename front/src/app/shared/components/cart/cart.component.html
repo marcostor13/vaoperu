@@ -42,7 +42,7 @@
                 <option value="{{profileProvider.addressText}}">{{profileProvider.addressText}}</option>
                 <option value="custom">Ingresar otra dirección</option>
             </select> -->
-            <input *ngIf="form.address" class="mt-2" type="text" placeholder="Ingrese una dirección" [(ngModel)]="form.address2">
+            <input class="mt-2" type="text" placeholder="Ingrese una dirección" [(ngModel)]="form.address2">
             <div class="d-flex align-items-center mt-2">
                 <input type="datetime-local" [(ngModel)]="form.date">
                 <!-- <button (click)="setActual()" class="btn2 ml-2">Actual</button> -->
