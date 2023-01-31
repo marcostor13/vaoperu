@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.update = exports.getByIds = exports.getByID = exports.getByProfileProviderId = exports.get = exports.save = void 0;
+exports.del = exports.update = exports.getProductsAndOfffersByIds = exports.getByIds = exports.getByID = exports.getByProfileProviderId = exports.get = exports.save = void 0;
 const product_1 = require("../models/product");
+const offer_1 = require("../models/offer");
 const title = 'Producto';
 const Collection = product_1.default;
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -92,6 +93,22 @@ exports.getByIds = (req, res) => {
         });
     });
 };
+exports.getProductsAndOfffersByIds = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const products = yield Collection.find({ _id: req.body.ids });
+        const offers = yield offer_1.default.find({ _id: req.body.ids });
+        return res.status(200).json({
+            message: '',
+            data: [...products, ...offers]
+        });
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: null
+        });
+    }
+});
 exports.update = (req, res) => {
     console.log('req', req.body);
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {

@@ -121,34 +121,52 @@ export const get = async (req: Request, res: Response) => {
     })
 }
 
-export const getByID = (req: Request, res: Response) => {
-    Collection.findById(req.params.id, (err: any, response: any) => {
-        if (err) {
-            res.status(501).json({
+export const getByID = async (req: Request, res: Response) => {
+    try {
+        const user = await Collection.findById(req.params.id)
+        if(!user){
+            return res.status(501).json({
                 message: `Error al obtener ${title}`,
                 data: null
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             message: '',
-            data: response
+            data: user
         })
-    })
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        })
+    }
 }
 
-export const getByIds = (req: Request, res: Response) => {
-    Collection.find({_id: req.body.ids}, (err: any, response: any) => {
-        if (err) {
-            res.status(501).json({
+export const getByIds = async (req: Request, res: Response) => {
+    try {
+        if(!req.body.ids){
+            return res.status(501).json({
+                message: `Error al obtener ${title}, debe enviar los ids`,
+                data: null
+            })
+        }
+        const user = await Collection.find({_id: req.body.ids})
+        if(!user){
+            return res.status(501).json({
                 message: `Error al obtener ${title}`,
                 data: null
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             message: '',
-            data: response
+            data: user
         })
-    })
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        })
+    }
 }
 
 export const update = (req: Request, res: Response) => {

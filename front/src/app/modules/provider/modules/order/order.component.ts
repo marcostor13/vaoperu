@@ -68,7 +68,7 @@ export class OrderComponent implements OnInit {
        o.items.map(i=>{
       productIds = [...productIds, i.productId]
     })})
-    this.productService.getByIds(productIds).subscribe((response: IResponseApi) => {
+    this.productService.getProducstAndOffersByIds(productIds).subscribe((response: IResponseApi) => {
       this.products = response.data
     }, _ => {
       this.errors('productos')
@@ -76,11 +76,14 @@ export class OrderComponent implements OnInit {
   }
 
   getUserByIds(){
-    this.userService.getByIds(this.orders.map(o => { return o.userId })).subscribe((response: IResponseApi) => {
-      this.users = response.data
-    }, _ => {
-      this.errors('usuarios')
-    })
+    let ids = this.orders.map(o => { if(o.userId) return o.userId }).filter(o=>o)
+    if(ids?.length > 0){
+      this.userService.getByIds(ids).subscribe((response: IResponseApi) => {
+        this.users = response.data
+      }, _ => {
+        this.errors('usuarios')
+      })
+    }
   }
 
   getById(array: any[], id:string){
@@ -104,7 +107,7 @@ export class OrderComponent implements OnInit {
     let total = 0
     order?.items?.map(item => {
       let prods = this.getById(this.products, item.productId)
-      let price = prods.promotionalPrice ? prods.promotionalPrice : prods.price
+      let price = prods?.promotionalPrice ? prods?.promotionalPrice : prods?.price
       total = total + price * item.quantity
     })
     return total

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Product, { IProduct } from "../models/product";
+import Offer, { IOffer } from "../models/offer";
 
 
 const title = 'Producto'
@@ -89,6 +90,24 @@ export const getByIds = (req: Request, res: Response) => {
             data: response
         })
     })
+}
+
+export const getProductsAndOfffersByIds = async (req: Request, res: Response) => {
+
+    try {
+        const products = await Collection.find({_id: req.body.ids})
+        const offers = await Offer.find({_id: req.body.ids})
+
+        return res.status(200).json({
+            message: '',
+            data: [...products, ...offers]
+        })
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: null
+        })
+    }
 }
 
 export const update = (req: Request, res: Response) => {

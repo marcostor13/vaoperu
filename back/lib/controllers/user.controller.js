@@ -113,34 +113,54 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     });
 });
-exports.getByID = (req, res) => {
-    Collection.findById(req.params.id, (err, response) => {
-        if (err) {
-            res.status(501).json({
+exports.getByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield Collection.findById(req.params.id);
+        if (!user) {
+            return res.status(501).json({
                 message: `Error al obtener ${title}`,
                 data: null
             });
         }
-        res.status(200).json({
+        return res.status(200).json({
             message: '',
-            data: response
+            data: user
         });
-    });
-};
-exports.getByIds = (req, res) => {
-    Collection.find({ _id: req.body.ids }, (err, response) => {
-        if (err) {
-            res.status(501).json({
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
+});
+exports.getByIds = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.body.ids) {
+            return res.status(501).json({
+                message: `Error al obtener ${title}, debe enviar los ids`,
+                data: null
+            });
+        }
+        const user = yield Collection.find({ _id: req.body.ids });
+        if (!user) {
+            return res.status(501).json({
                 message: `Error al obtener ${title}`,
                 data: null
             });
         }
-        res.status(200).json({
+        return res.status(200).json({
             message: '',
-            data: response
+            data: user
         });
-    });
-};
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al obtener ${title}`,
+            data: error
+        });
+    }
+});
 exports.update = (req, res) => {
     Collection.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, response) => {
         if (err) {

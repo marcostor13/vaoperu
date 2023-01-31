@@ -6,10 +6,10 @@
             <div class="row m-0 justify-content-between align-items-center">
                 <h4>Ordenes</h4>
             </div>
-            <div *ngIf="!users || !orders  || !products || orders?.length===0">
+            <div *ngIf="!orders  || !products || orders?.length===0">
                 <h3 class="text-center text-color1">No tiene ordenes disponibles</h3>
             </div>
-            <div *ngIf="users && products && orders?.length> 0" class="col-12 p-0 mt-4">
+            <div *ngIf="products && orders?.length> 0" class="col-12 p-0 mt-4">
                 <table class="table">
                     <thead>
                         <tr>
@@ -22,7 +22,7 @@
                     <tbody>
                         <tr class="cursor" (click)="openOrder(order)" *ngFor="let order of orders">
                             <th scope="row">1</th>
-                            <td>{{getById(users, order.userId).name}}</td>
+                            <td>{{order.userId ? getById(users, order.userId).name : 'Anónimo'}}</td>
                             <td>{{formatDate(order.createAt)}}</td>
                             <td>S/ {{getTotal(order)}}</td>
                         </tr>
@@ -51,11 +51,11 @@
 
             <li class="mt-2 py-1 col d-flex justify-content-between align-items-center">
                 <h6 class="m-0 text-color1">Cliente</h6>
-                <p class="m-0">{{getById(users, currentOrder.userId).name}}</p>
+                <p class="m-0">{{currentOrder.userId ? getById(users, currentOrder.userId).name: '-'}}</p>
             </li>
             <li class="py-1 col d-flex justify-content-between align-items-center">
                 <h6 class="m-0 text-color1">Número email</h6>
-                <p class="m-0">{{getById(users, currentOrder.userId).email}}</p>
+                <p class="m-0">{{currentOrder.userId ? getById(users, currentOrder.userId).email: '-'}}</p>
             </li>
 
             <hr>
@@ -64,7 +64,7 @@
             <ng-container *ngIf="currentOrder.orderData">
                 <li class="py-1 col d-flex justify-content-between align-items-center">
                     <h6 class="m-0 text-color1">Nombre</h6>
-                    <p class="m-0">{{currentOrder.orderData.name}}</p>
+                    <p class="m-0">{{currentOrder.orderData?.name || 'Anónimo'}}</p>
                 </li>
                 <li class="py-1 col d-flex justify-content-between align-items-center">
                     <h6 class="m-0 text-color1">Teléfono</h6>
