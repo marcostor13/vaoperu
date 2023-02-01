@@ -15,6 +15,8 @@ export const environment = {
   from: 'tustaff2020@gmail.com',
   fromname: 'Vao perú',
   api: 'http://localhost:3008/'
+  // api: 'https://api2.vaoperu.com/'
+
 };
 
 /*

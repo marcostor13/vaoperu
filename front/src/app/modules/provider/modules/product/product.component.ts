@@ -282,10 +282,14 @@ export class ProductComponent implements OnInit {
   }
 
   moveCropper() {
-    this.dataImage = this.angularCropper.cropper.crop().getCroppedCanvas({
-      width: 400,
-      height: 400
-    }).toDataURL();
+
+    this.angularCropper.cropper.getCroppedCanvas().toBlob( (blob: File) => {
+      const reader: any = new FileReader();
+      reader.readAsDataURL(blob)
+      reader.onload = () => {
+        this.dataImage = reader.result as string
+      }
+    })
   }
 
   cropper() {
@@ -312,20 +316,39 @@ export class ProductComponent implements OnInit {
     }
   }
 
+
+
   uploadImages(){
     if (this.currentImages?.length > 0) {
         let count = 1
         this.currentImages.map(async (images:CImages)=>{
-          if (images.file){
-            const url: any = await this.general.uploadImage(images.file, 'products/')?.toPromise()
+          let file
+          if (images.blob){
+            fetch(images.blob)
+            .then (res => res.blob())
+            .then ( async blob => {
+              const file = new File([blob], images.file.name, {type: images.file.type})
+              const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
+              if (url) {
+                this.currentItem.images = [...this.currentItem.images, url]
+              }
+              this.uploadPercent = count*100/this.currentImages.length
+              count++
+              if(count === this.currentImages.length+1){
+                this.add()
+              }
+            })
+          } else if (images.file){
+            file = images.file
+            const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
             if (url) {
               this.currentItem.images = [...this.currentItem.images, url]
             }
-          }
-          this.uploadPercent = count*100/this.currentImages.length
-          count++
-          if(count === this.currentImages.length+1){
-            this.add()
+            this.uploadPercent = count*100/this.currentImages.length
+            count++
+            if(count === this.currentImages.length+1){
+              this.add()
+            }
           }
         })
     } else {
