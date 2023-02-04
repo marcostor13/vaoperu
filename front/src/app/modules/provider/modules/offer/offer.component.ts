@@ -54,9 +54,10 @@ export class OfferComponent implements OnInit {
   }
 
   get() {
-    this.subs.add(
-      this.offerService.get().subscribe((response: IResponseApi) => {
-        this.items = [...response.data]
+      this.profileProviderService.get().subscribe((response: IResponseApi) => {
+        this.profileProvider = response.data
+
+        this.getProducts()
         if(response.data?.length === 0){
           this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay ofertas disponibles' });
         }
@@ -64,7 +65,17 @@ export class OfferComponent implements OnInit {
 
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       })
-    )
+  }
+
+  getProducts() {
+    this.offerService.getByProfileProviderId(this.profileProvider._id).subscribe((response: IResponseApi) => {
+      this.items = response.data
+      if (response.data?.length === 0) {
+        this.messageService.add({ severity: 'success', summary: 'Mensaje', detail: 'No hay productos disponibles' });
+      }
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+    })
   }
 
   validate() {

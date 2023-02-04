@@ -273,7 +273,9 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
       this.router.navigate([ this.url.url ])
     }else{
       if(this.urlBack){
-        this.router.navigate([this.urlBack])
+        const url = decodeURI(this.urlBack)
+        const descUrl = decodeURIComponent(url)
+        this.router.navigate([descUrl])
       }else{
         window.history.back()
       }

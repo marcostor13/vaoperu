@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CItem } from 'src/app/modules/admin/modules/section/models/section';
 
@@ -23,10 +23,13 @@ export class SliderComponent implements OnInit {
   direction: string = 'left'
   left_indent: number = 0
   innerWidth: number = window.innerWidth
+  displayCategories: boolean = false
+  category: any
 
   @Input() items: any
   @Input() section: any
   @ViewChild('slide') slide!: ElementRef;
+  @Output() openModal: EventEmitter<{name: string, value: boolean}> = new EventEmitter();
 
   constructor(
     private router: Router
@@ -63,6 +66,12 @@ export class SliderComponent implements OnInit {
     const redirect = item.name.toLowerCase().replace(/\s/g, '-')
     const section = sectionName.toLowerCase().replace(/\s/g, '-')
     this.router.navigate([`${section}/${redirect}`])
+  }
+
+
+  openCategoriesModal(category: any){
+    this.openModal.emit({name: category, value: true});
+    console.log(    this.openModal.emit({name: category, value: true}) )
   }
 
 }

@@ -1,0 +1,41 @@
+$size1: 80px;
+$size2: 80px;
+
+$size3: 26vw;
+$size4: 26.7vw;
+
+.div-hogar {
+  width: 33.33%;
+  margin: 5px;
+}
+.hogar {
+  display: flex;
+  flex-wrap: wrap;
+  .icon-category2{
+    min-width: $size1;
+    min-height: $size1;
+    max-width: $size2;
+    max-height: $size2;
+    border-radius: 8px;
+    background-position: center 25%;
+    background-size: 50%;
+    box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+    -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+    -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+    @media screen and (max-width: 370px) {
+      min-width: $size3!important;
+      min-height: $size3!important;
+      max-width: $size4!important;
+      max-height: $size4!important;
+    }
+  }
+  .label-category2{
+      width: $size2;
+      overflow: hidden;
+      overflow-wrap: break-word;
+      line-height: 1;
+      @media screen and (max-width: 370px) {
+        width: $size4!important;
+      }
+  }
+}

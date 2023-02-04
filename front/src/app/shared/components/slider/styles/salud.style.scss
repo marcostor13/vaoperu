@@ -1,0 +1,32 @@
+$size2: 128px;
+
+.salud {
+  .icon-category2{
+      min-width: $size2;
+      min-height: $size2;
+      max-width: $size2;
+      max-height: $size2;
+      border-radius: 8px;
+      background-position: center 25%;
+      background-size: 50%;
+      box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+      -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+      -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
+      @media screen and (max-width: 370px) {
+        min-width: 41vw!important;
+        min-height: 41vw!important;
+        max-width: 200px!important;
+        max-height: 200px!important;
+      }
+  }
+  .label-category2{
+      width: $size2;
+      overflow: hidden;
+      overflow-wrap: break-word;
+      line-height: 1;
+      @media screen and (max-width: 370px) {
+        width: 41vw!important;
+
+      }
+  }
+}

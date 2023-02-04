@@ -15,9 +15,9 @@
     <ng-container *ngIf="section.items.length>0">
       <div *ngIf="section?.items.length > 0" class="d-flex justify-content-between mt-3">
         <h3  class="text-capitalize title f-11 text-color3 bold">{{section.section.name | lowercase}}</h3>
-        <div class="cursor f-8 bold text-color3 pr-3" (click)="openCategoriesModal(section.section.name)">VER TODOS</div>
+        <!-- <div class="cursor f-8 bold text-color3 pr-3" (click)="openCategoriesModal(section.section.name)">VER TODOS</div> -->
       </div>
-      <app-slider [items]="getListItemsWithPrimaryItem(section)" [section]="section"></app-slider>
+      <app-slider (openModal)="openCategoriesModal($event)" [items]="getListItemsWithPrimaryItem(section)" [section]="section"></app-slider>
       <!-- <p-carousel [value]="getListItemsWithPrimaryItem(section)" [style]="{'width': '100vw', 'height': '205px'}" [autoplayInterval]="7000" [numScroll]="1" [numVisible]="section.items.length" [circular]="false" [showIndicators]="false" [showNavigators]="false" [responsiveOptions]="responsiveOptions">
         <ng-template let-item pTemplate="item">
           <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">

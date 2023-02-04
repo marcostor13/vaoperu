@@ -157,11 +157,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
       const itemsWithoutPrimary = [...section.items.filter(i=>i.item._id !== primaryItem.item._id)]
 
-      for (let index = 0; index < itemsWithoutPrimary.length / 2; index++) {
+      for (let index = 0; index < itemsWithoutPrimary.length ; index++) {
         res = [...res, {
           isPrimary: false,
-          item1: itemsWithoutPrimary[index*2],
-          item2: itemsWithoutPrimary[index*2+1],
+          item1: itemsWithoutPrimary[index],
+          // item2: itemsWithoutPrimary[index],
         }]
       }
       return res
@@ -296,7 +296,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openCategoriesModal(category: any){
     this.displayCategories = true
-    this.category = category
+    this.category = category.name
   }
 
 
