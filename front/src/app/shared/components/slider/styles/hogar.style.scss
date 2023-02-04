@@ -22,7 +22,7 @@ $size4: 26.7vw;
     box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
     -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
     -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
-    @media screen and (max-width: 370px) {
+    @media screen and (max-width: 400px) {
       min-width: $size3!important;
       min-height: $size3!important;
       max-width: $size4!important;
@@ -34,7 +34,7 @@ $size4: 26.7vw;
       overflow: hidden;
       overflow-wrap: break-word;
       line-height: 1;
-      @media screen and (max-width: 370px) {
+      @media screen and (max-width: 400px) {
         width: $size4!important;
       }
   }

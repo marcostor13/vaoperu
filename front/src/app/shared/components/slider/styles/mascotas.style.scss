@@ -15,7 +15,7 @@ $size4: 20vw;
       box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
-      @media screen and (max-width: 370px) {
+      @media screen and (max-width: 400px) {
         min-width: $size3!important;
         min-height: $size4!important;
         max-width: $size3!important;
@@ -28,7 +28,7 @@ $size4: 20vw;
       overflow-wrap: break-word;
       line-height: 1;
       padding-left: 10px;
-      @media screen and (max-width: 370px) {
+      @media screen and (max-width: 400px) {
         width: $size3!important;
       }
   }

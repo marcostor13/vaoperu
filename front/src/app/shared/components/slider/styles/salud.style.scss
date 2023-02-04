@@ -1,4 +1,6 @@
 $size2: 128px;
+$size3: 41vw;
+$size4: 200px;
 
 .salud {
   .icon-category2{
@@ -12,11 +14,11 @@ $size2: 128px;
       box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
-      @media screen and (max-width: 370px) {
-        min-width: 41vw!important;
-        min-height: 41vw!important;
-        max-width: 200px!important;
-        max-height: 200px!important;
+      @media screen and (max-width: 400px) {
+        min-width: $size3!important;
+        min-height: $size3!important;
+        max-width: $size4!important;
+        max-height: $size4!important;
       }
   }
   .label-category2{
@@ -24,8 +26,8 @@ $size2: 128px;
       overflow: hidden;
       overflow-wrap: break-word;
       line-height: 1;
-      @media screen and (max-width: 370px) {
-        width: 41vw!important;
+      @media screen and (max-width: 400px) {
+        width: $size3!important;
 
       }
   }
