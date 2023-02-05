@@ -25,6 +25,7 @@ export class SliderComponent implements OnInit {
   innerWidth: number = window.innerWidth
   displayCategories: boolean = false
   category: any
+  showMore: boolean = false
 
   @Input() items: any
   @Input() section: any

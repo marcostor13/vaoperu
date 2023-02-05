@@ -2,9 +2,9 @@
 <div class="" (swipeleft)="swipeLeft()" (swiperight)="swipeRight()">
   <div #slide [@swipe]="{value: direction, params: {left_indent: left_indent}}" class=" d-flex flex-wrap align-items-center">
     <div *ngFor="let item of items; let i = index">
-      <ng-container *ngIf="section.section.name === 'COMIDAS Y BEBIDAS'">
+      <ng-container *ngIf="section.section.name === 'COMIDA'">
         <div class="comidas">
-          <div *ngIf="item.item1.item && !item.item2" class="d-flex">
+          <div *ngIf="!item.isPrimary && i > 3" class="d-flex">
             <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
                 <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
@@ -140,7 +140,8 @@
     section.section.name === 'SALUD ' ||
     section.section.name === 'MODA' ||
     section.section.name === 'TODO PARA EL HOGAR'||
-    section.section.name === 'MODA Y  ARTÍCULOS DEPORTIVOS'
+    section.section.name === 'MODA Y  ARTÍCULOS DEPORTIVOS'||
+    section.section.name === 'COMIDA'
     "
     class="cursor f-8 bold text-color3 mt-2 pr-3 text-center" (click)="openCategoriesModal(section.section.name)">VER TODOS</div>
 </div>
