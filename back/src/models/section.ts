@@ -5,6 +5,7 @@ export interface ISection extends Document {
     name: string
     primaryItemId: string
     createAt: Date
+    type: number
 }
 
 const userSchema = new Schema({
@@ -16,6 +17,11 @@ const userSchema = new Schema({
     primaryItemId: {
         type: String,
         default: ''
+    }, 
+    type: {
+        type: Number,
+        required: false,
+        default: 0
     }, 
     createAt: {
         type: Date,

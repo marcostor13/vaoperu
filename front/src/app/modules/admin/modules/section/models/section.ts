@@ -12,6 +12,7 @@ export class CSection{
   _id?: string
   name: string = ''
   primaryItemId: string = ''
+  type?: number = 0
 }
 
 export class CItem{
@@ -31,6 +32,7 @@ export class CSubitem{
 export class CSectionInvalid{
   name: boolean = false
   primaryItemId: boolean = false
+  type?: boolean = false
 }
 
 export class CItemInvalid{

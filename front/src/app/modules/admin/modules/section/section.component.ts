@@ -104,7 +104,8 @@ export class SectionComponent implements OnInit {
       case 'section':
         this.currentSection = {
           name: '',
-          primaryItemId: ''
+          primaryItemId: '',
+          type: 0
         }
         break;
       case 'item':
