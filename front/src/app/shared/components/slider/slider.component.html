@@ -2,8 +2,9 @@
 <div class="" (swipeleft)="swipeLeft()" (swiperight)="swipeRight()">
   <div #slide [@swipe]="{value: direction, params: {left_indent: left_indent}}" class=" d-flex flex-wrap align-items-center">
     <div *ngFor="let item of items; let i = index">
-      <ng-container *ngIf="section.section.name === 'COMIDA'">
-        <div class="comidas">
+
+      <ng-container *ngIf="section.section.type === 0">
+        <div class="type1"> <!--comidas-->
           <div *ngIf="item.isPrimary && i <= 0" class="d-flex">
             <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
@@ -18,11 +19,50 @@
               </div>
             </div>
           </div>
+
+          <div *ngIf="sectionShow">
+            <div *ngIf="!item.isPrimary && i >= 3" class="d-flex">
+              <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                  <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="section.section.name === 'MASCOTAS'">
-        <div class="mascotas">
+      <ng-container *ngIf="section.section.type === 1">
+        <div class="type1"> <!--comidas-->
+          <div *ngIf="item.isPrimary && i <= 0" class="d-flex">
+            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!item.isPrimary && i <= 2" class="d-flex">
+            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="sectionShow">
+            <div *ngIf="!item.isPrimary && i >= 3" class="d-flex">
+              <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                  <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="section.section.type === 2">
+        <div class="type2">
           <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
             <div class="icon-category image bg-white d-flex align-items-center" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
               <p class="d-flex justify-content-center justify-items-center label-category text-center f-13 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
@@ -31,18 +71,18 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="section.section.name === 'SALUD'">
-        <div class="comidas">
+      <ng-container *ngIf="section.section.type === 3">
+        <div class="type3">
           <div class="d-flex flex-wrap">
 
-            <div *ngIf="!item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+            <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
                 <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
               </div>
             </div>
-            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item2.item.name}}</p>
+            <div *ngIf="!item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
+              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
               </div>
             </div>
           </div>
@@ -67,8 +107,8 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="section.section.name === 'TODO PARA EL HOGAR'">
-        <div class="hogar">
+      <ng-container *ngIf="section.section.type === 4">
+        <div class="type4">
 
           <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor ">
             <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
@@ -79,78 +119,17 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="section.section.name === 'ESTÉTICA Y CUIDADO PERSONAL'">
-        <div class="mascotas">
-          <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-            <div class="icon-category image bg-white d-flex align-items-center" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-              <p class="d-flex justify-content-center justify-items-center label-category text-center f-13 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="section.section.name === 'TODO RUEDAS'">
-        <div class="mascotas">
-          <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-            <div class="icon-category image bg-white d-flex align-items-center" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-              <p class="d-flex justify-content-center justify-items-center label-category text-center f-13 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="section.section.name === 'MODA Y  ARTÍCULOS DEPORTIVOS'">
-        <div class="comidas">
-
-          <div *ngIf="!item.isPrimary" class="d-flex">
-            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-              </div>
-            </div>
-            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item2.item.name}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="section.section.name === 'ARTÍCULOS VARIOS'">
-        <div class="comidas">
-          <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-              </div>
-          </div>
-          <div *ngIf="!item.isPrimary" class="d-flex">
-            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-              </div>
-            </div>
-            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item2.item.name}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-
     </div>
   </div>
   <div *ngIf="
-    section.section.name === 'ARTÍCULOS VARIOS' ||
-    section.section.name === 'SALUD ' ||
-    section.section.name === 'MODA' ||
-    section.section.name === 'TODO PARA EL HOGAR'||
-    section.section.name === 'MODA Y  ARTÍCULOS DEPORTIVOS'||
-    section.section.name === 'COMIDA'
+    section.section.type === 0 ||
+    section.section.type === 1 ||
+    section.section.name === 4
     "
-    class="cursor f-8 bold text-color3 mt-2 pr-3 text-center" (click)="openCategoriesModal(section.section.name)">VER TODOS</div>
+    (click)="sectionShower()">
+    <div *ngIf="!sectionShow" class="cursor f-8 bold text-color3 mt-2 pr-3 text-center">VER TODOS</div>
+    <div *ngIf="sectionShow" class="cursor f-8 bold text-color3 mt-2 pr-3 text-center">VER MENOS</div>
+  </div>
 </div>
 
 

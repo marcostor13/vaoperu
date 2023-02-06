@@ -1,35 +1,34 @@
-$size: 270px;
-$size2: 80px;
-$size3: 86vw;
-$size4: 20vw;
+$size2: 128px;
+$size3: 41vw;
+$size4: 200px;
 
-.mascotas {
-  .icon-category{
-      min-width: $size;
+.type3 {
+  .icon-category2{
+      min-width: $size2;
       min-height: $size2;
-      max-width: $size;
+      max-width: $size2;
       max-height: $size2;
       border-radius: 8px;
-      background-position: 10% 50%;
-      background-size: 20%;
+      background-position: center 25%;
+      background-size: 50%;
       box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -webkit-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       -moz-box-shadow: 0px -1px 5px 1px rgba(166,166,166,0.84);
       @media screen and (max-width: 400px) {
         min-width: $size3!important;
-        min-height: $size4!important;
-        max-width: $size3!important;
+        min-height: $size3!important;
+        max-width: $size4!important;
         max-height: $size4!important;
       }
   }
-  .label-category{
-      width: $size;
+  .label-category2{
+      width: $size2;
       overflow: hidden;
       overflow-wrap: break-word;
       line-height: 1;
-      padding-left: 10px;
       @media screen and (max-width: 400px) {
         width: $size3!important;
+
       }
   }
 }

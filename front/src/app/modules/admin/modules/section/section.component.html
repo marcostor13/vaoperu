@@ -103,7 +103,7 @@
               <option value="">Selecione el item destacado</option>
               <option *ngFor="let item of currentItemsList" [value]="item._id">{{item.name}}</option>
             </select>
-            <input type="number" class="mt-2" [ngClass]="{'invalid': invalidSection.type}" [(ngModel)]="currentSection.type">
+            <input type="number" class="mt-2" min="0" max="4" [ngClass]="{'invalid': invalidSection.type}" [(ngModel)]="currentSection.type">
             <button (click)="presave()" class="btn1 mt-4  mb-5">Guardar</button>
             <button *ngIf="currentSection._id" (click)="confirm($event, currentSection)" class="btn3 bg-color6 pt-2 pb-2 mt-2 mb-5">Eliminar</button>
         </div>

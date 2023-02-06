@@ -26,6 +26,7 @@ export class SliderComponent implements OnInit {
   displayCategories: boolean = false
   category: any
   showMore: boolean = false
+  sectionShow: boolean = false
 
   @Input() items: any
   @Input() section: any
@@ -73,6 +74,10 @@ export class SliderComponent implements OnInit {
   openCategoriesModal(category: any){
     this.openModal.emit({name: category, value: true});
     console.log(    this.openModal.emit({name: category, value: true}) )
+  }
+
+  sectionShower() {
+    this.sectionShow = !this.sectionShow
   }
 
 }
