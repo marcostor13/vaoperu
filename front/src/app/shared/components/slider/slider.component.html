@@ -4,7 +4,7 @@
     <div *ngFor="let item of items; let i = index">
       <ng-container *ngIf="section.section.name === 'COMIDA'">
         <div class="comidas">
-          <div *ngIf="!item.isPrimary && i > 3" class="d-flex">
+          <div *ngIf="!item.isPrimary && i <= 3" class="d-flex">
             <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
               <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
                 <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
