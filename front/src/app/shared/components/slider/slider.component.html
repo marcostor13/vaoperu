@@ -89,33 +89,23 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="section.section.name === 'SERVICIOS PARA LA SALUD'">
-        <div class="salud">
-          <div class="d-flex flex-wrap">
-
-            <div *ngIf="!item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
-              </div>
-            </div>
-            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                <p class="label-category2 text-center f-8 mb-1 m-0 text-color3 text-capitalize">{{item.item2.item.name}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
 
       <ng-container *ngIf="section.section.type === 4">
-        <div class="type4">
-
+        <div class="type4" *ngIf="i <= 8">
           <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor ">
             <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
               <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
             </div>
           </div>
-
+        </div>
+        <div *ngIf="sectionShow">
+          <div class="type4" *ngIf="i > 8">
+            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor ">
+              <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
+                <p class="label-category2 text-center f-8 mb-1 m-0 bold text-color3 text-capitalize">{{item.item1.item.name}}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </ng-container>
 
@@ -124,7 +114,7 @@
   <div *ngIf="
     section.section.type === 0 ||
     section.section.type === 1 ||
-    section.section.name === 4
+    section.section.type === 4
     "
     (click)="sectionShower()">
     <div *ngIf="!sectionShow" class="cursor f-8 bold text-color3 mt-2 pr-3 text-center">VER TODOS</div>
