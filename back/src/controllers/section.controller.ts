@@ -115,21 +115,26 @@ export const update = (req: Request, res: Response) => {
     })
 }
 
-export const updateAll = (req: Request, res: Response) => {
-    Collection.remove({}, () => {
-        Collection.create(req.body, (err: any, response: any) => {
-            if (err) {
-                res.status(501).json({
-                    message: `Error al actualizar ${title}`,
-                    data: null
-                })
-            }
-            res.status(200).json({
-                message: `${title}s actualizadas`,
-                data: response
-            })
+export const updateAll = async (req: Request, res: Response) => {
+
+    try {
+        const section = req.body
+        const ids: string[] = [...section.map((i:any)=>{
+            return i._id
+        })]
+        await Collection.remove({id: ids})
+        await Collection.insertMany(section)
+        return res.status(200).json({
+            message: `${title}s actualizadas`,
+            data: null
         })
-    })
+        
+    } catch (error) {
+        return res.status(501).json({
+            message: `Error al actualizar ${title}`,
+            data: null
+        })
+    }
 }
 
 export const del = async (req: Request, res: Response) => {
