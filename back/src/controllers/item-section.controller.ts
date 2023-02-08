@@ -123,8 +123,11 @@ export const updateAll = async (req: Request, res: Response) => {
         const ids: string[] = [...items.map((i:any)=>{
             return i._id
         })]
-        await Collection.remove({id: ids})
-        await Collection.insertMany(items)
+        await Collection.remove({id: { $in: ids}})
+        const docs = [...items.map((s:any)=>{
+            return new Collection(s)
+        })]
+        await Collection.insertMany(docs)
         return res.status(200).json({
             message: `${title}s actualizadas`,
             data: null

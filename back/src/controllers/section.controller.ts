@@ -122,14 +122,11 @@ export const updateAll = async (req: Request, res: Response) => {
         const ids: string[] = [...section.map((i:any)=>{
             return i._id
         })]
-        console.log('ids', ids)
-        const remove = await Collection.remove({ _id: { $in: ids}})
-        console.log('remove', remove)
+        await Collection.remove({ _id: { $in: ids}})
         const docs = [...section.map((s:any)=>{
             return new Collection(s)
         })]
-        const insert = await Collection.insertMany(docs)
-        console.log('insert', insert)
+        await Collection.insertMany(docs)
         return res.status(200).json({
             message: `${title}s actualizadas`,
             data: null
