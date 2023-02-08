@@ -122,8 +122,11 @@ export const updateAll = async (req: Request, res: Response) => {
         const ids: string[] = [...section.map((i:any)=>{
             return i._id
         })]
-        await Collection.remove({id: ids})
-        await Collection.insertMany(section)
+        console.log('ids', ids)
+        const remove = await Collection.remove({id: ids})
+        console.log('remove', remove)
+        const insert = await Collection.insertMany(section)
+        console.log('insert', insert)
         return res.status(200).json({
             message: `${title}s actualizadas`,
             data: null
@@ -132,7 +135,7 @@ export const updateAll = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(501).json({
             message: `Error al actualizar ${title}`,
-            data: null
+            data: error
         })
     }
 }
