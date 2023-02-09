@@ -107,7 +107,7 @@ export const updateAll = async (req: Request, res: Response) => {
         const ids: string[] = [...subitems.map((i:any)=>{
             return i._id
         })]
-        await Collection.remove({id: { $in: ids}})
+        await Collection.remove({_id: { $in: ids}})
         const docs = [...subitems.map((s:any)=>{
             return new Collection(s)
         })]
@@ -120,7 +120,7 @@ export const updateAll = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(501).json({
             message: `Error al actualizar ${title}`,
-            data: error
+            data: null
         })
     }
 }
