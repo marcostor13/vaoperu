@@ -120,7 +120,7 @@ export const updateAll = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(501).json({
             message: `Error al actualizar ${title}`,
-            data: null
+            data: error
         })
     }
 }
