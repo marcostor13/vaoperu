@@ -114,7 +114,9 @@
   <div *ngIf="
   section.items.length > 3 &&
   section.section.type === 0 ||
+  section.items.length > 3 &&
   section.section.type === 1 ||
+  section.items.length > 9 &&
   section.section.type === 4
     "
     (click)="sectionShower()">

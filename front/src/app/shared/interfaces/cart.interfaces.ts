@@ -25,6 +25,7 @@ export interface ICartForm{
     phone: string
     address?: string
     address2?: string
+    reference?: string
     date: string
     typePaymment: string
     cash: number

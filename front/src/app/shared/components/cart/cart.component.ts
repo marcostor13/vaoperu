@@ -32,6 +32,7 @@ export class CartComponent implements OnInit {
     phone: '',
     address: '',
     address2: '',
+    reference: '',
     date: moment(new Date()).format('YYYY-MM-DD'),
     typePaymment: 'Efectivo',
     cash: null,
@@ -171,14 +172,15 @@ export class CartComponent implements OnInit {
     return `👋 Hola, vengo de ${this.profileProvider.comercialName}
 
   ID: ${id}
-  🗓️ ${this.form.date} ⏰ 03:02 pm
+  🗓️ ${this.form.date} ⏰
 
   Medio de pago: ${this.form.typePaymment}
   ${this.form.typePaymment === 'Efectivo'? this.form.cash: ''}
 
   Nombre: ${this.form.name}
   Teléfono: ${this.form.phone}
-  Dirección: ${this.form.address2}
+  Dirección: ${this.form.address || this.form.address2}
+  ${this.form.reference ? `Referencia: ${this.form.reference}` : ''}
 
   💲 Costos
   Total a pagar: S/. ${this.getTotal()}

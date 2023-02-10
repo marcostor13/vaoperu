@@ -8,6 +8,9 @@
 input, select, textarea{
   border: 0!important;
 }
+textarea {
+  height: 80px;
+}
 .controls{
     input{
         margin-left: 10px;

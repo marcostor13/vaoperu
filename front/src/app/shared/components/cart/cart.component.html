@@ -32,7 +32,7 @@
 
 <ng-container *ngIf="step === 2">
     <p-tabView>
-        <p-tabPanel *ngIf="profileProvider.delivery" header="A domicilio">
+        <p-tabPanel *ngIf="profileProvider.delivery" header="pedir producto">
             <button (click)="return()" class="btn2">Volver</button>
             <h5 class="text-center mt-2">Datos para su pedido</h5>
             <input type="text" placeholder="Nombre" [(ngModel)]="form.name">
@@ -42,7 +42,8 @@
                 <option value="{{profileProvider.addressText}}">{{profileProvider.addressText}}</option>
                 <option value="custom">Ingresar otra dirección</option>
             </select> -->
-            <input class="mt-2" type="text" placeholder="Ingrese una dirección" [(ngModel)]="form.address2">
+            <input class="mt-2" type="text" placeholder="Dirección a domicilio" [(ngModel)]="form.address2">
+            <input class="mt-2" type="text" placeholder="Referencia" [(ngModel)]="form.reference">
             <div class="d-flex align-items-center mt-2">
                 <input type="datetime-local" [(ngModel)]="form.date">
                 <!-- <button (click)="setActual()" class="btn2 ml-2">Actual</button> -->
@@ -55,31 +56,37 @@
             </select>
             <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
             <p class="text-danger mt-3 text-center">{{response}}</p>
-            <textarea placeholder="Observaciones / detalles" [(ngModel)]="form.details"></textarea>
+            <textarea placeholder="Comentario" [(ngModel)]="form.details"></textarea>
 
         </p-tabPanel>
-        <p-tabPanel *ngIf="profileProvider.onMarket" header="En tienda">
-            <h4 class="text-center">Datos para su pedido</h4>
+        <p-tabPanel *ngIf="profileProvider.onMarket" header="Citar Servicio">
+            <h5 class="text-center pt-2">Datos para su pedido</h5>
             <input type="text" class="input" placeholder="Nombre" [(ngModel)]="form.name">
             <input type="text" class="input mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
             <div class="d-flex align-items-center mt-2">
                 <input type="datetime-local" [(ngModel)]="form.date">
                 <!-- <button (click)="setActual()" class="btn2 ml-2">Actual</button> -->
             </div>
-            <select class="mt-2" [(ngModel)]="form.typePaymment">
+            <select class="mt-2" [(ngModel)]="form.address">
+                <option value="{{currentDirection}}">{{currentDirection}} (Actual)</option>
+                <option value="{{profileProvider.addressText}}">{{profileProvider.addressText}}</option>
+                <option value="custom">Ingresar otra dirección</option>
+            </select>
+            <input *ngIf="form.address === 'custom'" class="mt-2" type="text" placeholder="Dirección a domicilio" [(ngModel)]="form.address2">
+            <!-- <select class="mt-2" [(ngModel)]="form.typePaymment">
                 <option value="Efectivo">Efectivo</option>
                 <option value="Tarjeta">Tarjeta</option>
                 <option value="Yape">Yape</option>
                 <option value="Plin">Plin</option>
-            </select>
-            <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" >
+            </select> -->
+            <!-- <input *ngIf="form.typePaymment === 'Efectivo'" class="mt-2" type="number" placeholder="¿Con cuánto cancela?" [(ngModel)]="form.cash" > -->
             <p class="text-danger mt-3 text-center">{{response}}</p>
-            <textarea placeholder="Observaciones / detalles" [(ngModel)]="form.details"></textarea>
+            <textarea placeholder="Comentario" [(ngModel)]="form.details"></textarea>
         </p-tabPanel>
     </p-tabView>
 
     <div *ngIf="cart?.items?.length > 0" class="d-flex justify-content-end align-items-center mt-3">
-        <button (click)="finishedShop()" class="btn2 mr-3 mb-3">Hacer pedido</button>
+        <button (click)="finishedShop()" class="btn2 mr-3 mb-3">Enviar a Whatsapp</button>
     </div>
 </ng-container>
 
