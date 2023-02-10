@@ -32,7 +32,7 @@
 
 <ng-container *ngIf="step === 2">
     <p-tabView>
-        <p-tabPanel *ngIf="profileProvider.delivery" header="pedir producto">
+        <p-tabPanel *ngIf="profileProvider.delivery" header="Pedir producto">
             <button (click)="return()" class="btn2">Volver</button>
             <h5 class="text-center mt-2">Datos para su pedido</h5>
             <input type="text" placeholder="Nombre" [(ngModel)]="form.name">

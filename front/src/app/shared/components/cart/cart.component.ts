@@ -147,9 +147,9 @@ export class CartComponent implements OnInit {
       !this.form.phone ||
       !this.form.address ||
       (this.form.address === 'custom' && !this.form.address2) ||
-      !this.form.date ||
-      !this.form.typePaymment ||
-      (this.form.typePaymment === 'Efectivo' && !this.form.cash)
+      !this.form.date
+      // !this.form.typePaymment ||
+      // (this.form.typePaymment === 'Efectivo' && !this.form.cash)
     ){
       this.response = 'Debe completar todos los campos'
       return false
@@ -169,17 +169,21 @@ export class CartComponent implements OnInit {
   }
 
   createMessage(id: string){
-    return `👋 Hola, vengo de ${this.profileProvider.comercialName}
+    const dateAndTime = this.form.date.split("T");
+    const date = dateAndTime[0];
+    const time = dateAndTime[1];
+
+  return `👋 Hola, vengo de ${this.profileProvider.comercialName}
 
   ID: ${id}
-  🗓️ ${this.form.date} ⏰
+  🗓️ ${date} ⏰ ${time}
 
   Medio de pago: ${this.form.typePaymment}
   ${this.form.typePaymment === 'Efectivo'? this.form.cash: ''}
 
   Nombre: ${this.form.name}
   Teléfono: ${this.form.phone}
-  Dirección: ${this.form.address || this.form.address2}
+  ${this.form.address2 ? `Dirección: ${this.form.address2}` : '' || this.form.address ? `Dirección: ${this.form.address}` : ''}
   ${this.form.reference ? `Referencia: ${this.form.reference}` : ''}
 
   💲 Costos
@@ -188,7 +192,7 @@ export class CartComponent implements OnInit {
   📝 Pedido
   ${this.getItemsData()}
 
-  Observaciones: S/. ${this.form.details}
+  Observaciones: ${this.form.details}
 
   👆 Envía este mensaje. Te atenderemos enseguida.`
   }
