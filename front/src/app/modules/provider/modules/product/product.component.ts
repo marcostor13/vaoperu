@@ -55,6 +55,7 @@ export class ProductComponent implements OnInit {
     dragMode: 'none',
     autoCropArea: 100
   }
+  editar
 
   constructor(
     private productService: ProductService,
@@ -112,13 +113,18 @@ export class ProductComponent implements OnInit {
     }
     if(this.issetCategory(this.currentCategory.name)){
       res = false
-      this.responseCategory = 'La categoria ya existe'
+      this.responseCategory = this.editState ? 'La categoria ya existe' : 'La categoria fue editada'
     }
     if(this.editState){
-      res = false
       this.responseCategory = 'La categoria fue editada'
     }
     return res
+  }
+
+  editCategory(category: ICategoryProduct){
+    this.currentCategory = category
+    this.productService.saveCategory(category).subscribe((response: IResponseApi) => {
+    })
   }
 
 
@@ -128,30 +134,30 @@ export class ProductComponent implements OnInit {
         name: this.currentCategory?.name,
         profileProviderId: this.profileProvider._id
       }
-
       this.productService.saveCategory(peyload).subscribe((response: IResponseApi) => {
-        this.responseCategory = 'Categoria guardada'
-        this.resetCategory()
-      })
+        this.responseCategory = 'Categoria guardada';
+        this.resetCategory();
+      });
 
-
-
+    } else {
+      this.editState = true
+      this.editCategory(this.currentCategory)
+      this.currentCategoryReset()
     }
   }
 
-  editCategory(category: ICategoryProduct){
-    this.currentCategory = category
-
-    this.productService.saveCategory(category).subscribe((response: IResponseApi) => {
-      this.responseCategory = 'La categoria fue editada'
-    })
-  }
   deleteCategory(category: ICategoryProduct){
-
       this.productService.deleteCategory(category).subscribe((response: IResponseApi) =>{
         this.responseCategory = 'La categoria fue eliminada'
       })
       this.currentCategory
+  }
+
+  currentCategoryReset() {
+    this.currentCategory = {
+      name : '',
+      profileProviderId: ''
+    }
   }
 
   resetCategory(){
@@ -301,6 +307,7 @@ export class ProductComponent implements OnInit {
   async presave() {
     if (!this.validate()) {
       this.general.isLoad(true)
+      this.add();
       if (this.deleteImages?.length > 0) {
         const images = []
         this.deleteImages.map((image: CImages)=>{

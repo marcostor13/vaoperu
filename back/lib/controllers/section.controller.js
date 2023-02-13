@@ -114,22 +114,29 @@ exports.update = (req, res) => {
         });
     });
 };
-exports.updateAll = (req, res) => {
-    Collection.remove({}, () => {
-        Collection.create(req.body, (err, response) => {
-            if (err) {
-                res.status(501).json({
-                    message: `Error al actualizar ${title}`,
-                    data: null
-                });
-            }
-            res.status(200).json({
-                message: `${title}s actualizadas`,
-                data: response
-            });
+exports.updateAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const section = req.body;
+        const ids = [...section.map((i) => {
+                return i._id;
+            })];
+        yield Collection.remove({ _id: { $in: ids } });
+        const docs = [...section.map((s) => {
+                return new Collection(s);
+            })];
+        yield Collection.insertMany(docs);
+        return res.status(200).json({
+            message: `${title}s actualizadas`,
+            data: null
         });
-    });
-};
+    }
+    catch (error) {
+        return res.status(501).json({
+            message: `Error al actualizar ${title}`,
+            data: error
+        });
+    }
+});
 exports.del = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sectionId = req.params.id;
     try {
