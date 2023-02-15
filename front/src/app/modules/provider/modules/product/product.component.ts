@@ -52,10 +52,9 @@ export class ProductComponent implements OnInit {
   currentFile: File
   config = {
     aspectRatio: 16/16,
-    dragMode: 'none',
+    dragMode: 'crop',
     autoCropArea: 100
   }
-  editar
 
   constructor(
     private productService: ProductService,
@@ -305,9 +304,11 @@ export class ProductComponent implements OnInit {
   }
 
   async presave() {
+    if(this.currentItem.profileProviderId) {
+      this.add();
+    }
     if (!this.validate()) {
       this.general.isLoad(true)
-      this.add();
       if (this.deleteImages?.length > 0) {
         const images = []
         this.deleteImages.map((image: CImages)=>{
