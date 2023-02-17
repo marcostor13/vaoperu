@@ -23,6 +23,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { SubSink } from 'subsink';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-view-company',
@@ -49,6 +50,7 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   private unsubscriber : Subject<void> = new Subject<void>();
   urlBack: string
   private subs = new SubSink()
+  platform: string
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +67,7 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   ) {
     this.companyUrl = this.route.snapshot.paramMap.get('id')
     this.subscriptionUrlBack()
+    this.subscriptionPlatform()
   }
 
   ngOnInit(): void {
@@ -227,9 +230,29 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
     return time
   }
 
+  subscriptionPlatform(){
+    this.subs.add(
+      this.store.select((state) => state.Reducer.platform)
+      .pipe(delay(0))
+      .subscribe((platform: string) => {
+        this.platform = platform;
+      })
+    )
+}
+
   shared(url: string, name: string){
-    const urlShare = `https://vaoperu.com/${this.url.url}`.replace(' ', '-')
-    window.navigator.share({ url: urlShare, title: `${name}`, text: `${name}`})
+    let urlShare = `https://vaoperu.com/${this.url.url}`.replace(' ', '-')
+    if(this.platform === 'Android'){
+      Share.share({
+        title: `${name}`,
+        text: `${name}`,
+        url: urlShare,
+        dialogTitle: 'Compartir',
+      });
+    }
+    else{
+      window.navigator.share({ url: urlShare, title: `${name}`, text: `${name}`})
+    }
   }
 
   rad(x) {

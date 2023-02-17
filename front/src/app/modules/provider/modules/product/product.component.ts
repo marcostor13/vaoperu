@@ -8,7 +8,6 @@ import { CProduct, CProductInvalid, ICategoryProduct } from './models/product'
 import { ProductService } from './services/product.service';
 import { ProfileProviderService } from './../profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../profile-provider/models/profile-provider';
-import { CropperComponent } from 'angular-cropperjs';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +16,6 @@ import { CropperComponent } from 'angular-cropperjs';
 })
 export class ProductComponent implements OnInit {
 
-  @ViewChild('angularCropper') public angularCropper: CropperComponent;
 
   public subs = new SubSink()
   displayModal: boolean = false
@@ -55,7 +53,6 @@ export class ProductComponent implements OnInit {
     dragMode: 'crop',
     autoCropArea: 100
   }
-
   constructor(
     private productService: ProductService,
     private general: GeneralService,
@@ -264,7 +261,7 @@ export class ProductComponent implements OnInit {
     this.currentImages = [...this.currentImages.filter((ima: CImages) => ima.url !== image.url)]
   }
 
-   onUpload(event: any, fileUpload:any) {
+  onUpload(event: any, fileUpload:any) {
     event.currentFiles.map((file: File) => {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
@@ -286,23 +283,6 @@ export class ProductComponent implements OnInit {
     this.fileUpload.clear()
   }
 
-  moveCropper() {
-
-    this.angularCropper.cropper.getCroppedCanvas().toBlob( (blob: File) => {
-      const reader: any = new FileReader();
-      reader.readAsDataURL(blob)
-      reader.onload = () => {
-        this.dataImage = reader.result as string
-      }
-    })
-  }
-
-  cropper() {
-    this.currentImages = [...this.currentImages, { file: this.currentFile, blob: this.dataImage, url: null }]
-    this.displayModalCroper = false
-    this.fileUpload.clear()
-  }
-
   async presave() {
     if(this.currentItem.profileProviderId) {
       this.add();
@@ -319,12 +299,16 @@ export class ProductComponent implements OnInit {
         await this.general.deleteImages(images)
         this.uploadImages()
       }else{
+        console.log('subir imagen', this.currentImages)
         this.uploadImages()
       }
     }
   }
 
-
+  eventCrop(event) {
+    const file = new File([event.file], event.name, {type: 'image/*'});
+    this.currentImages = [...this.currentImages, { file: file, blob: event.event, url: null }]
+  }
 
   uploadImages(){
     if (this.currentImages?.length > 0) {
@@ -336,7 +320,9 @@ export class ProductComponent implements OnInit {
             .then (res => res.blob())
             .then ( async blob => {
               const file = new File([blob], images.file.name, {type: images.file.type})
+              console.log('file: ',file)
               const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
+              console.log('url: ',url)
               if (url) {
                 this.currentItem.images = [...this.currentItem.images, url]
               }
@@ -383,6 +369,5 @@ export class ProductComponent implements OnInit {
   addEditCategories(){
     this.displayCategories = true
   }
-
 
 }

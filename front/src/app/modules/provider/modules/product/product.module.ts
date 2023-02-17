@@ -15,6 +15,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ProductListModule } from './../../../../shared/components/product-list/product-list.module';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { AngularCropperjsModule } from 'angular-cropperjs';
+import { CropImageModule } from '@shared/components/crop-image/crop-image.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     FileUploadModule,
     ProductListModule,
     InputSwitchModule,
-    AngularCropperjsModule
+    AngularCropperjsModule,
+    CropImageModule
   ],
   providers: [ConfirmationService]
 })

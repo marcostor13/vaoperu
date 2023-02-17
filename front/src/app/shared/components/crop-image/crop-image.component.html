@@ -1,0 +1,49 @@
+<!-- <p-messages [(value)]="msgs"></p-messages> -->
+<label for="fileInput" class="d-flex justify-content-between custom-file-upload">
+  <div><i class="font-600 pi pi-plus"></i></div>
+  <div>Subir Imágenes</div>
+  <div></div>
+</label>
+
+<input
+#fileInput
+class="custom-file-upload col-12 btn2"
+id="fileInput"
+type="file"
+(change)="fileChangeEvent($event)"
+accept="image/*"
+multiple
+aria-label="Archivo"
+size="2000000"
+/>
+
+<p-dialog *ngIf="imageChangedEvent"
+    header=""
+    [(visible)]="displayModalCroper"
+    [modal]="true"
+    [styleClass]="'modalLogin'"
+    [baseZIndex]="10000"
+    [autoZIndex]="true"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="croppedReset()"
+    >
+    <div class="d-flex justify-content-center flex-column align-items-center flex-md-row">
+        <div class="container-cropper p-3">
+          <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="16 / 16"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+        </div>
+        <div class="p-3">
+            <div class="image image2" [ngStyle]="{'background-image': 'url('+croppedImage+')'}"></div>
+        </div>
+    </div>
+    <div class="col-12 d-flex justify-content-center pb-5">
+      <button class="btn1" (click)="cropperReady()">Subir</button>
+    </div>
+</p-dialog>

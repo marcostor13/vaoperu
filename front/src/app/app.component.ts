@@ -22,7 +22,7 @@ export class AppComponent {
               private _location: Location
               ){
       this.subscriptionLoading()
-      this.setPlatform()
+      this.setPlatform() //setea si es android o web .getPlatform()
       this.setBackButton()
 
     }
