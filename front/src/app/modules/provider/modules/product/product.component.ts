@@ -299,7 +299,6 @@ export class ProductComponent implements OnInit {
         await this.general.deleteImages(images)
         this.uploadImages()
       }else{
-        console.log('subir imagen', this.currentImages)
         this.uploadImages()
       }
     }
@@ -320,9 +319,7 @@ export class ProductComponent implements OnInit {
             .then (res => res.blob())
             .then ( async blob => {
               const file = new File([blob], images.file.name, {type: images.file.type})
-              console.log('file: ',file)
               const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
-              console.log('url: ',url)
               if (url) {
                 this.currentItem.images = [...this.currentItem.images, url]
               }

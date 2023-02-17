@@ -42,8 +42,7 @@ export class CropImageComponent implements OnInit {
       this.imageChangedEvent = event;
     }
   }
-  imageLoaded() {
-  }
+
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
     this.fileCroped = {
