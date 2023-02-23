@@ -50,6 +50,7 @@ export class CategoryViewComponent implements OnInit {
   id: string
   classCarrousel: boolean
   keyword: string
+  urlBack: string
 
   constructor(
     private route: ActivatedRoute,
@@ -60,7 +61,7 @@ export class CategoryViewComponent implements OnInit {
     private promotionsService: PromotionService,
     private router: Router,
     private sectionService: SectionService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
   ) {
     this.section = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('section'))
     this.item = this.generalService.diacriticSensitiveRegex(this.route.snapshot.paramMap.get('item'))
@@ -203,12 +204,20 @@ export class CategoryViewComponent implements OnInit {
     this.router.navigate([`/${this.section}/${this.item}/${subitem.name}`])
   }
 
+
   returnCaterogies(){
     if(this.router.url.indexOf('0/des/1')>-1){
       history.go(-1)
-    }else{
-      this.router.navigate([ '/'])
-    }
+    } else{
+      const urlParts = this.router.url.split('/');
+      if ( urlParts[3]) {
+        urlParts.pop();
+      } else {
+        urlParts.splice(urlParts.length - 2, 2);
+      }
+      const newUrl = urlParts.join('/');
+      this.router.navigate([newUrl]);
+        }
   }
 
 }
