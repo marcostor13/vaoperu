@@ -40,7 +40,7 @@
               <div class="pl-5 description-modal">
                 <h5 class="title">{{currentItem.name}}</h5>
                   <div class="mt-3">
-                      <pre class="description text-wrap font-p font-400 f-10">{{getDescriptionModal(currentItem.description)}}</pre>
+                      <pre style="white-space: pre-wrap;" class="description font-p font-400 f-10">{{getDescriptionModal(currentItem.description)}}</pre>
                   </div>
                 <div class="row align-items-center m-0">
                     <h5 *ngIf="currentItem.promotionalPrice" class="primary-price text-color1">{{getPrice(currentItem.promotionalPrice)}}</h5>
