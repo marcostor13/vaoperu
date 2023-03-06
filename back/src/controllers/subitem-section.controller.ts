@@ -7,7 +7,8 @@ const title = 'Subitem'
 const Collection = SubitemSection
 
 const normalize = (text:string) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+    return text;
+    // return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
 }
 
 export const save = async (req: Request, res: Response): Promise<Response> => {

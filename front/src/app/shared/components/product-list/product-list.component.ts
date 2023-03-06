@@ -59,6 +59,7 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
   displayAllProducts: boolean = false
   currentProducts: IFormatProduct
   sectionButton = []
+  platform: string
 
   private subs = new SubSink()
   private unsubscriber : Subject<void> = new Subject<void>();
@@ -91,6 +92,7 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
       }
     ];
 
+    this.subscriptionPlatform()
     this.isProviderPath = window.location.pathname.indexOf('provider')>-1 ? true: false
     this.companyUrl = this.route.snapshot.paramMap.get('id')
     this.detectEventRoute()
@@ -105,22 +107,34 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-  detectEventRoute(){
-    history.pushState(null, '');
-    fromEvent(window, 'popstate').pipe(
-      takeUntil(this.unsubscriber)
-    ).subscribe((_) => {
-      history.pushState(null, '');
-      if(this.displayModal){
-            this.displayModal = false
-            this.router.navigate([`/${this.url.url}`])
-      }else{
-        if(!this.url.isIndividual){
-          this.router.navigate([`/`])
-        }
-      }
-    });
+  subscriptionPlatform(){
+    this.subs.add(
+      this.store.select((state) => state.Reducer.platform)
+      .subscribe((platform: string) => {
+        this.platform = platform;
+      })
+    )
   }
+
+  detectEventRoute(){
+    if(this.platform === 'Web') {
+      history.pushState(null, '');
+      fromEvent(window, 'popstate').pipe(
+        takeUntil(this.unsubscriber)
+      ).subscribe((_) => {
+        history.pushState(null, '');
+        if(this.displayModal){
+          this.displayModal = false
+          this.router.navigate([`/${this.url.url}`])
+        }else{
+          if(!this.url.isIndividual){
+            this.router.navigate([`/`])
+          }
+        }
+      });
+    }
+  }
+
 
   subscriptionCart() {
     this.subs.add(

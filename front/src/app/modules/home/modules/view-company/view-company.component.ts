@@ -73,33 +73,16 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getUrlData()
     this.getFavorites()
-    // this.setHistory()
-
-  }
-
-  setHistory(){
-    history.pushState(null, '');
-    fromEvent(window, 'popstate').pipe(
-      takeUntil(this.unsubscriber)
-    ).subscribe((_) => {
-      if(this.url.isIndividual){
-        history.pushState(null, '');
-      }else{
-         if(this.urlBack){
-           this.router.navigate([this.urlBack])
-        }
-      }
-    });
   }
 
   subscriptionUrlBack(){
-      this.subs.add(
-        this.store.select((state) => state.Reducer.urlBack)
-        .pipe(delay(0))
-        .subscribe((urlBack: string) => {
-          this.urlBack = urlBack;
-        })
-      )
+    this.subs.add(
+      this.store.select((state) => state.Reducer.urlBack)
+      .pipe(delay(0))
+      .subscribe((urlBack: string) => {
+        this.urlBack = urlBack;
+      })
+    )
   }
 
   ngOnDestroy(): void {
@@ -112,6 +95,9 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
   getUrlData(){
     this.profileProviderService.getUrlByUrl(this.companyUrl).subscribe((response:IResponseApi)=>{
       this.url = response.data[0]
+      if(this.platform === 'Android'){
+        this.url.isIndividual = false
+      }
       if(response?.data[0]?.profileProviderId){
         this.getProfileProvider(response?.data[0]?.profileProviderId)
       }else{
@@ -238,7 +224,7 @@ export class ViewCompanyComponent implements OnInit, OnDestroy {
         this.platform = platform;
       })
     )
-}
+  }
 
   shared(url: string, name: string){
     let urlShare = `https://vaoperu.com/${this.url.url}`.replace(' ', '-')

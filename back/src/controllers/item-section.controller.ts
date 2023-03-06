@@ -8,7 +8,8 @@ const title = 'Item'
 const Collection = ItemSection
 
 const normalize = (text:string) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+    return text;
+    // return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
 }
 
 export const save = async (req: Request, res: Response): Promise<Response> => {
@@ -70,11 +71,12 @@ export const getByID = (req: Request, res: Response) => {
 }
 
 const diacriticSensitiveRegex = (text:string) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+    return text;
+    // return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
 }
 
 export const getSectionAndItems = async (req: Request, res: Response) => {
-    const keyword = normalize(req.params.id)
+    const keyword = req.params.id
     try {
         const items = await ItemSection.find({})
         const item = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())

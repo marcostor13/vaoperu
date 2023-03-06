@@ -16,7 +16,8 @@ const section_1 = require("../models/section");
 const title = 'Item';
 const Collection = item_section_1.default;
 const normalize = (text) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
+    return text;
+    // return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ').toLowerCase();
 };
 exports.save = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, image } = req.body;
@@ -72,11 +73,12 @@ exports.getByID = (req, res) => {
     });
 };
 const diacriticSensitiveRegex = (text) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
+    return text;
+    // return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/-/g, ' ');
 };
 exports.getSectionAndItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const keyword = normalize(req.params.id);
+    const keyword = req.params.id;
     try {
         const items = yield item_section_1.default.find({});
         const item = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase());
