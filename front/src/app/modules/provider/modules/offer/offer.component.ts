@@ -8,7 +8,6 @@ import { COffer, COfferInvalid } from './models/offer'
 import { OfferService } from './services/offer.service';
 import { ProfileProviderService } from '../profile-provider/services/profile-provider.service';
 import { CProfileProvider } from '../profile-provider/models/profile-provider';
-import { CropperComponent } from 'angular-cropperjs';
 
 @Component({
   selector: 'app-offer',
@@ -17,7 +16,6 @@ import { CropperComponent } from 'angular-cropperjs';
 })
 export class OfferComponent implements OnInit {
 
-  @ViewChild('angularCropper') public angularCropper: CropperComponent;
   public subs = new SubSink()
   displayModal: boolean = false
   displayModalCropper: boolean = false
@@ -29,7 +27,7 @@ export class OfferComponent implements OnInit {
   dataImage: string
   config = {
     aspectRatio: 16/16,
-    dragMode: 'none',
+    dragMode: 'crop',
     autoCropArea: 100
   }
   currentFile: File
@@ -39,7 +37,7 @@ export class OfferComponent implements OnInit {
   currentImages: CImages[]
   images: File[] = []
   uploadPercent: number
-  deleteImages: CImages[]
+  deleteImages: CImages[] = []
 
   constructor(
     private offerService: OfferService,
@@ -206,36 +204,26 @@ export class OfferComponent implements OnInit {
     this.fileUpload.clear()
   }
 
-  moveCropper() {
-    this.dataImage = this.angularCropper.cropper.crop().getCroppedCanvas({
-      width: 400,
-      height: 400
-    }).toDataURL();
-  }
-
   openModalCrroper(image: string) {
     this.imageUrl = image
     this.dataImage = image
     this.displayModalCropper = true
   }
 
-  cropper() {
-    this.currentImages = [...this.currentImages, { file: this.currentFile, blob: this.dataImage, url: null }]
-    this.displayModalCropper = false
-    this.fileUpload.clear()
-  }
-
   async presave() {
+    if(this.currentItem.profileProviderId) {
+      this.add();
+    }
     if (!this.validate()) {
       this.general.isLoad(true)
       if (this.deleteImages?.length > 0) {
         const images = []
         this.deleteImages.map((image: CImages)=>{
-          if (image.url) {
+          if (image.url){
             images.push(image.url)
           }
         })
-        const deleteImages = await this.general.deleteImages(images)
+        await this.general.deleteImages(images)
         this.uploadImages()
       }else{
         this.uploadImages()
@@ -243,20 +231,42 @@ export class OfferComponent implements OnInit {
     }
   }
 
+  eventCrop(event) {
+    const file = new File([event.file], event.name, {type: 'image/*'});
+    this.currentImages = [...this.currentImages, { file: file, blob: event.event, url: null }]
+  }
+
   uploadImages(){
     if (this.currentImages?.length > 0) {
         let count = 1
         this.currentImages.map(async (images:CImages)=>{
-          if (images.file) {
-            const url: any = await this.general.uploadImage(images.file, 'offers/')?.toPromise()
+          let file
+          if (images.blob){
+            fetch(images.blob)
+            .then (res => res.blob())
+            .then ( async blob => {
+              const file = new File([blob], images.file.name, {type: images.file.type})
+              const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
+              if (url) {
+                this.currentItem.images = [...this.currentItem.images, url]
+              }
+              this.uploadPercent = count*100/this.currentImages.length
+              count++
+              if(count === this.currentImages.length+1){
+                this.add()
+              }
+            })
+          } else if (images.file){
+            file = images.file
+            const url: any = await this.general.uploadImage(file, 'products/')?.toPromise()
             if (url) {
               this.currentItem.images = [...this.currentItem.images, url]
             }
-          }
-          this.uploadPercent = count*100/this.currentImages.length
-          count++
-          if(count === this.currentImages.length+1){
-            this.add()
+            this.uploadPercent = count*100/this.currentImages.length
+            count++
+            if(count === this.currentImages.length+1){
+              this.add()
+            }
           }
         })
     } else {

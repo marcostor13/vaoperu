@@ -15,27 +15,28 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ProductListModule } from '../../../../shared/components/product-list/product-list.module';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { AngularCropperjsModule } from 'angular-cropperjs';
+import { CropImageModule } from "../../../../shared/components/crop-image/crop-image.module";
 
 @NgModule({
-  declarations: [
-    OfferComponent
-  ],
-  imports: [
-
-  CommonModule,
-    OfferRoutingModule,
-    MenuProviderModule,
-    HeaderProviderModule,
-    OrderListModule,
-    DialogModule,
-    FormsModule,
-    ToastModule,
-    ConfirmPopupModule,
-    FileUploadModule,
-    ProductListModule,
-    InputSwitchModule,
-    AngularCropperjsModule
-  ],
-  providers: [ConfirmationService]
+    declarations: [
+        OfferComponent
+    ],
+    providers: [ConfirmationService],
+    imports: [
+        CommonModule,
+        OfferRoutingModule,
+        MenuProviderModule,
+        HeaderProviderModule,
+        OrderListModule,
+        DialogModule,
+        FormsModule,
+        ToastModule,
+        ConfirmPopupModule,
+        FileUploadModule,
+        ProductListModule,
+        InputSwitchModule,
+        AngularCropperjsModule,
+        CropImageModule
+    ]
 })
 export class OfferModule { }
