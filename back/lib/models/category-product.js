@@ -10,6 +10,11 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: Number,
+        required: false,
+        default: 0
+    },
     createAt: {
         type: Date,
         default: new Date()

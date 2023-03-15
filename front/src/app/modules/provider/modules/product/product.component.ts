@@ -30,11 +30,13 @@ export class ProductComponent implements OnInit {
   listCatsTmp: string[] = []
   currentCategory: ICategoryProduct = {
     name: '',
-    profileProviderId: ''
+    profileProviderId: '',
+    type: 0
   }
   currentCategoryTmp: ICategoryProduct = {
     name: '',
-    profileProviderId: ''
+    profileProviderId: '',
+    type: 0
   }
   responseCategory: string
   editState: boolean = false
@@ -128,7 +130,8 @@ export class ProductComponent implements OnInit {
     if(this.validateCategory()){
       const peyload: ICategoryProduct = {
         name: this.currentCategory?.name,
-        profileProviderId: this.profileProvider._id
+        profileProviderId: this.profileProvider._id,
+        type: this.currentCategory?.type
       }
       this.productService.saveCategory(peyload).subscribe((response: IResponseApi) => {
         this.responseCategory = 'Categoria guardada';
@@ -152,12 +155,14 @@ export class ProductComponent implements OnInit {
   currentCategoryReset() {
     this.currentCategory = {
       name : '',
-      profileProviderId: ''
+      profileProviderId: '',
+      type: 0
     }
   }
 
   resetCategory(){
     this.currentCategory.name = ''
+    this.currentCategory.type = 0
   }
 
   validate() {

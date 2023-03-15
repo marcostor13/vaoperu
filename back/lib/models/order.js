@@ -20,6 +20,9 @@ const userSchema = new mongoose_1.Schema({
     orderData: {
         type: Object
     },
+    orderDataService: {
+        type: Object
+    },
     cash: {
         type: Number,
     },

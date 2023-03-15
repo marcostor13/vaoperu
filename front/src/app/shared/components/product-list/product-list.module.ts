@@ -8,11 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeaderModule } from './../../../shared/components/header/header.module';
 import { ProductRowComponent } from './../product-row/product-row.component';
+import { CartServicesComponent } from '../cart-services/cart-services.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
     ProductListComponent,
-    ProductRowComponent
+    ProductRowComponent,
+    CartServicesComponent
   ],
   imports: [
   CommonModule,
@@ -21,7 +24,8 @@ import { ProductRowComponent } from './../product-row/product-row.component';
     DialogModule,
     FormsModule,
     FontAwesomeModule,
-    HeaderModule
+    HeaderModule,
+    TabViewModule
   ],
   exports: [ProductListComponent],
 })

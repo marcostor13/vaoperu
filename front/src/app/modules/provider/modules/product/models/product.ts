@@ -33,10 +33,13 @@ export class CProductInvalid{
     images: boolean
     price: boolean
     description: boolean
+    type?: number
+
 }
 
 export interface ICategoryProduct{
   name: string
   profileProviderId: string
   _id?: string
+  type?: number
 }

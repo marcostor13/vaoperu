@@ -6,6 +6,7 @@ export interface IOrder extends Document {
     items: IItemCart[]
     state: string
     orderData: IOrderData
+    orderDataService: IOrderDataService
 }
 
 export interface IItemCart {
@@ -31,6 +32,13 @@ export interface IOrderData{
     details: string
 }
 
+export interface IOrderDataService{
+    name: string
+    phone: string
+    date: string
+    details: string
+}
+
 const userSchema = new Schema({
     profileProviderId: {
         type: String,        
@@ -48,6 +56,9 @@ const userSchema = new Schema({
         default: 'pendiente'
     },
     orderData: {
+        type: Object
+    },
+    orderDataService: {
         type: Object
     },
     cash: {

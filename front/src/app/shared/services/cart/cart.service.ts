@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { cloneDeep } from 'lodash-es';
 import { ApiService } from '@services/api.service';
 import { IDataApi } from 'src/app/models/dataapi';
+import { ICartService, IItemCartService } from '@shared/interfaces/cartService.interfaces';
 
 
 @Injectable({
@@ -17,6 +18,7 @@ import { IDataApi } from 'src/app/models/dataapi';
 export class CartService {
 
   cart: ICart
+  cartService: ICartService
 
   private subs = new SubSink()
 
@@ -26,6 +28,7 @@ export class CartService {
     private api: ApiService
   ) {
     this.subscriptionCart()
+    this.subscriptionCartService()
   }
 
   subscriptionCart() {
@@ -45,8 +48,32 @@ export class CartService {
     )
   }
 
+  subscriptionCartService() {
+    this.subs.add(
+      this.store.select((state) => state.Reducer.cart)
+        .pipe(delay(0))
+        .subscribe((cart: ICartService) => {
+          if(!cart){
+            this.setDataCartService({
+              profileProviderId: '',
+              userId: '',
+              items: []
+            })
+          }
+          this.cartService = cart;
+        })
+    )
+  }
+
   resetCart(){
     this.setDataCart({
+      profileProviderId: '',
+      userId: '',
+      items: []
+    })
+  }
+  resetCartService(){
+    this.setDataCartService({
       profileProviderId: '',
       userId: '',
       items: []
@@ -73,6 +100,25 @@ export class CartService {
     cart.profileProviderId = profileProviderId
     cart.userId = this.authService.getUserID()
     this.setDataCart(cart)
+  }
+
+  addToCartService(itemCart: IItemCartService, profileProviderId:string) {
+    let cart: ICartService = cloneDeep(this.cartService)
+    if(cart.items.length>0){
+      const find = cart.items.find(item=>item.productId === itemCart.productId)
+      if(find){
+        cart.items = cart.items.map((item: IItemCartService) => {
+          return item
+        })
+      }else{
+        cart.items = [...cart.items, itemCart]
+      }
+    }else{
+      cart.items = [...cart.items, itemCart]
+    }
+    cart.profileProviderId = profileProviderId
+    cart.userId = this.authService.getUserID()
+    this.setDataCartService(cart)
   }
 
   substractToCart(productId: string, profileProviderId: string){
@@ -106,6 +152,10 @@ export class CartService {
 
   setDataCart(cart: ICart){
     this.store.dispatch(action.setCart({ cart }))
+  }
+
+  setDataCartService(cart: ICartService){
+    this.store.dispatch(action.setCartService({ cart }))
   }
 
   getDataCart(){

@@ -1,0 +1,35 @@
+<ng-container>
+    <p-tabView>
+    <p-tabPanel header="Cotizar">
+        <button (click)="closeModalCart()" class="btn2">Volver</button>
+        <h5 class="text-center mt-2">Datos para su pedido</h5>
+        <input type="text" placeholder="Nombre" [(ngModel)]="form.name">
+        <input type="text" class="mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
+        <div class="d-flex align-items-center mt-2">
+            <input type="datetime-local" [(ngModel)]="form.date">
+            <!-- <button (click)="setActual()" class="btn2 ml-2">Actual</button> -->
+        </div>
+        <p class="text-danger mt-3 text-center">{{response}}</p>
+        <textarea placeholder="Comentario" [(ngModel)]="form.details"></textarea>
+
+    </p-tabPanel>
+    <p-tabPanel header="Pedir Cita">
+      <button (click)="closeModalCart()" class="btn2">Volver</button>
+        <h5 class="text-center pt-2">Datos para su pedido</h5>
+        <input type="text" class="input" placeholder="Nombre" [(ngModel)]="form.name">
+        <input type="text" class="input mt-2" placeholder="Teléfono" [(ngModel)]="form.phone">
+        <div class="d-flex align-items-center mt-2">
+            <input type="datetime-local" [(ngModel)]="form.date">
+            <!-- <button (click)="setActual()" class="btn2 ml-2">Actual</button> -->
+        </div>
+        <p class="text-danger mt-3 text-center">{{response}}</p>
+        <textarea placeholder="Comentario" [(ngModel)]="form.details"></textarea>
+    </p-tabPanel>
+  </p-tabView>
+
+  <div class="d-flex justify-content-end align-items-center mt-3">
+    <button (click)="finishedShop()" class="btn2 mr-3 mb-3">Enviar a Whatsapp</button>
+  </div>
+
+  </ng-container>
+

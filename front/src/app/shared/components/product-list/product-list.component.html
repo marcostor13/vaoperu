@@ -2,10 +2,10 @@
 
     <ng-container *ngFor="let productFormat of productsFormat;">
       <div class="d-flex justify-content-between bar mt-2">
-        <h5 class="text-capitalize text-color1 f-11">{{productFormat.category}}</h5>
+        <h5 class="text-capitalize text-color1 f-11">{{productFormat.name}}</h5>
       </div>
 
-      <app-product-row [products]="productFormat.products" [profileProviderId]="profileProviderId" (events)="productRowEvents($event)"></app-product-row>
+      <app-product-row [products]="productFormat.products" [profileProviderId]="profileProviderId" [productFormat]="productFormat" (events)="productRowEvents($event)"></app-product-row>
 
     </ng-container>
 
@@ -49,9 +49,13 @@
               </div>
             </div>
             <div class="d-flex mt-3  align-items-center bg-color7 px-5 py-4">
-                <div *ngIf="!isProviderPath" class="mt-1 d-flex justify-content-center">
-                  <button  (click)="changeProduct(currentIndex, 'increase', currentItem)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>Agregar</button>
-                </div>
+              <div *ngIf="!isProviderPath" class="mt-1 d-flex justify-content-center">
+                  <ng-container *ngIf="currentItem.type === 0">
+                    <button (click)="changeProduct(currentIndex, 'increase', currentItem)" class="btn cursor rounded-pill bg-color1 pl-sm-3 pr-sm-4 text-white"><fa-icon class="f-8 text-white px-2" [icon]="faShoppingCart"></fa-icon>Agregar</button>
+
+                  </ng-container>
+
+              </div>
             </div>
           </div>
     </div>

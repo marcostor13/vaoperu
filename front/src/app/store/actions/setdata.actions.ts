@@ -1,11 +1,13 @@
 import { createAction, props } from '@ngrx/store'
 import { ICart } from '@shared/interfaces/cart.interfaces'
+import { ICartService } from '@shared/interfaces/cartService.interfaces'
 
 // GLOBAL
 export const setdata = createAction('setdata', props<{ data: any }>())
 export const setLoading = createAction('setloading', props<{ isLoading: boolean }>())
 export const setCurrentRole = createAction('setCurrentRole', props<{ currentRole: string }>())
 export const setCart = createAction('setCart', props<{ cart: ICart }>())
+export const setCartService = createAction('setCartService', props<{ cart: ICartService }>())
 export const setPlatform = createAction('setPlatform', props<{ platform: string }>())
 export const setUrlBack = createAction('setUrlBack', props<{ urlBack: string }>())
 

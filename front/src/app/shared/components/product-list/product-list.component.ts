@@ -60,7 +60,9 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
   currentProducts: IFormatProduct
   sectionButton = []
   platform: string
-
+  product: ICategoryProduct[];
+  categoryName: string
+  categoryType: any
   private subs = new SubSink()
   private unsubscriber : Subject<void> = new Subject<void>();
 
@@ -204,15 +206,18 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
       i.categoryName = i.categoryId ? this.getCategoriesById(i.categoryId)?.name: 'otros'
       return i
     }).groupBy('categoryName').value()
+
     this.productsFormat = Object.keys(data).map(k=>{
+      this.categoryType = this.categories.find((c: IFormatProduct) => c.name === k)?.type || 0;
       return {
-        category: k,
-        products: data[k]
+        products: data[k],
+        name: k,
+        profileProviderId: '',
+        type: this.categoryType
       }
     }).sort((a:any,b:any)=>{
       return a.category - b.category
     })
-
     this.getSectionButton()
   }
 
