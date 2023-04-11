@@ -79,7 +79,7 @@ export const getSectionAndItems = async (req: Request, res: Response) => {
     const keyword = req.params.id
     try {
         const items = await ItemSection.find({})
-        const item = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase())
+        const item = items.find(i=>diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase().replace('-', ' ').replace('-', ' ').replace('-', ' ').replace('-', ' '))
         const subitems = await SubitemSection.find({itemId: item?._id})
 
         if(subitems?.length > 0){

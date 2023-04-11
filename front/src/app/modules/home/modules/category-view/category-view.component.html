@@ -12,7 +12,7 @@
   <div class="d-flex justify-content-start flex-wrap px-3">
     <div class="list-subcategory" [ngClass]="{'d-none': classCarrousel && item, 'mb-1': !classCarrousel}" *ngFor="let item of itemsCarousel">
       <div (click)="redirectCarousel(item)" class="p-2 cursor">
-        <div [ngClass]="{'d-none': classCarrousel && item, 'bg-white': !classCarrousel}" class="icon-category image" [ngStyle]="{'background-image': 'url('+item.image}"></div>
+        <div [ngClass]="{'d-none': classCarrousel && item, 'bg-white': !classCarrousel}" class="icon-category image" [ngStyle]="{'background-image': 'url('+item.image+')'}"></div>
         <p class="label-category text-capitalize text-center f-7 mt-1 m-0">{{item.name}}</p>
       </div>
     </div>

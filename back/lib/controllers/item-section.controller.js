@@ -81,7 +81,7 @@ exports.getSectionAndItems = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const keyword = req.params.id;
     try {
         const items = yield item_section_1.default.find({});
-        const item = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase());
+        const item = items.find(i => diacriticSensitiveRegex(i.name).toLowerCase() === diacriticSensitiveRegex(keyword).toLowerCase().replace('-', ' ').replace('-', ' ').replace('-', ' ').replace('-', ' '));
         const subitems = yield subitem_section_1.default.find({ itemId: item === null || item === void 0 ? void 0 : item._id });
         if ((subitems === null || subitems === void 0 ? void 0 : subitems.length) > 0) {
             return res.status(200).json({

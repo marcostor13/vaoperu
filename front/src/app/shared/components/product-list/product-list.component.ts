@@ -118,23 +118,20 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     )
   }
 
-  detectEventRoute(){
-    if(this.platform === 'Web') {
-      history.pushState(null, '');
-      fromEvent(window, 'popstate').pipe(
-        takeUntil(this.unsubscriber)
-      ).subscribe((_) => {
-        history.pushState(null, '');
-        if(this.displayModal){
-          this.displayModal = false
-          this.router.navigate([`/${this.url.url}`])
-        }else{
-          if(!this.url.isIndividual){
-            this.router.navigate([`/`])
-          }
+  detectEventRoute() {
+    history.pushState(null, '');
+    fromEvent(window, 'popstate').pipe(
+      takeUntil(this.unsubscriber)
+    ).subscribe((_) => {
+      if(this.displayModal){
+        this.displayModal = false
+        this.router.navigate([`/${this.url.url}`])
+      }else{
+        if(!this.url.isIndividual){
+          this.router.navigate([`/`])
         }
-      });
-    }
+      }
+    });
   }
 
 
