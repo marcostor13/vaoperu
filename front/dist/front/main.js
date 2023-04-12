@@ -1204,8 +1204,8 @@ const environment = {
     },
     from: 'tustaff2020@gmail.com',
     fromname: 'Vao perú',
-    api: 'http://localhost:3008/'
-    // api: 'https://api2.vaoperu.com/'
+    // api: 'http://localhost:3008/'
+    api: 'https://api2.vaoperu.com/'
 };
 /*
  * For easier debugging in development mode, you can import the following file
