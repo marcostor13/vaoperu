@@ -33,7 +33,7 @@ export class CartComponent implements OnInit {
     address: '',
     address2: '',
     reference: '',
-    date: moment(new Date()).format('YYYY-MM-DD'),
+    date: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
     typePaymment: 'Efectivo',
     cash: null,
     details: ''
@@ -47,7 +47,8 @@ export class CartComponent implements OnInit {
     private messageService: MessageService,
     private authService: AuthService,
     private profileProviderService: ProfileProviderService
-  ) { }
+  ) {
+   }
 
   ngOnInit(): void {
     if (this.products){
@@ -68,7 +69,7 @@ export class CartComponent implements OnInit {
   }
 
   setActual(){
-    this.form.date = moment(new Date()).format('YYYY-MM-DD')
+    this.form.date = moment(new Date()).format('YYYY-MM-DDTHH:mm')
   }
 
   getCurrentDirection(){
