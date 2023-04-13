@@ -8,7 +8,7 @@ import { ICart } from '@shared/interfaces/cart.interfaces';
 import { Store } from '@ngrx/store';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { IFormatProduct } from './../../interfaces/product.interface';
+import { IFormatProduct } from '@shared/interfaces/product.interface';
 import { ProductService } from 'src/app/modules/provider/modules/product/services/product.service';
 import { IResponseApi } from 'src/app/models/responses';
 import * as _ from 'lodash';
@@ -32,6 +32,7 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() type: string
   @Input() url?: IUrl
   @Input() profileProviderId: string
+  @Input() productListFormat: IFormatProduct
   @Output() productsEvent: EventEmitter<any> =  new EventEmitter()
 
   companyUrl: string
@@ -65,6 +66,9 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
   categoryType: any
   private subs = new SubSink()
   private unsubscriber : Subject<void> = new Subject<void>();
+  displayCart: boolean = false
+  currentProduct: CProduct
+  typeSection: number
 
   constructor(
     private authService: AuthService,
@@ -267,7 +271,7 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  openModal(item: any){
+  openModal(item: any, typeSection: any = null){
     if(this.role?.indexOf('provider')>-1){
       item.categoryId = !item.categoryId || item.categoryId === 'otros'? '': this.getCategoriesByName(item.categoryId)? this.getCategoriesByName(item.categoryId)._id: item.categoryId
       this.productsEvent.emit({
@@ -276,8 +280,14 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
       })
     }else{
       this.currentItem = item
+      this.typeSection = typeSection
       this.displayModal = true
     }
+  }
+
+  changeProductService(product: CProduct){
+    this.currentProduct = product
+    this.displayCart = !this.displayCart
   }
 
   changeProduct(i:number, type:string, product: CProduct){
@@ -362,7 +372,10 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
         this.edit(event.product)
         break;
       case 'openModal':
-        this.openModal(event.product)
+        this.openModal(
+          event.product,
+          event.typeSection
+        )
         break;
 
       default:

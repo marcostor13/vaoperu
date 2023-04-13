@@ -57,7 +57,8 @@ export class ProductRowComponent implements OnChanges {
   openModal(product: CProduct){
     this.events.emit({
       type: 'openModal',
-      product
+      product,
+      typeSection: this.productFormat.type
     })
   }
 
