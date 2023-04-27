@@ -13,8 +13,6 @@ exports.del = exports.updateAll = exports.update = exports.getByID = exports.get
 const section_1 = require("../models/section");
 const item_section_1 = require("../models/item-section");
 const subitem_section_1 = require("../models/subitem-section");
-const category_subcategory_profile_1 = require("../models/category-subcategory-profile");
-const profile_provider_1 = require("../models/profile-provider");
 const title = 'Sección';
 const Collection = section_1.default;
 const normalize = (text) => {
@@ -68,19 +66,12 @@ exports.getSectionsAndItems = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const response = data[0].map(section => {
             return {
                 section,
-                items: [...data[1].filter(item => item.sectionId == section._id).map((item) => __awaiter(void 0, void 0, void 0, function* () {
-                        const itemId = item._id;
-                        const subitemsIds = (yield subitem_section_1.default.find({ itemId: itemId })).map(s => s._id);
-                        const ids = (yield category_subcategory_profile_1.default.find({ categorySubcategoryId: (subitemsIds === null || subitemsIds === void 0 ? void 0 : subitemsIds.length) > 0 ? subitemsIds : itemId })).map(c => {
-                            return c.profileProviderId;
-                        });
-                        const countProvider = yield profile_provider_1.default.count({ _id: ids });
+                items: [...data[1].filter(item => item.sectionId == section._id).map(item => {
                         return {
                             item,
-                            subitems: [...data[2].filter(subitem => subitem.itemId == item._id)],
-                            countProvider
+                            subitems: [...data[2].filter(subitem => subitem.itemId == item._id)]
                         };
-                    }))]
+                    })]
             };
         });
         return res.status(200).json({

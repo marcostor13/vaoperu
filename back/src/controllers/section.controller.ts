@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import Section, { ISection } from "../models/section";
 import ItemSection from "../models/item-section";
 import SubitemSection from "../models/subitem-section";
-import CategorySubcategoryProfile from "../models/category-subcategory-profile";
-import ProfileProvider from "../models/profile-provider";
 
 
 const title = 'Sección'
@@ -66,17 +64,10 @@ export const getSectionsAndItems = async (req: Request, res: Response) => {
         const response = data[0].map(section=>{
             return{
                 section,
-                items: [...data[1].filter(item=>item.sectionId==section._id).map(async item=>{
-                    const itemId = item._id
-                    const subitemsIds:any = (await SubitemSection.find({itemId: itemId})).map(s=>s._id)
-                    const ids = (await CategorySubcategoryProfile.find({categorySubcategoryId: subitemsIds?.length > 0? subitemsIds: itemId })).map(c=>{
-                        return c.profileProviderId
-                    }) 
-                    const countProvider = await ProfileProvider.count({_id:ids})
+                items: [...data[1].filter(item=>item.sectionId==section._id).map(item=>{
                     return {
                         item,
-                        subitems: [...data[2].filter(subitem=>subitem.itemId==item._id)],
-                        countProvider
+                        subitems: [...data[2].filter(subitem=>subitem.itemId==item._id)]
                     }
                 })]
             }
@@ -168,3 +159,5 @@ export const del = async (req: Request, res: Response) => {
         })
     }
 }
+
+
