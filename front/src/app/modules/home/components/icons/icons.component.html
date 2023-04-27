@@ -1,0 +1,10 @@
+<div class="pl-3 mb-5 mt-3">
+  <ng-container *ngFor="let section of sections">
+    <ng-container *ngIf="section.items.length > 0">
+      <div *ngIf="section?.items.length > 0" class="d-flex justify-content-between mt-3">
+        <h3  class="text-capitalize title f-11 text-color3 bold">{{section.section.name | lowercase}}</h3>
+      </div>
+      <app-slider (openModal)="openCategoriesModal($event)" [items]="getListItemsWithPrimaryItem(section)" [section]="section"></app-slider>
+    </ng-container>
+  </ng-container>
+</div>

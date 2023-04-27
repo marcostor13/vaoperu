@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   sections: ISectionsData[]
   displayCategories: boolean = false
   category: any
+  showIcons = true
 
     constructor(
       private messageService: MessageService,
@@ -297,6 +298,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   openCategoriesModal(category: any){
     this.displayCategories = true
     this.category = category.name
+  }
+
+  toggleIcons() {
+    this.showIcons = true
+  }
+
+  toggleDirectory() {
+    this.showIcons = false
   }
 
 

@@ -13,9 +13,11 @@ import { PromotionListModule } from './../../shared/components/promotion-list/pr
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from './../../shared/components/slider/slider.module';
+import { IconsComponent } from './components/icons/icons.component';
+import { DirectoryComponent } from './components/directory/directory.component';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, IconsComponent, DirectoryComponent],
   imports: [
 CommonModule,
     HomeRoutingModule,

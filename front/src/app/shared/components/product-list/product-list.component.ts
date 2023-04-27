@@ -383,4 +383,9 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  urlBack() {
+    this.router.navigate([ this.url.url ])
+    this.displayModal = !this.displayModal
+  }
+
 }

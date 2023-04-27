@@ -8431,6 +8431,18 @@ body, .home, footer {
   background-color: #ec7c8b !important;
   opacity: 0.7;
 }
+.btn4 {
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 11pt;
+  border: none;
+  min-width: 100px;
+  border: 1px solid #14d4ae;
+  padding: 9px 30px 9px 30px;
+}
+.btn4:hover {
+  opacity: 0.7;
+}
 .btn-disabled {
   background-color: #A9ABAE;
   color: #4d4d4d;

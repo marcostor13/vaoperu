@@ -2,65 +2,25 @@
 
 <div class="p-3 p-md-0 text-center">
   <div class="mt-3 input-search mb-2 d-md-none d-inline-flex">
-    <input (keydown.enter)="search()" [(ngModel)]="key" class="search f-10 pt-2 border text-left" type="search" placeholder="Busca lo que necesites">
+    <input (keydown.enter)="search()" [(ngModel)]="key" class="search shadow f-10 pt-2 border text-left" type="search" placeholder="Busca lo que necesites">
     <fa-icon (click)="search()" class="icon-search cursor" [icon]="faSearch"></fa-icon>
   </div>
 </div>
 
 
 
-<div  class="pl-3 mb-5 mt-3">
-
-  <ng-container *ngFor="let section of sections">
-    <ng-container *ngIf="section.items.length>0">
-      <div *ngIf="section?.items.length > 0" class="d-flex justify-content-between mt-3">
-        <h3  class="text-capitalize title f-11 text-color3 bold">{{section.section.name | lowercase}}</h3>
-        <!-- <div class="cursor f-8 bold text-color3 pr-3" (click)="openCategoriesModal(section.section.name)">VER TODOS</div> -->
-      </div>
-      <app-slider (openModal)="openCategoriesModal($event)" [items]="getListItemsWithPrimaryItem(section)" [section]="section"></app-slider>
-      <!-- <p-carousel [value]="getListItemsWithPrimaryItem(section)" [style]="{'width': '100vw', 'height': '205px'}" [autoplayInterval]="7000" [numScroll]="1" [numVisible]="section.items.length" [circular]="false" [showIndicators]="false" [showNavigators]="false" [responsiveOptions]="responsiveOptions">
-        <ng-template let-item pTemplate="item">
-          <div *ngIf="item.isPrimary" (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-              <div class="icon-category image bg-white d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                <p class="label-category text-center f-11 mb-2 m-0 bold text-color1 text-capitalize">{{item.item1.item.name}}</p>
-              </div>
-          </div>
-          <div *ngIf="!item.isPrimary" class="d-flex flex-column">
-            <div (click)="redirectItem(item.item1.item, section.section.name)" class="p-2 cursor">
-                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item1.item.image}">
-                  <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item1.item.name}}</p>
-                </div>
-            </div>
-            <div *ngIf="item.item2" (click)="redirectItem(item.item2.item, section.section.name)" class="p-2 cursor">
-                <div class="icon-category2 image bg-white  d-flex align-items-end" [ngStyle]="{'background-image': 'url('+item.item2.item.image}">
-                  <p class="label-category2 text-center f-8 mb-1 m-0 text-color1 text-capitalize">{{item.item2.item.name}}</p>
-                </div>
-            </div>
-          </div>
-        </ng-template>
-      </p-carousel> -->
-    </ng-container>
-  </ng-container>
-
-</div>
-<!--
-<div class="d-block d-md-none p-3">
-    <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
+<div class="d-flex justify-content-center" [ngClass]="!isMobile ? 'mt-3' : 'mt-0'">
+  <button class="border-0 rounded-left" [ngClass]="showIcons ? 'btn1' : 'btn4 shadow'" (click)="toggleIcons()">Iconos</button>
+  <button class="border-0 rounded-right" [ngClass]="!showIcons ? 'btn1' : 'btn4 shadow'" (click)="toggleDirectory()">Directorio</button>
 </div>
 
-<div class="d-none d-md-flex mt-3 carousel-home justify-content-between align-items-start">
-    <div class="col-3 p-0">
-        <p-panelMenu styleClass="pl-3" [model]="items" [style]="{'width':'100%'}"></p-panelMenu>
-    </div>
-    <div class="col-9 p-0">
-        <div class="d-flex justify-content-center">
-            <button class="mx-2 rounded-pill button-switch" (click)="toogleSwitch('companies')" [ngClass]="{'btn2': switch==='companies', 'btn-disabled': switch==='promotions'}" >Negocios</button>
-            <button class="mx-2 rounded-pill button-switch" (click)="toogleSwitch('promotions')" [ngClass]="{'btn2': switch==='promotions', 'btn-disabled': switch==='companies'}" >Promociones</button>
-        </div>
-        <app-promotion-list *ngIf="promotions?.length>0 && profileProviders && switch==='promotions'" [items]="currentPromotions || promotions" [profileProviders]="profileProviders" (emitEvent)=companyListEvent($event)></app-promotion-list>
-        <app-company-list *ngIf="profileProviders?.length>0 && switch==='companies'" [items]="currentProfileProviders || profileProviders" (emitEvent)=companyListEvent($event)></app-company-list>
-    </div>
-</div> -->
+<ng-container *ngIf="showIcons">
+  <app-icons (openCategoriesModalEvent)="openCategoriesModal($event)" [getListItemsWithPrimaryItem]="getListItemsWithPrimaryItem" [sections]="sections"></app-icons>
+</ng-container>
+
+<ng-container *ngIf="!showIcons">
+  <app-directory [getListItemsWithPrimaryItem]="getListItemsWithPrimaryItem" [sections]="sections"></app-directory>
+</ng-container>
 
 <app-footer></app-footer>
 
@@ -81,7 +41,7 @@
       <div *ngIf="category === section.section.name" class="d-flex flex-wrap justify-content-center">
       <div  *ngFor="let item of section.items" class="p-2">
         <div (click)="redirectItem(item.item, section.section.name)" class="p-2 cursor">
-          <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image}"></div>
+          <div class="icon-category image bg-white" [ngStyle]="{'background-image': 'url('+item.item.image+')'}"></div>
           <p class="label-category text-center f-9 mt-1 m-0 bold text-capitalize">{{item.item.name}}</p>
         </div>
       </div>

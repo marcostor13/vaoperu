@@ -1,0 +1,15 @@
+<div class="mb-5 mt-3">
+  <h3 class="pl-3 text-capitalize title f-13 text-color3 bold">RUBROS</h3>
+  <ng-container *ngFor="let section of sections">
+    <ng-container *ngFor="let item of section.items">
+      <hr>
+      <ng-container *ngIf="section.items.length > 0">
+        <div *ngIf="section?.items.length > 0" (click)="redirectItem(item.item, section.section.name)" class="d-flex justify-content-between pl-3 cursor">
+          <h3 class="mb-0 text-capitalize title f-11 text-color3 bold">{{item.item.name | lowercase}}</h3>
+        </div>
+      </ng-container>
+
+    </ng-container>
+
+  </ng-container>
+</div>
