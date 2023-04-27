@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import ProfileProvider, { IProfileProvider } from "../models/profile-provider";
-import Product, { IProduct } from "../models/product";
-import Offer, { IOffer } from "../models/offer";
+import Product from "../models/product";
+import Offer from "../models/offer";
 import CategorySubcategoryProfile from "../models/category-subcategory-profile";
 import ItemSection from "../models/item-section";
 import SubitemSection from "../models/subitem-section";
@@ -180,5 +180,3 @@ export const del = (req: Request, res: Response) => {
         })
     })
 }
-
-
