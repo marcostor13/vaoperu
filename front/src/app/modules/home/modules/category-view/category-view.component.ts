@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { SectionService } from './../../../admin/modules/section/services/section.service';
 import { GeneralService } from '@services/general.service';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-category-view',
@@ -31,6 +32,7 @@ export class CategoryViewComponent implements OnInit {
   subcategoriesTmp: CSubcategory[]
   subcategoriesFilter: CSubcategory[] = []
   profileProviders: CProfileProvider[]
+  profileProvidersTmp: CProfileProvider[]
   eventHeader: any
   currentProfileProviders: CProfileProvider[]
   currentProfileProvidersTmp: CProfileProvider[]
@@ -51,6 +53,8 @@ export class CategoryViewComponent implements OnInit {
   classCarrousel: boolean
   keyword: string
   urlBack: string
+  faSearch = faCaretDown
+  currentDistrict: any
 
   constructor(
     private route: ActivatedRoute,
@@ -168,6 +172,7 @@ export class CategoryViewComponent implements OnInit {
     this.profileProviderService.search({keyword, type}).subscribe((response: IResponseApi) => {
       this.profileProviders = response.data
       this.currentProfileProviders = this.profileProviders
+      this.currentProfileProvidersTmp = this.profileProviders
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
     })
@@ -218,6 +223,15 @@ export class CategoryViewComponent implements OnInit {
       const newUrl = urlParts.join('/');
       this.router.navigate([newUrl]);
         }
+  }
+
+  filterDistrict() {
+    const districtIds = this.currentDistrict?.map(d => d._id)
+    if(districtIds?.length === 0) {
+      this.currentProfileProviders = [...this.currentProfileProvidersTmp]
+    } else {
+      this.currentProfileProviders = [...this.currentProfileProvidersTmp?.filter(p => districtIds.includes(p.districtId) )]
+    }
   }
 
 }
