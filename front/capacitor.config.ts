@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.vaoperu.app',
+  appId: 'com.eldatoperu.app',
   appName: 'eldatoperu',
   webDir: './dist/front',
   bundledWebRuntime: false
