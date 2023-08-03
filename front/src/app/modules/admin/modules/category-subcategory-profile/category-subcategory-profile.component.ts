@@ -92,7 +92,7 @@ export class CategorySubcategoryProfileComponent implements OnInit {
         categorySubcategoryId: this.currentSubitemId ? this.currentSubitemId: this.currentItemSectionId,
         type: this.currentSubitemId?'subitem':'item',
         name: this.currentSubitemId?
-          this.currentSubitems.find(s=>s._id === this.currentSubitemId).name :
+          this.currentSubitems.find(s=>s._id === this.currentSubitemId).name.normalize("NFD").replace(/[\u0300-\u036f]/g, "") :
           this.items.find(i=>i.item._id === this.currentItemSectionId).item.name
       }
       this.categorySubcategoryProfileService.save(payload).subscribe((response: IResponseApi) => {
