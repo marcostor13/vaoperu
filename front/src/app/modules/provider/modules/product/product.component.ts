@@ -128,13 +128,14 @@ export class ProductComponent implements OnInit {
 
   saveCategory(){
     if(this.validateCategory()){
-      const peyload: ICategoryProduct = {
+      const payload: ICategoryProduct = {
         name: this.currentCategory?.name,
         profileProviderId: this.profileProvider._id,
         type: this.currentCategory?.type
       }
-      this.productService.saveCategory(peyload).subscribe((response: IResponseApi) => {
+      this.productService.saveCategory(payload).subscribe((response: IResponseApi) => {
         this.responseCategory = 'Categoria guardada';
+        this.getCategories();
         this.resetCategory();
       });
 
@@ -145,11 +146,12 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  deleteCategory(category: ICategoryProduct){
-      this.productService.deleteCategory(category).subscribe((response: IResponseApi) =>{
-        this.responseCategory = 'La categoria fue eliminada'
-      })
-      this.currentCategory
+
+  deleteCategory(category: ICategoryProduct) {
+    this.productService.deleteCategory(category).subscribe((response: IResponseApi) => {
+      this.responseCategory = 'La categoria fue eliminada';
+      this.getCategories();
+    });
   }
 
   currentCategoryReset() {

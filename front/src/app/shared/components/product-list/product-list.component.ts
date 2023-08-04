@@ -129,15 +129,9 @@ export class ProductListComponent implements OnInit, OnChanges, OnDestroy {
     ).subscribe((_) => {
       if(this.displayModal){
         this.displayModal = false
-        this.router.navigate([`/${this.url.url}`])
-      }else{
-        if(!this.url.isIndividual){
-          this.router.navigate([`/`])
-        }
       }
     });
   }
-
 
   subscriptionCart() {
     this.subs.add(
